@@ -1,5 +1,6 @@
 package it.bookshop.model.entity;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,8 +17,10 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 
 @Entity
-@Table(name = "AUTHOR")
-public class Author {
+@Table(name = "AUTHORS")
+public class Author implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	private Long id;
 	private String name;
