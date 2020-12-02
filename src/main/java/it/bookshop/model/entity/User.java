@@ -14,12 +14,18 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 import javax.persistence.Embedded;
-
+import java.io.Serializable;
 
 @Entity
 @Table(name = "USERS")
-public class User {
+public class User implements Serializable{
 	
+	/**
+	 *
+	 */
+	// perché viene sempre 1L?
+	private static final long serialVersionUID = 1L;
+
 	// Per la generazione dell'id si adotta il tipo ".IDENTITY": 
 	// crea un campo auto-incrementale 
 	@Id
@@ -48,9 +54,9 @@ public class User {
 	@JoinTable(
 			name = "USERS_ROLES",
 			joinColumns = @JoinColumn(
-					name = "username", referencedColumnName = "username"),
+					name = "USERNAME", referencedColumnName = "username"),
 			inverseJoinColumns = @JoinColumn(
-					name = "role_id", referencedColumnName = "id"))
+					name = "ROLE_ID", referencedColumnName = "id"))
 	private Set<Role> roles = new HashSet<Role>();
 	
 	

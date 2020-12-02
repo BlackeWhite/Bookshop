@@ -1,6 +1,4 @@
-//***Classe @Embeddable sui dati anagrafici dell'utente.
-//   Attualmente ho posizionato la classe nel package model
-//   delle entità, ma non saprei se è corretto (Agostino).
+// Classe @Embeddable dei dati anagrafici dell'utente.
 
 package it.bookshop.model.entity;
 
