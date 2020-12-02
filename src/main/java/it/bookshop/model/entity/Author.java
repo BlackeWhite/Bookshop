@@ -96,7 +96,13 @@ public class Author {
 		this.biography = biography;
 	}
 	
-	@ManyToMany(mappedBy="authors", cascade=CascadeType.ALL)
+	@ManyToMany(mappedBy="authors", cascade =
+        {
+                CascadeType.DETACH,
+                CascadeType.MERGE,
+                CascadeType.REFRESH,
+                CascadeType.PERSIST
+        })
 	public Set<Book> getBooks() {
 		return books;
 	}

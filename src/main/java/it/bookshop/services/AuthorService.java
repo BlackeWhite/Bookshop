@@ -1,5 +1,17 @@
 package it.bookshop.services;
 
-public interface AuthorService {
+import java.sql.Date;
+import java.util.List;
 
+import it.bookshop.model.entity.Author;
+
+public interface AuthorService {
+	
+	Author findById(Long id);
+	Author create(String name, String surname, Date date, String nationality, String biography, String image);
+	Author create(String name, String surname);
+	Author update(Author author);
+	List<Author> findAll();
+	void delete(Author author);
+	void delete(Long id);
 }

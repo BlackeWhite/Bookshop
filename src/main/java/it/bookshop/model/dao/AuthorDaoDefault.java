@@ -11,7 +11,7 @@ import it.bookshop.model.entity.Author;
 
 @Transactional
 @Repository("authorDao") //@Repository  is a specialization of @Component
-public class AuthorDaoDefault implements AuthorDao{
+public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 
 
 	@Override
