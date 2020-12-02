@@ -19,6 +19,7 @@ public class Purchase {
 	private PurchaseId id;
 	private User buyer;
 	private User seller;
+	private Book book;
 	private double total_price;
 	private int copies;
 
@@ -47,6 +48,15 @@ public class Purchase {
 	public void setSeller(User seller) {
 		this.seller = seller;
 	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("bookIsbn")
+	public Book getBook() {
+		return book;
+	}
+	public void setBook(Book book) {
+		this.book = book;
+	}
 
 	@Column(name = "TOTAL_PRICE")
 	public double getTotal_price() {
@@ -69,8 +79,4 @@ public class Purchase {
 		return id.getDate();
 	}
 	
-	@Transient
-	public String bookIsbn() {
-		return id.getBookIsbn();
-	}
 }
