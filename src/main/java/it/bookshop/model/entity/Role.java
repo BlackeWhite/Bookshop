@@ -32,7 +32,7 @@ public class Role implements Serializable{
 	@ManyToMany(mappedBy = "roles")
 	private Set<User> users = new HashSet<User>();
 	
-	public String getNamet() {
+	public String getName() {
 		return this.name;
 	}
 	
