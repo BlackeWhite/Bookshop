@@ -11,18 +11,18 @@ import org.springframework.transaction.annotation.Transactional;
 import it.bookshop.model.entity.PersonalData;
 import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.User;
-import it.bookshop.model.dao.UserDao;
+import it.bookshop.model.dao.UserDetailsDao;
 
-public class UserServiceDefault implements UserService, UserDetailsService {
+public class UserDetailsServiceDefault implements UserService, UserDetailsService {
 	
 	@Autowired
-	private UserDao userDao;
+	private UserDetailsDao userDetailsDao;
 
 	@Transactional(readOnly = true)
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-	    User user = userDao.findUserByUsername(username);
+	    User user = userDetailsDao.findUserByUsername(username);
 	    UserBuilder builder = null;
 	    if (user != null) {
 	      
@@ -30,9 +30,10 @@ public class UserServiceDefault implements UserService, UserDetailsService {
 	      builder = org.springframework.security.core.userdetails.User.withUsername(username);
 	      builder.disabled(!user.isEnabled());
 	      builder.password(user.getPassword());
-	            
+	      
+	      // il builder vuole un vettore di stringhe e non hashtable
 	      String [] roles = new String[user.getRoles().size()];
-
+	      
 	      int j = 0;
 	      for (Role r : user.getRoles()) {
 	    	  roles[j++] = r.getName();
@@ -48,34 +49,34 @@ public class UserServiceDefault implements UserService, UserDetailsService {
 
 	@Override
 	public User findUserByUsername(String username) {
-		return this.userDao.findUserByUsername(username);
+		return this.userDetailsDao.findUserByUsername(username);
 	}
 
 	@Override
 	public User findUserById(long id) {
-		return this.userDao.findUserById(id);
+		return this.userDetailsDao.findUserById(id);
 	}
 
 	@Override
 	public User findUserByEmail(String email) {
-		return this.userDao.findUserByEmail(email);
+		return this.userDetailsDao.findUserByEmail(email);
 	}
 
 	@Override
 	public User create(String username, String email, String password, boolean isEnabled, PersonalData personalData) {
-		User newUser = this.userDao.create(username, email, password, isEnabled, personalData);
+		User newUser = this.userDetailsDao.create(username, email, password, isEnabled, personalData);
 		return newUser;
 	}
 
 	@Override
 	public User update(User user) {
-		return this.userDao.update(user);
+		return this.userDetailsDao.update(user);
 	}
 
 	@Override
 	public void deleteByUsername(String username) {
-		User user = this.userDao.findUserByUsername(username);
-		this.userDao.delete(user);
+		User user = this.userDetailsDao.findUserByUsername(username);
+		this.userDetailsDao.delete(user);
 		
 	}
 	

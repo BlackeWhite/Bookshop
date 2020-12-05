@@ -11,7 +11,7 @@ import it.bookshop.model.entity.User;
 import it.bookshop.model.entity.PersonalData;
 
 @Repository
-public class UserDaoDefault extends DefaultDao implements UserDao {
+public class UserDetailsDaoDefault extends DefaultDao implements UserDetailsDao {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
