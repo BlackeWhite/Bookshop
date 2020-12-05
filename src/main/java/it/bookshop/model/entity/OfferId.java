@@ -8,16 +8,16 @@ import javax.persistence.Embeddable;
 
 //This class is used to define the composite key of the Purchase entity (relationship table)
 @Embeddable
-public class SaleId implements Serializable {
+public class OfferId implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long sellerId;
 	private String bookIsbn;
 	
-	private SaleId() {}
+	private OfferId() {}
 
-	public SaleId(Long sellerId, String bookIsbn) {
+	public OfferId(Long sellerId, String bookIsbn) {
 		this.sellerId = sellerId;
 		this.bookIsbn = bookIsbn;
 	}
@@ -44,7 +44,7 @@ public class SaleId implements Serializable {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 			
-		SaleId t = (SaleId) o;
+		OfferId t = (OfferId) o;
 		return Objects.equals(this.bookIsbn, t.bookIsbn) &&
 				Objects.equals(this.sellerId,t.sellerId);
 	}

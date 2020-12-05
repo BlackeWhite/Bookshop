@@ -8,20 +8,20 @@ import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "SALES")
-public class Sale {
+@Table(name = "OFFERS")
+public class Offer {
 	
-	private SaleId id;
+	private OfferId id;
 	private User seller;
 	private Book book;
 	private int copies;
 	private double price;
 	
 	@EmbeddedId
-	public SaleId getId() {
+	public OfferId getId() {
 		return id;
 	}
-	public void setId(SaleId id) {
+	public void setId(OfferId id) {
 		this.id = id;
 	}
 	
