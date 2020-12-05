@@ -18,5 +18,7 @@ public interface PurchaseDao {
 	public Purchase create(User buyer, User seller, Book book, int copies, double total_price);
 	public Purchase update(Purchase purchase);
 	public List<Purchase> findAll();
+	public List<Purchase> findBuyerPurchases(Long buyerId);
+	public List<Purchase> findSellerSales(Long sellerId);
 	public void delete(Purchase purchase);
 }

@@ -55,4 +55,16 @@ public class PurchaseDaoDefault extends DefaultDao implements PurchaseDao {
 		getSession().delete(purchase);
 	}
 
+	@Override
+	public List<Purchase> findBuyerPurchases(Long buyerId) {
+		return getSession().createQuery("select p from PURCHASES where BUYER_ID = :id", Purchase.class)
+				.setParameter("id", buyerId).getResultList();
+	}
+
+	@Override
+	public List<Purchase> findSellerSales(Long sellerId) {
+		return getSession().createQuery("select p from PURCHASES where SELLER_ID = :id", Purchase.class)
+				.setParameter("id", sellerId).getResultList();
+	}
+
 }
