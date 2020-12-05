@@ -12,6 +12,7 @@ public interface OfferService {
 	public List<Offer> findSellerOffers(Long sellerId);
 	public List<Offer> findAll();
 	public Offer create(User seller, Book book, int copies, double price);
+	public Offer create(Long sellerId, String bookIsbn, int copies, double price);
 	public Offer update(Offer offer);
 	public void delete(Offer offer);
 }

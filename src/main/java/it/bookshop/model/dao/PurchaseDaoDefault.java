@@ -13,7 +13,7 @@ import it.bookshop.model.entity.PurchaseId;
 import it.bookshop.model.entity.User;
 
 @Transactional
-@Repository("PurchaseDao") //@Repository  is a specialization of @Component
+@Repository("purchaseDao") //@Repository  is a specialization of @Component
 public class PurchaseDaoDefault extends DefaultDao implements PurchaseDao {
 
 

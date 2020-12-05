@@ -16,6 +16,8 @@ import it.bookshop.model.entity.User;
 public class OfferServiceDefault implements OfferService{
 
 	private OfferDao offerRepository;
+	private UserService userService;
+	private BookService bookService;
 	
 	@Override
 	public Offer findById(Long sellerId, String bookIsbn) {
@@ -36,6 +38,14 @@ public class OfferServiceDefault implements OfferService{
 	public Offer create(User seller, Book book, int copies, double price) {
 		return offerRepository.create(seller, book, copies, price);
 	}
+	
+	@Override
+	public Offer create(Long sellerId, String bookIsbn, int copies, double price) {
+		//TODO
+		User seller = userService.findUserById(sellerId);
+		Book book = new Book(); //bookService.findByIsbn(bookIsbn);
+		return offerRepository.create(seller, book, copies, price);
+	}
 
 	@Override
 	public Offer update(Offer offer) {
@@ -54,6 +64,16 @@ public class OfferServiceDefault implements OfferService{
 	@Autowired
 	public void setSaleRepository(OfferDao saleRepository) {
 		this.offerRepository = saleRepository;
+	}
+
+	@Autowired
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
+	@Autowired
+	public void setBookService(BookService bookService) {
+		this.bookService = bookService;
 	}
 
 }
