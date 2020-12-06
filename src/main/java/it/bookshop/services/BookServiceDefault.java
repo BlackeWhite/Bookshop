@@ -1,5 +1,5 @@
 package it.bookshop.services;
 
-public class BookSericeDefault {
+public class BookServiceDefault {
 
 }

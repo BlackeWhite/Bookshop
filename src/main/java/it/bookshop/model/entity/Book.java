@@ -132,7 +132,8 @@ public class Book implements Serializable{
 	@OneToMany(cascade = { CascadeType.DETACH,
 							CascadeType.MERGE,
 							CascadeType.REFRESH,
-							CascadeType.PERSIST })	
+							CascadeType.PERSIST },
+			mappedBy="buyer")	
 	public Set<Purchase> getPurchases() {
 		return this.purchases;
 	}
@@ -144,7 +145,8 @@ public class Book implements Serializable{
 	@OneToMany(cascade = { CascadeType.DETACH,
 							CascadeType.MERGE,
 							CascadeType.REFRESH,
-							CascadeType.PERSIST })
+							CascadeType.PERSIST },
+			mappedBy="seller")
 	public Set<Offer> getOffers() {
 		return this.offers;
 	}
