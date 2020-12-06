@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,7 +18,7 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 
 @Entity
-@Table(name = "AUTHORS")
+@Table(name = "AUTHOR")
 public class Author implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -31,7 +32,6 @@ public class Author implements Serializable{
 	private String nationality;
 	//Short description of the author
 	private String biography;
-	
 	private Set<Book> books = new HashSet<Book>();
 	
 	private int version;
@@ -99,20 +99,7 @@ public class Author implements Serializable{
 		this.biography = biography;
 	}
 	
-	@ManyToMany(mappedBy="authors", cascade =
-        {
-                CascadeType.DETACH,
-                CascadeType.MERGE,
-                CascadeType.REFRESH,
-                CascadeType.PERSIST
-        })
-	public Set<Book> getBooks() {
-		return books;
-	}
-	public void setBooks(Set<Book> books) {
-		this.books = books;
-	}
-	
+
 	@Version
 	@Column(name = "VERSION")
 	public int getVersion() {
@@ -120,6 +107,20 @@ public class Author implements Serializable{
 	}
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	
+	@ManyToMany(fetch = FetchType.EAGER,         cascade =
+        {
+                CascadeType.DETACH,
+                CascadeType.MERGE,
+                CascadeType.REFRESH,
+                CascadeType.PERSIST
+        }, mappedBy = "authors")
+	public Set<Book> getBooks() {
+		return books;
+	}
+	public void setBooks(Set<Book> books) {
+		this.books = books;
 	}
 	
 }

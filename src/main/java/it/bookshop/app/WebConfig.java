@@ -33,9 +33,13 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
 
+import it.bookshop.test.DataServiceConfigTest;
+
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = { "it.bookshop" })
+@ComponentScan(basePackages = { "it.bookshop" },
+excludeFilters  = {@ComponentScan.Filter(
+	type = FilterType.ASSIGNABLE_TYPE, classes = {DataServiceConfigTest.class})})
 public class WebConfig implements WebMvcConfigurer {
 
 	@Bean

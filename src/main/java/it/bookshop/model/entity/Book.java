@@ -5,7 +5,8 @@ import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Entity; 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Column; 
 import javax.persistence.Table; 
 import javax.persistence.Id;
@@ -27,6 +28,10 @@ public class Book implements Serializable{
 	private int num_of_pages;
 	private String summary; //short synthesis for book preview
 	private String cover; //file name of cover image
+	private Set<Author> authors = new HashSet<Author>();
+	private Set<Genre> genres = new HashSet<Genre>();
+	private Set<Purchase> purchases = new HashSet<Purchase>();
+	private Set<Offer> offers = new HashSet<Offer>();
 	
 			
 	@Id
@@ -88,15 +93,13 @@ public class Book implements Serializable{
 	 * relations
 	 */
 	//author
-	@ManyToMany( cascade = { CascadeType.DETACH,
-                			CascadeType.MERGE,
-                			CascadeType.REFRESH,
-                			CascadeType.PERSIST })
+	@ManyToMany(cascade = { CascadeType.DETACH,
+			CascadeType.MERGE,
+			CascadeType.REFRESH,
+			CascadeType.PERSIST })
 	@JoinTable( name = "BOOK_AUTHORS", 
 				joinColumns = @JoinColumn(name = "ISBN", referencedColumnName = "ISBN"),
 				inverseJoinColumns = @JoinColumn(name = "AUTHOR", referencedColumnName = "ID") )
-	private Set<Author> authors = new HashSet<Author>();
-	
 	public Set<Author> getAuthors() {
 		return this.authors;
 	}
@@ -105,15 +108,19 @@ public class Book implements Serializable{
 	}
 	
 	//genre
-	@ManyToMany(cascade = { CascadeType.DETACH,
-							CascadeType.MERGE,
-							CascadeType.REFRESH,
-							CascadeType.PERSIST })
-	@JoinTable( name = "BOOKS_GENRES",
-			joinColumns = @JoinColumn(name = "ISBN", referencedColumnName = "ISBN"),
-			inverseJoinColumns = @JoinColumn(name = "GENRE", referencedColumnName = "Name"))
-	private Set<Genre> genres = new HashSet<Genre>();
-	
+	@ManyToMany(fetch = FetchType.EAGER,        
+			cascade =
+	        {
+	                CascadeType.DETACH,
+	                CascadeType.MERGE,
+	                CascadeType.REFRESH,
+	                CascadeType.PERSIST
+	        })
+	@JoinTable(name="book_genre",
+		 joinColumns = @JoinColumn(name = "ISBN", nullable = false,
+                 updatable = false), 
+		 inverseJoinColumns = @JoinColumn(name = "GENRE", nullable = false,
+         updatable = false)) 
 	public Set<Genre> getGenres() {
 		return this.genres;
 	}
@@ -125,9 +132,7 @@ public class Book implements Serializable{
 	@OneToMany(cascade = { CascadeType.DETACH,
 							CascadeType.MERGE,
 							CascadeType.REFRESH,
-							CascadeType.PERSIST })
-	private Set<Purchase> purchases = new HashSet<Purchase>();
-	
+							CascadeType.PERSIST })	
 	public Set<Purchase> getPurchases() {
 		return this.purchases;
 	}
@@ -140,8 +145,6 @@ public class Book implements Serializable{
 							CascadeType.MERGE,
 							CascadeType.REFRESH,
 							CascadeType.PERSIST })
-	private Set<Offer> offers = new HashSet<Offer>();
-	
 	public Set<Offer> getOffers() {
 		return this.offers;
 	}
