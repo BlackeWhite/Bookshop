@@ -133,7 +133,7 @@ public class Book implements Serializable{
 							CascadeType.MERGE,
 							CascadeType.REFRESH,
 							CascadeType.PERSIST },
-			mappedBy="buyer")	
+			mappedBy="book")	
 	public Set<Purchase> getPurchases() {
 		return this.purchases;
 	}
@@ -146,7 +146,7 @@ public class Book implements Serializable{
 							CascadeType.MERGE,
 							CascadeType.REFRESH,
 							CascadeType.PERSIST },
-			mappedBy="seller")
+			mappedBy="book")
 	public Set<Offer> getOffers() {
 		return this.offers;
 	}
