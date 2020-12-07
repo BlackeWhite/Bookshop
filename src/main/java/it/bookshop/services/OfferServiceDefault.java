@@ -41,9 +41,8 @@ public class OfferServiceDefault implements OfferService{
 	
 	@Override
 	public Offer create(Long sellerId, String bookIsbn, int copies, double price) {
-		//TODO
 		User seller = userService.findUserById(sellerId);
-		Book book = new Book(); //bookService.findByIsbn(bookIsbn);
+		Book book = bookService.findByIsbn(bookIsbn);
 		return offerRepository.create(seller, book, copies, price);
 	}
 
