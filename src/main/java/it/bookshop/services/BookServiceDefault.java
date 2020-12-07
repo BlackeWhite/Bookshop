@@ -7,9 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.bookshop.model.dao.AuthorDao;
+
 import it.bookshop.model.dao.BookDao;
-import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
 
 @Transactional
