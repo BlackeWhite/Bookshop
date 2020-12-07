@@ -24,15 +24,16 @@ public class BookDaoDefault extends DefaultDao implements BookDao{
 	}
 	
 	@Override
-	public Book create(String title, Date publish_date, int num_of_pages, String summary, String cover) {
+	public Book create(String isbn,String title, Date publish_date, int num_of_pages, String summary, String cover) {
 		Book b = new Book();
+		b.setIsbn(isbn);
 		b.setTitle(title);
-		b.setDate(publish_date);
+		b.setPubblish(publish_date);
 		b.setPages(num_of_pages);
 		b.setSummary(summary);
 		b.setCover(cover);
 		
-		this.getSession().save(b);
+		getSession().save(b);
 		return b;
 	}
 	

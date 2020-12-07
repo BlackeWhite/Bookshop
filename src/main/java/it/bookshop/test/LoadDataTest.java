@@ -13,9 +13,11 @@ import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import it.bookshop.model.dao.AuthorDao;
+import it.bookshop.model.dao.BookDao;
 import it.bookshop.model.dao.RoleDao;
 import it.bookshop.model.dao.UserDetailsDao;
 import it.bookshop.model.entity.Author;
+import it.bookshop.model.entity.Book;
 
 
 
@@ -32,12 +34,14 @@ public class LoadDataTest {
 			AuthorDao authorDao = ctx.getBean(AuthorDao.class);
 			UserDetailsDao userDao = ctx.getBean(UserDetailsDao.class);
 			RoleDao roleDao = ctx.getBean(RoleDao.class);
+			BookDao bookdao = ctx.getBean(BookDao.class);
 			
 			try (Session session = sf.openSession()) {
 				
 				authorDao.setSession(session);
 				userDao.setSession(session);
 				roleDao.setSession(session);
+				bookdao.setSession(session);
 				
 				Date date = new Date(System.currentTimeMillis());
 			
@@ -47,6 +51,12 @@ public class LoadDataTest {
 
 				Author a1 = authorDao.create("Italo", "Svevo",date,"Italia","prova1-12","img.png");
 				Author a2 = authorDao.create("Cesare", "Pavese",date,"Italia","prova2-13","img1.png");
+							
+				session.getTransaction().commit();
+				
+				session.beginTransaction();
+
+				Book b1 = bookdao.create("SE9788804492X948","La coscienza di Zeno",date,800,"piccola intoduzione", "cover.jpg");
 							
 				session.getTransaction().commit();
 				

@@ -24,8 +24,8 @@ public class Book implements Serializable{
 
 	private String isbn;
 	private String title;
-	private Date publish_date;
-	private int num_of_pages;
+	private Date publish;
+	private int pages;
 	private String summary; //short synthesis for book preview
 	private String cover; //file name of cover image
 	private Set<Author> authors = new HashSet<Author>();
@@ -53,22 +53,22 @@ public class Book implements Serializable{
 		this.title = title;
 	}
 	
-	@Column(name = "PUBLISH DATE")
-	public Date getDate() {
-		return this.publish_date;
+	@Column(name = "PUBLISH")
+	public Date getPubblish() {
+		return this.publish;
 	}
 	
-	public void setDate(Date date) {
-		this.publish_date = date;
+	public void setPubblish(Date publishs) {
+		this.publish = publishs;
 	}
 	
-	@Column(name = "NUMBER OF PAGES")
+	@Column(name = "PAGES")
 	public int getPages() {
-		return this.num_of_pages;
+		return this.pages;
 	}
 	
 	public void setPages(int num_of_pages) {
-		this.num_of_pages = num_of_pages;
+		this.pages = num_of_pages;
 	}
 	
 	@Column(name = "SUMMARY")
