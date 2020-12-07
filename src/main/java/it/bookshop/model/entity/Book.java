@@ -8,7 +8,8 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Column; 
-import javax.persistence.Table; 
+import javax.persistence.Table;
+
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -105,6 +106,16 @@ public class Book implements Serializable{
 	}
 	public void setAuthors(Set<Author> authors) {
 		this.authors = authors;
+	}
+	
+	public void addAuthors(Author a) {
+		this.authors.add(a);
+		a.getBooks().add(this); // NB nota che non usiamo l'utility method addInstrument
+	}
+	
+	public void removeAuthors(Author a) {
+		this.authors.remove(a);
+		a.getBooks().remove(this);
 	}
 	
 	//genre

@@ -23,6 +23,10 @@ public class BookDaoDefault extends DefaultDao implements BookDao{
 		return this.getSession().createQuery("FROM book b WHERE b.isbn = :isbn", Book.class).setParameter("isbn", isbn).getSingleResult();
 	}
 	
+	public Book findByTitle(String title) {
+		return this.getSession().createQuery("FROM book b WHERE b.title = :title", Book.class).setParameter("title", title).getSingleResult();
+	}
+	
 	@Override
 	public Book create(String isbn,String title, Date publish_date, int num_of_pages, String summary, String cover) {
 		Book b = new Book();
@@ -32,7 +36,6 @@ public class BookDaoDefault extends DefaultDao implements BookDao{
 		b.setPages(num_of_pages);
 		b.setSummary(summary);
 		b.setCover(cover);
-		
 		getSession().save(b);
 		return b;
 	}

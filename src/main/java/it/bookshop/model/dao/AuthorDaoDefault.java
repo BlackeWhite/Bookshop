@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.bookshop.model.entity.Author;
+import it.bookshop.model.entity.Book;
 
 @Transactional
 @Repository("authorDao") //@Repository  is a specialization of @Component
@@ -16,7 +17,6 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 
 	@Override
 	public Author findById(Long id) {
-		
 		return getSession().find(Author.class, id);
 	}
 
@@ -41,7 +41,7 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 
 	@Override
 	public List<Author> findAll() {
-		return getSession().createQuery("select a from AUTHOR", Author.class).getResultList();
+		return getSession().createQuery("FROM Author a", Author.class).getResultList();
 	}
 
 	@Override
@@ -49,4 +49,10 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 		getSession().delete(author);		
 	}
 
+	@Override
+	public Author findByNameAndSurname(String Name, String Surname) {
+		return this.getSession().createQuery("FROM Author a WHERE a.name = :name and a.surname = :surname", Author.class).setParameter("name", Name).setParameter("surname", Surname).getSingleResult();
+	}
+
+	
 }

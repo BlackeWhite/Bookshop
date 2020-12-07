@@ -14,6 +14,7 @@ public interface BookDao {
 	List<Book> findAll();
 	
 	Book findByIsbn(String isbn);
+	Book findByTitle(String title);
 	Book create(String isbn,String title, Date publish_date, int num_of_pages, String summary, String cover);
 	Book update(Book book);
 	void delete(Book book);

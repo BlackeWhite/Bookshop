@@ -13,6 +13,7 @@ public interface AuthorDao {
 	public void setSession(Session session);
 	
 	Author findById(Long id);
+	Author findByNameAndSurname(String Name, String Surname);
 	Author create(String name, String surname, Date date, String nationality, String biography, String image);
 	Author update(Author author);
 	List<Author> findAll();

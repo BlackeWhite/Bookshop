@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
+
 @Entity
 @Table(name = "AUTHOR")
 public class Author implements Serializable{
@@ -121,6 +122,16 @@ public class Author implements Serializable{
 	}
 	public void setBooks(Set<Book> books) {
 		this.books = books;
+	}
+	
+	public void addBooks(Book b) {
+		this.books.add(b);
+		b.getAuthors().add(this); 
+	}
+	
+	public void removeBooks(Book b) {
+		this.books.remove(b);
+		b.getAuthors().remove(this);
 	}
 	
 }
