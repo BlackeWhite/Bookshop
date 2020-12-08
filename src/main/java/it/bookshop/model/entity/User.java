@@ -34,8 +34,9 @@ public class User implements Serializable{
 	private boolean enabled;
 	private Set<Role> roles = new HashSet<Role>();
 	private Set<Purchase> sales = new HashSet<Purchase>(); //Reserved for seller side
+	private Set<Offer> offers = new HashSet<Offer>(); //Reserved for seller side
 	private Set<Purchase> purchases = new HashSet<Purchase>();
-	private Set<Offer> offers = new HashSet<Offer>();
+
     @Embedded
     private PersonalData personalData;
 

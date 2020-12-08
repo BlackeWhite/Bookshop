@@ -1,5 +1,7 @@
 package it.bookshop.model.dao;
 
+import java.sql.Date;
+
 import org.hibernate.Session;
 import it.bookshop.model.entity.User;
 import it.bookshop.model.entity.PersonalData;
@@ -14,12 +16,13 @@ public interface UserDetailsDao {
 	
 	User findUserByEmail(String email);
 	
-	User create(String username, String email, String password, boolean isEnabled, PersonalData personalData);
+	User create(String username, String email, String password, String name, String surname,
+			Date birthdate, String street, String city, long cap, String state);
 	
 	User update(User user);
 	
 	void delete(User user);
 	
 	public String encryptPassword(String password);
-
+	
 }

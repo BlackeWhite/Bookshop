@@ -1,5 +1,7 @@
 package it.bookshop.model.dao;
 
+import java.sql.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,13 +35,24 @@ public class UserDetailsDaoDefault extends DefaultDao implements UserDetailsDao 
 	}
 	
 	@Override
-	public User create(String username, String email, String password, boolean isEnabled, PersonalData personalData) {
+	public User create(String username, String email, String password, String name, String surname, Date birthdate, String street, String city, long cap, String state) {
 		User user = new User();
+		PersonalData personalData = new PersonalData();
+		
 		user.setUsername(username);
 		user.setEmail(email);
 		user.setPassword(password);
+		user.setEnabled(true);
+		
+		personalData.setName(name);
+		personalData.setSurname(surname);
+		personalData.setBirthdate(birthdate);
+		personalData.setStreet(street);
+		personalData.setCap(cap);
+		personalData.setCity(city);
+
 		user.setPersonalData(personalData);
-		user.setEnabled(isEnabled);
+		
 		this.getSession().save(user);
 		
 		return user;
