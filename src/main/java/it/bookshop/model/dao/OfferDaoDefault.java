@@ -46,7 +46,7 @@ public class OfferDaoDefault extends DefaultDao implements OfferDao {
 
 	@Override
 	public List<Offer> findAll() {
-		return getSession().createQuery("select o from OFFERS", Offer.class).getResultList();
+		return getSession().createQuery("FROM Offer o", Offer.class).getResultList();
 	}
 
 	@Override
@@ -56,13 +56,13 @@ public class OfferDaoDefault extends DefaultDao implements OfferDao {
 
 	@Override
 	public List<Offer> findSellerOffers(Long sellerId) {
-		return getSession().createQuery("select o from OFFERS where o.SELLER_ID = :id", Offer.class)
+		return getSession().createQuery("FROM Offer o WHERE o.seller = :id", Offer.class)
 				.setParameter("id", sellerId).getResultList();
 	}
 
 	@Override
 	public List<Offer> findBookOffers(String bookIsbn) {
-		return getSession().createQuery("select o from OFFERS where o.BOOK_ISBN = :isbn", Offer.class)
+		return getSession().createQuery("FROM Offer o WHERE o.book = :isbn", Offer.class)
 				.setParameter("isbn", bookIsbn).getResultList();
 	}
 

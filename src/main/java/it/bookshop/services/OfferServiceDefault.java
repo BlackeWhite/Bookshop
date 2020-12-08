@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.bookshop.model.dao.BookDao;
 import it.bookshop.model.dao.OfferDao;
+import it.bookshop.model.dao.UserDetailsDao;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Offer;
 import it.bookshop.model.entity.User;
@@ -16,8 +18,8 @@ import it.bookshop.model.entity.User;
 public class OfferServiceDefault implements OfferService{
 
 	private OfferDao offerRepository;
-	private UserService userService;
-	private BookService bookService;
+	private UserDetailsDao userRepository;
+	private BookDao bookRepository;
 	
 	@Override
 	public Offer findById(Long sellerId, String bookIsbn) {
@@ -52,8 +54,8 @@ public class OfferServiceDefault implements OfferService{
 	
 	@Override
 	public Offer create(Long sellerId, String bookIsbn, int copies, double price) {
-		User seller = userService.findUserById(sellerId);
-		Book book = bookService.findByIsbn(bookIsbn);
+		User seller = userRepository.findUserById(sellerId);
+		Book book = bookRepository.findByIsbn(bookIsbn);
 		return offerRepository.create(seller, book, copies, price);
 	}
 
@@ -77,13 +79,13 @@ public class OfferServiceDefault implements OfferService{
 	}
 
 	@Autowired
-	public void setUserService(UserService userService) {
-		this.userService = userService;
+	public void setUserRepository(UserDetailsDao userRepository) {
+		this.userRepository = userRepository;
 	}
 
 	@Autowired
-	public void setBookService(BookService bookService) {
-		this.bookService = bookService;
+	public void setBookRepository(BookDao bookRepository) {
+		this.bookRepository = bookRepository;
 	}
 
 
