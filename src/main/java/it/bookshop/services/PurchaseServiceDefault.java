@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.bookshop.model.dao.BookDao;
 import it.bookshop.model.dao.PurchaseDao;
+import it.bookshop.model.dao.UserDetailsDao;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Purchase;
 import it.bookshop.model.entity.User;
@@ -18,8 +20,8 @@ import it.bookshop.model.entity.User;
 public class PurchaseServiceDefault implements PurchaseService {
 
 	private PurchaseDao purchaseRepository;
-	private BookService bookService;
-	private UserService userService;
+	private BookDao bookRepository;
+	private UserDetailsDao userRepository;
 	
 	@Override
 	public Purchase findById(Long buyerId, Long sellerId, String bookIsbn, Date date) {
@@ -33,9 +35,9 @@ public class PurchaseServiceDefault implements PurchaseService {
 	
 	@Override
 	public Purchase create(Long buyerId, Long sellerId, String bookIsbn, int copies, double total_price) { 
-		User seller = userService.findUserById(sellerId);
-		User buyer = userService.findUserById(buyerId);
-		Book book = bookService.findByIsbn(bookIsbn);
+		User seller = userRepository.findUserById(sellerId);
+		User buyer = userRepository.findUserById(buyerId);
+		Book book = bookRepository.findByIsbn(bookIsbn);
 		return purchaseRepository.create(buyer, seller, book, copies, total_price);
 	}
 
@@ -95,13 +97,13 @@ public class PurchaseServiceDefault implements PurchaseService {
 	}
 	
 	@Autowired
-	public void setBookService(BookService bookService) {
-		this.bookService = bookService;
+	public void setBookService(BookDao bookRepository) {
+		this.bookRepository = bookRepository;
 	}
 
 	@Autowired
-	public void setUserService(UserService userService) {
-		this.userService = userService;
+	public void setUserService(UserDetailsDao userRepository) {
+		this.userRepository = userRepository;
 	}
 
 }
