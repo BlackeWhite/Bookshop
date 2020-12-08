@@ -3,6 +3,7 @@ package it.bookshop.model.entity;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
@@ -26,6 +27,7 @@ public class Offer {
 	}
 	
 	@ManyToOne
+	@JoinColumn(name="SELLER_ID", referencedColumnName="USER_ID")
 	@MapsId("sellerId")
 	public User getSeller() {
 		return seller;
@@ -35,6 +37,7 @@ public class Offer {
 	}
 	
 	@ManyToOne
+	@JoinColumn(name="BOOK_ISBN", referencedColumnName="ISBN")
 	@MapsId("bookIsbn")
 	public Book getBook() {
 		return book;
