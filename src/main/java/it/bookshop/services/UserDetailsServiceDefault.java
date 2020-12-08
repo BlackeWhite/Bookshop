@@ -1,5 +1,7 @@
 package it.bookshop.services;
 
+import java.sql.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -66,8 +68,10 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 	}
 
 	@Override
-	public User create(String username, String email, String password, boolean isEnabled, PersonalData personalData) {
-		User newUser = this.userrepository.create(username, email, password, isEnabled, personalData);
+	public User create(String username, String email, String password, String name, String surname,
+			Date birthdate, String street, String city, long cap, String state) {
+		User newUser = this.userrepository.create(username, email, password, name, surname, birthdate, street, city,
+				cap, state);
 		return newUser;
 	}
 
