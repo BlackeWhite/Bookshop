@@ -84,8 +84,12 @@ public class LoadDataTest {
 				Genre g1 = genredao.create("Thriller");
 				g1.addBooks(b1);
 				
+				session.getTransaction().commit();
+				
+				
 				// test 1.3
 				// creazione di un ruolo 
+				session.beginTransaction();
 				User c = userDao.create("compratore","Pippo@mail.com","1234","Agostino","Dati",date, "strada","Ischitella",71010, "Italia");
 				User v = userDao.create("venditore","Pippo2@mail.com","1233","Gostino","Dai",date, "stra","Ischitella",71110, "Italia");		
 				Role r1 = roleDao.create("Compratore");
@@ -100,9 +104,11 @@ public class LoadDataTest {
 				
 				// test 1.4
 				// acquisto di un libro 
+				session.beginTransaction();
 				Purchase p1 = purchasedao.create(c,v, b1, 1,12,date);
 				//venditore mette in vendità un libro 
 				Offer o1 = offerdao.create(v, b1, 10, 12);
+				session.getTransaction().commit();
 			}
 
 		} catch (Exception e) {
