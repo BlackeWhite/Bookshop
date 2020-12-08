@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 import javax.persistence.Embedded;
@@ -58,6 +60,29 @@ public class User implements Serializable{
 			inverseJoinColumns = @JoinColumn(
 					name = "ROLE_ID", referencedColumnName = "id"))
 	private Set<Role> roles = new HashSet<Role>();
+	
+	@OneToMany(cascade = { CascadeType.DETACH,
+				CascadeType.MERGE,
+				CascadeType.REFRESH,
+				CascadeType.PERSIST,
+				CascadeType.REMOVE},
+				mappedBy="buyer")
+	private Set<Purchase> purchases = new HashSet<Purchase>();
+	
+	@OneToMany(cascade = { CascadeType.DETACH,
+				CascadeType.MERGE,
+				CascadeType.REFRESH,
+				CascadeType.PERSIST,},
+				mappedBy="seller")
+	private Set<Purchase> sales = new HashSet<Purchase>(); //Reserved for seller side
+	
+	@OneToMany(cascade = { CascadeType.DETACH,
+				CascadeType.MERGE,
+				CascadeType.REFRESH,
+				CascadeType.PERSIST,
+				CascadeType.REMOVE},
+				mappedBy="seller ")
+ 	private Set<Offer> offers = new HashSet<Offer>();
 	
 	
 	public void setUsername(String username) {
@@ -112,6 +137,30 @@ public class User implements Serializable{
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+	
+	
+	public void setPurchases(Set<Purchase> purchases) {
+		this.purchases = purchases;
+	}
+	public Set<Purchase> getPurchases() {
+		return purchases;
+	}
+	
+	
+	public void setSales(Set<Purchase> sales) {
+		this.sales = sales;
+	}
+	public Set<Purchase> getSales() {
+		return sales;
+	}
+	
+	public void setOffers(Set<Offer> offers) {
+		this.offers = offers;
+	}
+	public Set<Offer> getOffers() {
+		return offers;
+	}
+	
 	
 	
 }
