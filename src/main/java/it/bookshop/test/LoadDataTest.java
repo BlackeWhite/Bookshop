@@ -54,12 +54,12 @@ public class LoadDataTest {
 			
 			try (Session session = sf.openSession()) {
 				
-				/*
+				
 				authorDao.setSession(session);
 				userDao.setSession(session);
 				roleDao.setSession(session);
 				bookdao.setSession(session);
-				*/
+				
 				
 				Date date = new Date(System.currentTimeMillis());
 			
