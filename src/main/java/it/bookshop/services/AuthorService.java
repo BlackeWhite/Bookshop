@@ -8,6 +8,7 @@ import it.bookshop.model.entity.Author;
 public interface AuthorService {
 	
 	Author findById(Long id);
+	Author findByNameAndSurname(String name, String surname);
 	Author create(String name, String surname, Date date, String nationality, String biography, String image);
 	Author create(String name, String surname);
 	Author update(Author author);

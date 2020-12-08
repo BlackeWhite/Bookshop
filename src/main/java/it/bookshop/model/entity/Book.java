@@ -119,19 +119,13 @@ public class Book implements Serializable{
 	}
 	
 	//genre
-	@ManyToMany(fetch = FetchType.EAGER,        
-			cascade =
-	        {
-	                CascadeType.DETACH,
-	                CascadeType.MERGE,
-	                CascadeType.REFRESH,
-	                CascadeType.PERSIST
-	        })
-	@JoinTable(name="book_genre",
-		 joinColumns = @JoinColumn(name = "ISBN", nullable = false,
-                 updatable = false), 
-		 inverseJoinColumns = @JoinColumn(name = "GENRE", nullable = false,
-         updatable = false)) 
+	@ManyToMany(cascade = { CascadeType.DETACH,
+			CascadeType.MERGE,
+			CascadeType.REFRESH,
+			CascadeType.PERSIST })
+	@JoinTable( name = "BOOK_GENRES", 
+				joinColumns = @JoinColumn(name = "ID_BOOK", referencedColumnName = "ISBN"),
+				inverseJoinColumns = @JoinColumn(name = "ID_GENRE", referencedColumnName = "ID") )
 	public Set<Genre> getGenres() {
 		return this.genres;
 	}

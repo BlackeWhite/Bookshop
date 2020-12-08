@@ -33,6 +33,14 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 		getSession().save(a);
 		return a;
 	}
+	@Override
+	public Author create(String name, String surname) {
+		Author a = new Author();
+		a.setName(name);
+		a.setSurname(surname);	
+		getSession().save(a);
+		return a;
+	}
 
 	@Override
 	public Author update(Author author) {
@@ -53,6 +61,7 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 	public Author findByNameAndSurname(String Name, String Surname) {
 		return this.getSession().createQuery("FROM Author a WHERE a.name = :name and a.surname = :surname", Author.class).setParameter("name", Name).setParameter("surname", Surname).getSingleResult();
 	}
+
 
 	
 }

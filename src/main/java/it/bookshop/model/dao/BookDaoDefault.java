@@ -15,16 +15,16 @@ public class BookDaoDefault extends DefaultDao implements BookDao{
 	
 	@Override
 	public List<Book> findAll() {
-		return this.getSession().createQuery("FROM book b", Book.class).getResultList();
+		return this.getSession().createQuery("FROM Book b", Book.class).getResultList();
 	}
 	
 	@Override
 	public Book findByIsbn(String isbn) {
-		return this.getSession().createQuery("FROM book b WHERE b.isbn = :isbn", Book.class).setParameter("isbn", isbn).getSingleResult();
+		return this.getSession().createQuery("FROM Book b WHERE b.isbn = :isbn", Book.class).setParameter("isbn", isbn).getSingleResult();
 	}
 	
 	public Book findByTitle(String title) {
-		return this.getSession().createQuery("FROM book b WHERE b.title = :title", Book.class).setParameter("title", title).getSingleResult();
+		return this.getSession().createQuery("FROM Book b WHERE b.title = :title", Book.class).setParameter("title", title).getSingleResult();
 	}
 	
 	@Override

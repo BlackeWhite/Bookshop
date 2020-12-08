@@ -20,12 +20,18 @@ public class AuthorServiceDefault implements AuthorService {
 	public Author findById(Long id) {
 		return authorRepository.findById(id);
 	}
+	
+	@Override
+	public Author findByNameAndSurname(String name, String surname) {
+		return authorRepository.findByNameAndSurname(name,surname);
+	}
+
 
 	@Override
 	public Author create(String name, String surname, Date date, String nationality, String biography, String image) {
 		return authorRepository.create(name, surname, date, nationality, biography, image);
 	}
-
+    // vedere se serve 
 	@Override
 	public Author create(String name, String surname) {
 		return authorRepository.create(name, surname, null, null, null, null);
@@ -56,5 +62,6 @@ public class AuthorServiceDefault implements AuthorService {
 	public void setAuthorRepository(AuthorDao authorRepository) {
 		this.authorRepository = authorRepository;
 	}
+
 
 }

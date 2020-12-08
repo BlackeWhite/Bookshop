@@ -3,20 +3,21 @@ package it.bookshop.model.dao;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import it.bookshop.model.entity.Genre;
 
-
+@Transactional
 @Repository("genreDao") // annotazione usata per operazioni CRUD
 public class GenreDaoDefault extends DefaultDao implements GenreDao {
 	@Override
 	public List<Genre> findAll() {
-		return this.getSession().createQuery("FROM genre g", Genre.class).getResultList();
+		return this.getSession().createQuery("FROM Genre g", Genre.class).getResultList();
 	}
 	
 	@Override
 	public Genre findByName(String name) {
-		return this.getSession().createQuery("FROM genre g WHERE g.name = :name", Genre.class).setParameter("name", name).getSingleResult();
+		return this.getSession().createQuery("FROM Genre g WHERE g.name = :name", Genre.class).setParameter("name", name).getSingleResult();
 	}
 
 	@Override

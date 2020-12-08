@@ -17,24 +17,49 @@ import java.io.Serializable;
 public class Role implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
+	private String name;
+	private Long id;
+	private Set<User> users = new HashSet<User>();
+
 
 	@Id
 	@Column(name = "ID")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	
-	@Column(name = "NAME")
-	private String name;
-	
-	@ManyToMany(mappedBy = "roles")
-	private Set<User> users = new HashSet<User>();
-	
-	public String getName() {
-		return this.name;
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
+	@Column(name = "NAME")
+	public String getName() {
+		return name;
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	@ManyToMany(mappedBy = "roles")
+	public Set<User> getUsers() {
+		return this.users;
+	}
+	
+	public void setUsers(Set<User> user) {
+		this.users = user;
+	}
+	public void addUsers(User u) {
+		this.users.add(u);
+		u.getRoles().add(this); 
+	}
+	
+	public void removeUsers(User u) {
+		this.users.remove(u);
+		u.getRoles().remove(this);
+	}
+
+	
 }
 

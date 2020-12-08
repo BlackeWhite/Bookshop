@@ -29,16 +29,16 @@ public class PurchaseServiceDefault implements PurchaseService {
 	}
 
 	@Override
-	public Purchase create(User buyer, User seller, Book book, int copies, double total_price) {
-		return purchaseRepository.create(buyer, seller, book, copies, total_price);
+	public Purchase create(User buyer, User seller, Book book, int copies, double total_price,Date date) {
+		return purchaseRepository.create(buyer, seller, book, copies, total_price,date);
 	}
 	
 	@Override
-	public Purchase create(Long buyerId, Long sellerId, String bookIsbn, int copies, double total_price) { 
+	public Purchase create(Long buyerId, Long sellerId, String bookIsbn, int copies, double total_price,Date date) { 
 		User seller = userRepository.findUserById(sellerId);
 		User buyer = userRepository.findUserById(buyerId);
 		Book book = bookRepository.findByIsbn(bookIsbn);
-		return purchaseRepository.create(buyer, seller, book, copies, total_price);
+		return purchaseRepository.create(buyer, seller, book, copies, total_price,date);
 	}
 
 	@Override

@@ -10,8 +10,8 @@ import it.bookshop.model.entity.User;
 public interface PurchaseService {
 	
 	public Purchase findById(Long buyerId, Long sellerId, String bookIsbn, Date date);
-	public Purchase create(User buyer, User seller, Book book, int copies, double total_price);
-	public Purchase create(Long buyerId, Long sellerId, String bookIsbn, int copies, double total_price);
+	public Purchase create(User buyer, User seller, Book book, int copies, double total_price,Date date);
+	public Purchase create(Long buyerId, Long sellerId, String bookIsbn, int copies, double total_price,Date date);
 	public Purchase update(Purchase purchase);
 	public List<Purchase> findAll();
 	public List<Purchase> findAllMadeAfter(Date date);

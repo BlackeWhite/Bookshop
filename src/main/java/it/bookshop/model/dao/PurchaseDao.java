@@ -15,7 +15,7 @@ public interface PurchaseDao {
 	public void setSession(Session session);
 	
 	public Purchase findById(Long buyerId, Long sellerId, String bookIsbn, Date date);
-	public Purchase create(User buyer, User seller, Book book, int copies, double total_price);
+	public Purchase create(User buyer, User seller, Book book, int copies, double total_price,Date date);
 	public Purchase update(Purchase purchase);
 	public List<Purchase> findAll();
 	public List<Purchase> findBuyerPurchases(Long buyerId);

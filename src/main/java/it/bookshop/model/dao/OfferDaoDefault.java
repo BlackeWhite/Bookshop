@@ -25,12 +25,8 @@ public class OfferDaoDefault extends DefaultDao implements OfferDao {
 	@Override
 	public Offer create(User seller, Book book, int copies, double price) {
 		Offer o = new Offer();
-		/*
-		OfferId id = new OfferId(seller.getId(), book.getIsbn());
+		OfferId id = new OfferId(seller.getUserID(), book.getIsbn());
 		o.setId(id);
-		
-		*/
-		
 		o.setSeller(seller);
 		o.setBook(book);
 		o.setCopies(copies);

@@ -25,12 +25,10 @@ public class PurchaseDaoDefault extends DefaultDao implements PurchaseDao {
 	}
 
 	@Override
-	public Purchase create(User buyer, User seller, Book book, int copies, double total_price) {
+	public Purchase create(User buyer, User seller, Book book, int copies, double total_price,Date date) {
 		Purchase p = new Purchase();
-		/*
-		PurchaseId id = new PurchaseId(buyer.getId(), sellerId.getId(), bookIsbn.getIsbn(), date);
+		PurchaseId id = new PurchaseId(buyer.getUserID(), seller.getUserID(), book.getIsbn(), date);
 		p.setId(id);
-		*/
 		p.setBuyer(buyer);
 		p.setSeller(seller);
 		p.setBook(book);
