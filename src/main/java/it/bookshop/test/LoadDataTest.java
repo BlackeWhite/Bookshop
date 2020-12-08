@@ -40,6 +40,7 @@ public class LoadDataTest {
 
 			SessionFactory sf = ctx.getBean("sessionFactory", SessionFactory.class);
 			
+			// Create every bean of Dao classes
 			AuthorDao authorDao = ctx.getBean(AuthorDao.class);
 			UserDetailsDao userDao = ctx.getBean(UserDetailsDao.class);
 			RoleDao roleDao = ctx.getBean(RoleDao.class);
@@ -49,22 +50,21 @@ public class LoadDataTest {
 			UserDetailsDao userdao = ctx.getBean(UserDetailsDao.class);
 			PurchaseDao purchasedao = ctx.getBean(PurchaseDao.class);
 			OfferDao offerdao = ctx.getBean(OfferDao.class);
-			//BookService bookservice = ctx.getBean(BookService.class);
 			
 			
 			try (Session session = sf.openSession()) {
 				
+				// ------------------------ DAO TEST ------------------------\\
 				
+				// Start the bean' sessions
 				authorDao.setSession(session);
 				userDao.setSession(session);
 				roleDao.setSession(session);
 				bookdao.setSession(session);
 				
-				
 				Date date = new Date(System.currentTimeMillis());
-			
-				// test 1.1
 				
+				//************* TEST 1.1 - Authors creation *************\\
 				session.beginTransaction();
 
 				Author a1 = authorDao.create("Italo", "Svevo",date,"Italia","prova1-12","img.png");
@@ -72,42 +72,42 @@ public class LoadDataTest {
 							
 				session.getTransaction().commit();
 				
-				//test 1.21
-				
+				//************* TEST 1.2 - Book creation + link to the author + link to the genre *************\\
 				session.beginTransaction();
 				
-               //collego un libro al suo autore e al genere 
-				Book b1 = bookdao.create("SE9788804492X948","La coscienza di Zeno",date,800,"piccola intoduzione", "cover.jpg");
+                // Create a book, find his author, link the book to the author
+				Book b1 = bookdao.create("SE9788804492X948","La coscienza di Zeno", date, 800, "Sinossi", "cover.jpg");
 				Author a3 = authorDao.findByNameAndSurname("Italo", "Svevo");
 				a3.addBooks(b1);
-				
+				// Create a genre, link the book b1 to the genre
 				Genre g1 = genredao.create("Thriller");
 				g1.addBooks(b1);
 				
 				session.getTransaction().commit();
 				
-				
-				// test 1.3
-				// creazione di un ruolo 
+				//************* TEST 1.3 - Users & Roles creation *************\\
 				session.beginTransaction();
-				User c = userDao.create("compratore","Pippo@mail.com","1234","Agostino","Dati",date, "strada","Ischitella",71010, "Italia");
-				User v = userDao.create("venditore","Pippo2@mail.com","1233","Gostino","Dai",date, "stra","Ischitella",71110, "Italia");		
+				
+				// Users creation
+				User c = userDao.create("ppFrank", "PippoFranco@mail.com", "1234","Pippo","Franco", date, "Via della Speranza", "Ancona", 60121, "Italia");
+				User v = userDao.create("redMario", "MarioRossi@mail.com", "1233", "Mario", "Rossi", date, "Via del Disappunto", "Macerata", 60110, "Italia");		
+				// Roles creation
 				Role r1 = roleDao.create("Compratore");
 				Role r2 = roleDao.create("Venditore");
 				
 				r1.addUsers(c);
 				r2.addUsers(v);
 				
-				//servizi rivedere meglio i servizi mancanti 
-				//Book b4 = bookservice.create("Italo", "Svevo","SE9788804492X948","La coscienza di Zeno",date,800,"piccola intoduzione", "cover.jpg");
 				session.getTransaction().commit();
 				
-				// test 1.4
-				// acquisto di un libro 
+				//************* TEST 1.4 - Purchase and Offer *************\\
 				session.beginTransaction();
+				
+				// Buyer make a purchase 
 				Purchase p1 = purchasedao.create(c,v, b1, 1,12,date);
-				//venditore mette in vendità un libro 
+				// Seller offers -sells- a book 
 				Offer o1 = offerdao.create(v, b1, 10, 12);
+				
 				session.getTransaction().commit();
 			}
 
