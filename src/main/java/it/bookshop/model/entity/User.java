@@ -72,8 +72,7 @@ public class User implements Serializable{
 	@OneToMany(cascade = { CascadeType.DETACH,
 				CascadeType.MERGE,
 				CascadeType.REFRESH,
-				CascadeType.PERSIST,
-				CascadeType.REMOVE},
+				CascadeType.PERSIST,},
 				mappedBy="seller")
 	private Set<Purchase> sales = new HashSet<Purchase>(); //Reserved for seller side
 	
