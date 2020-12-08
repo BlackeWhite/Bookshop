@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
@@ -32,6 +33,7 @@ public class Purchase {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="BUYER_ID", referencedColumnName="ID_USER")
 	@MapsId("buyerId")
 	public User getBuyer() {
 		return buyer;
@@ -41,6 +43,7 @@ public class Purchase {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="SELLER_ID", referencedColumnName="ID_USER")
 	@MapsId("sellerId")
 	public User getSeller() {
 		return seller;
@@ -50,6 +53,7 @@ public class Purchase {
 	}
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="BOOK_ISBN", referencedColumnName="ISBN")
 	@MapsId("bookIsbn")
 	public Book getBook() {
 		return book;
