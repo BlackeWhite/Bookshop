@@ -27,30 +27,64 @@ public class User implements Serializable{
 	 */
 	// perché viene sempre 1L?
 	private static final long serialVersionUID = 1L;
+	private long userID;
+	private String username;
+	private String password;
+	private String email;
+	private boolean enabled;
+	private Set<Role> roles = new HashSet<Role>();
+	private Set<Purchase> sales = new HashSet<Purchase>(); //Reserved for seller side
+	private Set<Purchase> purchases = new HashSet<Purchase>();
+	private Set<Offer> offers = new HashSet<Offer>();
+    @Embedded
+    private PersonalData personalData;
 
 	// Per la generazione dell'id si adotta il tipo ".IDENTITY": 
 	// crea un campo auto-incrementale 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY) 
-	@Column(name = "ID_USER")
-	private long id_user;
+	@Column(name = "USER_ID")
+	public long getUserID() {
+		return userID;
+	}
+	public void setUserID(long userID) {
+		this.userID = userID;
+	}
+
 	
 	// Nella colonna USERNAME non possono esserci duplicati
 	// (unique = true è una shortcut di UniqueConstrain)
 	@Column(name="USERNAME", unique = true)
-	private String username;
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getUsername() {
+		return this.username;
+	}	
 	
 	@Column(name="EMAIL", unique = true)
-	private String email;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getEmail() {
+		return email;
+	}
 	
 	@Column(name="PASSWORD", nullable = false)
-	private String password;
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getPassword() {
+		return this.password;
+	}	
 	
 	@Column(name="ENABLED", nullable = false)
-	private boolean enabled;
-	
-    @Embedded
-    private PersonalData personalData;
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+	public boolean isEnabled() {
+		return this.enabled;
+	}	
 	
 	@ManyToMany
 	@JoinTable(
@@ -59,70 +93,14 @@ public class User implements Serializable{
 					name = "username", referencedColumnName = "USERNAME"),
 			inverseJoinColumns = @JoinColumn(
 					name = "ROLE_ID", referencedColumnName = "id"))
-	private Set<Role> roles = new HashSet<Role>();
-	
-	@OneToMany(cascade = { CascadeType.DETACH,
-				CascadeType.MERGE,
-				CascadeType.REFRESH,
-				CascadeType.PERSIST,
-				CascadeType.REMOVE},
-				mappedBy="buyer")
-	private Set<Purchase> purchases = new HashSet<Purchase>();
-	
-	@OneToMany(cascade = { CascadeType.DETACH,
-				CascadeType.MERGE,
-				CascadeType.REFRESH,
-				CascadeType.PERSIST,},
-				mappedBy="seller")
-	private Set<Purchase> sales = new HashSet<Purchase>(); //Reserved for seller side
-	
-	@OneToMany(cascade = { CascadeType.DETACH,
-				CascadeType.MERGE,
-				CascadeType.REFRESH,
-				CascadeType.PERSIST,
-				CascadeType.REMOVE},
-				mappedBy="seller ")
- 	private Set<Offer> offers = new HashSet<Offer>();
-	
-	
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getUsername() {
-		return this.username;
-	}	
-	
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getEmail() {
-		return email;
-	}
-	
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public String getPassword() {
-		return this.password;
-	}	
-	
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-	public boolean isEnabled() {
-		return this.enabled;
-	}	
-
-	public void setPersonalData(PersonalData personalData) {
-		this.personalData = personalData;
-	}
-	public PersonalData getPersonalData() {
-		return personalData;
-	}
-	
-	public Set<Role> roles() {
+	public Set<Role> getRoles(){
 		return this.roles;
 	}	
+	
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+	
 	public void addRole(Role role) {
 		if (this.roles == null) {
 			this.roles = new HashSet<Role>();
@@ -131,36 +109,54 @@ public class User implements Serializable{
 		this.roles.add(role);
 	}
 	
-	public Set<Role> getRoles(){
-		return this.roles;
-	}	
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
-	
-	
-	public void setPurchases(Set<Purchase> purchases) {
-		this.purchases = purchases;
-	}
+	@OneToMany(cascade = { CascadeType.DETACH,
+				CascadeType.MERGE,
+				CascadeType.REFRESH,
+				CascadeType.PERSIST,
+				CascadeType.REMOVE},
+				mappedBy="buyer")
 	public Set<Purchase> getPurchases() {
 		return purchases;
 	}
-	
-	
-	public void setSales(Set<Purchase> sales) {
-		this.sales = sales;
+	public void setPurchases(Set<Purchase> purchases) {
+		this.purchases = purchases;
 	}
+
+	
+	
+	@OneToMany(cascade = { CascadeType.DETACH,
+				CascadeType.MERGE,
+				CascadeType.REFRESH,
+				CascadeType.PERSIST,},
+				mappedBy="seller")
 	public Set<Purchase> getSales() {
 		return sales;
 	}
-	
-	public void setOffers(Set<Offer> offers) {
-		this.offers = offers;
+	public void setSales(Set<Purchase> sales) {
+		this.sales = sales;
 	}
+
+	
+	@OneToMany(cascade = { CascadeType.DETACH,
+				CascadeType.MERGE,
+				CascadeType.REFRESH,
+				CascadeType.PERSIST,
+				CascadeType.REMOVE},
+				mappedBy="seller")
 	public Set<Offer> getOffers() {
 		return offers;
 	}
+	public void setOffers(Set<Offer> offers) {
+		this.offers = offers;
+	}
+
 	
-	
-	
+	public void setPersonalData(PersonalData personalData) {
+		this.personalData = personalData;
+	}
+	public PersonalData getPersonalData() {
+		return personalData;
+	}
+
+
 }

@@ -10,7 +10,8 @@ import it.bookshop.model.entity.PersonalData;
 import it.bookshop.model.entity.User;
 import it.bookshop.model.entity.PersonalData;
 
-@Repository
+@Transactional
+@Repository("userDao")
 public class UserDetailsDaoDefault extends DefaultDao implements UserDetailsDao {
 	
 	@Autowired

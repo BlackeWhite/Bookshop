@@ -33,7 +33,7 @@ public class Purchase {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="BUYER_ID", referencedColumnName="ID_USER")
+	@JoinColumn(name="BUYER_ID", referencedColumnName="USER_ID")
 	@MapsId("buyerId")
 	public User getBuyer() {
 		return buyer;
@@ -43,7 +43,7 @@ public class Purchase {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="SELLER_ID", referencedColumnName="ID_USER")
+	@JoinColumn(name="SELLER_ID", referencedColumnName="USER_ID")
 	@MapsId("sellerId")
 	public User getSeller() {
 		return seller;

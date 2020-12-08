@@ -1,10 +1,12 @@
 package it.bookshop.model.dao;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import it.bookshop.model.entity.Role;
 
-@Repository
+@Transactional
+@Repository("roleDao")
 public class RoleDaoDefault extends DefaultDao implements RoleDao {
 
 	@Override

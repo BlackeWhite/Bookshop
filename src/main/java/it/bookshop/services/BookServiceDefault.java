@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import it.bookshop.model.dao.AuthorDao;
 import it.bookshop.model.dao.BookDao;
+import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
 
 
@@ -59,8 +60,11 @@ public class BookServiceDefault implements BookService {
 			int num_of_pages, String summary, String cover) {
 		Book b1 = bookRepository.create(isbn, title, publish_date, num_of_pages, summary, cover);
 		Author a1 = authorRepository.findByNameAndSurname(Name_author, Surname_Author);
+		if (a1 != null) {
 		a1.addBooks(b1);
+		}
 		return b1;
+		
 	}
 	
 

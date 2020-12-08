@@ -139,6 +139,16 @@ public class Book implements Serializable{
 		this.genres = genres;
 	}
 	
+	public void addGenres(Genre g) {
+		this.genres.add(g);
+		g.getBooks().add(this); // NB nota che non usiamo l'utility method addInstrument
+	}
+	
+	public void removeGenres(Genre g) {
+		this.genres.remove(g);
+		g.getBooks().remove(this);
+	}
+	
 	//buyers
 	@OneToMany(cascade = { CascadeType.DETACH,
 							CascadeType.MERGE,
@@ -161,6 +171,7 @@ public class Book implements Serializable{
 	public Set<Offer> getOffers() {
 		return this.offers;
 	}
+	
 	public void setOffers(Set<Offer> offers) {
 		this.offers = offers;
 	}

@@ -36,7 +36,7 @@ public class LoadDataTest {
 			UserDetailsDao userDao = ctx.getBean(UserDetailsDao.class);
 			RoleDao roleDao = ctx.getBean(RoleDao.class);
 			BookDao bookdao = ctx.getBean(BookDao.class);
-			//BookService bookservice = ctx.getBean(BookService.class);
+			BookService bookservice = ctx.getBean(BookService.class);
 			
 			
 			try (Session session = sf.openSession()) {
@@ -48,7 +48,7 @@ public class LoadDataTest {
 				
 				Date date = new Date(System.currentTimeMillis());
 			
-				// phase 1 : add data to database
+				// test 1.1
 				
 				session.beginTransaction();
 
@@ -57,13 +57,17 @@ public class LoadDataTest {
 							
 				session.getTransaction().commit();
 				
+				//test 1.2
+				
 				session.beginTransaction();
-               //collego un liro al suo autore 
-				Book b1 = bookdao.create("SE9788804492X948","La coscienza di Zeno",date,800,"piccola intoduzione", "cover.jpg");
-				Author a3 = authorDao.findByNameAndSurname("Italo", "Svevo");
-				a3.addBooks(b1);
+				
+               //collego un libro al suo autore 
+				//Book b1 = bookdao.create("SE9788804492X948","La coscienza di Zeno",date,800,"piccola intoduzione", "cover.jpg");
+				//Author a3 = authorDao.findByNameAndSurname("Italo", "Svevo");
+				//a3.addBooks(b1);
+				
 				//servizi rivedere meglio i servizi mancanti 
-				//Book b1 = bookservice.create("Italo", "Svevo","SE9788804492X948","La coscienza di Zeno",date,800,"piccola intoduzione", "cover.jpg");
+				Book b4 = bookservice.create("Italo", "Svevo","SE9788804492X948","La coscienza di Zeno",date,800,"piccola intoduzione", "cover.jpg");
 				session.getTransaction().commit();
 				
 			}

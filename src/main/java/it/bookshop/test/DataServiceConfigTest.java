@@ -26,7 +26,7 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
 @Configuration
-@ComponentScan(basePackages = {"it.bookshop.model"})
+@ComponentScan(basePackages = {"it.bookshop"})
 @EnableTransactionManagement
 public class DataServiceConfigTest extends DataServiceConfig {
 

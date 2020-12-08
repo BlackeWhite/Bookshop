@@ -11,18 +11,21 @@ import org.springframework.transaction.annotation.Transactional;
 import it.bookshop.model.entity.PersonalData;
 import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.User;
+import it.bookshop.model.dao.AuthorDao;
 import it.bookshop.model.dao.UserDetailsDao;
 
+@Transactional
+@Service("userService")
 public class UserDetailsServiceDefault implements UserService, UserDetailsService {
 	
-	@Autowired
-	private UserDetailsDao userDetailsDao;
+	
+	private UserDetailsDao userrepository;
 
 	@Transactional(readOnly = true)
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-	    User user = userDetailsDao.findUserByUsername(username);
+	    User user = userrepository.findUserByUsername(username);
 	    UserBuilder builder = null;
 	    if (user != null) {
 	      
@@ -49,35 +52,39 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 
 	@Override
 	public User findUserByUsername(String username) {
-		return this.userDetailsDao.findUserByUsername(username);
+		return this.userrepository.findUserByUsername(username);
 	}
 
 	@Override
 	public User findUserById(long id) {
-		return this.userDetailsDao.findUserById(id);
+		return this.userrepository.findUserById(id);
 	}
 
 	@Override
 	public User findUserByEmail(String email) {
-		return this.userDetailsDao.findUserByEmail(email);
+		return this.userrepository.findUserByEmail(email);
 	}
 
 	@Override
 	public User create(String username, String email, String password, boolean isEnabled, PersonalData personalData) {
-		User newUser = this.userDetailsDao.create(username, email, password, isEnabled, personalData);
+		User newUser = this.userrepository.create(username, email, password, isEnabled, personalData);
 		return newUser;
 	}
 
 	@Override
 	public User update(User user) {
-		return this.userDetailsDao.update(user);
+		return this.userrepository.update(user);
 	}
 
 	@Override
 	public void deleteByUsername(String username) {
-		User user = this.userDetailsDao.findUserByUsername(username);
-		this.userDetailsDao.delete(user);
+		User user = this.userrepository.findUserByUsername(username);
+		this.userrepository.delete(user);
 		
+	}
+	@Autowired
+	public void setUserRepository(UserDetailsDao userrepository) {
+		this.userrepository = userrepository;
 	}
 	
 	
