@@ -60,4 +60,10 @@ public class OfferDaoDefault extends DefaultDao implements OfferDao {
 				.setParameter("id", sellerId).getResultList();
 	}
 
+	@Override
+	public List<Offer> findBookOffers(String bookIsbn) {
+		return getSession().createQuery("select o from OFFERS where o.BOOK_ISBN = :isbn", Offer.class)
+				.setParameter("isbn", bookIsbn).getResultList();
+	}
+
 }

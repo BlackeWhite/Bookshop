@@ -28,6 +28,17 @@ public class OfferServiceDefault implements OfferService{
 	public List<Offer> findSellerOffers(Long sellerId) {
 		return offerRepository.findSellerOffers(sellerId);
 	}
+	
+	@Override
+	public List<Offer> findBookOffers(String bookIsbn) {
+		return offerRepository.findBookOffers(bookIsbn);
+	}
+
+	@Override
+	public List<Offer> findBookOffersByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public List<Offer> findAll() {
@@ -74,5 +85,6 @@ public class OfferServiceDefault implements OfferService{
 	public void setBookService(BookService bookService) {
 		this.bookService = bookService;
 	}
+
 
 }

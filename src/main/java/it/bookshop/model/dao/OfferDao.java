@@ -18,5 +18,6 @@ public interface OfferDao {
 	public Offer update(Offer offer);
 	public List<Offer> findAll();
 	public List<Offer> findSellerOffers(Long sellerId);
+	public List<Offer> findBookOffers(String bookIsbn);
 	public void delete(Offer offer);
 }

@@ -10,6 +10,8 @@ public interface OfferService {
 
 	public Offer findById(Long sellerId, String bookIsbn);
 	public List<Offer> findSellerOffers(Long sellerId);
+	public List<Offer> findBookOffers(String bookIsbn);
+	public List<Offer> findBookOffersByName(String name);
 	public List<Offer> findAll();
 	public Offer create(User seller, Book book, int copies, double price);
 	public Offer create(Long sellerId, String bookIsbn, int copies, double price);
