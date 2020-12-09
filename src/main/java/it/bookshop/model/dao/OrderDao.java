@@ -14,7 +14,7 @@ public interface OrderDao {
 	public Session getSession();
 	public void setSession(Session session);
 	
-	public Order findById(Long buyerId, Long sellerId, String bookIsbn, Date date);
+	public Order findById(Long id);
 	public Order create(User buyer, User seller, Book book, int copies, double total_price,Date date);
 	public Order update(Order order);
 	public List<Order> findAll();

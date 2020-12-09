@@ -1,11 +1,15 @@
 package it.bookshop.model.entity;
 
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -13,28 +17,29 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "PURCHASES")
+@Table(name = "ORDERS")
 public class Order {
 	
 	
-	private PurchaseId id;
+	private Long id;
 	private User buyer;
 	private User seller;
-	private Book book;
-	private double total_price;
-	private int copies;
+	private Date date;
+	private Set<BookOrder> books = new HashSet<BookOrder>();
+	private double total_expense;
 
-	@EmbeddedId
-	public PurchaseId getId() {
+
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
+	public Long getId() {
 		return id;
 	}
-	public void setId(PurchaseId id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="BUYER_ID", referencedColumnName="USER_ID")
-	@MapsId("buyerId")
 	public User getBuyer() {
 		return buyer;
 	}
@@ -44,7 +49,6 @@ public class Order {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="SELLER_ID", referencedColumnName="USER_ID")
-	@MapsId("sellerId")
 	public User getSeller() {
 		return seller;
 	}
@@ -52,35 +56,24 @@ public class Order {
 		this.seller = seller;
 	}
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="BOOK_ISBN", referencedColumnName="ISBN")
-	@MapsId("bookIsbn")
-	public Book getBook() {
-		return book;
-	}
-	public void setBook(Book book) {
-		this.book = book;
-	}
+	
 
-	@Column(name = "TOTAL_PRICE")
-	public double getTotal_price() {
-		return total_price;
+	@Column(name = "TOTAL_EXPENSE")
+	public double getTotal_expense() {
+		return total_expense;
 	}
-	public void setTotal_price(double total_price) {
-		this.total_price = total_price;
-	}
-	
-	@Column(name = "COPIES")
-	public int getCopies() {
-		return copies;
-	}
-	public void setCopies(int copies) {
-		this.copies = copies;
+	public void setTotal_expense(double total_expense) {
+		this.total_expense = total_expense;
 	}
 	
-	@Transient
+	
+	@Column(name="DATE")
 	public Date getDate() {
-		return id.getDate();
+		return date;
+	}
+	
+	public void setDate(Date date) {
+		this.date = date;
 	}
 	
 }

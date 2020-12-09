@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Order;
-import it.bookshop.model.entity.PurchaseId;
 import it.bookshop.model.entity.User;
 
 @Transactional
@@ -17,16 +16,13 @@ public class OrderDaoDefault extends DefaultDao implements OrderDao {
 
 
 	@Override
-	public Order findById(Long buyerId, Long sellerId, String bookIsbn, Date date) {
-		//Create composite primary key
-		PurchaseId id = new PurchaseId(buyerId, sellerId, bookIsbn, date);
+	public Order findById(Long id) {
 		return getSession().find(Order.class, id);
 	}
 
 	@Override
 	public Order create(User buyer, User seller, Book book, int copies, double total_price,Date date) {
 		Order p = new Order();
-		PurchaseId id = new PurchaseId(buyer.getUserID(), seller.getUserID(), book.getIsbn(), date);
 		p.setId(id);
 		p.setBuyer(buyer);
 		p.setSeller(seller);
