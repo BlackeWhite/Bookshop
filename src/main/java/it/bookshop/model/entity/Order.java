@@ -14,7 +14,7 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "PURCHASES")
-public class Purchase {
+public class Order {
 	
 	
 	private PurchaseId id;
