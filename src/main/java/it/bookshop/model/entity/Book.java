@@ -40,7 +40,6 @@ public class Book implements Serializable{
 	private Set<Author> authors = new HashSet<Author>();
 	private Set<Genre> genres = new HashSet<Genre>();
 	private Set<BookOrder> orders = new HashSet<BookOrder>();
-	private Set<Offer> offers = new HashSet<Offer>();
 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
@@ -120,7 +119,11 @@ public class Book implements Serializable{
 	 */
 	
 	//Seller
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade = { CascadeType.DETACH,
+			CascadeType.MERGE,
+			CascadeType.REFRESH,
+			CascadeType.PERSIST,},
+			fetch = FetchType.LAZY)
 	@JoinColumn(name="SELLER_ID", referencedColumnName = "USER_ID")
 	public User getSeller() {
 		return seller;
@@ -158,8 +161,8 @@ public class Book implements Serializable{
 			CascadeType.REFRESH,
 			CascadeType.PERSIST })
 	@JoinTable( name = "BOOK_GENRES", 
-				joinColumns = @JoinColumn(name = "ID_BOOK", referencedColumnName = "isbn"),
-				inverseJoinColumns = @JoinColumn(name = "ID_GENRE", referencedColumnName = "id") )
+				joinColumns = @JoinColumn(name = "ID_BOOK", referencedColumnName = "ID"),
+				inverseJoinColumns = @JoinColumn(name = "ID_GENRE", referencedColumnName = "ID") )
 	public Set<Genre> getGenres() {
 		return this.genres;
 	}

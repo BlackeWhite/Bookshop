@@ -34,7 +34,8 @@ public class User implements Serializable{
 	private boolean enabled;
 	private Set<Role> roles = new HashSet<Role>();
 	private Set<Order> orders = new HashSet<Order>();
-	private Set<Book> books = new HashSet<Book>();
+	private Set<Book> booksForSale = new HashSet<Book>();
+	private Set<ShoppingCart> shoppingCart = new HashSet<ShoppingCart>();
 
     @Embedded
     private PersonalData personalData;
@@ -112,7 +113,7 @@ public class User implements Serializable{
 	@OneToMany(cascade = { CascadeType.DETACH,
 				CascadeType.MERGE,
 				CascadeType.REFRESH,
-				CascadeType.PERSIST,},
+				CascadeType.PERSIST},
 				mappedBy="buyer")
 	public Set<Order> getOrders() {
 		return orders;
@@ -128,11 +129,24 @@ public class User implements Serializable{
 				CascadeType.PERSIST,
 				CascadeType.REMOVE},
 				mappedBy="seller")
-	public Set<Book> getBooks() {
-		return books;
+	public Set<Book> getBooksForSale() {
+		return booksForSale;
 	}
-	public void setBooks(Set<Book> books) {
-		this.books = books;
+	public void setBooksForSale(Set<Book> booksForSale) {
+		this.booksForSale = booksForSale;
+	}
+	
+	@OneToMany(cascade = { CascadeType.DETACH,
+			CascadeType.MERGE,
+			CascadeType.REFRESH,
+			CascadeType.PERSIST,
+			CascadeType.REMOVE},
+			mappedBy="user")
+	public Set<ShoppingCart> getShoppingCart() {
+		return shoppingCart;
+	}
+	public void setShoppingCart(Set<ShoppingCart> shoppingCart) {
+		this.shoppingCart = shoppingCart;
 	}
 
 	
@@ -142,6 +156,7 @@ public class User implements Serializable{
 	public PersonalData getPersonalData() {
 		return personalData;
 	}
+	
 
 
 }

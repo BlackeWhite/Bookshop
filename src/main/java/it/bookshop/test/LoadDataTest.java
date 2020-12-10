@@ -15,15 +15,15 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import it.bookshop.model.dao.AuthorDao;
 import it.bookshop.model.dao.BookDao;
 import it.bookshop.model.dao.GenreDao;
-import it.bookshop.model.dao.OfferDao;
-import it.bookshop.model.dao.PurchaseDao;
+import it.bookshop.model.dao.ShoppingCartDao;
 import it.bookshop.model.dao.RoleDao;
+import it.bookshop.model.dao.OrderDao;
 import it.bookshop.model.dao.UserDetailsDao;
 import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
-import it.bookshop.model.entity.Offer;
-import it.bookshop.model.entity.Purchase;
+import it.bookshop.model.entity.Order;
+import it.bookshop.model.entity.ShoppingCart;
 import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.User;
 import it.bookshop.services.BookService;
@@ -48,8 +48,8 @@ public class LoadDataTest {
 			GenreDao genredao = ctx.getBean(GenreDao.class);
 			RoleDao roledao = ctx.getBean(RoleDao.class);
 			UserDetailsDao userdao = ctx.getBean(UserDetailsDao.class);
-			PurchaseDao purchasedao = ctx.getBean(PurchaseDao.class);
-			OfferDao offerdao = ctx.getBean(OfferDao.class);
+			OrderDao orderdao = ctx.getBean(OrderDao.class);
+			ShoppingCartDao offerdao = ctx.getBean(ShoppingCartDao.class);
 			
 			
 			try (Session session = sf.openSession()) {
@@ -104,9 +104,9 @@ public class LoadDataTest {
 				session.beginTransaction();
 				
 				// Buyer make a purchase 
-				Purchase p1 = purchasedao.create(c,v, b1, 1,12,date);
+				Order p1 = orderdao.create(c,v, b1, 1,12,date);
 				// Seller offers -sells- a book 
-				Offer o1 = offerdao.create(v, b1, 10, 12);
+				ShoppingCart o1 = offerdao.create(v, b1, 10, 12);
 				
 				session.getTransaction().commit();
 			}
