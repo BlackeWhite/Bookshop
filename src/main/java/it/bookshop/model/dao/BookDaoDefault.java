@@ -19,11 +19,13 @@ public class BookDaoDefault extends DefaultDao implements BookDao{
 	}
 	
 	@Override
-	public Book findByIsbn(String isbn) {
-		return this.getSession().createQuery("FROM Book b WHERE b.isbn = :isbn", Book.class).setParameter("isbn", isbn).getSingleResult();
+	public Book findById(Long bookId) {
+		return this.getSession().createQuery("FROM Book b WHERE b.id = :id", Book.class)
+				.setParameter("id", bookId).getSingleResult();
 	}
 	
 	public Book findByTitle(String title) {
+		//TODO Wrong implementation
 		return this.getSession().createQuery("FROM Book b WHERE b.title = :title", Book.class).setParameter("title", title).getSingleResult();
 	}
 	
