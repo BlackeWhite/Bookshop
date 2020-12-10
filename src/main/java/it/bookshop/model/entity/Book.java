@@ -7,6 +7,8 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Column; 
 import javax.persistence.Table;
 
@@ -14,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.ManyToMany;
 import javax.persistence.CascadeType;
 
@@ -23,24 +26,34 @@ public class Book implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
+	private long id;
 	private String isbn;
 	private String title;
-	private Date publish;
+	private int copies; //Available copies
+	private double price;
+	private Date publish; 
 	private int pages;
 	private String summary; //short synthesis for book preview
 	private String cover; //file name of cover image
+	private User seller; //Seller of the book
 	private Set<Author> authors = new HashSet<Author>();
 	private Set<Genre> genres = new HashSet<Genre>();
-	private Set<Purchase> purchases = new HashSet<Purchase>();
+	private Set<BookOrder> orders = new HashSet<BookOrder>();
 	private Set<Offer> offers = new HashSet<Offer>();
 	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
+	public Long getId() {
+		return this.id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 			
-	@Id
 	@Column(name = "ISBN")
 	public String getIsbn() {
 		return this.isbn;
 	}
-	
 	public void setIsbn(String isbn) {
 		this.isbn = isbn;
 	}
@@ -49,16 +62,30 @@ public class Book implements Serializable{
 	public String getTitle() {
 		return this.title;
 	}
-	
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	
+	@Column(name = "PRICE")
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	
+	@Column(name = "COPIES")
+	public int getCopies() {
+		return copies;
+	}
+	public void setCopies(int copies) {
+		this.copies = copies;
 	}
 	
 	@Column(name = "PUBLISH")
 	public Date getPubblish() {
 		return this.publish;
 	}
-	
 	public void setPubblish(Date publishs) {
 		this.publish = publishs;
 	}
@@ -67,7 +94,6 @@ public class Book implements Serializable{
 	public int getPages() {
 		return this.pages;
 	}
-	
 	public void setPages(int num_of_pages) {
 		this.pages = num_of_pages;
 	}
@@ -76,7 +102,6 @@ public class Book implements Serializable{
 	public String getSummary() {
 		return this.summary;
 	}
-	
 	public void setSummary(String summary) {
 		this.summary = summary;
 	}
@@ -85,7 +110,6 @@ public class Book implements Serializable{
 	public String getCover() {
 		return this.cover;
 	}
-	
 	public void setCover(String cover) {
 		this.cover = cover;
 	}
@@ -93,6 +117,17 @@ public class Book implements Serializable{
 	/*
 	 * relations
 	 */
+	
+	//Seller
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="SELLER_ID", referencedColumnName = "USER_ID")
+	public User getSeller() {
+		return seller;
+	}
+	public void setSeller(User seller) {
+		this.seller = seller;
+	}
+	
 	//author
 	@ManyToMany(cascade = { CascadeType.DETACH,
 			CascadeType.MERGE,
@@ -107,12 +142,10 @@ public class Book implements Serializable{
 	public void setAuthors(Set<Author> authors) {
 		this.authors = authors;
 	}
-	
 	public void addAuthors(Author a) {
 		this.authors.add(a);
 		a.getBooks().add(this); // NB nota che non usiamo l'utility method addInstrument
 	}
-	
 	public void removeAuthors(Author a) {
 		this.authors.remove(a);
 		a.getBooks().remove(this);
@@ -132,12 +165,10 @@ public class Book implements Serializable{
 	public void setGenres(Set<Genre> genres) {
 		this.genres = genres;
 	}
-	
 	public void addGenres(Genre g) {
 		this.genres.add(g);
 		g.getBooks().add(this); // NB nota che non usiamo l'utility method addInstrument
 	}
-	
 	public void removeGenres(Genre g) {
 		this.genres.remove(g);
 		g.getBooks().remove(this);
@@ -149,11 +180,11 @@ public class Book implements Serializable{
 							CascadeType.REFRESH,
 							CascadeType.PERSIST },
 			mappedBy="book")	
-	public Set<Purchase> getPurchases() {
-		return this.purchases;
+	public Set<BookOrder> getOrders() {
+		return this.orders;
 	}
-	public void setPurchases(Set<Purchase> purchases) {
-		this.purchases = purchases;
+	public void setOrders(Set<BookOrder> orders) {
+		this.orders = orders;
 	}
 	
 	//sellers
@@ -165,7 +196,6 @@ public class Book implements Serializable{
 	public Set<Offer> getOffers() {
 		return this.offers;
 	}
-	
 	public void setOffers(Set<Offer> offers) {
 		this.offers = offers;
 	}
