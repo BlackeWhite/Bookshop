@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Session;
 
 import it.bookshop.model.entity.Book;
+import it.bookshop.model.entity.User;
 
 public interface BookDao {
 	Session getSession();
@@ -15,7 +16,7 @@ public interface BookDao {
 	
 	Book findById(Long bookId);
 	Book findByTitle(String title);
-	Book create(String isbn,String title, Date publish_date, int num_of_pages, String summary, String cover);
+	Book create(String isbn,String title, Date publish_date, int copies, double price, User seller, int pages, String summary, String cover);
 	Book update(Book book);
 	void delete(Book book);
 }

@@ -4,12 +4,14 @@ import java.sql.Date;
 import java.util.List;
 
 import it.bookshop.model.entity.Book;
+import it.bookshop.model.entity.User;
 
 public interface BookService {
-	Book findByIsbn(String isbn);
+	Book findById(Long bookId);
 	List<Book> findAll();
-	Book create(String Name_author,String Surname_Author,String isbn, String title, Date publish_date, int num_of_pages, String summary, String cover,String genre);
+	Book create(String Name_author,String Surname_Author,String isbn, String title, 
+				Date publish_date, int copies, double price, User seller, int pages, String summary, String cover, String genre);
 	Book update(Book book);
 	void delete(Book book);
-	void delete(String isbn);
+	void delete(Long bookId);
 };

@@ -16,7 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.CascadeType;
@@ -41,6 +40,7 @@ public class Book implements Serializable{
 	private Set<Genre> genres = new HashSet<Genre>();
 	private Set<BookOrder> orders = new HashSet<BookOrder>();
 	
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	public Long getId() {

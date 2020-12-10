@@ -11,6 +11,7 @@ import it.bookshop.model.dao.ShoppingCartDao;
 import it.bookshop.model.dao.UserDetailsDao;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.ShoppingCart;
+import it.bookshop.model.entity.ShoppingCartId;
 import it.bookshop.model.entity.User;
 
 @Transactional
@@ -22,34 +23,25 @@ public class ShoppingCartServiceDefault implements ShoppingCartService{
 	private BookDao bookRepository;
 	
 	@Override
-	public ShoppingCart findById(Long sellerId, String bookIsbn) {
-		return shoppingCartRepository.findById(sellerId, bookIsbn);
-	}
-
-	@Override
-	public List<ShoppingCart> findSellerOffers(Long sellerId) {
-		return shoppingCartRepository.findSellerOffers(sellerId);
+	public ShoppingCart findById(ShoppingCartId id) {
+		return shoppingCartRepository.findById(id);
 	}
 	
 	@Override
-	public List<ShoppingCart> findBookOffers(String bookIsbn) {
-		return shoppingCartRepository.findBookOffers(bookIsbn);
+	public ShoppingCart findById(Long userId, Long bookId) {
+		ShoppingCartId id = new ShoppingCartId(userId, bookId);
+		return shoppingCartRepository.findById(id);
 	}
 
 	@Override
-	public List<ShoppingCart> findBookOffersByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ShoppingCart> findUserShoppingCart(Long userId) {
+		return shoppingCartRepository.findUserShoppingCart(userId);
 	}
+	
 
 	@Override
-	public List<ShoppingCart> findAll() {
-		return shoppingCartRepository.findAll();
-	}
-
-	@Override
-	public ShoppingCart create(User seller, Book book, int copies, double price) {
-		return shoppingCartRepository.create(seller, book, copies, price);
+	public ShoppingCart create(User seller, Book book, int copies) {
+		return shoppingCartRepository.create(seller, book, copies);
 	}
 	
 	@Override
@@ -62,6 +54,22 @@ public class ShoppingCartServiceDefault implements ShoppingCartService{
 	@Override
 	public ShoppingCart update(ShoppingCart cart) {
 		return shoppingCartRepository.update(cart);
+	}
+	
+	@Override
+	public void removeBook(ShoppingCart cart) {
+		shoppingCartRepository.removeBook(cart);
+	}
+
+	@Override
+	public void removeBook(Long userId, Long bookId) {
+		ShoppingCart c = findById(userId, bookId);
+		shoppingCartRepository.removeBook(c);
+	}
+
+	@Override
+	public void emptyUserCart(Long userId) {
+		shoppingCartRepository.emptyUserCart(userId);
 	}
 
 
@@ -83,6 +91,5 @@ public class ShoppingCartServiceDefault implements ShoppingCartService{
 	public void setBookRepository(BookDao bookRepository) {
 		this.bookRepository = bookRepository;
 	}
-
 
 }

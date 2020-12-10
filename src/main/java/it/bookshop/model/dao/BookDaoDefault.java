@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.bookshop.model.entity.Book;
+import it.bookshop.model.entity.User;
 
 
 @Transactional
@@ -30,12 +31,15 @@ public class BookDaoDefault extends DefaultDao implements BookDao{
 	}
 	
 	@Override
-	public Book create(String isbn,String title, Date publish_date, int num_of_pages, String summary, String cover) {
+	public Book create(String isbn,String title, Date publish_date, int copies, double price, User seller, int pages, String summary, String cover) {
 		Book b = new Book();
 		b.setIsbn(isbn);
 		b.setTitle(title);
 		b.setPubblish(publish_date);
-		b.setPages(num_of_pages);
+		b.setCopies(copies);
+		b.setPrice(price);
+		b.setSeller(seller);
+		b.setPages(pages);
 		b.setSummary(summary);
 		b.setCover(cover);
 		getSession().save(b);

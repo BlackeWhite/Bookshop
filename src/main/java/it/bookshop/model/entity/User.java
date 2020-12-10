@@ -1,6 +1,5 @@
 package it.bookshop.model.entity;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
