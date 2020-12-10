@@ -33,9 +33,8 @@ public class User implements Serializable{
 	private String email;
 	private boolean enabled;
 	private Set<Role> roles = new HashSet<Role>();
-	private Set<Purchase> sales = new HashSet<Purchase>(); //Reserved for seller side
-	private Set<Offer> offers = new HashSet<Offer>(); //Reserved for seller side
-	private Set<Purchase> purchases = new HashSet<Purchase>();
+	private Set<Order> orders = new HashSet<Order>();
+	private Set<Book> books = new HashSet<Book>();
 
     @Embedded
     private PersonalData personalData;
@@ -108,33 +107,18 @@ public class User implements Serializable{
 		}
 		
 		this.roles.add(role);
-	}
-	
-	@OneToMany(cascade = { CascadeType.DETACH,
-				CascadeType.MERGE,
-				CascadeType.REFRESH,
-				CascadeType.PERSIST,
-				CascadeType.REMOVE},
-				mappedBy="buyer")
-	public Set<Purchase> getPurchases() {
-		return purchases;
-	}
-	public void setPurchases(Set<Purchase> purchases) {
-		this.purchases = purchases;
-	}
-
-	
+	}	
 	
 	@OneToMany(cascade = { CascadeType.DETACH,
 				CascadeType.MERGE,
 				CascadeType.REFRESH,
 				CascadeType.PERSIST,},
-				mappedBy="seller")
-	public Set<Purchase> getSales() {
-		return sales;
+				mappedBy="buyer")
+	public Set<Order> getOrders() {
+		return orders;
 	}
-	public void setSales(Set<Purchase> sales) {
-		this.sales = sales;
+	public void setOrders(Set<Order> orders) {
+		this.orders = orders;
 	}
 
 	
@@ -144,11 +128,11 @@ public class User implements Serializable{
 				CascadeType.PERSIST,
 				CascadeType.REMOVE},
 				mappedBy="seller")
-	public Set<Offer> getOffers() {
-		return offers;
+	public Set<Book> getBooks() {
+		return books;
 	}
-	public void setOffers(Set<Offer> offers) {
-		this.offers = offers;
+	public void setBooks(Set<Book> books) {
+		this.books = books;
 	}
 
 	

@@ -18,6 +18,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.CascadeType;
 
 @Entity
@@ -119,7 +120,7 @@ public class Book implements Serializable{
 	 */
 	
 	//Seller
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="SELLER_ID", referencedColumnName = "USER_ID")
 	public User getSeller() {
 		return seller;
@@ -174,7 +175,7 @@ public class Book implements Serializable{
 		g.getBooks().remove(this);
 	}
 	
-	//buyers
+	//orders
 	@OneToMany(cascade = { CascadeType.DETACH,
 							CascadeType.MERGE,
 							CascadeType.REFRESH,
@@ -187,17 +188,5 @@ public class Book implements Serializable{
 		this.orders = orders;
 	}
 	
-	//sellers
-	@OneToMany(cascade = { CascadeType.DETACH,
-							CascadeType.MERGE,
-							CascadeType.REFRESH,
-							CascadeType.PERSIST },
-			mappedBy="book")
-	public Set<Offer> getOffers() {
-		return this.offers;
-	}
-	public void setOffers(Set<Offer> offers) {
-		this.offers = offers;
-	}
 	
 }
