@@ -1,6 +1,7 @@
 package it.bookshop.services;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.bookshop.model.dao.BookDao;
+import it.bookshop.model.dao.BookOrderDao;
 import it.bookshop.model.dao.OrderDao;
-import it.bookshop.model.dao.UserDetailsDao;
+import it.bookshop.model.dao.ShoppingCartDao;
 import it.bookshop.model.entity.Book;
+import it.bookshop.model.entity.BookOrder;
 import it.bookshop.model.entity.Order;
+import it.bookshop.model.entity.ShoppingCart;
 import it.bookshop.model.entity.User;
 
 @Transactional
@@ -20,25 +23,45 @@ import it.bookshop.model.entity.User;
 public class OrderServiceDefault implements OrderService {
 
 	private OrderDao orderRepository;
-	private BookDao bookRepository;
-	private UserDetailsDao userRepository;
+	private BookOrderDao bookOrderRepository;
+	private ShoppingCartDao shoppingCartRepository;
 	
 	@Override
-	public Order findById(Long buyerId, Long sellerId, String bookIsbn, Date date) {
-		return orderRepository.findById(buyerId, sellerId, bookIsbn, date);
+	public Order findById(Long id) {
+		return orderRepository.findById(id);
 	}
 
 	@Override
-	public Order create(User buyer, User seller, Book book, int copies, double total_price,Date date) {
-		return orderRepository.create(buyer, seller, book, copies, total_price,date);
+	public Order create(User buyer, double total_expense) {
+		Date date = new Date(System.currentTimeMillis());
+		return orderRepository.create(buyer, total_expense, date);
 	}
 	
 	@Override
-	public Order create(Long buyerId, Long sellerId, String bookIsbn, int copies, double total_price,Date date) { 
-		User seller = userRepository.findUserById(sellerId);
-		User buyer = userRepository.findUserById(buyerId);
-		Book book = bookRepository.findByIsbn(bookIsbn);
-		return orderRepository.create(buyer, seller, book, copies, total_price,date);
+	public Order createFromDirectPurchase(User buyer, Book book, int copies) {
+		Date date = new Date(System.currentTimeMillis());
+		double total_expense = book.getPrice() * copies;
+		Order o = orderRepository.create(buyer, total_expense, date);
+		bookOrderRepository.create(o, book, copies);
+		//Should add the created BookOrder entity to o and update it?
+		return o;
+	}
+	
+	@Override
+	public Order createFromShoppingCart(User user) {
+		Date date = new Date(System.currentTimeMillis());
+		List<ShoppingCart> cart = shoppingCartRepository.findUserShoppingCart(user.getUserID());
+		double total_expense = 0;
+		List<BookOrder> books = new ArrayList<BookOrder>();
+		for(ShoppingCart c : cart) {
+			BookOrder b = new BookOrder();
+			b.setBook(c.getBook());
+			b.setCopies(c.getCopies());
+			b.setPrice(c.getBook().getPrice());
+			books.add(b);
+			total_expense = c.getCopies() * c.getBook().getPrice();
+			}
+		return orderRepository.create(user, total_expense, date, books);
 	}
 
 	@Override
@@ -61,26 +84,13 @@ public class OrderServiceDefault implements OrderService {
 	}
 	
 	@Override
-	public List<Order> findBuyerPurchases(Long buyerId) {
-		return orderRepository.findBuyerPurchases(buyerId);
+	public List<Order> findUserOrders(Long buyerId) {
+		return orderRepository.findUserOrders(buyerId);
 	}
 	
 	@Override
-	public List<Order> findBuyerPurchasesMadeAfter(Long buyerId, Date date) {
-		List<Order> all = orderRepository.findBuyerPurchases(buyerId);
-		List<Order> after = all.stream()
-				.filter(p -> p.getDate().after(date)).collect(Collectors.toList());
-		return after;
-	}
-
-	@Override
-	public List<Order> findSellerSales(Long sellerId) {
-		return orderRepository.findSellerSales(sellerId);
-	}
-	
-	@Override
-	public List<Order> findSellerSalesMadeAfter(Long sellerId, Date date) {
-		List<Order> all = orderRepository.findSellerSales(sellerId);
+	public List<Order> findUserOrdersMadeAfter(Long buyerId, Date date) {
+		List<Order> all = orderRepository.findUserOrders(buyerId);
 		List<Order> after = all.stream()
 				.filter(p -> p.getDate().after(date)).collect(Collectors.toList());
 		return after;
@@ -97,13 +107,13 @@ public class OrderServiceDefault implements OrderService {
 	}
 	
 	@Autowired
-	public void setBookService(BookDao bookRepository) {
-		this.bookRepository = bookRepository;
+	public void setBookOrderRepository(BookOrderDao bookOrderRepository) {
+		this.bookOrderRepository = bookOrderRepository;
 	}
 
 	@Autowired
-	public void setUserService(UserDetailsDao userRepository) {
-		this.userRepository = userRepository;
+	public void setShoppingCartRepository(ShoppingCartDao shoppingCartRepository) {
+		this.shoppingCartRepository = shoppingCartRepository;
 	}
 
 }

@@ -1,12 +1,14 @@
 package it.bookshop.model.dao;
 
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.bookshop.model.entity.Book;
+import it.bookshop.model.entity.BookOrder;
 import it.bookshop.model.entity.Order;
 import it.bookshop.model.entity.User;
 
@@ -21,14 +23,23 @@ public class OrderDaoDefault extends DefaultDao implements OrderDao {
 	}
 
 	@Override
-	public Order create(User buyer, User seller, Book book, int copies, double total_price,Date date) {
+	public Order create(User buyer, double total_expense, Date date) {
 		Order p = new Order();
-		p.setId(id);
 		p.setBuyer(buyer);
-		p.setSeller(seller);
-		p.setBook(book);
-		p.setCopies(copies);
-		p.setTotal_price(total_price);
+		p.setTotal_expense(total_expense);
+		p.setDate(date);
+		getSession().save(p);
+		return p;
+	}
+	
+	@Override
+	public Order create(User buyer, double total_expense, Date date, List<BookOrder> books) {
+		Order p = new Order();
+		p.setBuyer(buyer);
+		p.setTotal_expense(total_expense);
+		p.setDate(date);
+		Set<BookOrder> s = new HashSet<BookOrder>(books);
+		p.setBooks(s);
 		getSession().save(p);
 		return p;
 	}
@@ -49,15 +60,10 @@ public class OrderDaoDefault extends DefaultDao implements OrderDao {
 	}
 
 	@Override
-	public List<Order> findBuyerPurchases(Long buyerId) {
+	public List<Order> findUserOrders(Long buyerId) {
 		return getSession().createQuery("FROM Order o WHERE o.buyer = :id", Order.class)
 				.setParameter("id", buyerId).getResultList();
 	}
 
-	@Override
-	public List<Order> findSellerSales(Long sellerId) {
-		return getSession().createQuery("FROM Order o WHERE o.seller = :id", Order.class)
-				.setParameter("id", sellerId).getResultList();
-	}
 
 }

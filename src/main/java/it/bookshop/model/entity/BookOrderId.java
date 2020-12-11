@@ -15,6 +15,7 @@ public class BookOrderId implements Serializable {
 	private Long orderId;
 	private Long bookId;
 	
+	@SuppressWarnings("unused")
 	private BookOrderId() {}
 
 	public BookOrderId(Long orderId, Long bookId) {

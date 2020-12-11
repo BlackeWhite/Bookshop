@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import it.bookshop.model.entity.Book;
+import it.bookshop.model.entity.BookOrder;
 import it.bookshop.model.entity.Order;
 import it.bookshop.model.entity.User;
 
@@ -15,10 +15,10 @@ public interface OrderDao {
 	public void setSession(Session session);
 	
 	public Order findById(Long id);
-	public Order create(User buyer, User seller, Book book, int copies, double total_price,Date date);
+	public Order create(User buyer, double total_expense, Date date);
+	public Order create(User buyer, double total_expense, Date date, List<BookOrder> books);
 	public Order update(Order order);
 	public List<Order> findAll();
-	public List<Order> findBuyerPurchases(Long buyerId);
-	public List<Order> findSellerSales(Long sellerId);
+	public List<Order> findUserOrders(Long buyerId);
 	public void delete(Order order);
 }

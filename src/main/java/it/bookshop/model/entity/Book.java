@@ -38,7 +38,7 @@ public class Book implements Serializable{
 	private User seller; //Seller of the book
 	private Set<Author> authors = new HashSet<Author>();
 	private Set<Genre> genres = new HashSet<Genre>();
-	private Set<BookOrder> orders = new HashSet<BookOrder>();
+	private Set<BookOrder> orders = new HashSet<BookOrder>(); //All orders with one ore multiple copies of this book
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,6 @@
 package it.bookshop.model.entity;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -16,6 +17,8 @@ public class BookOrder {
 	private BookOrderId id;
 	private Order order;
 	private Book book;
+	private int copies;
+	private double price;
 	
 	@EmbeddedId
 	public BookOrderId getId() {
@@ -44,4 +47,21 @@ public class BookOrder {
 	public void setBook(Book book) {
 		this.book = book;
 	}
+	
+	@Column(name="COPIES")
+	public int getCopies() {
+		return copies;
+	}
+	public void setCopies(int copies) {
+		this.copies = copies;
+	}
+	
+	@Column(name = "PRICE")
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	
 }

@@ -4,17 +4,16 @@ import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "ORDERS")
@@ -62,6 +61,19 @@ public class Order {
 	}
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	
+	@OneToMany(cascade = { CascadeType.DETACH,
+			CascadeType.MERGE,
+			CascadeType.REFRESH,
+			CascadeType.PERSIST,
+			CascadeType.REMOVE},
+			mappedBy="order")
+	public Set<BookOrder> getBooks() {
+		return books;
+	}
+	public void setBooks(Set<BookOrder> books) {
+		this.books = books;
 	}
 	
 }
