@@ -50,12 +50,7 @@ public class WebConfig implements WebMvcConfigurer {
 	//Declare our static resources. I added cache to the java config but it's not required.
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/css/**").addResourceLocations("/WEB-INF/css/")
-				.setCachePeriod(31556926);
-		registry.addResourceHandler("/media/**").addResourceLocations("/WEB-INF/media/")
-		.setCachePeriod(31556926);
-		registry.addResourceHandler("/js/**").addResourceLocations("/WEB-INF/js/")
-		.setCachePeriod(31556926);
+		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
 
 	@Bean 
