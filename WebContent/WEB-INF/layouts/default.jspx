@@ -39,7 +39,7 @@
 <link rel="stylesheet" type="text/css" media="screen" href="${licknav.min}" />
 <c:url value="/resources/css/themify-icons.css" var="themify-icon" />
 <link rel="stylesheet" type="text/css" media="screen" href="${themify-icon}" />
-<title>Benvenuto/a!</title>
+<title>Bookshop</title>
 </head>
 <body>
 <body>
