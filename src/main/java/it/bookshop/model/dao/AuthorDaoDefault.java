@@ -3,6 +3,8 @@ package it.bookshop.model.dao;
 import java.sql.Date;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,7 +61,12 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 
 	@Override
 	public Author findByNameAndSurname(String Name, String Surname) {
-		return this.getSession().createQuery("FROM Author a WHERE a.name = :name and a.surname = :surname", Author.class).setParameter("name", Name).setParameter("surname", Surname).getSingleResult();
+		try {
+			return this.getSession().createQuery("FROM Author a WHERE a.name = :name and a.surname = :surname", Author.class).setParameter("name", Name).setParameter("surname", Surname).getSingleResult();
+		}
+		catch(NoResultException e) {
+			return null;
+		}
 	}
 
 
