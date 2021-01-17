@@ -64,9 +64,10 @@ public class BookServiceDefault implements BookService {
 		this.genreRepository = genreRepository;
 	}
 
-	@Override
+	@Override  
 	public Book create(String Name_author, String Surname_Author, String isbn,String title, 
 			Date publish_date, int copies, double price, User seller, int pages, String summary, String cover, String genre) {
+		// da rivedere 
 		Book b1 = bookRepository.create(isbn, title, publish_date, copies, price, seller, pages, summary, cover);
 		Author a1 = authorRepository.findByNameAndSurname(Name_author, Surname_Author);
 		if (a1 != null) {

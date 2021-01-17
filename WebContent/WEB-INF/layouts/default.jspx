@@ -41,11 +41,11 @@
 <link rel="stylesheet" type="text/css" media="screen" href="${themify-icon}" />
 <title>Bookshop</title>
 </head>
-<body>
-<body>
+<body class="js">
+
 	<tiles:insertAttribute name="header" ignore="false" />
 	<tiles:insertAttribute name="body" />
 	<tiles:insertAttribute name="footer" ignore="false" />
-</body>
+
 </body>
 </html>
