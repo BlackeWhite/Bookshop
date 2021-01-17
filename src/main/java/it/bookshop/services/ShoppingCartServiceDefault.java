@@ -15,7 +15,7 @@ import it.bookshop.model.entity.ShoppingCartId;
 import it.bookshop.model.entity.User;
 
 @Transactional
-@Service("offerService")
+@Service("shoppingCartService")
 public class ShoppingCartServiceDefault implements ShoppingCartService{
 
 	private ShoppingCartDao shoppingCartRepository;
