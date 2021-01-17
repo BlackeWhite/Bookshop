@@ -149,9 +149,8 @@
 													<li><a href="#">Sconti<span class="new">Sale</span></a></li>
 													<li><a href="#">Acquisti<i class="ti-angle-down"></i></a>
 														<ul class="dropdown">
-															<li><a href="shop-grid.html">Shop Grid</a></li>
-															<li><a href="cart.html">Cart</a></li>
-															<li><a href="checkout.html">Checkout</a></li>
+															<li><a href="cart.html">Carrello</a></li>
+															<li><a href="checkout.html">Procedi all'acquisto</a></li>
 														</ul>
 													</li>							
 													<li><a href="contact.html">Contattaci</a></li>
