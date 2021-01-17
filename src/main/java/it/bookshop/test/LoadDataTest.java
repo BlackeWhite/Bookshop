@@ -76,12 +76,12 @@ public class LoadDataTest {
 				session.beginTransaction();
 				
                 // Create a book, find his author, link the book to the author
-				Book b1 = bookdao.create("SE9788804492X948","La coscienza di Zeno", date, 800, "Sinossi", "cover.jpg");
+				//Book b1 = bookdao.create("SE9788804492X948","La coscienza di Zeno", date, 800, "Sinossi", "cover.jpg");
 				Author a3 = authorDao.findByNameAndSurname("Italo", "Svevo");
-				a3.addBooks(b1);
+				//a3.addBooks(b1);
 				// Create a genre, link the book b1 to the genre
 				Genre g1 = genredao.create("Thriller");
-				g1.addBooks(b1);
+			//	g1.addBooks(b1);
 				
 				session.getTransaction().commit();
 				
@@ -104,9 +104,9 @@ public class LoadDataTest {
 				session.beginTransaction();
 				
 				// Buyer make a purchase 
-				Order p1 = orderdao.create(c,v, b1, 1,12,date);
+				//Order p1 = orderdao.create(c,v, b1, 1,12,date);
 				// Seller offers -sells- a book 
-				ShoppingCart o1 = offerdao.create(v, b1, 10, 12);
+				//ShoppingCart o1 = offerdao.create(v, b1, 10, 12);
 				
 				session.getTransaction().commit();
 			}

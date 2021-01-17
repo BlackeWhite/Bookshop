@@ -149,9 +149,16 @@ public class WebConfig implements WebMvcConfigurer {
 		return webContentInterceptor;
 	}
 
+	@Override
+	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+		configurer.enable();
+	}
+	
+	
+	/*
 // da capire a cosa servono 
 	// <=> <mvc:view-controller .../>
-	/*@Override
+	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		// mappa la URL /X nella vista "Y" (funziona senza un controller, ma cosi` la vista non riceve un contesto)
 		//registry.addViewController("X").setViewName("Y");
@@ -159,7 +166,7 @@ public class WebConfig implements WebMvcConfigurer {
 //        registry.addViewController("/login").setViewName("login");
 
 //        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
-		registry.addRedirectViewController("/", "/singers/list");
+		registry.addRedirectViewController("/", "/home/");
 		registry.addRedirectViewController("/singers/", "/singers/list/");
 	} */
 }
