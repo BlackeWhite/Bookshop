@@ -83,11 +83,11 @@ public class Book implements Serializable{
 	}
 	
 	@Column(name = "PUBLISH")
-	public Date getPubblish() {
+	public Date getPublish() {
 		return this.publish;
 	}
-	public void setPubblish(Date publishs) {
-		this.publish = publishs;
+	public void setPublish(Date publish) {
+		this.publish = publish;
 	}
 	
 	@Column(name = "PAGES")
@@ -179,7 +179,8 @@ public class Book implements Serializable{
 	}
 	
 	//orders
-	@OneToMany(cascade = { CascadeType.DETACH,
+	@OneToMany(fetch = FetchType.EAGER,
+			cascade = { CascadeType.DETACH,
 							CascadeType.MERGE,
 							CascadeType.REFRESH,
 							CascadeType.PERSIST },

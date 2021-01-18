@@ -9,8 +9,8 @@
 			<div class="col-12">
 				<div class="bread-inner">
 					<ul class="bread-list">
-						<li><a href="index1.html">Home<i class="ti-arrow-right"></i></a></li>
-						<li class="active"><a href="blog-single.html">Shop Grid</a></li>
+						<li><a href="<c:url value="/" />">Home<i class="ti-arrow-right"></i></a></li>
+						<li class="active"><a href="blog-single.html">Ricerca Avanzata</a></li>
 					</ul>
 				</div>
 			</div>
@@ -29,13 +29,9 @@
 					<div class="single-widget category">
 						<h3 class="title">Generi</h3>
 						<ul class="categor-list">
-							<li><a href="#">Avventura</a></li>
-							<li><a href="#">Giallo</a></li>
-							<li><a href="#">Fantasy</a></li>
-							<li><a href="#">Divulgativo</a></li>
-							<li><a href="#">Biografia</a></li>
-							<li><a href="#">Fantascienza</a></li>
-							<li><a href="#">Fumetto</a></li>
+							<c:forEach items="${genres}" var="g">
+							<li><a href="<c:url value="/advanced_search?genre=${g.name}" />">${g.name}</a></li>
+							</c:forEach>
 						</ul>
 					</div>
 					<!--/ End Single Widget -->
@@ -68,66 +64,22 @@
 					<!--/ End Shop By Price -->
 					<!-- Single Widget -->
 					<div class="single-widget recent-post">
-						<h3 class="title">Recent post</h3>
+						<h3 class="title">Libri Popolari</h3>
 						<!-- Single Post -->
-						<div class="single-post first">
-							<div class="image">
-								<img src="https://via.placeholder.com/75x75" alt="#">
+						<c:forEach items="${best_sellers}" var="bs">
+							<div class="single-post first">
+								<div class="image">
+									<img src="<c:url value="/resources/img/${bs.cover}"/>" alt="#">
+								</div>
+								<div class="content">
+									<h5>
+										<a href="#">${bs.title}</a>
+									</h5>
+									<p class="price">${bs.price} &euro;</p>
+									<p class="price">${bs.publish}</p>
+								</div>
 							</div>
-							<div class="content">
-								<h5>
-									<a href="#">Girls Dress</a>
-								</h5>
-								<p class="price">$99.50</p>
-								<ul class="reviews">
-									<li class="yellow"><i class="ti-star"></i></li>
-									<li class="yellow"><i class="ti-star"></i></li>
-									<li class="yellow"><i class="ti-star"></i></li>
-									<li><i class="ti-star"></i></li>
-									<li><i class="ti-star"></i></li>
-								</ul>
-							</div>
-						</div>
-						<!-- End Single Post -->
-						<!-- Single Post -->
-						<div class="single-post first">
-							<div class="image">
-								<img src="https://via.placeholder.com/75x75" alt="#">
-							</div>
-							<div class="content">
-								<h5>
-									<a href="#">Women Clothings</a>
-								</h5>
-								<p class="price">$99.50</p>
-								<ul class="reviews">
-									<li class="yellow"><i class="ti-star"></i></li>
-									<li class="yellow"><i class="ti-star"></i></li>
-									<li class="yellow"><i class="ti-star"></i></li>
-									<li class="yellow"><i class="ti-star"></i></li>
-									<li><i class="ti-star"></i></li>
-								</ul>
-							</div>
-						</div>
-						<!-- End Single Post -->
-						<!-- Single Post -->
-						<div class="single-post first">
-							<div class="image">
-								<img src="https://via.placeholder.com/75x75" alt="#">
-							</div>
-							<div class="content">
-								<h5>
-									<a href="#">Man Tshirt</a>
-								</h5>
-								<p class="price">$99.50</p>
-								<ul class="reviews">
-									<li class="yellow"><i class="ti-star"></i></li>
-									<li class="yellow"><i class="ti-star"></i></li>
-									<li class="yellow"><i class="ti-star"></i></li>
-									<li class="yellow"><i class="ti-star"></i></li>
-									<li class="yellow"><i class="ti-star"></i></li>
-								</ul>
-							</div>
-						</div>
+						</c:forEach>
 						<!-- End Single Post -->
 					</div>
 					<!--/ End Single Widget -->
@@ -182,9 +134,8 @@
 							<div class="single-product">
 								<div class="product-img">
 									<a href="product-details.html"> <img class="default-img"
-										src="https://via.placeholder.com/550x750" alt="#"> <img
-										class="hover-img" src="https://via.placeholder.com/550x750"
-										alt="#">
+										src="<c:url value="/resources/img/${b.cover}"/>" alt="#"> <img
+										class="hover-img" src="<c:url value="/resources/img/${b.cover}"/>">
 									</a>
 									<div class="button-head">
 										<div class="product-action">
@@ -204,7 +155,7 @@
 										<a href="product-details.html">${b.title}</a>
 									</h3>
 									<div class="product-price">
-										<span>${b.price} &euro</span>
+										<span>${b.price} &euro;</span>
 									</div>
 								</div>
 							</div>

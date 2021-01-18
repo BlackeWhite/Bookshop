@@ -35,7 +35,7 @@ public class BookDaoDefault extends DefaultDao implements BookDao{
 		Book b = new Book();
 		b.setIsbn(isbn);
 		b.setTitle(title);
-		b.setPubblish(publish_date);
+		b.setPublish(publish_date);
 		b.setCopies(copies);
 		b.setPrice(price);
 		b.setSeller(seller);
