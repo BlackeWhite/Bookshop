@@ -1,0 +1,116 @@
+<html xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:spring="http://www.springframework.org/tags">
+
+<jsp:output doctype-root-element="HTML"
+	doctype-system="about:legacy-compat" />
+<jsp:directive.page contentType="text/html;charset=UTF-8" />
+<jsp:directive.page pageEncoding="UTF-8" />
+<head>
+<c:url value="/resources/style.css" var="style" />
+<link rel="stylesheet" type="text/css" media="screen" href="${style}" />
+<c:url value="/resources/css/animate.css" var="animate" />
+<link rel="stylesheet" type="text/css" media="screen" href="${animate}" />
+<c:url value="/resources/css/bootstrap.css" var="bootstrap" />
+<link rel="stylesheet" type="text/css" media="screen"
+	href="${bootstrap}" />
+<c:url value="/resources/css/flex-slider.min.css" var="flex" />
+<link rel="stylesheet" type="text/css" media="screen" href="${flex}" />
+<c:url value="/resources/css/font-awesome.css" var="fontawesome" />
+<link rel="stylesheet" type="text/css" media="screen"
+	href="${fontawesome}" />
+<c:url value="/resources/css/jquery-ui.css" var="jqueryui" />
+<link rel="stylesheet" type="text/css" media="screen" href="${jqueryui}" />
+<c:url value="/resources/css/jquery.fancybox.min.css"
+	var="jqueryfancybox" />
+<link rel="stylesheet" type="text/css" media="screen"
+	href="${jqueryfancybox}" />
+<c:url value="/resources/css/magnific-popup.css" var="magnificpop" />
+<link rel="stylesheet" type="text/css" media="screen"
+	href="${magnificpop}" />
+<c:url value="/resources/css/magnific-popup.min.css" var="magnificpopup" />
+<link rel="stylesheet" type="text/css" media="screen"
+	href="${magnificpopup}" />
+<c:url value="/resources/css/nice-select.css" var="niceselect" />
+<link rel="stylesheet" type="text/css" media="screen"
+	href="${niceselect}" />
+<c:url value="/resources/css/niceselect.css" var="nicesel" />
+<link rel="stylesheet" type="text/css" media="screen" href="${nicesel}" />
+<c:url value="/resources/css/owl-carousel.css" var="owlcarousel" />
+<link rel="stylesheet" type="text/css" media="screen"
+	href="${owlcarousel}" />
+<c:url value="/resources/css/reset.css" var="reset" />
+<link rel="stylesheet" type="text/css" media="screen" href="${reset}" />
+<c:url value="/resources/css/responsive.css" var="responsive" />
+<link rel="stylesheet" type="text/css" media="screen"
+	href="${responsive}" />
+<c:url value="/resources/css/slicknav.min.css" var="licknavmin" />
+<link rel="stylesheet" type="text/css" media="screen"
+	href="${licknavmin}" />
+<c:url value="/resources/css/themify-icons.css" var="themifyicon" />
+<link rel="stylesheet" type="text/css" media="screen"
+	href="${themifyicon}" />
+<title>Bookshop</title>
+</head>
+<body class="js">
+
+	<tiles:insertAttribute name="body" />
+	<!-- Jquery -->
+	<c:url value="/resources/js/jquery.min.js" var="jquerymin" />
+	<script src="${jquerymin}"></script>
+	<c:url value="/resources/js/jquery-migrate-3.0.0.js" var="jquerymigrt" />
+	<script src="${jquerymigrt}"></script>
+	<c:url value="/resources/js/jquery-ui.min.js" var="jqueryui" />
+	<script src="${jqueryui}"></script>
+	<!-- Popper JS -->
+	<c:url value="/resources/js/popper.min.js" var="popper" />
+	<script src="${popper}"></script>
+	<!-- Bootstrap JS -->
+	<c:url value="/resources/js/bootstrap.min.js" var="bootstrap" />
+	<script src="${bootstrap}"></script>
+	<!-- Color JS -->
+	<c:url value="/resources/js/colors.js" var="colorsjs" />
+	<script src="${colorsjs}"></script>
+	<!-- Slicknav JS -->
+	<c:url value="/resources/js/slicknav.min.js" var="slicknavminjs" />
+	<script src="${slicknavminjs}"></script>
+	<!-- Owl Carousel JS -->
+	<c:url value="/resources/js/owl-carousel.js" var="owlcarouseljs" />
+	<script src="${owlcarouseljs}"></script>
+	<!-- Magnific Popup JS -->
+	<c:url value="/resources/js/magnific-popup.js" var="magnificpopupjs" />
+	<script src="${magnificpopupjs}"></script>
+	<!--  Facnybox Min JS -->
+	<c:url value="/resources/js/facnybox.min.js" var="facnybox" />
+	<script src="${facnybox}"></script>
+	<!-- Waypoints JS -->
+	<c:url value="/resources/js/waypoints.min.js" var="waypointsminjs" />
+	<script src="${waypointsminjs}"></script>
+	<!-- Countdown JS -->
+	<c:url value="/resources/js/finalcountdown.min.js" var="countdown" />
+	<script src="${countdown}"></script>
+	<!-- Nice Select JS -->
+	<c:url value="/resources/js/nicesellect.js" var="nicesellect" />
+	<script src="${nicesellect}"></script>
+	<!-- Ytplayer JS -->
+	<c:url value="/resources/js/ytplayer.min.js" var="ytplayer" />
+	<script src="${ytplayer}"></script>
+	<!-- Flex Slider JS -->
+	<c:url value="/resources/js/flex-slider.js" var="flexslider" />
+	<script src="${flexslider}"></script>
+	<!-- ScrollUp JS -->
+	<c:url value="/resources/js/scrollup.js" var="scrollup" />
+	<script src="${scrollup}"></script>
+	<!-- Onepage Nav JS -->
+	<c:url value="/resources/js/onepage-nav.min.js" var="onepage" />
+	<script src="${onepage}"></script>
+	<!-- Easing JS -->
+	<c:url value="/resources/js/easing.js" var="easing" />
+	<script src="${easing}"></script>
+	<!-- Active JS -->
+	<c:url value="/resources/js/active.js" var="active" />
+	<script src="${active}"></script>
+</body>
+</html>

@@ -12,4 +12,7 @@
   <definition extends="default" name="cart">
    <put-attribute name="body" value="/WEB-INF/views/cart.jsp" />
   </definition>
+  <definition extends="default_empty" name="login">
+   <put-attribute name="body" value="/WEB-INF/views/auth/login.jsp" />
+  </definition>
 </tiles-definitions>
