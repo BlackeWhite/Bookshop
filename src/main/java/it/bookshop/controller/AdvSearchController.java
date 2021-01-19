@@ -61,18 +61,18 @@ public class AdvSearchController {
 				publish_date, 4, 40.99, null, 450, "Sauron è tornato a Mordor...", null, "Fantasy");
 		bookService.create("Alessandro", "Manzoni", "8235234631481401", "I promessi sposi", 
 				publish_date, 10, 25.99, null, 370, "Renzo e Lucia ...", null, "Romanzo");
+		
 				
-		Book b = bookService.findById((long) 1);
+		Book b = bookService.findById((long) 4);
 		b.setCover("6.jpg");
 		bookService.update(b);
-		b = bookService.findById((long) 2);
+		b = bookService.findById((long) 5);
 		b.setCover("7.jpg");
 		bookService.update(b);
-		b = bookService.findById((long) 3);
+		b = bookService.findById((long) 6);
 		b.setCover("8.jpg");
 		bookService.update(b);
 		*/
-		
 		
 		List<Book> books;
 		String genre = params.get("genre");

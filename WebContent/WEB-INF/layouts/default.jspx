@@ -84,6 +84,9 @@
 	<!-- Magnific Popup JS -->
 	<c:url value="/resources/js/magnific-popup.js" var="magnificpopupjs" />
 	<script src="${magnificpopupjs}"></script>
+	<!--  Facnybox Min JS -->
+	<c:url value="/resources/js/facnybox.min.js" var="facnybox" />
+	<script src="${facnybox}"></script>
 	<!-- Waypoints JS -->
 	<c:url value="/resources/js/waypoints.min.js" var="waypointsminjs" />
 	<script src="${waypointsminjs}"></script>

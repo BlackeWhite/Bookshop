@@ -118,7 +118,7 @@ public class Author implements Serializable{
                 CascadeType.PERSIST
         }, mappedBy = "authors")
 	public Set<Book> getBooks() {
-		return books;
+		return this.books;
 	}
 	public void setBooks(Set<Book> books) {
 		this.books = books;

@@ -11,7 +11,7 @@
 					<ul class="bread-list">
 						<li><a href="<c:url value="/" />">Home<i
 								class="ti-arrow-right"></i></a></li>
-						<li class="active"><a href="blog-single.html">Ricerca
+						<li class="active"><a href="<c:url value="/advanced_search"/>">Ricerca
 								Avanzata</a></li>
 					</ul>
 				</div>
@@ -32,8 +32,7 @@
 						<h3 class="title">Generi</h3>
 						<ul class="categor-list">
 							<c:forEach items="${genres}" var="g">
-								<li><a
-									href="<c:url value="/advanced_search?genre=${g.name}" />">${g.name}</a></li>
+								<li><a href="<c:url value="/advanced_search?genre=${g.name}"/>">${g.name}</a></li>
 							</c:forEach>
 						</ul>
 					</div>
@@ -43,7 +42,7 @@
 						<h3 class="title">Shop by Price</h3>
 						<div class="price-filter">
 							<div class="price-filter-inner">
-								<div id="slider-range"></div>
+								<div id="slider-range" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"></div>
 								<div class="price_slider_amount">
 									<div class="label-input">
 										<span>Range:</span><input type="text" id="amount" name="price"

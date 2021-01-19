@@ -138,7 +138,7 @@ public class Book implements Serializable{
 			CascadeType.REFRESH,
 			CascadeType.PERSIST })
 	@JoinTable( name = "BOOK_AUTHORS", 
-				joinColumns = @JoinColumn(name = "ISBN", referencedColumnName = "ISBN"),
+				joinColumns = @JoinColumn(name = "BOOK", referencedColumnName = "ID"),
 				inverseJoinColumns = @JoinColumn(name = "AUTHOR", referencedColumnName = "ID") )
 	public Set<Author> getAuthors() {
 		return this.authors;
