@@ -65,7 +65,7 @@ public class Author implements Serializable{
 	
 	@Transient
 	public String getFullName() {
-		return (this.name + this.surname).trim();
+		return (this.name +" "+ this.surname).trim();
 	}
 	
 	@Column(name = "BIRTHDATE")

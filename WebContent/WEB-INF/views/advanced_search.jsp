@@ -90,11 +90,9 @@
 					<div class="single-widget category">
 						<h3 class="title">Autori popolari</h3>
 						<ul class="categor-list">
-							<li><a href="#">Alessandro Manzoni</a></li>
-							<li><a href="#">Italo Svevo</a></li>
-							<li><a href="#">J. R. R. Tolkien</a></li>
-							<li><a href="#">Dante Alighieri</a></li>
-							<li><a href="#">Tom Clancy</a></li>
+							<c:forEach items="${top_authors}" var="a">
+								<li><a href="<c:url value="/advanced_search?authorId=${a.id}" />">${a.fullName}</a></li>
+							</c:forEach>
 						</ul>
 					</div>
 					<!--/ End Single Widget -->
@@ -143,8 +141,10 @@
 							<div class="single-product">
 								<div class="product-img">
 									<a href="product-details.html"> <img class="default-img"
+										style="height: 400px; object-fit: contain"
 										src="<c:url value="/resources/img/${b.cover}"/>" alt="#">
 										<img class="hover-img"
+										style="height: 400px; object-fit: contain"
 										src="<c:url value="/resources/img/${b.cover}"/>">
 									</a>
 									<div class="button-head">
