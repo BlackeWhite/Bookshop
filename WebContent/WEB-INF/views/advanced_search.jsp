@@ -9,8 +9,10 @@
 			<div class="col-12">
 				<div class="bread-inner">
 					<ul class="bread-list">
-						<li><a href="<c:url value="/" />">Home<i class="ti-arrow-right"></i></a></li>
-						<li class="active"><a href="blog-single.html">Ricerca Avanzata</a></li>
+						<li><a href="<c:url value="/" />">Home<i
+								class="ti-arrow-right"></i></a></li>
+						<li class="active"><a href="blog-single.html">Ricerca
+								Avanzata</a></li>
 					</ul>
 				</div>
 			</div>
@@ -30,7 +32,8 @@
 						<h3 class="title">Generi</h3>
 						<ul class="categor-list">
 							<c:forEach items="${genres}" var="g">
-							<li><a href="<c:url value="/advanced_search?genre=${g.name}" />">${g.name}</a></li>
+								<li><a
+									href="<c:url value="/advanced_search?genre=${g.name}" />">${g.name}</a></li>
 							</c:forEach>
 						</ul>
 					</div>
@@ -75,7 +78,7 @@
 									<h5>
 										<a href="#">${bs.title}</a>
 									</h5>
-									<p class="price">${bs.price} &euro;</p>
+									<p class="price">${bs.price}&euro;</p>
 									<p class="price">${bs.publish}</p>
 								</div>
 							</div>
@@ -119,11 +122,17 @@
 									</select>
 								</div>
 							</div>
-							<ul class="view-mode">
-								<li class="active"><a href="shop-grid.html"><i
-										class="fa fa-th-large"></i></a></li>
-								<li><a href="shop-list.html"><i class="fa fa-th-list"></i></a></li>
-							</ul>
+							<div class="search-bar-top">
+								<div class="search-bar">
+									<form>
+										<input name="search" placeholder="Search Products Here....."
+											type="search">
+										<button class="btnn">
+											<i class="ti-search"></i>
+										</button>
+									</form>
+								</div>
+							</div>
 						</div>
 						<!--/ End Shop Top -->
 					</div>
@@ -134,8 +143,9 @@
 							<div class="single-product">
 								<div class="product-img">
 									<a href="product-details.html"> <img class="default-img"
-										src="<c:url value="/resources/img/${b.cover}"/>" alt="#"> <img
-										class="hover-img" src="<c:url value="/resources/img/${b.cover}"/>">
+										src="<c:url value="/resources/img/${b.cover}"/>" alt="#">
+										<img class="hover-img"
+										src="<c:url value="/resources/img/${b.cover}"/>">
 									</a>
 									<div class="button-head">
 										<div class="product-action">

@@ -6,4 +6,7 @@
   <definition extends="default" name="home">
    <put-attribute name="body" value="/WEB-INF/views/home.jsp" />
   </definition>
+  <definition extends="default" name="advanced_search">
+   <put-attribute name="body" value="/WEB-INF/views/advanced_search.jsp" />
+  </definition>
 </tiles-definitions>
