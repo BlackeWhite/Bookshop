@@ -12,6 +12,6 @@
 			value="/WEB-INF/views/footer.jsp" />
 	</definition>
 	<definition name="default_empty"
-		template="/WEB-INF/layouts/default_empty.jpsx">
+		template="/WEB-INF/layouts/default_empty.jspx">
 	</definition>
 </tiles-definitions>

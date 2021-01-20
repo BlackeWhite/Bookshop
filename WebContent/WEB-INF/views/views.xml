@@ -15,4 +15,7 @@
   <definition extends="default_empty" name="login">
    <put-attribute name="body" value="/WEB-INF/views/auth/login.jsp" />
   </definition>
+  <definition extends="default_empty" name="register">
+   <put-attribute name="body" value="/WEB-INF/views/auth/register.jsp" />
+  </definition>
 </tiles-definitions>
