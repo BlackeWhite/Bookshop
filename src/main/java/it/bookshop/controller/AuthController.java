@@ -59,8 +59,6 @@ public class AuthController {
     @PostMapping(value = "/register")
 	public String register(@ModelAttribute("newUser") User user, BindingResult br) {
     	
-    	System.out.println(user.getPersonalData().getName());
-    	System.out.println(user.getPersonalData().getCity());
     	//TODO implementare la validazione e il password confirmation
 		this.userService.create(user);
 		

@@ -62,7 +62,8 @@ public class UserDetailsDaoDefault extends DefaultDao implements UserDetailsDao 
 	public User create(User user) {
 		user.setPassword(encryptPassword(user.getPassword()));
 		user.setEnabled(true);
-		return (User) this.getSession().save(user);
+		this.getSession().save(user);
+		return user;
 	}
 	
 	@Override
