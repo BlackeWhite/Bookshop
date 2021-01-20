@@ -43,25 +43,46 @@ public class AdvSearchController {
 	public String advSearch(@RequestParam(required = false) Map<String,String> params,Locale locale, Model model) {
 		System.out.println("Advanced search Page Requested,  locale = " + locale);
 		
-		/*
+		
 		DateFormat date = new SimpleDateFormat("dd-MM-yyyy");
+		java.util.Date date1 = null;
 		java.util.Date date2 = null;
+		java.util.Date date3 = null;
+		java.util.Date date4 = null;
+		java.util.Date date5 = null;
+		java.util.Date date6 = null;
 		try {
-			date2 = date.parse("21-01-2005");
+			date1 = date.parse("21-01-2005");
+			date2 = date.parse("28-03-2008");
+			date3 = date.parse("21-11-2009");
+			date4 = date.parse("01-01-2012");
+			date5 = date.parse("15-08-2014");
+			date6 = date.parse("21-01-2018");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Date publish_date = new Date(date2.getTime());
+		Date publish_date1 = new Date(date1.getTime());
+		Date publish_date2 = new Date(date2.getTime());
+		Date publish_date3 = new Date(date3.getTime());
+		Date publish_date4 = new Date(date4.getTime());
+		Date publish_date5 = new Date(date5.getTime());
+		Date publish_date6 = new Date(date6.getTime());
 		bookService.deleteAll();
 		
 		bookService.create("Dante", "Alighieri", "838832989113223", "La Divina Commedia", 
-				publish_date, 3, 34, null, 300, "Nel mezzo del cammin...", "6.jpg", "Poema");
+				publish_date1,publish_date1, 3, 34, null, 300, "Nel mezzo del cammin...", "6.jpg", "Poema");
 		bookService.create("J.J.R.", "Tolkien", "746382492401", "Il Signore degli Anelli - Le due torri", 
-				publish_date, 4, 40.99, null, 450, "Sauron è tornato a Mordor...", "7.jpg", "Fantasy");
+				publish_date2, publish_date2, 4, 40.99, null, 450, "Sauron è tornato a Mordor...", "7.jpg", "Fantasy");
 		bookService.create("Alessandro", "Manzoni", "8235234631481401", "I promessi sposi", 
-				publish_date, 10, 25.99, null, 370, "Renzo e Lucia ...", "8.jpg", "Romanzo");
-		*/
+				publish_date3, publish_date3, 10, 25.99, null, 370, "Renzo e Lucia ...", "8.jpg", "Romanzo");
+		bookService.create("Dante", "Alighieri", "838832989113223", "La DivinaTRISTEa", 
+				publish_date4, publish_date4, 3, 34, null, 300, "Nel mezzo del cammin...", "6.jpg", "Poema");
+		bookService.create("J.J.R.", "Tolkien", "746382492401", "Il SignAAAAore degli Anelli - Le due torri", 
+				publish_date5, publish_date5,4, 40.99, null, 450, "Sauron è tornato a Mordor...", "7.jpg", "Fantasy");
+		bookService.create("Alessandro", "Manzoni", "8235234631481401", "I pCAZZromessi sposi", 
+				publish_date6, publish_date6,10, 25.99, null, 370, "Renzo e Lucia ...", "8.jpg", "Romanzo");
+		
 				
 		
 		List<Book> books;

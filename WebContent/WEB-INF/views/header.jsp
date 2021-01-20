@@ -145,7 +145,7 @@
 								<div class="navbar-collapse">
 									<div class="nav-inner">
 										<ul class="nav main-menu menu navbar-nav">
-											<li class="active"><a href="#">Home</a></li>
+											<li class="active"><a href="<c:url value="/"/>">Home</a></li>
 											<li><a href="#">Generi<i class="ti-angle-down"></i></a>
 												<ul class="dropdown">
 												

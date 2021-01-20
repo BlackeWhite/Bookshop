@@ -13,9 +13,10 @@ public interface BookService {
 	List<Genre> getAllGenres();
 	List<Book> findAll();
 	Book create(String Name_author,String Surname_Author,String isbn, String title, 
-				Date publish_date, int copies, double price, User seller, int pages, String summary, String cover, String genre);
+				Date publish_date, Date insert_date, int copies, double price, User seller, int pages, String summary, String cover, String genre);
 	Book update(Book book);
 	void delete(Book book);
 	void delete(Long bookId);
 	void deleteAll();
+	List<Book> findFiveMostRecentBook();
 };

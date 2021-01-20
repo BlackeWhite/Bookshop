@@ -32,6 +32,7 @@ public class Book implements Serializable{
 	private int copies; //Available copies
 	private double price;
 	private Date publish; 
+	private Date insertdata;
 	private int pages;
 	private String summary; //short synthesis for book preview
 	private String cover; //file name of cover image
@@ -82,12 +83,20 @@ public class Book implements Serializable{
 		this.copies = copies;
 	}
 	
-	@Column(name = "PUBLISH")
+	@Column(name = "PUBLISHDATA")
 	public Date getPublish() {
 		return this.publish;
 	}
 	public void setPublish(Date publish) {
 		this.publish = publish;
+	}
+	
+	@Column(name = "INSERTDATA")
+	public Date getInsertData() {
+		return this.insertdata;
+	}
+	public void setInsertData(Date insertdata) {
+		this.insertdata = insertdata;
 	}
 	
 	@Column(name = "PAGES")

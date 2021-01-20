@@ -25,13 +25,14 @@ public class BookDaoDefault extends DefaultDao implements BookDao{
 				.setParameter("id", bookId).getSingleResult();
 	}
 	
+	@Override
 	public Book findByTitle(String title) {
 		//TODO Wrong implementation
 		return this.getSession().createQuery("FROM Book b WHERE b.title = :title", Book.class).setParameter("title", title).getSingleResult();
 	}
 	
 	@Override
-	public Book create(String isbn,String title, Date publish_date, int copies, double price, User seller, int pages, String summary, String cover) {
+	public Book create(String isbn,String title, Date publish_date, Date insert_date, int copies, double price, User seller, int pages, String summary, String cover) {
 		Book b = new Book();
 		b.setIsbn(isbn);
 		b.setTitle(title);
@@ -42,6 +43,7 @@ public class BookDaoDefault extends DefaultDao implements BookDao{
 		b.setPages(pages);
 		b.setSummary(summary);
 		b.setCover(cover);
+		b.setInsertData(insert_date);
 		getSession().save(b);
 		return b;
 	}
@@ -54,6 +56,11 @@ public class BookDaoDefault extends DefaultDao implements BookDao{
 	@Override
 	public void delete(Book book) {
 		this.getSession().delete(book);
+	}
+	
+	@Override
+	public List<Book> findFiveMostRecentBook(){
+		return this.getSession().createNativeQuery("SELECT * FROM books ORDER BY INSERTDATA DESC LIMIT 5", Book.class).getResultList();
 	}
 
 }

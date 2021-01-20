@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
 import it.bookshop.services.BookService;
 
@@ -41,7 +42,10 @@ public class HomeController {
 
 		List<Genre> allGenres = bookService.getAllGenres();
 		
+		List<Book> topFiveNewBooks = bookService.findFiveMostRecentBook();
+		
 		model.addAttribute("allGenres", allGenres); //Da qui sono presi anche i generi della navbar
+		model.addAttribute("topFiveNewBooks", topFiveNewBooks);
 	
 		return "home";
 	}

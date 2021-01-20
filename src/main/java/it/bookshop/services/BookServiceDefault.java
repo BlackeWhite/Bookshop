@@ -81,12 +81,17 @@ public class BookServiceDefault implements BookService {
 	public void setGenreRepository(GenreDao genreRepository) {
 		this.genreRepository = genreRepository;
 	}
+	
+	@Override
+	public List<Book> findFiveMostRecentBook(){
+		return bookRepository.findFiveMostRecentBook();
+	}
 
 	@Override  
 	public Book create(String Name_author, String Surname_Author, String isbn,String title, 
-			Date publish_date, int copies, double price, User seller, int pages, String summary, String cover, String genre) {
+			Date publish_date, Date insert_date, int copies, double price, User seller, int pages, String summary, String cover, String genre) {
 		// da rivedere 
-		Book b1 = bookRepository.create(isbn, title, publish_date, copies, price, seller, pages, summary, cover);
+		Book b1 = bookRepository.create(isbn, title, publish_date, insert_date, copies, price, seller, pages, summary, cover);
 		Author a1 = authorRepository.findByNameAndSurname(Name_author, Surname_Author);
 		if (a1 != null) {
 			a1.addBooks(b1); // ha trovato il libro 

@@ -3,60 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<!-- Start Product Area -->
-<div class="product-area section">
-	<div class="container">
-		<div class="row">
-			<div class="col-12">
-				<div class="section-title">
-					<h2>In offerta</h2>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-12">
-				<div class="product-info">
-					<div class="tab-content" id="myTabContent">
-						<!-- Start Single Tab -->
-						<div class="tab-pane fade show active" id="man" role="tabpanel">
-							<div class="tab-single">
-								<div class="row">
-									<div class="col-xl-3 col-lg-4 col-md-4 col-12">
-										<div class="single-product">
-											<div class="product-img">
-												<a href="product-details.html"> <img class="default-img"
-													src="https://via.placeholder.com/550x750" alt="#"> <img
-													class="hover-img" src="https://via.placeholder.com/550x750"
-													alt="#">
-												</a>
-												<div class="button-head">
-													<div class="product-action-2">
-														<a title="Add to cart" href="#">Add to cart</a>
-													</div>
-												</div>
-											</div>
-											<div class="product-content">
-												<h3>
-													<a href="product-details.html">Women Hot Collection</a>
-												</h3>
-												<div class="product-price">
-													<span>$29.00</span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!--/ End Single Tab -->
-
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- End Product Area -->
 <!-- Start Shop Home List  -->
 <section class="shop-home-list section">
 	<div class="container">
@@ -69,7 +15,7 @@
 						</div>
 					</div>
 				</div>
-				<!-- Start Single List  -->
+				<!-- List 5 most selled books  -->
 				<div class="single-list">
 					<div class="row">
 						<div class="col-lg-6 col-md-6 col-12">
@@ -138,7 +84,8 @@
 						</div>
 					</div>
 				</div>
-				<!-- Start Single List  -->
+				<!-- List 5 most recent books  -->
+				<c:forEach items="${topFiveNewBooks}" var="tFNBooks">
 				<div class="single-list">
 					<div class="row">
 						<div class="col-lg-6 col-md-6 col-12">
@@ -150,13 +97,14 @@
 						<div class="col-lg-6 col-md-6 col-12 no-padding">
 							<div class="content">
 								<h5 class="title">
-									<a href="#">Licity jelly leg flat Sandals</a>
+									<a href="#">${tFNBooks.title}</a>
 								</h5>
-								<p class="price with-discount">$65</p>
+								<p class="price with-discount">${tFNBooks.price}</p>
 							</div>
 						</div>
 					</div>
 				</div>
+				</c:forEach>
 				<!-- End Single List  -->
 				<!-- Start Single List  -->
 				<div class="single-list">
@@ -272,6 +220,62 @@
 	</div>
 </section>
 <!-- End Shop Home List  -->
+
+<!-- Start Product Area -->
+<div class="product-area section">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="section-title">
+					<h2>In offerta</h2>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<div class="product-info">
+					<div class="tab-content" id="myTabContent">
+						<!-- Start Single Tab -->
+						<div class="tab-pane fade show active" id="man" role="tabpanel">
+							<div class="tab-single">
+								<div class="row">
+									<div class="col-xl-3 col-lg-4 col-md-4 col-12">
+										<div class="single-product">
+											<div class="product-img">
+												<a href="product-details.html"> <img class="default-img"
+													src="https://via.placeholder.com/550x750" alt="#"> <img
+													class="hover-img" src="https://via.placeholder.com/550x750"
+													alt="#">
+												</a>
+												<div class="button-head">
+													<div class="product-action-2">
+														<a title="Add to cart" href="#">Add to cart</a>
+													</div>
+												</div>
+											</div>
+											<div class="product-content">
+												<h3>
+													<a href="product-details.html">Women Hot Collection</a>
+												</h3>
+												<div class="product-price">
+													<span>$29.00</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--/ End Single Tab -->
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Product Area -->
+
 
 <!-- Start Cowndown Area -->
 <section class="cown-down">

@@ -16,7 +16,8 @@ public interface BookDao {
 	
 	Book findById(Long bookId);
 	Book findByTitle(String title);
-	Book create(String isbn,String title, Date publish_date, int copies, double price, User seller, int pages, String summary, String cover);
+	Book create(String isbn,String title, Date publish_date, Date insert_date, int copies, double price, User seller, int pages, String summary, String cover);
 	Book update(Book book);
 	void delete(Book book);
+	List<Book> findFiveMostRecentBook();
 }
