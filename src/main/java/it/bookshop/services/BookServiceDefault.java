@@ -30,6 +30,16 @@ public class BookServiceDefault implements BookService {
 	}
 	
 	@Override
+	public 	Book findByName(String name) {
+		return bookRepository.findByTitle(name);
+	}
+	
+	@Override
+	public List<Genre> getAllGenres() {
+		return genreRepository.findAll();
+	}
+	
+	@Override
 	public List<Book> findAll() {
 		return bookRepository.findAll();
 	}	
