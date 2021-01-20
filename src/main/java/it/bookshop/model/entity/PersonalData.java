@@ -43,7 +43,7 @@ public class PersonalData {
     
     @Transient
     public String getFullName() {
-    	return (this.name + this.surname).trim();
+    	return (this.name + " " + this.surname).trim();
     }
     
     public void setBirthdate(Date birthdate) {
@@ -64,7 +64,7 @@ public class PersonalData {
     public void setCity(String city) {
     	this.city = city;
     }
-    public String getCity(String city) {
+    public String getCity() {
     	return city;
     }
     
@@ -78,7 +78,7 @@ public class PersonalData {
     public void setState(String state) {
     	this.state = state;
     }
-    public String getState(String state) {
+    public String getState() {
     	return state;
     }
 }

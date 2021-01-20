@@ -16,6 +16,9 @@ public interface UserService {
 	User create(String username, String email, String password, String name, String surname,
 			Date birthdate, String street, String city, long cap, String state);
 	
+	//From modelAttribute param
+	User create(User user);
+	
 	User update(User user);
 	
 	void deleteByUsername(String username);

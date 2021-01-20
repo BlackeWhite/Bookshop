@@ -30,7 +30,7 @@
 								<button type="submit" name="submit" class="btn">Accedi</button>
 							</div>
 							<div id="register-link" class="text-right">
-								<a href="#" class="text-info">Registrati</a>
+								<a href="<c:url value="/register"/>" class="text-info">Registrati</a>
 							</div>
 						</form>
 					</div>

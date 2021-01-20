@@ -41,7 +41,7 @@ public class UserDetailsDaoDefault extends DefaultDao implements UserDetailsDao 
 		
 		user.setUsername(username);
 		user.setEmail(email);
-		user.setPassword(password);
+		user.setPassword(encryptPassword(password));
 		user.setEnabled(true);
 		
 		personalData.setName(name);
@@ -56,6 +56,13 @@ public class UserDetailsDaoDefault extends DefaultDao implements UserDetailsDao 
 		this.getSession().save(user);
 		
 		return user;
+	}
+	
+	@Override
+	public User create(User user) {
+		user.setPassword(encryptPassword(user.getPassword()));
+		user.setEnabled(true);
+		return (User) this.getSession().save(user);
 	}
 	
 	@Override

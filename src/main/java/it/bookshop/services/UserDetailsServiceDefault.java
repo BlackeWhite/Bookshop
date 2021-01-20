@@ -74,6 +74,11 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 				cap, state);
 		return newUser;
 	}
+	
+	@Override
+	public User create(User user) {
+		return userrepository.create(user);
+	}
 
 	@Override
 	public User update(User user) {
