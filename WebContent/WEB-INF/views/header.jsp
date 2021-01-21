@@ -22,10 +22,10 @@
 					<div class="right-content">
 						<ul class="list-main">
 							<li><i class="ti-location-pin"></i>Chi siamo</li>
-							<li><i class="ti-alarm-clock"></i> <a href="#">Registrati</a></li>
+							<li><i class="ti-alarm-clock"></i><a href="<c:url value="/register"/>">Registrati</a></li>
 							<!--  da mostrare solo agli utenti registrati  
 								<li><i class="ti-user"></i> <a href="#">Account</a></li>  -->
-							<li><i class="ti-power-off"></i><a href="login.html#">Login</a></li>
+							<li><i class="ti-power-off"></i><a href="<c:url value="/login"/>">Login</a></li>
 						</ul>
 					</div>
 					<!-- End Top Right -->
@@ -151,7 +151,7 @@
 												
 													<c:forEach items="${allGenres}" var="genres">
 														<li><a
-															href="<c:url value="/showBook?genre=${genres.name}"/>">${genres.name}</a></li>
+															href="<c:url value="/genre=${genres.name}"/>">${genres.name}</a></li>
 												</c:forEach>
 												</ul></li>
 											<li><a href="#">Sconti<span class="new">Sale</span></a></li>
