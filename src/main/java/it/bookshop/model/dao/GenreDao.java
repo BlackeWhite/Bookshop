@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
 
 public interface GenreDao {
@@ -20,4 +21,6 @@ public interface GenreDao {
 	Genre update(Genre genre);
 	
 	void delete(Genre genre);
+
+	List<Book> getBooksForGenre(Genre genre);
 }

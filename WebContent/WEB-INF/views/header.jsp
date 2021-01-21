@@ -151,7 +151,7 @@
 												
 													<c:forEach items="${allGenres}" var="genres">
 														<li><a
-															href="<c:url value="/genre=${genres.name}"/>">${genres.name}</a></li>
+															href="<c:url value="/show_genre/${genres.name}"/>">${genres.name}</a></li>
 												</c:forEach>
 												</ul></li>
 											<li><a href="#">Sconti<span class="new">Sale</span></a></li>

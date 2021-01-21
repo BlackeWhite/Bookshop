@@ -86,6 +86,13 @@ public class BookServiceDefault implements BookService {
 	public List<Book> findFiveMostRecentBook(){
 		return bookRepository.findFiveMostRecentBook();
 	}
+	
+	@Override
+	public List<Book> getAllBookForGenre(String name){
+		// restituisce una lista di tutti i libri di un particolare genere, definito attarverso il nome 
+		Genre g = genreRepository.findByName(name); 
+		return genreRepository.getBooksForGenre(g); 
+	}
 
 	@Override  
 	public Book create(String Name_author, String Surname_Author, String isbn,String title, 

@@ -19,4 +19,5 @@ public interface BookService {
 	void delete(Long bookId);
 	void deleteAll();
 	List<Book> findFiveMostRecentBook();
+	List<Book> getAllBookForGenre(String name);
 };
