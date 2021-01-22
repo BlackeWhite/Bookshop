@@ -24,8 +24,14 @@ public class GenreDaoDefault extends DefaultDao implements GenreDao {
 	
 	@Override
 	public Genre findByName(String name) {
-		return this.getSession().createQuery("FROM Genre g WHERE g.name = :name", Genre.class).setParameter("name", name).getSingleResult();
-
+		//non rimuovere altrimenti restituisce eccezione 
+		try{
+			return this.getSession().createQuery("FROM Genre g WHERE g.name = :name", Genre.class).setParameter("name", name).getSingleResult();
+		}
+		catch (NoResultException e) {
+			return null;
+		}
+		
 	}
 	@Override
 	public List<Book> getBooksForGenre(Genre genre) { 
