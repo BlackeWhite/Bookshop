@@ -145,7 +145,8 @@ public class Book implements Serializable{
 	@ManyToMany(cascade = { CascadeType.DETACH,
 			CascadeType.MERGE,
 			CascadeType.REFRESH,
-			CascadeType.PERSIST })
+			CascadeType.PERSIST },
+			fetch = FetchType.EAGER)
 	@JoinTable( name = "BOOK_AUTHORS", 
 				joinColumns = @JoinColumn(name = "BOOK", referencedColumnName = "ID"),
 				inverseJoinColumns = @JoinColumn(name = "AUTHOR", referencedColumnName = "ID") )

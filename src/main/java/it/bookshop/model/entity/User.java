@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,7 +25,7 @@ public class User implements Serializable{
 	/**
 	 *
 	 */
-	// perché viene sempre 1L?
+	// perchï¿½ viene sempre 1L?
 	private static final long serialVersionUID = 1L;
 	private long userID;
 	private String username;
@@ -53,7 +54,7 @@ public class User implements Serializable{
 
 	
 	// Nella colonna USERNAME non possono esserci duplicati
-	// (unique = true è una shortcut di UniqueConstrain)
+	// (unique = true ï¿½ una shortcut di UniqueConstrain)
 	@Column(name="USERNAME", unique = true)
 	public void setUsername(String username) {
 		this.username = username;
@@ -140,7 +141,8 @@ public class User implements Serializable{
 			CascadeType.REFRESH,
 			CascadeType.PERSIST,
 			CascadeType.REMOVE},
-			mappedBy="user")
+			mappedBy="user",
+			fetch = FetchType.EAGER)
 	public Set<ShoppingCart> getShoppingCart() {
 		return shoppingCart;
 	}

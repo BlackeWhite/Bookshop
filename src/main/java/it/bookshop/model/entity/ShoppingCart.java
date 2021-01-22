@@ -1,6 +1,7 @@
 package it.bookshop.model.entity;
 
 import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -28,7 +29,8 @@ public class ShoppingCart {
 	
 	@ManyToOne(cascade = { CascadeType.MERGE,
 				CascadeType.REFRESH,
-				CascadeType.PERSIST})
+				CascadeType.PERSIST},
+				fetch = FetchType.EAGER)
 	@JoinColumn(name="USER_ID", referencedColumnName="USER_ID")
 	@MapsId("userId")
 	public User getUser() {
@@ -40,7 +42,8 @@ public class ShoppingCart {
 	
 	@ManyToOne(cascade = { CascadeType.MERGE,
 				CascadeType.REFRESH,
-				CascadeType.PERSIST})
+				CascadeType.PERSIST},
+				fetch = FetchType.EAGER)
 	@JoinColumn(name="BOOK_ID", referencedColumnName="ID")
 	@MapsId("bookId")
 	public Book getBook() {
