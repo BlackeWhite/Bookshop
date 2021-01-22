@@ -35,7 +35,7 @@
 								<li><i class="ti-power-off"></i><a href="<c:url value="/logout"/>">Logout</a></li>
 							</security:authorize>
 							<security:authorize access="isRememberMe()">
-								<li><a href="#">test remember me selected </a></li>
+								<li><a href="#">test remember me</a></li>
 							</security:authorize>
 						</ul>
 					</div>

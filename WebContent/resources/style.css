@@ -1920,7 +1920,24 @@ Version:1.0
 	line-height: 1;
 	display: inline-block;
 }
+.single-product .product-img .product-action-2 button {
+	display: block;
+	background-color: transparent;
+	color: #333;
+	text-align: left;
+	font-size: 12px;
+	font-weight: 600;
+	text-transform: uppercase;
+	line-height: 1;
+	display: inline-block;
+	position: relative;
+	border: none;
+	outline:none;
+}
 .single-product .product-img .product-action-2 a:hover {
+  color:#F7941D;
+}
+.single-product .product-img .product-action-2 button:hover {
   color:#F7941D;
 }
 .single-product .button-head {
