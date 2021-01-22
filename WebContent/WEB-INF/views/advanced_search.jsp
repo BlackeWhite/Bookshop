@@ -155,8 +155,9 @@
 												class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
 										</div>
 										<div class="product-action-2">
-											<c:url value="/" var="add_action"/>
-											<form action="${add_action}" method="GET">
+											<c:url value="/add_to_cart" var="add_action"/>
+											<form action="${add_action}" method="POST">
+											<input type="hidden" value="${b.id}" name="bookID">
 											<button type="submit">Aggiungi al carrello</button>
 											</form>
 										</div>

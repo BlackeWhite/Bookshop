@@ -11,8 +11,13 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.core.Authentication;
 
 import it.bookshop.services.BookService;
 
@@ -22,19 +27,18 @@ import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.BookOrder;
 import it.bookshop.model.entity.BookOrderId;
 import it.bookshop.model.entity.Order;
+import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.ShoppingCart;
 import it.bookshop.model.entity.ShoppingCartId;
 
 import it.bookshop.model.dao.ShoppingCartDao;
-
-import it.bookshop.services.BookService;
 import it.bookshop.services.UserService;
 import it.bookshop.services.OrderService;
 import it.bookshop.services.ShoppingCartService;
 
 
 @Controller
-public class CartController {
+public class UserController {
 
 	@Autowired
 	String appName;
@@ -47,7 +51,7 @@ public class CartController {
 
 	
 	@RequestMapping(value = "/cart", method = RequestMethod.GET)
-	public String cart(Locale locale, Model model) {
+	public String cart(Locale locale, Model model, Authentication authentication) {
 		System.out.println("Cart Controller Page Requested,  locale = " + locale);
 		
 		/*DateFormat date = new SimpleDateFormat("dd-MM-yyyy");
@@ -76,12 +80,13 @@ public class CartController {
 				Long.valueOf(2), //id book
 				2); //copie */
 		
+		String principal_name = authentication.getName();
+		User user = userService.findUserByUsername(principal_name);
+		//Long test_user_id = Long.valueOf(1);
+		//User u = userService.findUserById(test_user_id);
 		
-		Long test_user_id = Long.valueOf(1);
-		User u = userService.findUserById(test_user_id);
 		
-		
-		List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(u.getShoppingCart());
+		List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(user.getShoppingCart());
 		
 		
 		model.addAttribute("user_cart", user_cart);
@@ -90,4 +95,17 @@ public class CartController {
 		return "cart";
 	}
 	
+	@PostMapping(value = "/add_to_cart")
+	public String add_to_cart(@RequestParam("bookID") Long bookID, Authentication authentication) {
+		
+		String principal_name = authentication.getName();
+		System.out.println(principal_name);
+		User user = userService.findUserByUsername(principal_name);
+		this.shopCartService.create(user.getUserID(), bookID, 1);
+		
+		return "redirect:/advanced_search";
+		
+		
+	}
 }
+	
