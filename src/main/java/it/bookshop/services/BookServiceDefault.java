@@ -1,6 +1,7 @@
 package it.bookshop.services;
 
 import java.sql.Date;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,6 +118,17 @@ public class BookServiceDefault implements BookService {
 			g2.addBooks(b1);
 		}
 		return b1;
+	}
+
+	@Override
+	public List<Book> findFiveBestSellers() {
+		List<Book> orderedbooks = bookRepository.findAll();
+		Comparator<Book> compareByOrders = (Book b1, Book b2) -> b1.getOrders().size()-b2.getOrders().size();
+		orderedbooks.sort(compareByOrders);
+		List<Book> top5;
+		if(orderedbooks.size()>5) top5 = orderedbooks.subList(0,4);
+		else top5 = orderedbooks;
+		return top5;
 	}
 	
 

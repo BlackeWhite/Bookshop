@@ -52,11 +52,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().
 		antMatchers("/login").permitAll().
 		antMatchers("/").permitAll().
-		antMatchers("/advanced_search").hasAnyRole("ADMIN").
+		antMatchers("/advanced_search").hasAnyRole("USER").
 		antMatchers("/**").permitAll().
 		and().formLogin().loginPage("/login").defaultSuccessUrl("/").failureUrl("/login?error=true").permitAll().
 		and().logout().logoutSuccessUrl("/").invalidateHttpSession(true).permitAll().
-		and().csrf().disable();
+		and().rememberMe().key("BookShopSecretKey"). //Per la funzione ricordami
+		and().csrf().disable(); //Ricordiamoci di disattivarlo per fini di sicurezza, ma poi dovremo mettere i csrf token nei jsp
 
 	}
 }

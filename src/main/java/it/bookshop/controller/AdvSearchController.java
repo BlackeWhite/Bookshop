@@ -43,7 +43,7 @@ public class AdvSearchController {
 	public String advSearch(@RequestParam(required = false) Map<String,String> params,Locale locale, Model model) {
 		System.out.println("Advanced search Page Requested,  locale = " + locale);
 		
-		
+		/*
 		DateFormat date = new SimpleDateFormat("dd-MM-yyyy");
 		java.util.Date date1 = null;
 		java.util.Date date2 = null;
@@ -82,7 +82,7 @@ public class AdvSearchController {
 				publish_date5, publish_date5,4, 40.99, null, 450, "Sauron è tornato a Mordor...", "7.jpg", "Fantasy");
 		bookService.create("Alessandro", "Manzoni", "8235234631481401", "I pCAZZromessi sposi", 
 				publish_date6, publish_date6,10, 25.99, null, 370, "Renzo e Lucia ...", "8.jpg", "Romanzo");
-		
+		*/
 				
 		
 		List<Book> books;
@@ -99,23 +99,13 @@ public class AdvSearchController {
 		
 		List<Genre> genres = genreDao.findAll();
 		
-		List<Book> orderedbooks = bookService.findAll();
-		Comparator<Book> compareByOrders = (Book b1, Book b2) -> b1.getOrders().size()-b2.getOrders().size();
-		orderedbooks.sort(compareByOrders);
-		List<Book> top10;
-		if(orderedbooks.size()>10) top10 = orderedbooks.subList(0,9);
-		else top10 = orderedbooks;
+		List<Book> top5 = bookService.findFiveBestSellers();
 		
-		List<Author> orderedauthors = authorService.findAll();
-		Comparator<Author> compareByBooks = (Author a1, Author a2) -> a1.getBooks().size()-a2.getBooks().size();
-		orderedauthors.sort(compareByBooks);
-		List<Author> top10authors;
-		if(orderedauthors.size()>10) top10authors = orderedauthors.subList(0,9);
-		else top10authors = orderedauthors;
+		List<Author> top10authors = authorService.findMostPopularAuthors();
 		
 		model.addAttribute("appName", appName);
 		model.addAttribute("books", books);
-		model.addAttribute("best_sellers", top10);
+		model.addAttribute("best_sellers", top5);
 		model.addAttribute("top_authors", top10authors);
 		model.addAttribute("genres", genres);
 

@@ -1,6 +1,7 @@
 package it.bookshop.services;
 
 import java.sql.Date;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,17 @@ public class AuthorServiceDefault implements AuthorService {
 	@Autowired
 	public void setAuthorRepository(AuthorDao authorRepository) {
 		this.authorRepository = authorRepository;
+	}
+
+	@Override
+	public List<Author> findMostPopularAuthors() {
+		List<Author> orderedauthors = authorRepository.findAll();
+		Comparator<Author> compareByBooks = (Author a1, Author a2) -> a1.getBooks().size()-a2.getBooks().size();
+		orderedauthors.sort(compareByBooks);
+		List<Author> top10authors;
+		if(orderedauthors.size()>10) top10authors = orderedauthors.subList(0,9);
+		else top10authors = orderedauthors;
+		return top10authors;
 	}
 
 

@@ -13,6 +13,7 @@ public interface AuthorService {
 	Author create(String name, String surname);
 	Author update(Author author);
 	List<Author> findAll();
+	List<Author> findMostPopularAuthors();
 	void delete(Author author);
 	void delete(Long id);
 }

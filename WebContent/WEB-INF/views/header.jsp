@@ -1,6 +1,7 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <header class="header shop">
 	<!-- Topbar -->
@@ -22,10 +23,20 @@
 					<div class="right-content">
 						<ul class="list-main">
 							<li><i class="ti-location-pin"></i>Chi siamo</li>
+							<security:authorize access="isAnonymous()">
 							<li><i class="ti-alarm-clock"></i><a href="<c:url value="/register"/>">Registrati</a></li>
+							</security:authorize>
 							<!--  da mostrare solo agli utenti registrati  
 								<li><i class="ti-user"></i> <a href="#">Account</a></li>  -->
-							<li><i class="ti-power-off"></i><a href="<c:url value="/login"/>">Login</a></li>
+							<security:authorize access="isAnonymous()">
+								<li><i class="ti-power-off"></i><a href="<c:url value="/login"/>">Login</a></li>
+							</security:authorize>
+							<security:authorize access="isAuthenticated()">
+								<li><i class="ti-power-off"></i><a href="<c:url value="/logout"/>">Logout</a></li>
+							</security:authorize>
+							<security:authorize access="isRememberMe()">
+								<li><a href="#">test remember me selected </a></li>
+							</security:authorize>
 						</ul>
 					</div>
 					<!-- End Top Right -->
