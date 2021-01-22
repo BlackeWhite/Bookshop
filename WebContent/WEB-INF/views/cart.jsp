@@ -9,8 +9,8 @@
 			<div class="col-12">
 				<div class="bread-inner">
 					<ul class="bread-list">
-						<li><a href="index1.html">Home<i class="ti-arrow-right"></i></a></li>
-						<li class="active"><a href="blog-single.html">Cart</a></li>
+						<li><a href="<c:url value="/" />">Home<i class="ti-arrow-right"></i></a></li>
+						<li class="active"><a href="<c:url value="/cart" />">Cart</a></li>
 					</ul>
 				</div>
 			</div>
@@ -28,25 +28,31 @@
 				<table class="table shopping-summery">
 					<thead>
 						<tr class="main-hading">
-							<th>BOOK</th>
-							<th>TITLE</th>
-							<th class="text-center">UNIT PRICE</th>
-							<th class="text-center">QUANTITY</th>
-							<th class="text-center">TOTAL</th>
+							<th>LIBRO</th>
+							<th>TITOLO</th>
+							<th class="text-center">PREZZO</th>
+							<th class="text-center">QUANTITÀ</th>
+							<th class="text-center">TOTALE</th>
 							<th class="text-center"><i class="ti-trash remove-icon"></i></th>
 						</tr>
 					</thead>
 					<tbody>
+						<c:forEach items="${user_cart}" var="cart_el">
 						<tr>
-							<td class="image" data-title="No"><img
-								src="https://via.placeholder.com/100x100" alt="#"></td>
+							<td class="image" data-title="No">
+								<img src="<c:url value="/resources/img/${cart_el.book.cover}"/>" alt="#">
+							</td>
 							<td class="product-des" data-title="Description">
 								<p class="product-name">
-									<a href="#">titolo_libro</a>
+									<a href="#">${cart_el.book.title}</a>
 								</p>
-								<p class="product-des">Breve descrizione(edizione,data publicazione,autore,ecc).</p>
+								<p class="product-des">Autori: 
+									<c:forEach items="${cart_el.book.authors}" var="author">
+										${author.fullName} 
+									</c:forEach>- Data publicazione:${cart_el.book.publish}
+								</p>
 							</td>
-							<td class="price" data-title="Price"><span>$110.00 </span></td>
+							<td class="price" data-title="Price"><span>${cart_el.book.price}</span></td>
 							<td class="qty" data-title="Qty">
 								<!-- Input Order -->
 								<div class="input-group">
@@ -57,7 +63,7 @@
 										</button>
 									</div>
 									<input type="text" name="quant[1]" class="input-number"
-										data-min="1" data-max="100" value="1">
+										data-min="1" data-max="100" value="2"> 
 									<div class="button plus">
 										<button type="button" class="btn btn-primary btn-number"
 											data-type="plus" data-field="quant[1]">
@@ -70,6 +76,7 @@
 							<td class="action" data-title="Remove"><a href="#"><i
 									class="ti-trash remove-icon"></i></a></td>
 						</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 				<!--/ End Shopping Summary -->
