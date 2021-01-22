@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import it.bookshop.model.dao.RoleDao;
 import it.bookshop.model.entity.PersonalData;
+import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.User;
 import it.bookshop.services.UserDetailsServiceDefault;
 import it.bookshop.services.UserService;
@@ -25,6 +27,9 @@ public class AuthController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private RoleDao roleDao;
 	
     @GetMapping(value = "/login")
     public String loginPage(@RequestParam(value = "error", required = false) String error,
@@ -60,6 +65,8 @@ public class AuthController {
 	public String register(@ModelAttribute("newUser") User user, BindingResult br) {
     	
     	//TODO implementare la validazione e il password confirmation
+    	Role user_role = roleDao.findByName("USER");
+    	user.addRole(user_role);
 		this.userService.create(user);
 		
 		return "redirect:/login";

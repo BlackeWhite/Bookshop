@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().
 		antMatchers("/login").permitAll().
 		antMatchers("/").permitAll().
-		antMatchers("/advanced_search").hasAnyRole("USER").
+		antMatchers("/advanced_search").hasAnyRole("ADMIN").
 		antMatchers("/**").permitAll().
 		and().formLogin().loginPage("/login").defaultSuccessUrl("/").failureUrl("/login?error=true").permitAll().
 		and().logout().logoutSuccessUrl("/").invalidateHttpSession(true).permitAll().
