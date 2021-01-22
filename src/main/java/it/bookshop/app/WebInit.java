@@ -8,6 +8,8 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import it.bookshop.security.WebSecurityConfig;
+
 public class WebInit extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
@@ -15,7 +17,7 @@ public class WebInit extends AbstractAnnotationConfigDispatcherServletInitialize
 		// NB 1st level config class
 		return new Class<?>[] { 
 			DataServiceConfig.class, 
-			//WebSecurityConfig.class 
+			WebSecurityConfig.class 
 		};
 	}
 

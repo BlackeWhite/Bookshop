@@ -2,12 +2,15 @@ package it.bookshop.model.dao;
 
 import java.sql.Date;
 
+import javax.persistence.NoResultException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.PersonalData;
 import it.bookshop.model.entity.User;
 import it.bookshop.model.entity.PersonalData;
@@ -21,7 +24,12 @@ public class UserDetailsDaoDefault extends DefaultDao implements UserDetailsDao 
 	
 	@Override
 	public User findUserByUsername(String username) {
-		return this.getSession().get(User.class, username);
+		try {
+			return this.getSession().createQuery("FROM User u WHERE u.username = :username", User.class).setParameter("username", username).getSingleResult();
+		}
+		catch(NoResultException e) {
+			return null;
+		}
 	}
 	
 	@Override
@@ -31,7 +39,12 @@ public class UserDetailsDaoDefault extends DefaultDao implements UserDetailsDao 
 	
 	@Override
 	public User findUserByEmail(String email) {
-		return this.getSession().get(User.class, email);
+		try {
+			return this.getSession().createQuery("FROM User u WHERE u.email = :email", User.class).setParameter("email", email).getSingleResult();
+		}
+		catch(NoResultException e) {
+			return null;
+		}
 	}
 	
 	@Override
