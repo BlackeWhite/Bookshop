@@ -41,24 +41,19 @@ public class HomeController {
 		
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-
 		String formattedDate = dateFormat.format(date);
 		
 		List <String> topFiveAuthor = this.authorService.findBestSellingAuthor();
+		List<Genre> allGenres = bookService.getAllGenres();
+		List<Book> topFiveNewBooks = bookService.findFiveMostRecentBook();
+		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook();
 		
 		model.addAttribute("serverTime", formattedDate);
-		
 		model.addAttribute("appName", appName);
-		
 		model.addAttribute("topFiveAuthor", topFiveAuthor);
-		
-		List<Genre> allGenres = bookService.getAllGenres();
-
-		List<Book> topFiveNewBooks = bookService.findFiveMostRecentBook();
-		
 		model.addAttribute("allGenres", allGenres); //Da qui sono presi anche i generi della navbar
 		model.addAttribute("topFiveNewBooks", topFiveNewBooks);
-	
+		model.addAttribute("topFiveBestSellersBooks", topFiveBestSellersBooks);
 		return "home";
 	}
 	
@@ -67,26 +62,13 @@ public class HomeController {
 	public String ShowBookforGenre(@PathVariable("genre") String genre,Model model) {
 		List<Book> bookGenre =  this.bookService.getAllBookForGenre(genre); // estrae tutti i libri per il genere scelto 
 		List<Genre> allGenres = this.bookService.getAllGenres();
-		
-		// preso dall'advSearch controller 
-		List<Book> orderedbooks = bookService.findAll();
-		Comparator<Book> compareByOrders = (Book b1, Book b2) -> b1.getOrders().size()-b2.getOrders().size();
-		orderedbooks.sort(compareByOrders);
-		List<Book> top10;
-		if(orderedbooks.size()>10) top10 = orderedbooks.subList(0,9);
-		else top10 = orderedbooks;
-		
-		List<Author> orderedauthors = authorService.findAll();
-		Comparator<Author> compareByBooks = (Author a1, Author a2) -> a1.getBooks().size()-a2.getBooks().size();
-		orderedauthors.sort(compareByBooks);
-		List<Author> top10authors;
-		if(orderedauthors.size()>10) top10authors = orderedauthors.subList(0,9);
-		else top10authors = orderedauthors;
+		List <String> topFiveAuthor = this.authorService.findBestSellingAuthor();
+		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook();
 		
 		model.addAttribute("appName", appName);
 		model.addAttribute("books", bookGenre);
-		model.addAttribute("best_sellers", top10);
-		model.addAttribute("top_authors", top10authors);
+		model.addAttribute("best_sellers", topFiveBestSellersBooks);
+		model.addAttribute("top_authors", topFiveAuthor);
 		model.addAttribute("genres", allGenres);
 		model.addAttribute("allGenres", allGenres); // per la navbar
 
