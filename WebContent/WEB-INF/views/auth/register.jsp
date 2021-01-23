@@ -4,7 +4,6 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <div id="contact-us" class="contact-us section">
-	<h3 class="text-center text-white pt-5">Register form</h3>
 	<div class="container">
 		<div class="form-main">
 			<div id="login-row"
