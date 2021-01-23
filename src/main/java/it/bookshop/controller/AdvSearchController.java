@@ -97,17 +97,20 @@ public class AdvSearchController {
 		}
 		else books = bookService.findAll();
 		
-		List<Genre> genres = genreDao.findAll();
+		//List<Genre> genres = genreDao.findAll();
 		
-		List<Book> top5 = bookService.findFiveBestSellers();
+		//List<Book> top5 = bookService.findFiveBestSellers();
+		//List<Author> top10authors = authorService.findMostPopularAuthors();
 		
-		List<Author> top10authors = authorService.findMostPopularAuthors();
+		List<Genre> allGenres = this.bookService.getAllGenres();
+		List <String> topFiveAuthor = this.authorService.findBestSellingAuthor();
+		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook();
 		
 		model.addAttribute("appName", appName);
 		model.addAttribute("books", books);
-		model.addAttribute("best_sellers", top5);
-		model.addAttribute("top_authors", top10authors);
-		model.addAttribute("genres", genres);
+		model.addAttribute("best_sellers", topFiveBestSellersBooks);
+		model.addAttribute("top_authors", topFiveAuthor);
+		model.addAttribute("genres", allGenres);
 
 		return "advanced_search";
 	}
