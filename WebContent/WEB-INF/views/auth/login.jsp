@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div id="contact-us" class="contact-us section">
-	<h3 class="text-center text-white pt-5">Login form</h3>
+
 	<div class="container">
 		<div class="form-main">
 			<div id="login-row"
