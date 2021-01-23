@@ -16,4 +16,5 @@ public interface AuthorService {
 	List<Author> findMostPopularAuthors();
 	void delete(Author author);
 	void delete(Long id);
+	List<String> findBestSellingAuthor();
 }

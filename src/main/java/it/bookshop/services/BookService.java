@@ -21,4 +21,5 @@ public interface BookService {
 	List<Book> findFiveMostRecentBook();
 	List<Book> findFiveBestSellers();
 	List<Book> getAllBookForGenre(String name);
+	List<Book> findFiveMostSelledBook();
 };

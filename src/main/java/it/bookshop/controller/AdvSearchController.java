@@ -43,7 +43,7 @@ public class AdvSearchController {
 	public String advSearch(@RequestParam(required = false) Map<String,String> params,Locale locale, Model model) {
 		System.out.println("Advanced search Page Requested,  locale = " + locale);
 		
-		/*
+		
 		DateFormat date = new SimpleDateFormat("dd-MM-yyyy");
 		java.util.Date date1 = null;
 		java.util.Date date2 = null;
@@ -82,7 +82,7 @@ public class AdvSearchController {
 				publish_date5, publish_date5,4, 40.99, null, 450, "Sauron è tornato a Mordor...", "7.jpg", "Fantasy");
 		bookService.create("Alessandro", "Manzoni", "8235234631481401", "I pCAZZromessi sposi", 
 				publish_date6, publish_date6,10, 25.99, null, 370, "Renzo e Lucia ...", "8.jpg", "Romanzo");
-		*/
+		
 				
 		
 		List<Book> books;

@@ -1,8 +1,13 @@
 package it.bookshop.services;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.bookshop.model.dao.AuthorDao;
 import it.bookshop.model.entity.Author;
+import it.bookshop.model.entity.Book;
 
 @Transactional
 @Service("authorService")
@@ -47,6 +53,33 @@ public class AuthorServiceDefault implements AuthorService {
 	public List<Author> findAll() {
 		return authorRepository.findAll();
 	}
+	
+	@Override
+	public List<String> findBestSellingAuthor(){
+		List <Author> a = this.authorRepository.findAll();
+		Iterator <Author> iterAuthor = a.iterator();
+		TreeMap <Integer, String> listAuthorCopies = new TreeMap <Integer,String >(Comparator.reverseOrder());
+		while(iterAuthor.hasNext()) {
+			Author aut = iterAuthor.next();
+			List <Book> b = this.authorRepository.findBookForAuthor(aut);
+			Iterator <Book> iterBook = b.iterator();
+			int sum = 0;
+			while (iterBook.hasNext()) {
+				sum += iterBook.next().getSoldCopies();
+			}
+			listAuthorCopies.put(new Integer(sum),aut.getFullName());
+		}
+		List<String> mostaut = new ArrayList<String>();
+		int count = 0;
+		for(Map.Entry<Integer, String> entry: listAuthorCopies.entrySet()) {
+			if (count > 4) break;
+			String currAuthor = entry.getValue();
+			mostaut.add(currAuthor);
+			count++;
+		}
+		return mostaut;
+		
+	}
 
 	@Override
 	public void delete(Author author) {
@@ -75,5 +108,5 @@ public class AuthorServiceDefault implements AuthorService {
 		return top10authors;
 	}
 
-
+	
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.User;
 
@@ -44,6 +45,8 @@ public class BookDaoDefault extends DefaultDao implements BookDao{
 		b.setSummary(summary);
 		b.setCover(cover);
 		b.setInsertData(insert_date);
+		b.setClicked(0);
+		b.setSoldCopies(0);
 		getSession().save(b);
 		return b;
 	}
@@ -62,5 +65,11 @@ public class BookDaoDefault extends DefaultDao implements BookDao{
 	public List<Book> findFiveMostRecentBook(){
 		return this.getSession().createNativeQuery("SELECT * FROM books ORDER BY INSERTDATA DESC LIMIT 5", Book.class).getResultList();
 	}
+	
+	@Override
+	public List<Book> findFiveMostSelledBook(){
+		return this.getSession().createQuery("SELECT b FROM book b ORDER BY b.selledCopies DESC", Book.class).setMaxResults(5).getResultList();
+	}
+	 
 
 }
