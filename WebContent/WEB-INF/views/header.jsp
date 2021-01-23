@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<c:url value="logo.jpg" var="logoimg" />
 
 <header class="header shop">
 	<!-- Topbar -->
@@ -51,7 +52,7 @@
 				<div class="col-lg-2 col-md-2 col-12">
 					<!-- Logo -->
 					<div class="logo">
-						<a href="<c:url value="/"/>"><img src="images/logo.png" alt="logo"></a>
+						<a href="<c:url value="/"/>"><img src="<c:url value="/resources/img/${logoimg}"/>" width="250" height="10" alt="logo"></a>
 					</div>
 					<!--/ End Logo -->
 					<!-- Search Form -->
