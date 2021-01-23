@@ -49,7 +49,7 @@ public class HomeController {
 		model.addAttribute("appName", appName);
 
 		List<Genre> allGenres = bookService.getAllGenres();
-		
+
 		List<Book> topFiveNewBooks = bookService.findFiveMostRecentBook();
 		
 		model.addAttribute("allGenres", allGenres); //Da qui sono presi anche i generi della navbar
