@@ -10,6 +10,8 @@
 			value="/WEB-INF/views/header.jsp" />
 		<put-attribute name="footer"
 			value="/WEB-INF/views/footer.jsp" />
+			<put-attribute name="scripts"
+			value="/WEB-INF/views/scripts.jsp" />
 	</definition>
 	<definition name="default_empty"
 		template="/WEB-INF/layouts/default_empty.jspx">

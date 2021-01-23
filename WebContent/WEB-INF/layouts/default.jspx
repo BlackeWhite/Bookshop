@@ -59,60 +59,6 @@
 	<tiles:insertAttribute name="header" ignore="false" />
 	<tiles:insertAttribute name="body" />
 	<tiles:insertAttribute name="footer" ignore="false" />
-	<!-- Jquery -->
-	<c:url value="/resources/js/jquery.min.js" var="jquerymin" />
-	<script src="${jquerymin}"></script>
-	<c:url value="/resources/js/jquery-migrate-3.0.0.js" var="jquerymigrt" />
-	<script src="${jquerymigrt}"></script>
-	<c:url value="/resources/js/jquery-ui.min.js" var="jqueryui" />
-	<script src="${jqueryui}"></script>
-	<!-- Popper JS -->
-	<c:url value="/resources/js/popper.min.js" var="popper" />
-	<script src="${popper}"></script>
-	<!-- Bootstrap JS -->
-	<c:url value="/resources/js/bootstrap.min.js" var="bootstrap" />
-	<script src="${bootstrap}"></script>
-	<!-- Color JS -->
-	<c:url value="/resources/js/colors.js" var="colorsjs" />
-	<script src="${colorsjs}"></script>
-	<!-- Slicknav JS -->
-	<c:url value="/resources/js/slicknav.min.js" var="slicknavminjs" />
-	<script src="${slicknavminjs}"></script>
-	<!-- Owl Carousel JS -->
-	<c:url value="/resources/js/owl-carousel.js" var="owlcarouseljs" />
-	<script src="${owlcarouseljs}"></script>
-	<!-- Magnific Popup JS -->
-	<c:url value="/resources/js/magnific-popup.js" var="magnificpopupjs" />
-	<script src="${magnificpopupjs}"></script>
-	<!--  Facnybox Min JS -->
-	<c:url value="/resources/js/facnybox.min.js" var="facnybox" />
-	<script src="${facnybox}"></script>
-	<!-- Waypoints JS -->
-	<c:url value="/resources/js/waypoints.min.js" var="waypointsminjs" />
-	<script src="${waypointsminjs}"></script>
-	<!-- Countdown JS -->
-	<c:url value="/resources/js/finalcountdown.min.js" var="countdown" />
-	<script src="${countdown}"></script>
-	<!-- Nice Select JS -->
-	<c:url value="/resources/js/nicesellect.js" var="nicesellect" />
-	<script src="${nicesellect}"></script>
-	<!-- Ytplayer JS -->
-	<c:url value="/resources/js/ytplayer.min.js" var="ytplayer" />
-	<script src="${ytplayer}"></script>
-	<!-- Flex Slider JS -->
-	<c:url value="/resources/js/flex-slider.js" var="flexslider" />
-	<script src="${flexslider}"></script>
-	<!-- ScrollUp JS -->
-	<c:url value="/resources/js/scrollup.js" var="scrollup" />
-	<script src="${scrollup}"></script>
-	<!-- Onepage Nav JS -->
-	<c:url value="/resources/js/onepage-nav.min.js" var="onepage" />
-	<script src="${onepage}"></script>
-	<!-- Easing JS -->
-	<c:url value="/resources/js/easing.js" var="easing" />
-	<script src="${easing}"></script>
-	<!-- Active JS -->
-	<c:url value="/resources/js/active.js" var="active" />
-	<script src="${active}"></script>
+	<tiles:insertAttribute name="scripts" ignore="false" />
 </body>
 </html>

@@ -112,10 +112,9 @@
 									</select>
 								</div>
 								<div class="single-shorter">
-									<label>Sort By :</label> <select>
-										<option selected="selected">Name</option>
-										<option>Price</option>
-										<option>Size</option>
+									<label>Ordina per:</label> <select id="order_by">
+										<option selected="selected">Prezzo decresciente</option>
+										<option>Prezzo cresciente</option>
 									</select>
 								</div>
 							</div>
