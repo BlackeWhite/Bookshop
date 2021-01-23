@@ -38,7 +38,6 @@
 					</div>
 				</c:forEach>
 				<!-- End Single List  -->
-
 			</div>
 			<div class="col-lg-4 col-md-6 col-12">
 				<div class="row">
@@ -106,72 +105,69 @@
 	</div>
 </section>
 <!-- End Shop Home List  -->
-
-
-	<!-- Start Product Area -->
-    <div class="product-area section">
-            <div class="container">
-				<div class="row">
-					<div class="col-12">
-						<div class="section-title">
-							<h2>PIù visualizzati</h2>
-						</div>
-					</div>
+<!-- Start Product Area -->
+<div class="product-area section">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="section-title">
+					<h2>PIù visualizzati</h2>
 				</div>
-				<div class="row">
-					<div class="col-12">
-						<div class="product-info">
-							<div class="tab-content" id="myTabContent">
-								
-								<!-- Start Single Tab -->
-								
-								<div class="tab-pane fade show active" id="man" role="tabpanel">
-									
-									<div class="tab-single">
-										
-										<div class="row">
-											<div class="col-xl-3 col-lg-4 col-md-4 col-12">
-												<c:forEach items="${topMostClickBook}" var="tMCB">
-												<div class="single-product">
-													<div class="product-img">
-														<a href="product-details.html">
-															<img class="default-img" src="<c:url value="/resources/img/${tMCB.cover}"/>" alt="#">
-															<img class="hover-img" src="https://via.placeholder.com/550x750" alt="#">
-														</a>
-														<div class="button-head">
-															<div class="product-action">
-																<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
-																<a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
-															</div>
-															<div class="product-action-2">
-																<a title="Add to cart" href="#">Add to cart</a>
-															</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<div class="product-info">
+					<div class="tab-content" id="myTabContent">
+						<!-- Start Single Tab -->
+						<div class="tab-pane fade show active" id="man" role="tabpanel">
+							<div class="tab-single">
+								<div class="row">
+									<c:forEach items="${topMostClickBook}" var="tMCB">
+										<div class="col-xl-3 col-lg-4 col-md-4 col-12">
+											<div class="single-product">
+												<div class="product-img">
+													<a href="product-details.html"> <img
+														class="default-img"
+														src="<c:url value="/resources/img/${tMCB.cover}"/>"
+														alt="#"> <img class="hover-img"
+														src="https://via.placeholder.com/550x750" alt="#">
+													</a>
+													<div class="button-head">
+														<div class="product-action">
+															<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add
+																	to Wishlist</span></a> <a title="Compare" href="#"><i
+																class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
+														</div>
+														<div class="product-action-2">
+															<a title="Add to cart" href="#">Add to cart</a>
 														</div>
 													</div>
-													
-													<div class="product-content">
-														<h3><a href="product-details.html">${tMCB.title}</a></h3>
-														<div class="product-price">
-															<span>${tMCB.price}</span>
-														</div>
+												</div>
+
+												<div class="product-content">
+													<h3>
+														<a href="product-details.html">${tMCB.title}</a>
+													</h3>
+													<div class="product-price">
+														<span>${tMCB.price}</span>
 													</div>
 												</div>
 											</div>
 										</div>
-									</div>
-								</div>
-								<!--/ End Single Tab -->
 									</c:forEach>
+								</div>
 							</div>
 						</div>
+						<!--/ End Single Tab -->
 					</div>
+
 				</div>
-            </div>
-    </div>
-	<!-- End Product Area -->
-
-
-
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Product Area -->
 <!-- Start Cowndown Area -->
 <section class="cown-down">
 	<div class="section-inner ">
