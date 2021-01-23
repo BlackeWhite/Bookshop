@@ -1,6 +1,7 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!-- Breadcrumbs -->
 <div class="breadcrumbs">
@@ -11,8 +12,8 @@
 					<ul class="bread-list">
 						<li><a href="<c:url value="/" />">Home<i
 								class="ti-arrow-right"></i></a></li>
-						<li class="active"><a href="<c:url value="/advanced_search"/>">Ricerca
-								Avanzata</a></li>
+						<li class="active"><a
+							href="<c:url value="/advanced_search"/>">Ricerca Avanzata</a></li>
 					</ul>
 				</div>
 			</div>
@@ -28,11 +29,13 @@
 			<div class="col-lg-3 col-md-4 col-12">
 				<div class="shop-sidebar">
 					<!-- Single Widget -->
-					<div class="single-widget category">
+					<div class="single-widget range">
 						<h3 class="title">Generi</h3>
-						<ul class="categor-list">
+						<ul class="check-box-list">
 							<c:forEach items="${genres}" var="g">
-								<li><a href="<c:url value="/advanced_search?genre=${g.name}"/>">${g.name}</a></li>
+								<li><label class="checkbox-inline" for="${g.id}"><input
+										id="${g.id}" name="genre_checkbox" type="checkbox">${g.name}<span
+										class="count">(${fn:length(g.books)})</span></label></li>
 							</c:forEach>
 						</ul>
 					</div>
@@ -42,7 +45,8 @@
 						<h3 class="title">Shop by Price</h3>
 						<div class="price-filter">
 							<div class="price-filter-inner">
-								<div id="slider-range" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"></div>
+								<div id="slider-range"
+									class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"></div>
 								<div class="price_slider_amount">
 									<div class="label-input">
 										<span>Range:</span><input type="text" id="amount" name="price"
@@ -86,15 +90,16 @@
 					</div>
 					<!--/ End Single Widget -->
 					<!-- Single Widget -->
-					<!--  
 					<div class="single-widget category">
 						<h3 class="title">Autori popolari</h3>
 						<ul class="categor-list">
 							<c:forEach items="${top_authors}" var="a">
-								<li><a href="<c:url value="/advanced_search?authorId=${a.id}" />">${a.name} ${a.surname}</a></li>
+								<li><a
+									href="<c:url value="/advanced_search?authorId=${a.id}" />">${a.name}
+										${a.surname}</a></li>
 							</c:forEach>
 						</ul>
-					</div> -->
+					</div>
 					<!--/ End Single Widget -->
 				</div>
 			</div>
@@ -114,8 +119,9 @@
 								</div>
 								<div class="single-shorter">
 									<label>Ordina per:</label> <select id="order_by">
-										<option selected="selected">Prezzo decresciente</option>
-										<option>Prezzo cresciente</option>
+										<option value="price_desc" selected="selected">Prezzo
+											decrescente</option>
+										<option value="price_non_desc">Prezzo crescente</option>
 									</select>
 								</div>
 							</div>
@@ -155,10 +161,10 @@
 												class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
 										</div>
 										<div class="product-action-2">
-											<c:url value="/add_to_cart" var="add_action"/>
+											<c:url value="/add_to_cart" var="add_action" />
 											<form action="${add_action}" method="POST">
-											<input type="hidden" value="${b.id}" name="bookID">
-											<button type="submit">Aggiungi al carrello</button>
+												<input type="hidden" value="${b.id}" name="bookID">
+												<button type="submit">Aggiungi al carrello</button>
 											</form>
 										</div>
 									</div>
