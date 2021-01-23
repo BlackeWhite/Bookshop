@@ -21,5 +21,5 @@ public interface BookDao {
 	Book update(Book book);
 	void delete(Book book);
 	List<Book> findFiveMostRecentBook();
-	List<Book> findFiveMostSelledBook();
+	List<Book> findFiveBestSellingBook();
 }
