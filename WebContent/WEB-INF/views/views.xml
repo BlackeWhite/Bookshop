@@ -19,6 +19,10 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/single_book.jsp" />
 	</definition>
+	<definition extends="default" name="single_author">
+		<put-attribute name="body"
+			value="/WEB-INF/views/single_author.jsp" />
+	</definition>
 	<definition extends="default" name="login">
 		<put-attribute name="body"
 			value="/WEB-INF/views/auth/login.jsp" />
