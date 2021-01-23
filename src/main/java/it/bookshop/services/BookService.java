@@ -22,5 +22,6 @@ public interface BookService {
 	List<Book> findFiveBestSellingBook();
 	List<Book> getAllBookForGenre(String name);
 	void add_click(Long id);
+	List<Book> findMostClickBook();
 	
 };

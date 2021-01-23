@@ -3,19 +3,28 @@
    Foundation//DTD Tiles  Configuration 3.0//EN"
    "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
-  <definition extends="default" name="home">
-   <put-attribute name="body" value="/WEB-INF/views/home.jsp" />
-  </definition>
-  <definition extends="default" name="advanced_search">
-   <put-attribute name="body" value="/WEB-INF/views/advanced_search.jsp" />
-  </definition>
-  <definition extends="default" name="cart">
-   <put-attribute name="body" value="/WEB-INF/views/cart.jsp" />
-  </definition>
-  <definition extends="default" name="login">
-   <put-attribute name="body" value="/WEB-INF/views/auth/login.jsp" />
-  </definition>
-  <definition extends="default" name="register">
-   <put-attribute name="body" value="/WEB-INF/views/auth/register.jsp" />
-  </definition>
+	<definition extends="default" name="home">
+		<put-attribute name="body"
+			value="/WEB-INF/views/home.jsp" />
+	</definition>
+	<definition extends="default" name="advanced_search">
+		<put-attribute name="body"
+			value="/WEB-INF/views/advanced_search.jsp" />
+	</definition>
+	<definition extends="default" name="cart">
+		<put-attribute name="body"
+			value="/WEB-INF/views/cart.jsp" />
+	</definition>
+	<definition extends="default" name="single_book">
+		<put-attribute name="body"
+			value="/WEB-INF/views/single_book.jsp" />
+	</definition>
+	<definition extends="default" name="login">
+		<put-attribute name="body"
+			value="/WEB-INF/views/auth/login.jsp" />
+	</definition>
+	<definition extends="default" name="register">
+		<put-attribute name="body"
+			value="/WEB-INF/views/auth/register.jsp" />
+	</definition>
 </tiles-definitions>

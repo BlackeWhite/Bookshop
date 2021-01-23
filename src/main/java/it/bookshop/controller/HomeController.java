@@ -47,6 +47,7 @@ public class HomeController {
 		List<Genre> allGenres = bookService.getAllGenres();
 		List<Book> topFiveNewBooks = bookService.findFiveMostRecentBook();
 		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook();
+		List<Book> topMostClickBook = this.bookService.findMostClickBook();
 		
 		model.addAttribute("serverTime", formattedDate);
 		model.addAttribute("appName", appName);
@@ -54,6 +55,7 @@ public class HomeController {
 		model.addAttribute("allGenres", allGenres); //Da qui sono presi anche i generi della navbar
 		model.addAttribute("topFiveNewBooks", topFiveNewBooks);
 		model.addAttribute("topFiveBestSellersBooks", topFiveBestSellersBooks);
+		model.addAttribute("topMostClickBook", topMostClickBook);
 		return "home";
 	}
 	
@@ -63,7 +65,8 @@ public class HomeController {
 		List<Book> bookGenre =  this.bookService.getAllBookForGenre(genre); // estrae tutti i libri per il genere scelto 
 		List<Genre> allGenres = this.bookService.getAllGenres();
 		List <Author> topFiveAuthor = this.authorService.findBestSellingAuthor();
-		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook();
+		List<Book> topFiveBestSellersBooks = this.bookService.findFiveBestSellingBook();
+		
 		
 		model.addAttribute("appName", appName);
 		model.addAttribute("books", bookGenre);
@@ -76,24 +79,23 @@ public class HomeController {
 
 	}
 	
-	/*
-	@GetMapping(value = "/show_book/{genre}")
-	public String ShowDetailsBook(@PathVariable("genre") String genre,Model model) {
-		List<Book> bookGenre =  this.bookService.getAllBookForGenre(genre); // estrae tutti i libri per il genere scelto 
+	
+	@GetMapping(value = "/show_book/{id}")
+	public String ShowDetailsBook(@PathVariable("id") String id,Model model) {
+		long l_id = Long.parseLong(id); // cast from string to long 
+		this.bookService.add_click(l_id); 
+		Book b = this.bookService.findById(l_id);
 		List<Genre> allGenres = this.bookService.getAllGenres();
 		List <Author> topFiveAuthor = this.authorService.findBestSellingAuthor();
 		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook();
 		
 		model.addAttribute("appName", appName);
-		model.addAttribute("books", bookGenre);
-		model.addAttribute("best_sellers", topFiveBestSellersBooks);
-		model.addAttribute("top_authors", topFiveAuthor);
-		model.addAttribute("genres", allGenres);
+		model.addAttribute("book", b);
 		model.addAttribute("allGenres", allGenres); // per la navbar
 
-		return "advanced_search"; // riutilizzo la vista, siccome  è simile 
+		return "single_book"; 
 
 	}
-	*/
+	
 
 }

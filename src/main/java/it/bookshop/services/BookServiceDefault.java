@@ -94,10 +94,16 @@ public class BookServiceDefault implements BookService {
 	}
 	
 	@Override
+	public List<Book> findMostClickBook(){
+		return bookRepository.findMostClick();
+	}
+	
+	// aggiunta di un click quando il libro è stato selezionato
+	@Override
 	public void add_click(Long id) {
 		Book b = this.bookRepository.findById(id);
 		int index = b.getClicked();
-		index++;
+		index++; 
 		b.setClicked(index);
 		this.bookRepository.update(b);
 	}
@@ -112,7 +118,6 @@ public class BookServiceDefault implements BookService {
 	@Override  
 	public Book create(String Name_author, String Surname_Author, String isbn,String title, 
 			Date publish_date, Date insert_date, int copies, double price, User seller, int pages, String summary, String cover, String genre) {
-		// da rivedere 
 		Book b1 = bookRepository.create(isbn, title, publish_date, insert_date, copies, price, seller, pages, summary, cover);
 		Author a1 = authorRepository.findByNameAndSurname(Name_author, Surname_Author);
 		if (a1 != null) {
