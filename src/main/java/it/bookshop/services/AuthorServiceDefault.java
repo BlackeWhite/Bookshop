@@ -55,10 +55,10 @@ public class AuthorServiceDefault implements AuthorService {
 	}
 	
 	@Override
-	public List<String> findBestSellingAuthor(){
+	public List<Author> findBestSellingAuthor(){
 		List <Author> a = this.authorRepository.findAll();
 		Iterator <Author> iterAuthor = a.iterator();
-		TreeMap <Integer, String> listAuthorCopies = new TreeMap <Integer,String >(Comparator.reverseOrder());
+		TreeMap <Long, Integer> listAuthorCopies = new TreeMap <Long,Integer >(Comparator.reverseOrder());
 		while(iterAuthor.hasNext()) {
 			Author aut = iterAuthor.next();
 			List <Book> b = this.authorRepository.findBookForAuthor(aut);
@@ -67,13 +67,13 @@ public class AuthorServiceDefault implements AuthorService {
 			while (iterBook.hasNext()) {
 				sum += iterBook.next().getSoldCopies();
 			}
-			listAuthorCopies.put(new Integer(sum),aut.getFullName());
+			listAuthorCopies.put(new Long(aut.getId()),new Integer(sum));
 		}
-		List<String> mostaut = new ArrayList<String>();
+		List<Author> mostaut = new ArrayList<Author>();
 		int count = 0;
-		for(Map.Entry<Integer, String> entry: listAuthorCopies.entrySet()) {
+		for(Map.Entry<Long, Integer> entry: listAuthorCopies.entrySet()) {
 			if (count > 4) break;
-			String currAuthor = entry.getValue();
+			Author currAuthor = this.authorRepository.findById(entry.getKey()) ;
 			mostaut.add(currAuthor);
 			count++;
 		}

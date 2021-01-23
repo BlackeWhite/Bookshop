@@ -91,7 +91,7 @@
 						<div class="col-lg-6 col-md-6 col-12 no-padding">
 							<div class="content">
 								<h5 class="title">
-									<a href="#">${tsAuthor}</a>
+									<a href="#">${tsAuthor.name}  ${tsAuthor.surname}</a>
 								</h5>
 							</div>
 						</div>

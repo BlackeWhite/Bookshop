@@ -83,7 +83,7 @@ public class AdvSearchController {
 		bookService.create("Alessandro", "Manzoni", "8235234631481401", "I pCAZZromessi sposi", 
 				publish_date6, publish_date6,10, 25.99, null, 370, "Renzo e Lucia ...", "8.jpg", "Romanzo");
 		
-				
+	
 		
 		List<Book> books;
 		String genre = params.get("genre");
@@ -103,7 +103,7 @@ public class AdvSearchController {
 		//List<Author> top10authors = authorService.findMostPopularAuthors();
 		
 		List<Genre> allGenres = this.bookService.getAllGenres();
-		List <String> topFiveAuthor = this.authorService.findBestSellingAuthor();
+		List <Author> topFiveAuthor = this.authorService.findBestSellingAuthor();
 		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook();
 		
 		model.addAttribute("appName", appName);

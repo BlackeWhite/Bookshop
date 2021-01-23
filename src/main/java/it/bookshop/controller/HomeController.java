@@ -43,7 +43,7 @@ public class HomeController {
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 		String formattedDate = dateFormat.format(date);
 		
-		List <String> topFiveAuthor = this.authorService.findBestSellingAuthor();
+		List <Author> topFiveAuthor = this.authorService.findBestSellingAuthor();
 		List<Genre> allGenres = bookService.getAllGenres();
 		List<Book> topFiveNewBooks = bookService.findFiveMostRecentBook();
 		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook();
@@ -62,7 +62,7 @@ public class HomeController {
 	public String ShowBookforGenre(@PathVariable("genre") String genre,Model model) {
 		List<Book> bookGenre =  this.bookService.getAllBookForGenre(genre); // estrae tutti i libri per il genere scelto 
 		List<Genre> allGenres = this.bookService.getAllGenres();
-		List <String> topFiveAuthor = this.authorService.findBestSellingAuthor();
+		List <Author> topFiveAuthor = this.authorService.findBestSellingAuthor();
 		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook();
 		
 		model.addAttribute("appName", appName);
@@ -75,5 +75,25 @@ public class HomeController {
 		return "advanced_search"; // riutilizzo la vista, siccome  è simile 
 
 	}
+	
+	/*
+	@GetMapping(value = "/show_book/{genre}")
+	public String ShowDetailsBook(@PathVariable("genre") String genre,Model model) {
+		List<Book> bookGenre =  this.bookService.getAllBookForGenre(genre); // estrae tutti i libri per il genere scelto 
+		List<Genre> allGenres = this.bookService.getAllGenres();
+		List <Author> topFiveAuthor = this.authorService.findBestSellingAuthor();
+		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook();
+		
+		model.addAttribute("appName", appName);
+		model.addAttribute("books", bookGenre);
+		model.addAttribute("best_sellers", topFiveBestSellersBooks);
+		model.addAttribute("top_authors", topFiveAuthor);
+		model.addAttribute("genres", allGenres);
+		model.addAttribute("allGenres", allGenres); // per la navbar
+
+		return "advanced_search"; // riutilizzo la vista, siccome  è simile 
+
+	}
+	*/
 
 }

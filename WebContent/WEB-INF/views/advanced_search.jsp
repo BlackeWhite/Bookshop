@@ -90,7 +90,7 @@
 						<h3 class="title">Autori popolari</h3>
 						<ul class="categor-list">
 							<c:forEach items="${top_authors}" var="a">
-								<li><a href="<c:url value="/advanced_search?authorId=${a}" />">${a}</a></li>
+								<li><a href="<c:url value="/advanced_search?authorId=${a.id}" />">${a.name} ${a.surname}</a></li>
 							</c:forEach>
 						</ul>
 					</div>
