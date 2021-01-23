@@ -86,6 +86,7 @@
 					</div>
 					<!--/ End Single Widget -->
 					<!-- Single Widget -->
+					<!--  
 					<div class="single-widget category">
 						<h3 class="title">Autori popolari</h3>
 						<ul class="categor-list">
@@ -93,7 +94,7 @@
 								<li><a href="<c:url value="/advanced_search?authorId=${a.id}" />">${a.fullName}</a></li>
 							</c:forEach>
 						</ul>
-					</div>
+					</div> -->
 					<!--/ End Single Widget -->
 				</div>
 			</div>
