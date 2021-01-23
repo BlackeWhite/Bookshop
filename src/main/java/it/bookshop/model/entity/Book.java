@@ -30,7 +30,7 @@ public class Book implements Serializable{
 	private String isbn;
 	private String title;
 	private int copies; //  Copie Disponibili
-	private int selledCopies; // Copie vendute
+	private int soldCopies; // Copie vendute
 	private int clicked; // quante volte il libro è stato visitato dagli utenti
 	private double price;
 	private Date publish; 
@@ -85,12 +85,12 @@ public class Book implements Serializable{
 		this.copies = copies;
 	}
 	
-	@Column(name = "SELLED_COPIES")
-	public int getSelledCopies() {
-		return selledCopies;
+	@Column(name = "SOLD_COPIES")
+	public int getSoldCopies() {
+		return soldCopies;
 	}
-	public void setSelledCopies(int selledCopies) {
-		this.selledCopies = selledCopies;
+	public void setSoldCopies(int soldCopies) {
+		this.soldCopies = soldCopies;
 	}
 	
 	@Column(name = "CLICK_BOOK")
