@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.User;
 
@@ -20,4 +21,5 @@ public interface BookDao {
 	Book update(Book book);
 	void delete(Book book);
 	List<Book> findFiveMostRecentBook();
+	List<Book> findFiveBestSellingBook();
 }

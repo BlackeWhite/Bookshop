@@ -89,12 +89,26 @@ public class BookServiceDefault implements BookService {
 	}
 	
 	@Override
+	public List<Book> findFiveBestSellingBook(){
+		return bookRepository.findFiveBestSellingBook();
+	}
+	
+	@Override
+	public void add_click(Long id) {
+		Book b = this.bookRepository.findById(id);
+		int index = b.getClicked();
+		index++;
+		b.setClicked(index);
+		this.bookRepository.update(b);
+	}
+	
+	@Override
 	public List<Book> getAllBookForGenre(String name){
 		// restituisce una lista di tutti i libri di un particolare genere, definito attarverso il nome 
 		Genre g = genreRepository.findByName(name); 
 		return genreRepository.getBooksForGenre(g); 
 	}
-
+	
 	@Override  
 	public Book create(String Name_author, String Surname_Author, String isbn,String title, 
 			Date publish_date, Date insert_date, int copies, double price, User seller, int pages, String summary, String cover, String genre) {
@@ -119,17 +133,4 @@ public class BookServiceDefault implements BookService {
 		}
 		return b1;
 	}
-
-	@Override
-	public List<Book> findFiveBestSellers() {
-		List<Book> orderedbooks = bookRepository.findAll();
-		Comparator<Book> compareByOrders = (Book b1, Book b2) -> b1.getOrders().size()-b2.getOrders().size();
-		orderedbooks.sort(compareByOrders);
-		List<Book> top5;
-		if(orderedbooks.size()>5) top5 = orderedbooks.subList(0,4);
-		else top5 = orderedbooks;
-		return top5;
-	}
-	
-
 }

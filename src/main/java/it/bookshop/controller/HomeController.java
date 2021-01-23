@@ -43,11 +43,15 @@ public class HomeController {
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 
 		String formattedDate = dateFormat.format(date);
-
+		
+		List <String> topFiveAuthor = this.authorService.findBestSellingAuthor();
+		
 		model.addAttribute("serverTime", formattedDate);
 		
 		model.addAttribute("appName", appName);
-
+		
+		model.addAttribute("topFiveAuthor", topFiveAuthor);
+		
 		List<Genre> allGenres = bookService.getAllGenres();
 
 		List<Book> topFiveNewBooks = bookService.findFiveMostRecentBook();

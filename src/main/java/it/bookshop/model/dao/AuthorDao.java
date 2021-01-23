@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Session;
 
 import it.bookshop.model.entity.Author;
+import it.bookshop.model.entity.Book;
 
 public interface AuthorDao {
 	
@@ -18,5 +19,7 @@ public interface AuthorDao {
 	Author update(Author author);
 	List<Author> findAll();
 	void delete(Author author);
+	//List<Author> findMostSelledAuthor();
+	List<Book> findBookForAuthor(Author author);
 	
 }

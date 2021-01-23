@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
+import it.bookshop.model.entity.Genre;
 
 @Transactional
 @Repository("authorDao") //@Repository  is a specialization of @Component
@@ -21,7 +22,23 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 	public Author findById(Long id) {
 		return getSession().find(Author.class, id);
 	}
-
+	 /*
+	@Override
+	public List<Author> findMostSelledAuthor(){
+		return this.getSession().createQuery("SELECT b.author, SUM(b.soldCopies) FROM book b GROUP BY b.author", Author.class).setMaxResults(5).getResultList();
+	}
+	
+	@Override
+	public List<Author> findMostSelledAuthor() { 
+		return this.getSession().createQuery("select b from Book b join b.author a WHERE a.id = b.id", Author.class).getResultList();
+	}
+	*/
+	@Override
+	public List <Book> findBookForAuthor(Author author){
+		// restituisce una lista di tutti i libri di un particolare autore
+		return this.getSession().createQuery("select b from Book b join b.authors a WHERE a.id = :author",Book.class).setParameter("author", author.getId()).getResultList();
+	}
+	
 	@Override
 	public Author create(String name, String surname, Date date, String nationality, String biography, String photo) {
 		Author a = new Author();
