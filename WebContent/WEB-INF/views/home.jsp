@@ -85,14 +85,14 @@
 						<div class="row">
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="list-image overlay">
-									<img src="https://via.placeholder.com/115x140" alt="#"> <a
-										href="#" class="buy"><i class="fa fa-shopping-bag"></i></a>
+									<img src="<c:url value="/resources/img/${tsAuthor.photo}"/>" alt="author_photo"> <a
+										href="<c:url value="/show_author_from_author/${tsAuthor.id}"/>" class="buy"></a>
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-6 col-12 no-padding">
 								<div class="content">
 									<h5 class="title">
-										<a href="#">${tsAuthor.name} ${tsAuthor.surname}</a>
+										<a href="<c:url value="/show_author_from_author/${tsAuthor.id}"/>">${tsAuthor.name} ${tsAuthor.surname}</a>
 									</h5>
 								</div>
 							</div>
@@ -111,7 +111,7 @@
 		<div class="row">
 			<div class="col-12">
 				<div class="section-title">
-					<h2>PIù visualizzati</h2>
+					<h2>Più visualizzati</h2>
 				</div>
 			</div>
 		</div>
@@ -127,7 +127,7 @@
 										<div class="col-xl-3 col-lg-4 col-md-4 col-12">
 											<div class="single-product">
 												<div class="product-img">
-													<a href="product-details.html"> <img
+													<a href="<c:url value="/show_book/${tMCB.id}"/>"> <img
 														class="default-img"
 														src="<c:url value="/resources/img/${tMCB.cover}"/>"
 														alt="#"> <img class="hover-img"
@@ -147,7 +147,7 @@
 
 												<div class="product-content">
 													<h3>
-														<a href="product-details.html">${tMCB.title}</a>
+														<a href="<c:url value="/show_book/${tMCB.id}"/>">${tMCB.title}</a>
 													</h3>
 													<div class="product-price">
 														<span>${tMCB.price}</span>

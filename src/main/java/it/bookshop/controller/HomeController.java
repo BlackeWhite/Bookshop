@@ -97,5 +97,14 @@ public class HomeController {
 
 	}
 	
-
+	@GetMapping(value = "/show_author_from_author/{id}")
+	public String ShowDetailsAuthor(@PathVariable("id") String id, Model model) {
+		long long_id = Long.parseLong(id);
+		Author author = this.authorService.findById(long_id);
+		
+		model.addAttribute("appName", appName);
+		model.addAttribute("author", author);
+		
+		return "single_author";
+	}
 }
