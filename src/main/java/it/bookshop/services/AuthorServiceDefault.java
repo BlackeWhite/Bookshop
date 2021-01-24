@@ -2,16 +2,20 @@ package it.bookshop.services;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import it.bookshop.model.dao.AuthorDao;
 import it.bookshop.model.entity.Author;
@@ -58,7 +62,8 @@ public class AuthorServiceDefault implements AuthorService {
 	public List<Author> findBestSellingAuthor(){
 		List <Author> a = this.authorRepository.findAll();
 		Iterator <Author> iterAuthor = a.iterator();
-		TreeMap <Long, Integer> listAuthorCopies = new TreeMap <Long,Integer >(Comparator.reverseOrder());
+		Map<Long, Integer> listAuthorCopies = new HashMap<Long, Integer>();
+		
 		while(iterAuthor.hasNext()) {
 			Author aut = iterAuthor.next();
 			List <Book> b = this.authorRepository.findBookForAuthor(aut);
@@ -71,8 +76,12 @@ public class AuthorServiceDefault implements AuthorService {
 		}
 		List<Author> mostaut = new ArrayList<Author>();
 		int count = 0;
-		for(Map.Entry<Long, Integer> entry: listAuthorCopies.entrySet()) {
-			if (count > 4) break;
+		// ordina la map in ordine decrescente 
+		Map<Long, Integer> sortedlistAuthorCopies = listAuthorCopies.entrySet().stream().sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2,LinkedHashMap::new));
+		
+		for(Entry<Long, Integer> entry: sortedlistAuthorCopies.entrySet()) {
+			if (count > 4) break; // deve estrarre solo i primi 5
+			
 			Author currAuthor = this.authorRepository.findById(entry.getKey()) ;
 			mostaut.add(currAuthor);
 			count++;
