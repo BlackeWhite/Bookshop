@@ -9,7 +9,7 @@ import it.bookshop.model.entity.User;
 
 public interface BookService {
 	Book findById(Long bookId);
-	Book findByName(String name);
+	List<Book> searchBooksByTitle(String title, String order_by);
 	List<Genre> getAllGenres();
 	List<Book> findAll();
 	Book create(String Name_author,String Surname_Author,String isbn, String title, 

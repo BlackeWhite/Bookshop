@@ -27,9 +27,15 @@ public class BookDaoDefault extends DefaultDao implements BookDao{
 	}
 	
 	@Override
-	public Book findByTitle(String title) {
-		//TODO Wrong implementation
-		return this.getSession().createQuery("FROM Book b WHERE b.title = :title", Book.class).setParameter("title", title).getSingleResult();
+	public List<Book> searchBooksByTitle(String title, String order_by) {
+		
+		String[] params = order_by.split("_");
+		//setParameter non funziona bene con ORDER BY quindi si crea la stringa manualmente
+		String order_str = "ORDER BY b." + params[0] + " " + params[1];
+		
+		return this.getSession()
+				.createQuery("FROM Book b WHERE LOWER(b.title) LIKE LOWER(CONCAT('%', :title, '%')) " + order_str, Book.class)
+				.setParameter("title", title).getResultList();
 	}
 	
 	@Override

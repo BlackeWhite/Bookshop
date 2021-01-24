@@ -40,7 +40,8 @@ public class AdvSearchController {
 	private AuthorService authorService;
 	
 	@RequestMapping(value = "/advanced_search", method = RequestMethod.GET)
-	public String advSearch(@RequestParam(required = false) Map<String,String> params,Locale locale, Model model) {
+	public String advSearch(@RequestParam(required = false) List<String> genres, @RequestParam(required = false) String term,
+			@RequestParam(defaultValue = "title_ASC") String order_by, Locale locale, Model model) {
 		System.out.println("Advanced search Page Requested,  locale = " + locale);
 		
 		/*
@@ -84,18 +85,14 @@ public class AdvSearchController {
 				publish_date6, publish_date6,10, 25.99, null, 370, "Renzo e Lucia ...", "8.jpg", "Romanzo");
 		*/
 	
-		
 		List<Book> books;
-		String genre = params.get("genre");
-		String id = params.get("authorId");
-		if(genre!=null) {
-			Genre gen = genreDao.findByName(genre);
-			books = new ArrayList<Book>(gen.getBooks());
-		} else if(id!=null) {
-			Author a = authorService.findById(Long.parseLong(id));
-			books = new ArrayList<Book>(a.getBooks());
+		if(term != null) {
+			books = bookService.searchBooksByTitle(term, order_by);
+		} else {
+			term = "";
+			books = bookService.findAll();
 		}
-		else books = bookService.findAll();
+		
 		
 		//List<Genre> genres = genreDao.findAll();
 		
@@ -111,6 +108,7 @@ public class AdvSearchController {
 		model.addAttribute("best_sellers", topFiveBestSellersBooks);
 		model.addAttribute("top_authors", topFiveAuthor);
 		model.addAttribute("genres", allGenres);
+		model.addAttribute("term", term);
 
 		return "advanced_search";
 	}

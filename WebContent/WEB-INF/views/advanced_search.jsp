@@ -3,6 +3,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+<!-- Hidden input to get the current search term in the javascript -->
+<input type="hidden" value="${term}">
+
 <!-- Breadcrumbs -->
 <div class="breadcrumbs">
 	<div class="container">
@@ -119,9 +122,9 @@
 								</div>
 								<div class="single-shorter">
 									<label>Ordina per:</label> <select id="order_by">
-										<option value="price_desc" selected="selected">Prezzo
+										<option value="price_DESC" selected="selected">Prezzo
 											decrescente</option>
-										<option value="price_non_desc">Prezzo crescente</option>
+										<option value="price_ASC">Prezzo crescente</option>
 									</select>
 								</div>
 							</div>

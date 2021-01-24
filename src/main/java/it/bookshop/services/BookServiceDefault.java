@@ -31,8 +31,8 @@ public class BookServiceDefault implements BookService {
 	}
 	
 	@Override
-	public 	Book findByName(String name) {
-		return bookRepository.findByTitle(name);
+	public 	List<Book> searchBooksByTitle(String title, String order_by) {
+		return bookRepository.searchBooksByTitle(title, order_by);
 	}
 	
 	@Override
