@@ -82,13 +82,7 @@ public class UserController {
 		
 		String principal_name = authentication.getName();
 		User user = userService.findUserByUsername(principal_name);
-		//Long test_user_id = Long.valueOf(1);
-		//User u = userService.findUserById(test_user_id);
-		
-		
 		List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(user.getShoppingCart());
-		
-		
 		model.addAttribute("user_cart", user_cart);
 		model.addAttribute("appName", appName);
 

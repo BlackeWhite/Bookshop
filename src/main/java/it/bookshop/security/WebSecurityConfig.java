@@ -53,7 +53,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		antMatchers("/login").permitAll().
 		antMatchers("/").permitAll().
 		antMatchers("/advanced_search").permitAll().
+		antMatchers("/cart").authenticated().
 		antMatchers("/**").permitAll().
+		
+		
 		and().formLogin().loginPage("/login").defaultSuccessUrl("/").failureUrl("/login?error=true").permitAll().
 		and().logout().deleteCookies("JSESSIONID").logoutSuccessUrl("/").invalidateHttpSession(true).permitAll().
 		and().rememberMe().key("BookShopSecretKey"). //Per la funzione ricordami
