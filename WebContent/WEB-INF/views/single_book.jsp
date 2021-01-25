@@ -10,6 +10,12 @@
 		<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
 			<div class="quickview-content">
 				<h2>${book.title}</h2>
+				<h4><i> Di 
+						<c:forEach items="${authorsList}" var="authorsList">
+							<a href=" <c:url value ="/show_author/${authorsList.id}"/>" >${authorsList.name} ${authorsList.surname}</a>
+							</c:forEach>	
+					</i>
+				</h4>
 				<div class="quickview-ratting-review">
 					<div class="quickview-ratting-wrap">
 						<div class="quickview-ratting">

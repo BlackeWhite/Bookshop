@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -84,20 +85,27 @@ public class HomeController {
 	public String ShowDetailsBook(@PathVariable("id") String id,Model model) {
 		long l_id = Long.parseLong(id); // cast from string to long 
 		this.bookService.add_click(l_id); 
+		
 		Book b = this.bookService.findById(l_id);
+		Set<Author> authorSet = b.getAuthors();
+		
+		List<Author> authorsList = this.authorService.getAuthorsListFromSet(authorSet);
 		List<Genre> allGenres = this.bookService.getAllGenres();
 		List <Author> topFiveAuthor = this.authorService.findBestSellingAuthor();
 		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook();
 		
+		
+		model.addAttribute("authorsList", authorsList); // lista degli autori del libro
 		model.addAttribute("appName", appName);
 		model.addAttribute("book", b);
 		model.addAttribute("allGenres", allGenres); // per la navbar
 
 		return "single_book"; 
 
+
 	}
 	
-	@GetMapping(value = "/show_author_from_author/{id}")
+	@GetMapping(value = "/show_author/{id}")
 	public String ShowDetailsAuthor(@PathVariable("id") String id, Model model) {
 		long long_id = Long.parseLong(id);
 		Author author = this.authorService.findById(long_id);

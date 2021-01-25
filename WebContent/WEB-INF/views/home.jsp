@@ -86,13 +86,13 @@
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="list-image overlay">
 									<img src="<c:url value="/resources/img/${tsAuthor.photo}"/>" alt="author_photo"> <a
-										href="<c:url value="/show_author_from_author/${tsAuthor.id}"/>" class="buy"></a>
+										href="<c:url value="/show_author/${tsAuthor.id}"/>" class="buy"></a>
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-6 col-12 no-padding">
 								<div class="content">
 									<h5 class="title">
-										<a href="<c:url value="/show_author_from_author/${tsAuthor.id}"/>">${tsAuthor.name} ${tsAuthor.surname}</a>
+										<a href="<c:url value="/show_author/${tsAuthor.id}"/>">${tsAuthor.name} ${tsAuthor.surname}</a>
 									</h5>
 								</div>
 							</div>

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,6 +89,16 @@ public class AuthorServiceDefault implements AuthorService {
 		}
 		return mostaut;
 		
+	}
+	
+	@Override
+	public List<Author> getAuthorsListFromSet(Set<Author> authorSet){
+		Iterator<Author> iterAuthorSet = authorSet.iterator();
+		List <Author> authorsList = new ArrayList<Author>();
+		while(iterAuthorSet.hasNext()) {
+			authorsList.add( iterAuthorSet.next());
+		}
+		return authorsList;
 	}
 
 	@Override
