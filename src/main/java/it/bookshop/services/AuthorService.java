@@ -2,6 +2,7 @@ package it.bookshop.services;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 import it.bookshop.model.entity.Author;
 
@@ -17,4 +18,5 @@ public interface AuthorService {
 	void delete(Author author);
 	void delete(Long id);
 	List<Author> findBestSellingAuthor();
+	List<Author> getAuthorsListFromSet(Set<Author> authorSet);
 }
