@@ -2286,11 +2286,30 @@ Version:1.0
 	color: #888;
 	border-radius: 0px;
 }
+.shop .view-mode li button {
+	height: 32px;
+	background: black;
+	border: 1px solid #77777775;
+	text-align: center;
+	display: block;
+	padding-left: 10px;
+	padding-right: 10px;
+	line-height: 32px;
+	color: #fff;
+	border-radius: 3px;
+}
 .shop .view-mode li.active a,
 .shop .view-mode li:hover a {
 	background: #F7941D;
 	color:#fff;
 	border-color:transparent;
+}
+.shop .view-mode li.active button,
+.shop .view-mode li:hover button {
+	background: #F7941D;
+	color:#fff;
+	border-color:transparent;
+	transition: all 0.4s ease;
 }
 /*======================================
    End Shop Sidebar CSS

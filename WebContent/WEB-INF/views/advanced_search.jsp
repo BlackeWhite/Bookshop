@@ -1,10 +1,10 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!-- Hidden input to get the current search term in the javascript -->
-<input type="hidden" value="${term}">
+<input id="search_term" type="hidden" value="${term}">
 
 <!-- Breadcrumbs -->
 <div class="breadcrumbs">
@@ -36,8 +36,8 @@
 						<h3 class="title">Generi</h3>
 						<ul class="check-box-list">
 							<c:forEach items="${genres}" var="g">
-								<li><label class="checkbox-inline" for="${g.id}"><input
-										id="${g.id}" name="genre_checkbox" type="checkbox">${g.name}<span
+								<li><label class="checkbox-inline" for="${g.name}"><input
+										id="${g.name}" name="genre_checkbox" type="checkbox">${g.name}<span
 										class="count">(${fn:length(g.books)})</span></label></li>
 							</c:forEach>
 						</ul>
@@ -122,23 +122,18 @@
 								</div>
 								<div class="single-shorter">
 									<label>Ordina per:</label> <select id="order_by">
-										<option value="price_DESC" selected="selected">Prezzo
+										<option value="title_ASC" selected="selected">Titolo</option>
+										<option value="price_DESC">Prezzo
 											decrescente</option>
 										<option value="price_ASC">Prezzo crescente</option>
 									</select>
 								</div>
 							</div>
-							<div class="search-bar-top">
-								<div class="search-bar">
-									<form>
-										<input name="search" placeholder="Search Products Here....."
-											type="search">
-										<button class="btnn">
-											<i class="ti-search"></i>
-										</button>
-									</form>
-								</div>
-							</div>
+							<ul class="view-mode">
+								<li>
+									<button class="apply_filter">Applica filtri</button>
+								</li>
+							</ul>
 						</div>
 						<!--/ End Shop Top -->
 					</div>

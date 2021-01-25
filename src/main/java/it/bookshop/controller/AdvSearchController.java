@@ -5,10 +5,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -85,6 +87,8 @@ public class AdvSearchController {
 				publish_date6, publish_date6,10, 25.99, null, 370, "Renzo e Lucia ...", "8.jpg", "Romanzo");
 		*/
 	
+		
+		
 		List<Book> books;
 		if(term != null) {
 			books = bookService.searchBooksByTitle(term, order_by);
@@ -93,11 +97,14 @@ public class AdvSearchController {
 			books = bookService.findAll();
 		}
 		
+		if(genres != null && !genres.isEmpty()) {
+			List<Genre> pickedGenres = bookService.findGenresFromNamesArray(genres);
+			books = books.stream()
+					.filter(p -> p.getGenres().stream().map(Genre::getName).
+							anyMatch(pickedGenres.stream().map(Genre::getName).collect(Collectors.toSet())::contains))
+					.collect(Collectors.toList());
+		}
 		
-		//List<Genre> genres = genreDao.findAll();
-		
-		//List<Book> top5 = bookService.findFiveBestSellers();
-		//List<Author> top10authors = authorService.findMostPopularAuthors();
 		
 		List<Genre> allGenres = this.bookService.getAllGenres();
 		List <Author> topFiveAuthor = this.authorService.findBestSellingAuthor();

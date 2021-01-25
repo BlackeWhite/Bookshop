@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$("#order_by").change(function() {
+	$(".apply_filter").click(function() {
 		var url = adv_search_url;
 		var order = $("#order_by option:selected").val();
 		var genres = "&";
@@ -7,6 +7,8 @@ $(document).ready(function() {
 			genres += "genres=" + $(this).attr('id') + "&";
 		});
 		
+		if($("#search_term").val() == "") url += "?";
+		else url += "?term=" + $("#search_term").val();
 		url += genres;
 		url += "order_by=" + order;
 		window.location.href = url;

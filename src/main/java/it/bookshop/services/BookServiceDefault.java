@@ -1,6 +1,7 @@
 package it.bookshop.services;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -38,6 +39,15 @@ public class BookServiceDefault implements BookService {
 	@Override
 	public List<Genre> getAllGenres() {
 		return genreRepository.findAll();
+	}
+	
+	@Override
+	public List<Genre> findGenresFromNamesArray(List<String> names) {
+		List<Genre> genres = new ArrayList<Genre>();
+		for(String name : names) {
+			genres.add(genreRepository.findByName(name));
+		}
+		return genres;
 	}
 	
 	@Override
