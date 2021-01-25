@@ -53,7 +53,13 @@ public class BookServiceDefault implements BookService {
 	@Override
 	public List<Book> findAll() {
 		return bookRepository.findAll();
+	}
+	
+	@Override
+	public List<Book> findAll(String order_by) {
+		return bookRepository.findAll(order_by);
 	}	
+	
 	@Override
 	public Book update(Book book) {
 		return bookRepository.update(book);

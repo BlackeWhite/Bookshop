@@ -21,6 +21,15 @@ public class BookDaoDefault extends DefaultDao implements BookDao{
 	}
 	
 	@Override
+	public List<Book> findAll(String order_by) {
+		String[] params = order_by.split("_");
+		//setParameter non funziona bene con ORDER BY quindi si crea la stringa manualmente
+		String order_str = "ORDER BY b." + params[0] + " " + params[1];
+		
+		return this.getSession().createQuery("FROM Book b " + order_str, Book.class).getResultList();
+	}
+	
+	@Override
 	public Book findById(Long bookId) {
 		return this.getSession().createQuery("FROM Book b WHERE b.id = :id", Book.class)
 				.setParameter("id", bookId).getSingleResult();

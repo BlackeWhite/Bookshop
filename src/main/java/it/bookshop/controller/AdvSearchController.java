@@ -94,7 +94,7 @@ public class AdvSearchController {
 			books = bookService.searchBooksByTitle(term, order_by);
 		} else {
 			term = "";
-			books = bookService.findAll();
+			books = bookService.findAll(order_by);
 		}
 		
 		if(genres != null && !genres.isEmpty()) {

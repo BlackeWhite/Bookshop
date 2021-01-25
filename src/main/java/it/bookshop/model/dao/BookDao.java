@@ -14,6 +14,7 @@ public interface BookDao {
 	public void setSession(Session session);
 	
 	List<Book> findAll();
+	List<Book> findAll(String order_by);
 	
 	Book findById(Long bookId);
 	List<Book> searchBooksByTitle(String title, String order_by);
