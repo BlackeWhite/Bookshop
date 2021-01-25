@@ -122,10 +122,10 @@
 								</div>
 								<div class="single-shorter">
 									<label>Ordina per:</label> <select id="order_by">
-										<option value="title_ASC" selected="selected">Titolo</option>
-										<option value="price_DESC">Prezzo
+										<option id="title_ASC" value="title_ASC">Titolo</option>
+										<option id="price_DESC" value="price_DESC">Prezzo
 											decrescente</option>
-										<option value="price_ASC">Prezzo crescente</option>
+										<option id="price_ASC" value="price_ASC">Prezzo crescente</option>
 									</select>
 								</div>
 							</div>
