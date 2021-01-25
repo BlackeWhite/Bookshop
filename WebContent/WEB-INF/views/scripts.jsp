@@ -43,9 +43,14 @@
 
 <!-- Url global variables -->
 <c:url value="/advanced_search" var="adv_search" />
+<c:url value="/cart" var="cart" />
 <script type="text/javascript">
 var adv_search_url = "${adv_search}";
+var cart_url = "${cart}";
 </script>
 
 <c:url value="/resources/js/custom.js" var="custom" />
 <script type="text/javascript" src="${custom}"></script>
+
+<c:url value="/resources/js/cart_quantity.js" var="cart_quant" />
+<script type="text/javascript" src="${cart_quant}"></script>

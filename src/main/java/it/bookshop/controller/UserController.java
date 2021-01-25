@@ -9,14 +9,18 @@ import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.security.core.Authentication;
 
 import it.bookshop.services.BookService;
@@ -99,7 +103,28 @@ public class UserController {
 		
 		return "redirect:/advanced_search";
 		
-		
 	}
+	
+	
+	public class httpRequestBody {
+	    private String book_id;
+	    private String operation;
+	}
+	
+	
+	@RequestMapping(value = "/cart", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody void cart_update(@RequestBody httpRequestBody request_body, Locale locale, Model model,  Authentication authentication) {
+		String principal_name = authentication.getName();
+		User user = userService.findUserByUsername(principal_name);
+		long bookID = Long.parseLong(request_body.book_id);
+		ShoppingCart cartElement = shopCartService.findById(user.getUserID(), bookID);
+		if (request_body.operation.equals("minus")) {
+			cartElement.setCopies(cartElement.getCopies()-1);}
+		else {
+			cartElement.setCopies(cartElement.getCopies()+1);}
+		shopCartService.update(cartElement);
+		System.out.println("update andato a buon fine");
+	}
+	
 }
 	

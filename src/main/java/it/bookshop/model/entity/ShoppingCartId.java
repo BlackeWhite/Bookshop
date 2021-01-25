@@ -31,10 +31,10 @@ public class ShoppingCartId implements Serializable {
 	}
 
 	@Column(name = "BOOK_ID")
-	public Long getBookIsbn() {
+	public Long getBookID() {
 		return bookId;
 	}
-	public void setBookIsbn(Long bookId) {
+	public void setBookID(Long bookId) {
 		this.bookId = bookId;
 	}
 	
