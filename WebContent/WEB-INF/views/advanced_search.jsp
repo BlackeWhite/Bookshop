@@ -84,7 +84,7 @@
 									<h5>
 										<a href="#">${bs.title}</a>
 									</h5>
-									<p class="price">${bs.price}&euro;</p>
+									<p class="price">${bs.formattedPrice} &euro;</p>
 									<p class="price">${bs.publish}</p>
 								</div>
 							</div>
@@ -172,7 +172,7 @@
 										<a href="product-details.html">${b.title}</a>
 									</h3>
 									<div class="product-price">
-										<span>${b.price} &euro;</span>
+										<span>${b.formattedPrice} &euro;</span>
 									</div>
 								</div>
 							</div>

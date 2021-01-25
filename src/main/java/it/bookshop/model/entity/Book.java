@@ -2,6 +2,7 @@ package it.bookshop.model.entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.text.NumberFormat;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,7 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Column; 
 import javax.persistence.Table;
-
+import javax.persistence.Transient;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -219,6 +220,13 @@ public class Book implements Serializable{
 	}
 	public void setOrders(Set<BookOrder> orders) {
 		this.orders = orders;
+	}
+	
+	@Transient
+	public String getFormattedPrice() {
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		String moneyString = formatter.format(price);
+		return moneyString.replace(formatter.getCurrency().getSymbol()+" ", "");
 	}
 
 
