@@ -1,5 +1,7 @@
 package it.bookshop.model.entity;
 
+import java.text.NumberFormat;
+
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.Column;
@@ -9,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "SHOPPING_CARTS")
@@ -59,6 +62,14 @@ public class ShoppingCart {
 	}
 	public void setCopies(int copies) {
 		this.copies = copies;
+	}
+	
+	@Transient
+	public String getTotalFormattedPrice() {
+		double totalPrice = book.getPrice() * copies;
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		String moneyString = formatter.format(totalPrice);
+		return moneyString.replace(formatter.getCurrency().getSymbol()+" ", "");
 	}
 	
 }

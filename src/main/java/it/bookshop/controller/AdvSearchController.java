@@ -7,9 +7,11 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +44,9 @@ public class AdvSearchController {
 	private AuthorService authorService;
 	
 	@RequestMapping(value = "/advanced_search", method = RequestMethod.GET)
-	public String advSearch(@RequestParam(required = false) List<String> genres, @RequestParam(required = false) String term,
-			@RequestParam(defaultValue = "title_ASC") String order_by, Locale locale, Model model) {
+	public String advSearch(@RequestParam(required = false) List<String> genres, @RequestParam(defaultValue="") String term,
+			@RequestParam(defaultValue = "title_ASC") String order_by, @RequestParam(required = false) Long authorId,
+			Locale locale, Model model) {
 		System.out.println("Advanced search Page Requested,  locale = " + locale);
 		
 		/*
@@ -88,15 +91,34 @@ public class AdvSearchController {
 		*/
 	
 		
+		List<Genre> allGenres = this.bookService.getAllGenres();
+		List <Author> topFiveAuthor = this.authorService.findBestSellingAuthor();
+		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook();
+		
 		
 		List<Book> books;
-		if(term != null) {
+		if(!term.equals("")) {
 			books = bookService.searchBooksByTitle(term, order_by);
+		} else if(authorId != null) {
+			Set<Book> a_books = authorService.findById(authorId).getBooks();
+			books = new ArrayList<Book>(a_books);
 		} else {
-			term = "";
 			books = bookService.findAll(order_by);
 		}
 		
+		Map<String, Integer> books_for_genre = new HashMap<String, Integer>();
+		//Calcola il numero di libri per generi in base alla ricerca
+		for(Genre g: allGenres) {
+			books_for_genre.put(g.getName(), 0);
+		}
+		for(Book b: books) {
+			for(Genre g: b.getGenres()) {
+				int val = books_for_genre.getOrDefault(g.getName(), 0);
+				books_for_genre.put(g.getName(), ++val);
+			}
+		}
+		
+		//Filtra per generi
 		if(genres != null && !genres.isEmpty()) {
 			List<Genre> pickedGenres = bookService.findGenresFromNamesArray(genres);
 			books = books.stream()
@@ -106,15 +128,12 @@ public class AdvSearchController {
 		}
 		
 		
-		List<Genre> allGenres = this.bookService.getAllGenres();
-		List <Author> topFiveAuthor = this.authorService.findBestSellingAuthor();
-		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook();
-		
 		model.addAttribute("appName", appName);
 		model.addAttribute("books", books);
 		model.addAttribute("best_sellers", topFiveBestSellersBooks);
 		model.addAttribute("top_authors", topFiveAuthor);
-		model.addAttribute("genres", allGenres);
+		model.addAttribute("allGenres", allGenres);
+		model.addAttribute("books_for_genre", books_for_genre);
 		model.addAttribute("term", term);
 
 		return "advanced_search";

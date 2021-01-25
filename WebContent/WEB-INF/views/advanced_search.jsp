@@ -35,10 +35,10 @@
 					<div class="single-widget range">
 						<h3 class="title">Generi</h3>
 						<ul class="check-box-list">
-							<c:forEach items="${genres}" var="g">
+							<c:forEach items="${allGenres}" var="g">
 								<li><label class="checkbox-inline" for="${g.name}"><input
 										id="${g.name}" name="genre_checkbox" type="checkbox">${g.name}<span
-										class="count">(${fn:length(g.books)})</span></label></li>
+										class="count"> (${books_for_genre[g.name]}) </span></label></li>
 							</c:forEach>
 						</ul>
 					</div>
@@ -82,9 +82,9 @@
 								</div>
 								<div class="content">
 									<h5>
-										<a href="#">${bs.title}</a>
+										<a href="<c:url value="/show_book/${bs.id}"/>">${bs.title}</a>
 									</h5>
-									<p class="price">${bs.formattedPrice} &euro;</p>
+									<p class="price">${bs.formattedPrice}&euro;</p>
 									<p class="price">${bs.publish}</p>
 								</div>
 							</div>
@@ -98,7 +98,7 @@
 						<ul class="categor-list">
 							<c:forEach items="${top_authors}" var="a">
 								<li><a
-									href="<c:url value="/advanced_search?authorId=${a.id}" />">${a.name}
+									href="<c:url value="/advanced_search?authorId=${a.id}"/>">${a.name}
 										${a.surname}</a></li>
 							</c:forEach>
 						</ul>
@@ -125,7 +125,8 @@
 										<option id="title_ASC" value="title_ASC">Titolo</option>
 										<option id="price_DESC" value="price_DESC">Prezzo
 											decrescente</option>
-										<option id="price_ASC" value="price_ASC">Prezzo crescente</option>
+										<option id="price_ASC" value="price_ASC">Prezzo
+											crescente</option>
 									</select>
 								</div>
 							</div>
@@ -143,8 +144,8 @@
 						<div class="col-lg-4 col-md-6 col-12">
 							<div class="single-product">
 								<div class="product-img">
-									<a href="product-details.html"> <img class="default-img"
-										style="height: 400px; object-fit: contain"
+									<a href="<c:url value="/show_book/${b.id}"/>"> <img
+										class="default-img" style="height: 400px; object-fit: contain"
 										src="<c:url value="/resources/img/${b.cover}"/>" alt="#">
 										<img class="hover-img"
 										style="height: 400px; object-fit: contain"
