@@ -100,15 +100,12 @@
       <version>1.9</version>
       <type>pom</type>
     </dependency>
-    
-	
 	<dependency>  
 	    <groupId>org.apache.tiles</groupId>  
 	    <artifactId>tiles-jsp</artifactId>  
 	    <version>3.0.5</version>  
-	</dependency>  
-	      
-	    <!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-servlet -->  
+	</dependency>    
+		<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-servlet -->  
 	<dependency>  
 	    <groupId>org.apache.tiles</groupId>  
 	    <artifactId>tiles-servlet</artifactId>  
@@ -126,7 +123,23 @@
 	    <artifactId>tiles-el</artifactId>  
 	    <version>3.0.5</version>  
 	</dependency>    
+	<dependency>
+    	<groupId>com.fasterxml.jackson.core</groupId>
+    	<artifactId>jackson-core</artifactId>
+    	<version>2.10.2</version>
+	</dependency>
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-databind</artifactId>
+	    <version>2.10.2</version>
+	</dependency>
+	<dependency>
+    <groupId>javax.json</groupId>
+    	<artifactId>javax.json-api</artifactId>
+    	<version>1.0</version>
+	</dependency>
   </dependencies>
+  
   <build>
     <pluginManagement>
       <plugins>
