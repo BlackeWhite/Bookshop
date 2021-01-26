@@ -131,13 +131,11 @@
 														class="default-img"
 														src="<c:url value="/resources/img/${tMCB.cover}"/>"
 														alt="#"> <img class="hover-img"
-														src="https://via.placeholder.com/550x750" alt="#">
+														src="<c:url value="/resources/img/${tMCB.cover}"/>" alt="#">
 													</a>
 													<div class="button-head">
 														<div class="product-action">
-															<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add
-																	to Wishlist</span></a> <a title="Compare" href="#"><i
-																class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
+															
 														</div>
 														<div class="product-action-2">
 															<a title="Add to cart" href="#">Add to cart</a>

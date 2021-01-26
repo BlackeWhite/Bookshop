@@ -67,7 +67,7 @@ public class AuthorServiceDefault implements AuthorService {
 		
 		while(iterAuthor.hasNext()) {
 			Author aut = iterAuthor.next();
-			List <Book> b = this.authorRepository.findBookForAuthor(aut);
+			Set <Book> b = aut.getBooks();
 			Iterator <Book> iterBook = b.iterator();
 			int sum = 0;
 			while (iterBook.hasNext()) {
