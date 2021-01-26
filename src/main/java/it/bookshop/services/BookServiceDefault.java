@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -128,7 +129,8 @@ public class BookServiceDefault implements BookService {
 	public List<Book> getAllBookForGenre(String name){
 		// restituisce una lista di tutti i libri di un particolare genere, definito attarverso il nome 
 		Genre g = genreRepository.findByName(name); 
-		return genreRepository.getBooksForGenre(g); 
+		List<Book> bookforgenre =  g.getBooks();
+		return bookforgenre; 
 	}
 	
 	@Override  

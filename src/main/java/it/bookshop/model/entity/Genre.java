@@ -2,7 +2,9 @@ package it.bookshop.model.entity;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -27,7 +29,7 @@ public class Genre implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String Name;
-	private Set<Book> books = new HashSet<Book>();
+	private List<Book> books = new ArrayList<Book>();
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,11 +59,11 @@ public class Genre implements Serializable{
                 CascadeType.REFRESH,
                 CascadeType.PERSIST
         }, mappedBy = "genres")
-	public Set<Book> getBooks() {
+	public List<Book> getBooks() {
 	return this.books;
 	}
 
-	public void setBooks(Set<Book> books) {
+	public void setBooks(List<Book> books) {
 		this.books = books;
 	}
 	public void addBooks(Book b) {

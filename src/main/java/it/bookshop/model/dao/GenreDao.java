@@ -22,5 +22,4 @@ public interface GenreDao {
 	
 	void delete(Genre genre);
 
-	List<Book> getBooksForGenre(Genre genre);
 }

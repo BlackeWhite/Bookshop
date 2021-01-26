@@ -33,11 +33,6 @@ public class GenreDaoDefault extends DefaultDao implements GenreDao {
 		}
 		
 	}
-	@Override
-	public List<Book> getBooksForGenre(Genre genre) { 
-		// restituisce una lista di tutti i libri di un particolare genere 
-		return this.getSession().createQuery("select b from Book b join b.genres g WHERE g.id = :genre",Book.class).setParameter("genre", genre.getId()).getResultList();
-	}
 
 	@Override
 	public Genre create(String Name) {
