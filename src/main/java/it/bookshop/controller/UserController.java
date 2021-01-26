@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import javax.json.JsonObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -107,23 +108,39 @@ public class UserController {
 	
 	
 	public class httpRequestBody {
-	    private String book_id;
-	    private String operation;
+	    public String b_id;
+	    public String operation;
+		public String getB_id() {
+			return b_id;
+		}
+		public httpRequestBody() {
+		}
+		public void setB_id(String b_id) {
+			this.b_id = b_id;
+		}
+		public String getOperation() {
+			return operation;
+		}
+		public void setOperation(String operation) {
+			this.operation = operation;
+		}
+	    
 	}
 	
 	
-	@RequestMapping(value = "/cart", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody void cart_update(@RequestBody httpRequestBody request_body, Locale locale, Model model,  Authentication authentication) {
-		String principal_name = authentication.getName();
+	@RequestMapping(value = "/cart", method = RequestMethod.POST)
+	public @ResponseBody void cart_update(@RequestParam String b_id, Locale locale, Model model,  Authentication authentication) {
+		System.out.println(b_id);
+		/*String principal_name = authentication.getName();
 		User user = userService.findUserByUsername(principal_name);
-		long bookID = Long.parseLong(request_body.book_id);
+		long bookID = Long.parseLong(requestBody.book_id);
 		ShoppingCart cartElement = shopCartService.findById(user.getUserID(), bookID);
 		if (request_body.operation.equals("minus")) {
 			cartElement.setCopies(cartElement.getCopies()-1);}
 		else {
 			cartElement.setCopies(cartElement.getCopies()+1);}
 		shopCartService.update(cartElement);
-		System.out.println("update andato a buon fine");
+		System.out.println("update andato a buon fine");*/
 	}
 	
 }

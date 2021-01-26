@@ -58,12 +58,12 @@
 								<div class="input-group">
 									<div class="button minus">
 										<button type="button" class="decrement btn btn-primary btn-number" 
-											id="${cart_el.id.bookID}" disabled="disabled" data-type="minus" data-field="quant[1]">
+											id="${cart_el.id.bookID}" data-type="minus" data-field="${cart_el.id.bookID}">
 											<i class="ti-minus"></i>
 										</button>
 									</div>
-									<input type="text" name="quant[1]" class="input-number"
-										data-min="1" data-max="100" value="${cart_el.book.copies}"> 
+									<input type="text" name="${cart_el.id.bookID}" class="input-number"
+										data-min="1" data-max="${cart_el.book.copies}" value="${cart_el.copies}"> 
 									<div class="button plus">
 										<button type="button" class="increment btn btn-primary btn-number"
 											id="${cart_el.id.bookID}" data-type="plus" data-field="quant[1]">

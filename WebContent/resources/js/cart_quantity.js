@@ -6,19 +6,17 @@ $(document).ready(function() {
 		var book_id = $(this).attr("id");
 		//ajax request
         $.ajax({
-            type: "POST",
+            type: 'POST',
             url: cart_url,
-			data: JSON.stringify({
-				operation: "minus", 
-				book_id: book_id}),
-			contentType = 'application/json",
-            dataType: "json",
-            processData:false });
+			data:{"b_id":book_id},
+			//contentType: 'application/json',
+            //dataType: "json", //The type of data that you're expecting back from the server
+            processData: false });
 	});
 	/*$(".increment").click(function() {
 		//ajax request
 		$.ajax({
-	        type: "GET",
+	        type: "POST",
 	        url: "http://localhost:8080/bookshop/cart",
 	        dataType: "json",
 	        success: function (data) {
