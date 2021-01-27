@@ -7,13 +7,17 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import javax.json.JsonObject;
+
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,8 +27,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.security.core.Authentication;
-
-import it.bookshop.services.BookService;
 
 import it.bookshop.model.entity.User;
 import it.bookshop.model.entity.Author;
@@ -37,6 +39,7 @@ import it.bookshop.model.entity.ShoppingCart;
 import it.bookshop.model.entity.ShoppingCartId;
 
 import it.bookshop.model.dao.ShoppingCartDao;
+import it.bookshop.services.BookService;
 import it.bookshop.services.UserService;
 import it.bookshop.services.OrderService;
 import it.bookshop.services.ShoppingCartService;
@@ -107,15 +110,19 @@ public class UserController {
 	}
 	
 	
-	public class httpRequestBody {
-	    public String b_id;
-	    public String operation;
-		public String getB_id() {
+	public static class httpRequestBody{
+	    
+		public httpRequestBody() {	
+		}
+	    
+	    private long b_id;
+		private String operation;
+		
+	    public long getB_id() {
 			return b_id;
 		}
-		public httpRequestBody() {
-		}
-		public void setB_id(String b_id) {
+	    
+		public void setB_id(long b_id) {
 			this.b_id = b_id;
 		}
 		public String getOperation() {
@@ -127,20 +134,43 @@ public class UserController {
 	    
 	}
 	
+	public static class httpResponseBody{
+		    
+		private String response;
+		
+		public httpResponseBody(String response) {
+			super();
+			this.response = response;
+		}
 	
-	@RequestMapping(value = "/cart", method = RequestMethod.POST)
-	public @ResponseBody void cart_update(@RequestParam String b_id, Locale locale, Model model,  Authentication authentication) {
-		System.out.println(b_id);
-		/*String principal_name = authentication.getName();
+		public String getResponse() {
+			return response;
+		}
+	
+		public void setResponse(String response) {
+			this.response = response;
+		}
+		
+	}
+	
+	
+	@PostMapping(value = "/cart") 
+	@ResponseBody
+	public httpResponseBody cart_update(@RequestBody httpRequestBody reqBody, Locale locale, Model model,  Authentication authentication) {
+		
+		String principal_name = authentication.getName();
 		User user = userService.findUserByUsername(principal_name);
-		long bookID = Long.parseLong(requestBody.book_id);
-		ShoppingCart cartElement = shopCartService.findById(user.getUserID(), bookID);
-		if (request_body.operation.equals("minus")) {
+		ShoppingCart cartElement = shopCartService.findById(user.getUserID(), reqBody.getB_id());
+		if(reqBody.operation.equals("delete")) {
+			shopCartService.removeBook(cartElement);
+			return new httpResponseBody("deleted"); 
+		}
+		else {if (reqBody.operation.equals("minus")) {
 			cartElement.setCopies(cartElement.getCopies()-1);}
-		else {
-			cartElement.setCopies(cartElement.getCopies()+1);}
-		shopCartService.update(cartElement);
-		System.out.println("update andato a buon fine");*/
+			else {
+				cartElement.setCopies(cartElement.getCopies()+1);}
+			shopCartService.update(cartElement);
+			return new httpResponseBody(cartElement.getTotalFormattedPrice());}
 	}
 	
 }
