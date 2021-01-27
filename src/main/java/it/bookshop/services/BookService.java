@@ -2,6 +2,7 @@ package it.bookshop.services;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
@@ -26,4 +27,6 @@ public interface BookService {
 	void add_click(Long id);
 	List<Book> findMostClickBook();
 	
+	Map<String, Integer> booksAmountPerGenreFromList(List<Book> books);
+	List<Book> filterByGenres(List<Book> books, List<String> genres);
 };

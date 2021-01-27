@@ -3,8 +3,11 @@ package it.bookshop.services;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -155,5 +158,31 @@ public class BookServiceDefault implements BookService {
 			g2.addBooks(b1);
 		}
 		return b1;
+	}
+
+	@Override
+	public Map<String, Integer> booksAmountPerGenreFromList(List<Book> books) {
+		Map<String, Integer> books_for_genre = new HashMap<String, Integer>();
+		//Calcola il numero di libri per generi in base alla ricerca
+		for(Genre g: getAllGenres()) {
+			books_for_genre.put(g.getName(), 0);
+		}
+		for(Book b: books) {
+			for(Genre g: b.getGenres()) {
+				int val = books_for_genre.getOrDefault(g.getName(), 0);
+				books_for_genre.put(g.getName(), ++val);
+			}
+		}
+		return books_for_genre;
+	}
+
+	@Override
+	public List<Book> filterByGenres(List<Book> books, List<String> genres) {
+		List<Genre> pickedGenres = findGenresFromNamesArray(genres);
+		books = books.stream()
+				.filter(p -> p.getGenres().stream().map(Genre::getName).
+						anyMatch(pickedGenres.stream().map(Genre::getName).collect(Collectors.toSet())::contains))
+				.collect(Collectors.toList());
+		return books;
 	}
 }

@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -107,25 +108,11 @@ public class AdvSearchController {
 			books = bookService.findAll(order_by);
 		}
 		
-		Map<String, Integer> books_for_genre = new HashMap<String, Integer>();
-		//Calcola il numero di libri per generi in base alla ricerca
-		for(Genre g: allGenres) {
-			books_for_genre.put(g.getName(), 0);
-		}
-		for(Book b: books) {
-			for(Genre g: b.getGenres()) {
-				int val = books_for_genre.getOrDefault(g.getName(), 0);
-				books_for_genre.put(g.getName(), ++val);
-			}
-		}
+		Map<String, Integer> books_for_genre = bookService.booksAmountPerGenreFromList(books);
 		
 		//Filtra per generi
 		if(genres != null && !genres.isEmpty()) {
-			List<Genre> pickedGenres = bookService.findGenresFromNamesArray(genres);
-			books = books.stream()
-					.filter(p -> p.getGenres().stream().map(Genre::getName).
-							anyMatch(pickedGenres.stream().map(Genre::getName).collect(Collectors.toSet())::contains))
-					.collect(Collectors.toList());
+			books = bookService.filterByGenres(books, genres);
 		}
 		
 		
