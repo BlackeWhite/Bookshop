@@ -2288,7 +2288,7 @@ Version:1.0
 }
 .shop .view-mode li button {
 	height: 32px;
-	background: black;
+	background: #333333;
 	border: 1px solid #77777775;
 	text-align: center;
 	display: block;

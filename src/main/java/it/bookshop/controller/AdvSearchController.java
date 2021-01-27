@@ -46,6 +46,7 @@ public class AdvSearchController {
 	@RequestMapping(value = "/advanced_search", method = RequestMethod.GET)
 	public String advSearch(@RequestParam(required = false) List<String> genres, @RequestParam(defaultValue="") String term,
 			@RequestParam(defaultValue = "title_ASC") String order_by, @RequestParam(required = false) Long authorId,
+			@RequestParam(defaultValue = "0") Double price_min, @RequestParam(defaultValue = "50") Double price_max, 
 			Locale locale, Model model) {
 		System.out.println("Advanced search Page Requested,  locale = " + locale);
 		
@@ -98,7 +99,7 @@ public class AdvSearchController {
 		
 		List<Book> books;
 		if(!term.equals("")) {
-			books = bookService.searchBooksByTitle(term, order_by);
+			books = bookService.searchBooksByParams(term, price_min, price_max, order_by);
 		} else if(authorId != null) {
 			Set<Book> a_books = authorService.findById(authorId).getBooks();
 			books = new ArrayList<Book>(a_books);
@@ -135,6 +136,8 @@ public class AdvSearchController {
 		model.addAttribute("allGenres", allGenres);
 		model.addAttribute("books_for_genre", books_for_genre);
 		model.addAttribute("term", term);
+		model.addAttribute("priceMin", price_min);
+		model.addAttribute("priceMax", price_max);
 
 		return "advanced_search";
 	}

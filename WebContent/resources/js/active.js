@@ -70,14 +70,16 @@ Version:1.0
 			$( "#slider-range" ).slider({
 			  range: true,
 			  min: 0,
-			  max: 500,
-			  values: [ 120, 250 ],
+			  max: 200,
+			  values: [ currMin, currMax ],
 			  slide: function( event, ui ) {
-				$( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+				$( "#amount" ).val( "€" + ui.values[ 0 ] + " - €" + ui.values[ 1 ] );
+				currMin = ui.values[ 0 ];
+				currMax = ui.values[ 1 ];
 			  }
 			});
-			$( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
-			  " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+			$( "#amount" ).val( "€" + $( "#slider-range" ).slider( "values", 0 ) +
+			  " - €" + $( "#slider-range" ).slider( "values", 1 ) );
 		} );
 		
 		/*=======================

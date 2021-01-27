@@ -5,6 +5,12 @@
 
 <!-- Hidden input to get the current search term in the javascript -->
 <input id="search_term" type="hidden" value="${term}">
+<!-- Variabili per memorizzare i valori dello slider -->
+<!-- Valorizzati al caricamento della pagina e modificati al movimento dello slider-->
+<script type="text/javascript">
+	var currMin = ${priceMin};
+	var currMax = ${priceMax};
+</script>
 
 <!-- Breadcrumbs -->
 <div class="breadcrumbs">

@@ -13,6 +13,8 @@ $(document).ready(function() {
 		else url += "?term=" + $("#search_term").val();
 		url += genres;
 		url += "order_by=" + order;
+		url +="&price_min=" + currMin;
+		url +="&price_max=" + currMax;
 		window.location.href = url;
 	});
 	
