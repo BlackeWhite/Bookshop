@@ -3667,6 +3667,10 @@ Version:1.0
 	color: #fff;
 	border-color: transparent;
 }
+.pagination .pagination-list li.disabled a{
+	background: #F6F7FB;
+	color: #666;
+}
 .pagination .pagination-list li a i{
 	font-size:13px;
 }

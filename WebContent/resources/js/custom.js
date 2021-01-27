@@ -18,9 +18,19 @@ $(document).ready(function() {
 		window.location.href = url;
 	});
 	
+	let searchParams = new URLSearchParams(window.location.search)
+	
+	// Codice paginazione
+	$(".page-link").click(function() {
+		searchParams.delete("page");
+		var url = adv_search_url;
+		if(searchParams.toString() != "") url += "?" + searchParams.toString();
+		url += url.includes("?") ? "&" : "?";
+		url += "page="+$(this).attr("data-page");
+		window.location.href = url;
+	});
 	
 	//Codice che imposta i filtri a quelli presenti nell'url (altrimenti vengono resettati graficamente)
-	let searchParams = new URLSearchParams(window.location.search)
 	if(searchParams.has('order_by')) {
 		var op_id = searchParams.get('order_by');
 		var text = $("#"+op_id).text();

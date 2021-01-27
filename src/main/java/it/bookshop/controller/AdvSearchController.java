@@ -50,7 +50,7 @@ public class AdvSearchController {
 	public String advSearch(@RequestParam(required = false) List<String> genres, @RequestParam(defaultValue="") String term,
 			@RequestParam(defaultValue = "title_ASC") String order_by, @RequestParam(required = false) Long authorId,
 			@RequestParam(defaultValue = "0") Double price_min, @RequestParam(defaultValue = "50") Double price_max, 
-			Locale locale, Model model) {
+			@RequestParam(required = false) Integer page, Locale locale, Model model) {
 		
 		System.out.println("Advanced search Page Requested,  locale = " + locale);
 	
@@ -76,9 +76,19 @@ public class AdvSearchController {
 			books = bookService.filterByGenres(books, genres);
 		}
 		
+		PagedListHolder<Book> pagedListHolder = new PagedListHolder<>(books);
+		pagedListHolder.setPageSize(6);
+		
+		if(page==null || page < 1 || page > pagedListHolder.getPageCount()) page = 1;
+		
+		pagedListHolder.setPage(page - 1);
+		
+		model.addAttribute("books", pagedListHolder.getPageList());
+		model.addAttribute("maxPages", pagedListHolder.getPageCount());
+		model.addAttribute("page", page);
+		
 		
 		model.addAttribute("appName", appName);
-		model.addAttribute("books", books);
 		model.addAttribute("best_sellers", topFiveBestSellersBooks);
 		model.addAttribute("top_authors", topFiveAuthor);
 		model.addAttribute("allGenres", allGenres);
