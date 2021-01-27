@@ -21,7 +21,6 @@ import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
 import it.bookshop.model.entity.User;
 
-
 @Transactional
 @Service("bookService")
 public class BookServiceDefault implements BookService {
@@ -29,59 +28,59 @@ public class BookServiceDefault implements BookService {
 	private BookDao bookRepository;
 	private AuthorDao authorRepository;
 	private GenreDao genreRepository;
-	
+
 	@Override
-	public 	Book findById(Long id) {
+	public Book findById(Long id) {
 		return bookRepository.findById(id);
 	}
-	
+
 	@Override
-	public 	List<Book> searchBooksByParams(String title, Double price_min, Double price_max, String order_by) {
+	public List<Book> searchBooksByParams(String title, Double price_min, Double price_max, String order_by) {
 		return bookRepository.searchBooksByParams(title, price_min, price_max, order_by);
 	}
-	
+
 	@Override
 	public List<Genre> getAllGenres() {
 		return genreRepository.findAll();
 	}
-	
+
 	@Override
 	public List<Genre> findGenresFromNamesArray(List<String> names) {
 		List<Genre> genres = new ArrayList<Genre>();
-		for(String name : names) {
+		for (String name : names) {
 			genres.add(genreRepository.findByName(name));
 		}
 		return genres;
 	}
-	
+
 	@Override
 	public List<Book> findAll() {
 		return bookRepository.findAll();
 	}
-	
+
 	@Override
-	public List<Book> findAll(String order_by) {
-		return bookRepository.findAll(order_by);
-	}	
-	
+	public List<Book> findAll(Double price_min, Double price_max, String order_by) {
+		return bookRepository.findAll(price_min, price_max, order_by);
+	}
+
 	@Override
 	public Book update(Book book) {
 		return bookRepository.update(book);
 	}
-	
+
 	@Override
 	public void delete(Book book) {
 		bookRepository.delete(book);
 	}
-	
+
 	@Override
 	public void deleteAll() {
 		List<Book> books = findAll();
-		for(Book b : books) {
+		for (Book b : books) {
 			delete(b);
 		}
 	}
-	
+
 	@Override
 	public void delete(Long bookId) {
 		Book b = bookRepository.findById(bookId);
@@ -92,70 +91,72 @@ public class BookServiceDefault implements BookService {
 	public void setBookRepository(BookDao bookRepository) {
 		this.bookRepository = bookRepository;
 	}
-	
+
 	@Autowired
 	public void setAuthorRepository(AuthorDao authorRepository) {
 		this.authorRepository = authorRepository;
 	}
-	
+
 	@Autowired
 	public void setGenreRepository(GenreDao genreRepository) {
 		this.genreRepository = genreRepository;
 	}
-	
+
 	@Override
-	public List<Book> findFiveMostRecentBook(){
+	public List<Book> findFiveMostRecentBook() {
 		return bookRepository.findFiveMostRecentBook();
 	}
-	
+
 	@Override
-	public List<Book> findFiveBestSellingBook(){
+	public List<Book> findFiveBestSellingBook() {
 		return bookRepository.findFiveBestSellingBook();
 	}
-	
+
 	@Override
-	public List<Book> findMostClickBook(){
+	public List<Book> findMostClickBook() {
 		return bookRepository.findMostClick();
 	}
-	
+
 	// aggiunta di un click quando il libro è stato selezionato
 	@Override
 	public void add_click(Long id) {
 		Book b = this.bookRepository.findById(id);
 		int index = b.getClicked();
-		index++; 
+		index++;
 		b.setClicked(index);
 		this.bookRepository.update(b);
 	}
-	
+
 	@Override
-	public List<Book> getAllBookForGenre(String name){
-		// restituisce una lista di tutti i libri di un particolare genere, definito attarverso il nome 
-		Genre g = genreRepository.findByName(name); 
-		List<Book> bookforgenre =  g.getBooks();
-		return bookforgenre; 
+	public List<Book> getAllBookForGenre(String name) {
+		// restituisce una lista di tutti i libri di un particolare genere, definito
+		// attarverso il nome
+		Genre g = genreRepository.findByName(name);
+		List<Book> bookforgenre = g.getBooks();
+		return bookforgenre;
 	}
-	
-	@Override  
-	public Book create(String Name_author, String Surname_Author, String isbn,String title, 
-			Date publish_date, Date insert_date, int copies, double price, User seller, int pages, String summary, String cover, String genre) {
-		Book b1 = bookRepository.create(isbn, title, publish_date, insert_date, copies, price, seller, pages, summary, cover);
+
+	@Override
+	public Book create(String Name_author, String Surname_Author, String isbn, String title, Date publish_date,
+			Date insert_date, int copies, double price, User seller, int pages, String summary, String cover,
+			List<String> genres) {
+		Book b1 = bookRepository.create(isbn, title, publish_date, insert_date, copies, price, seller, pages, summary,
+				cover);
 		Author a1 = authorRepository.findByNameAndSurname(Name_author, Surname_Author);
 		if (a1 != null) {
-			a1.addBooks(b1); // ha trovato il libro 
-		}
-		else 
-		{ // se non trova l'autore lo crea 
+			a1.addBooks(b1); // ha trovato il libro
+		} else { // se non trova l'autore lo crea
 			Author a2 = authorRepository.create(Name_author, Surname_Author);
 			a2.addBooks(b1);
 		}
-		Genre g1 = genreRepository.findByName(genre);
-		if (g1 != null) {
-			g1.addBooks(b1);
+		for (String genre : genres) {
+			Genre g1 = genreRepository.findByName(genre);
+			if (g1 != null) {
+				g1.addBooks(b1);
+			} else {
+				Genre g2 = genreRepository.create(genre); // se non trova il genere lo crea
+				g2.addBooks(b1);
 			}
-		else {
-			Genre g2 = genreRepository.create(genre); // se non trova il genere lo crea 
-			g2.addBooks(b1);
 		}
 		return b1;
 	}
@@ -163,12 +164,12 @@ public class BookServiceDefault implements BookService {
 	@Override
 	public Map<String, Integer> booksAmountPerGenreFromList(List<Book> books) {
 		Map<String, Integer> books_for_genre = new HashMap<String, Integer>();
-		//Calcola il numero di libri per generi in base alla ricerca
-		for(Genre g: getAllGenres()) {
+		// Calcola il numero di libri per generi in base alla ricerca
+		for (Genre g : getAllGenres()) {
 			books_for_genre.put(g.getName(), 0);
 		}
-		for(Book b: books) {
-			for(Genre g: b.getGenres()) {
+		for (Book b : books) {
+			for (Genre g : b.getGenres()) {
 				int val = books_for_genre.getOrDefault(g.getName(), 0);
 				books_for_genre.put(g.getName(), ++val);
 			}
@@ -180,8 +181,8 @@ public class BookServiceDefault implements BookService {
 	public List<Book> filterByGenres(List<Book> books, List<String> genres) {
 		List<Genre> pickedGenres = findGenresFromNamesArray(genres);
 		books = books.stream()
-				.filter(p -> p.getGenres().stream().map(Genre::getName).
-						anyMatch(pickedGenres.stream().map(Genre::getName).collect(Collectors.toSet())::contains))
+				.filter(p -> p.getGenres().stream().map(Genre::getName)
+						.anyMatch(pickedGenres.stream().map(Genre::getName).collect(Collectors.toSet())::contains))
 				.collect(Collectors.toList());
 		return books;
 	}
