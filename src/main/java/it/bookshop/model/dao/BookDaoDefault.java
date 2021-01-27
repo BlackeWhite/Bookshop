@@ -26,7 +26,7 @@ public class BookDaoDefault extends DefaultDao implements BookDao{
 		//setParameter non funziona bene con ORDER BY quindi si crea la stringa manualmente
 		String order_str = "ORDER BY b." + params[0] + " " + params[1];
 		
-		return this.getSession().createQuery("FROM Book b WHERE b.price>:priceMin AND b.price<priceMax" 
+		return this.getSession().createQuery("FROM Book b WHERE b.price>:priceMin AND b.price<:priceMax " 
 		+ order_str, Book.class)
 				.setParameter("priceMin", price_min)
 				.setParameter("priceMax", price_max).getResultList();
