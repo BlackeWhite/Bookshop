@@ -50,7 +50,8 @@ public class AdvSearchController {
 	public String advSearch(@RequestParam(required = false) List<String> genres, @RequestParam(defaultValue="") String term,
 			@RequestParam(defaultValue = "title_ASC") String order_by, @RequestParam(required = false) Long authorId,
 			@RequestParam(defaultValue = "0") Double price_min, @RequestParam(defaultValue = "50") Double price_max, 
-			@RequestParam(required = false) Integer page, Locale locale, Model model) {
+			@RequestParam(required = false) Integer page, @RequestParam(defaultValue="6") Integer books_per_page,
+			Locale locale, Model model) {
 		
 		System.out.println("Advanced search Page Requested,  locale = " + locale);
 	
@@ -77,7 +78,7 @@ public class AdvSearchController {
 		}
 		
 		PagedListHolder<Book> pagedListHolder = new PagedListHolder<>(books);
-		pagedListHolder.setPageSize(6);
+		pagedListHolder.setPageSize(books_per_page);
 		
 		if(page==null || page < 1 || page > pagedListHolder.getPageCount()) page = 1;
 		

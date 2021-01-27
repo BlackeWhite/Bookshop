@@ -51,14 +51,14 @@
 					<!--/ End Single Widget -->
 					<!-- Shop By Price -->
 					<div class="single-widget range">
-						<h3 class="title">Shop by Price</h3>
+						<h3 class="title">Ricerca per Prezzo</h3>
 						<div class="price-filter">
 							<div class="price-filter-inner">
 								<div id="slider-range"
 									class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"></div>
 								<div class="price_slider_amount">
 									<div class="label-input">
-										<span>Range:</span><input type="text" id="amount" name="price"
+										<span>Intervallo:</span><input type="text" id="amount" name="price"
 											placeholder="Add Your Price" />
 									</div>
 								</div>
@@ -119,11 +119,10 @@
 						<div class="shop-top">
 							<div class="shop-shorter">
 								<div class="single-shorter">
-									<label>Show :</label> <select>
-										<option selected="selected">09</option>
-										<option>15</option>
-										<option>25</option>
-										<option>30</option>
+									<label>Mostra :</label> <select id="books_per_page">
+										<option id="6_op" data-max="6">06</option>
+										<option id="9_op" data-max="9">09</option>
+										<option id="12_op" data-max="12">12</option>
 									</select>
 								</div>
 								<div class="single-shorter">
@@ -139,6 +138,9 @@
 							<ul class="view-mode">
 								<li>
 									<button class="apply_filter">Applica filtri</button>
+								</li>
+								<li>
+									<button class="reset_filter">Elimina filtri</button>
 								</li>
 							</ul>
 						</div>
