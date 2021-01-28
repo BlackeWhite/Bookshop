@@ -39,16 +39,17 @@ public class BookDaoDefault extends DefaultDao implements BookDao{
 	}
 	
 	@Override
-	public List<Book> searchBooksByParams(String title, Double price_min, Double price_max, String order_by) {
+	public List<Book> searchBooksByParams(String search_by, String term, Double price_min, Double price_max, String order_by) {
 		
 		String[] params = order_by.split("_");
-		//setParameter non funziona bene con ORDER BY quindi si crea la stringa manualmente
+		//setParameter non funziona bene con il "." vicino quindi si creano la stringa manualmente
 		String order_str = "ORDER BY b." + params[0] + " " + params[1];
+		String search_str = "b." + search_by;
 		
 		return this.getSession()
-				.createQuery("FROM Book b WHERE LOWER(b.title) LIKE LOWER(CONCAT('%', :title, '%')) "
+				.createQuery("FROM Book b WHERE LOWER("+search_str+") LIKE LOWER(CONCAT('%', :term, '%')) "
 						+ "AND b.price>:min AND b.price<:max " + order_str, Book.class)
-				.setParameter("title", title)
+				.setParameter("term", term)
 				.setParameter("min", price_min)
 				.setParameter("max", price_max).getResultList();
 	}

@@ -35,8 +35,8 @@ public class BookServiceDefault implements BookService {
 	}
 
 	@Override
-	public List<Book> searchBooksByParams(String title, Double price_min, Double price_max, String order_by) {
-		return bookRepository.searchBooksByParams(title, price_min, price_max, order_by);
+	public List<Book> searchBooksByParams(String search_by, String title, Double price_min, Double price_max, String order_by) {
+		return bookRepository.searchBooksByParams(search_by, title, price_min, price_max, order_by);
 	}
 
 	@Override

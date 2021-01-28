@@ -10,7 +10,7 @@ import it.bookshop.model.entity.User;
 
 public interface BookService {
 	Book findById(Long bookId);
-	List<Book> searchBooksByParams(String title, Double price_min, Double price_max, String order_by);
+	List<Book> searchBooksByParams(String search_by, String term, Double price_min, Double price_max, String order_by);
 	List<Genre> getAllGenres();
 	List<Genre> findGenresFromNamesArray(List<String> names);
 	List<Book> findAll();

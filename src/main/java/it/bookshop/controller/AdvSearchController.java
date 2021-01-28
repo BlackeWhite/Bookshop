@@ -47,11 +47,11 @@ public class AdvSearchController {
 	private AuthorService authorService;
 	
 	@RequestMapping(value = "/advanced_search", method = RequestMethod.GET)
-	public String advSearch(@RequestParam(required = false) List<String> genres, @RequestParam(defaultValue="") String term,
-			@RequestParam(defaultValue = "title_ASC") String order_by, @RequestParam(required = false) Long authorId,
-			@RequestParam(defaultValue = "0") Double price_min, @RequestParam(defaultValue = "50") Double price_max, 
-			@RequestParam(required = false) Integer page, @RequestParam(defaultValue="6") Integer books_per_page,
-			Locale locale, Model model) {
+	public String advSearch(@RequestParam(defaultValue="title") String search_by, @RequestParam(defaultValue="") String term, 
+			@RequestParam(required = false) List<String> genres, @RequestParam(defaultValue = "title_ASC") String order_by, 
+			@RequestParam(required = false) Long authorId, @RequestParam(defaultValue = "0") Double price_min,
+			@RequestParam(defaultValue = "50") Double price_max, @RequestParam(required = false) Integer page, 
+			@RequestParam(defaultValue="6") Integer books_per_page, Locale locale, Model model) {
 		
 		System.out.println("Advanced search Page Requested,  locale = " + locale);
 	
@@ -62,7 +62,7 @@ public class AdvSearchController {
 		
 		List<Book> books;
 		if(!term.equals("")) {
-			books = bookService.searchBooksByParams(term, price_min, price_max, order_by);
+			books = bookService.searchBooksByParams(search_by, term, price_min, price_max, order_by);
 		} else if(authorId != null) {
 			Set<Book> a_books = authorService.findById(authorId).getBooks();
 			books = new ArrayList<Book>(a_books);

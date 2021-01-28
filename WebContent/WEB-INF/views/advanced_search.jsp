@@ -120,9 +120,9 @@
 							<div class="shop-shorter">
 								<div class="single-shorter">
 									<label>Mostra :</label> <select id="books_per_page">
-										<option id="6_op" data-max="6">06</option>
-										<option id="9_op" data-max="9">09</option>
-										<option id="12_op" data-max="12">12</option>
+										<option id="6_op" value="6">06</option>
+										<option id="9_op" value="9">09</option>
+										<option id="12_op" value="12">12</option>
 									</select>
 								</div>
 								<div class="single-shorter">

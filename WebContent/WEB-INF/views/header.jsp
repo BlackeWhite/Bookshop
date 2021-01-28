@@ -79,17 +79,15 @@
 				<div class="col-lg-8 col-md-7 col-12">
 					<div class="search-bar-top">
 						<div class="search-bar">
-								<select>
-									<option selected="selected">All Category</option>
-									<option>watch</option>
-									<option>mobile</option>
-									<option>kid’s item</option>
+							<c:url value="/advanced_search" var="search_action"/>
+							<form action="${search_action}" method="GET">
+								<select name="search_by" id="search_by">
+									<option id="title" value="title">Titolo</option>
+									<option id="isbn" value="isbn">ISBN</option>
 								</select>
-								<c:url value="/advanced_search" var="search_action"/>
-								<form action="${search_action}" method="GET">
-									<input name="term" placeholder="Cerca i libri qui....." type="search">
-									<button type="submit" class="btnn"><i class="ti-search"></i></button>
-								</form>
+								<input name="term" placeholder="Cerca i libri qui....." type="search">
+								<button type="submit" class="btnn"><i class="ti-search"></i></button>
+							</form>
 						</div>
 					</div>
 				</div>
