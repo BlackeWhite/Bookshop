@@ -12,9 +12,10 @@ public interface OrderService {
 	public Order findById(Long id);
 	public Order create(User buyer, double total_expense);
 	//If user purchases directly from the book page/mini page
+	//TODO delete some unused create functions
 	public Order createFromDirectPurchase(User buyer, Book book, int copies);
 	//If user buys from shopping cart page
-	public Order createFromShoppingCart(User user);
+	public Order createFromShoppingCart(Long userId, String payment);
 	public Order update(Order order);
 	public List<Order> findAll();
 	public List<Order> findAllMadeAfter(Date date);

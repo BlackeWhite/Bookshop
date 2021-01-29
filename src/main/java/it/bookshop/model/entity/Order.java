@@ -1,6 +1,7 @@
 package it.bookshop.model.entity;
 
 import java.sql.Date;
+import java.text.NumberFormat;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "ORDERS")
@@ -24,8 +26,9 @@ public class Order {
 	private Long id;
 	private User buyer;
 	private Date date;
+	private String payment;
 	private Set<BookOrder> books = new HashSet<BookOrder>();
-	private double total_expense;
+	private double totalExpense;
 
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,11 +51,11 @@ public class Order {
 	
 
 	@Column(name = "TOTAL_EXPENSE")
-	public double getTotal_expense() {
-		return total_expense;
+	public double getTotalExpense() {
+		return totalExpense;
 	}
-	public void setTotal_expense(double total_expense) {
-		this.total_expense = total_expense;
+	public void setTotalExpense(double totalExpense) {
+		this.totalExpense = totalExpense;
 	}
 	
 	
@@ -75,6 +78,20 @@ public class Order {
 	}
 	public void setBooks(Set<BookOrder> books) {
 		this.books = books;
+	}
+	
+	@Column(name="PAYMENT")
+	public String getPayment() {
+		return payment;
+	}
+	public void setPayment(String payment) {
+		this.payment = payment;
+	}
+	
+	@Transient
+	public String getFormattedTotalExpense() {
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		return formatter.format(totalExpense);
 	}
 	
 }

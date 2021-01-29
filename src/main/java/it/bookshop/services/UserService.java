@@ -1,7 +1,9 @@
 package it.bookshop.services;
 
 import java.sql.Date;
+import java.util.List;
 
+import it.bookshop.model.entity.PaymentCard;
 import it.bookshop.model.entity.PersonalData;
 import it.bookshop.model.entity.User;
 
@@ -22,4 +24,12 @@ public interface UserService {
 	User update(User user);
 	
 	void deleteByUsername(String username);
+	
+	//PaymentCard
+	List<PaymentCard> findAll();
+	PaymentCard findPaymentCardById(Long id);
+	PaymentCard create(String type, String number, Date expirationDate, User user);
+	PaymentCard create(String type, String number, Date expirationDate, Long userId);
+	PaymentCard update(PaymentCard card);
+	void delete(PaymentCard card);
 }

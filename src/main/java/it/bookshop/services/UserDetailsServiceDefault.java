@@ -1,6 +1,7 @@
 package it.bookshop.services;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User.UserBuilder;
@@ -10,10 +11,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.bookshop.model.entity.PaymentCard;
 import it.bookshop.model.entity.PersonalData;
 import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.User;
 import it.bookshop.model.dao.AuthorDao;
+import it.bookshop.model.dao.PaymentCardDao;
 import it.bookshop.model.dao.UserDetailsDao;
 
 @Transactional
@@ -22,6 +25,7 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 	
 	
 	private UserDetailsDao userrepository;
+	private PaymentCardDao paymentCardRepository;
 
 	@Transactional(readOnly = true)
 	@Override
@@ -96,5 +100,41 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 		this.userrepository = userrepository;
 	}
 	
+	@Autowired
+	public void setPaymentCardRepository(PaymentCardDao paymentCardRepository) {
+		this.paymentCardRepository = paymentCardRepository;
+	}
+
+	@Override
+	public List<PaymentCard> findAll() {
+		return this.paymentCardRepository.findAll();
+	}
+
+	@Override
+	public PaymentCard findPaymentCardById(Long id) {
+		return this.paymentCardRepository.findById(id);
+	}
+
+	@Override
+	public PaymentCard create(String type, String number, Date expirationDate, User user) {
+		return this.paymentCardRepository.create(type, number, expirationDate, user);
+	}
+	
+	@Override
+	public PaymentCard create(String type, String number, Date expirationDate, Long userId) {
+		User user = this.userrepository.findUserById(userId);
+		return this.paymentCardRepository.create(type, number, expirationDate, user);
+	}
+
+	@Override
+	public PaymentCard update(PaymentCard card) {
+		return this.paymentCardRepository.update(card);
+	}
+
+	@Override
+	public void delete(PaymentCard card) {
+		this.paymentCardRepository.delete(card);
+	}
+
 	
 }

@@ -24,7 +24,8 @@ public class OrderServiceDefault implements OrderService {
 
 	private OrderDao orderRepository;
 	private BookOrderDao bookOrderRepository;
-	private ShoppingCartDao shoppingCartRepository;
+	private ShoppingCartService shoppingCartService;
+	private UserService userService;
 	
 	@Override
 	public Order findById(Long id) {
@@ -48,9 +49,9 @@ public class OrderServiceDefault implements OrderService {
 	}
 	
 	@Override
-	public Order createFromShoppingCart(User user) {
+	public Order createFromShoppingCart(Long userId, String payment) {
 		Date date = new Date(System.currentTimeMillis());
-		List<ShoppingCart> cart = shoppingCartRepository.findUserShoppingCart(user.getUserID());
+		List<ShoppingCart> cart = shoppingCartService.findUserShoppingCart(userId);
 		double total_expense = 0;
 		List<BookOrder> books = new ArrayList<BookOrder>();
 		for(ShoppingCart c : cart) {
@@ -61,7 +62,8 @@ public class OrderServiceDefault implements OrderService {
 			books.add(b);
 			total_expense = c.getCopies() * c.getBook().getPrice();
 			}
-		return orderRepository.create(user, total_expense, date, books);
+		User u = userService.findUserById(userId);
+		return orderRepository.create(u, total_expense, date, books, payment);
 	}
 
 	@Override
@@ -112,8 +114,13 @@ public class OrderServiceDefault implements OrderService {
 	}
 
 	@Autowired
-	public void setShoppingCartRepository(ShoppingCartDao shoppingCartRepository) {
-		this.shoppingCartRepository = shoppingCartRepository;
+	public void setShoppingCartService(ShoppingCartService shoppingCartService) {
+		this.shoppingCartService = shoppingCartService;
+	}
+
+	@Autowired
+	public void setUserService(UserService userService) {
+		this.userService = userService;
 	}
 
 }

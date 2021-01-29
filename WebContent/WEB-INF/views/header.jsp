@@ -166,7 +166,7 @@
 											<li><a href="#">Sconti<span class="new">Sale</span></a></li>
 											<li><a href="#">Acquisti<i class="ti-angle-down"></i></a>
 												<ul class="dropdown">
-													<li><a href="cart.html">Carrello</a></li>
+													<li><a href="<c:url value="/cart"/>">Carrello</a></li>
 													<li><a href="checkout.html">Procedi all'acquisto</a></li>
 												</ul></li>
 											<li><a href="contact.html">Contattaci</a></li>

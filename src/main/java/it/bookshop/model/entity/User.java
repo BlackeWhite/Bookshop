@@ -36,6 +36,7 @@ public class User implements Serializable{
 	private Set<Order> orders = new HashSet<Order>();
 	private Set<Book> booksForSale = new HashSet<Book>();
 	private Set<ShoppingCart> shoppingCart = new HashSet<ShoppingCart>();
+	private Set<PaymentCard> paymentCards = new HashSet<PaymentCard>();
 
     @Embedded
     private PersonalData personalData;
@@ -156,6 +157,25 @@ public class User implements Serializable{
 	}
 	public PersonalData getPersonalData() {
 		return personalData;
+	}
+	
+	
+	@OneToMany(cascade = { CascadeType.DETACH,
+			CascadeType.MERGE,
+			CascadeType.REFRESH,
+			CascadeType.PERSIST,
+			CascadeType.REMOVE},
+			mappedBy="owner",
+			fetch = FetchType.EAGER)
+	public Set<PaymentCard> getPaymentCards() {
+		return paymentCards;
+	}
+	public void setPaymentCards(Set<PaymentCard> paymentCards) {
+		this.paymentCards = paymentCards;
+	}
+	public void addPaymentCard(PaymentCard card) {
+		paymentCards.add(card);
+		card.setUser(this);
 	}
 	
 
