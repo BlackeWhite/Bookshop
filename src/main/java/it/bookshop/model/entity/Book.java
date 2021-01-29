@@ -37,7 +37,7 @@ public class Book implements Serializable{
 	private Date publish; 
 	private Date insertdata;
 	private int pages;
-	private double sales; // se al libro è applicato uno sconto 
+	private double discount; // se al libro è applicato uno sconto 
 	private String summary; //short synthesis for book preview
 	private String cover; //file name of cover image
 	private User seller; //Seller of the book
@@ -142,12 +142,12 @@ public class Book implements Serializable{
 	public void setCover(String cover) {
 		this.cover = cover;
 	}
-	@Column(name = "SALES")
-	public double getSales() {
-		return sales;
+	@Column(name = "DISCOUNT")
+	public double getDiscount() {
+		return discount;
 	}
-	public void setSales(double sales) {
-		this.sales = sales;
+	public void setDiscount(double discount) {
+		this.discount = discount;
 	}
 	
 	/*
@@ -233,22 +233,25 @@ public class Book implements Serializable{
 	@Transient
 	public String getFormattedPrice() {
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
-		String moneyString = formatter.format(price);
-		return moneyString.replace(formatter.getCurrency().getSymbol()+" ", "");
+		return formatter.format(price);
 	}
 	
 	@Transient
-	public int getTruncateSales() {
-		int saleint = (int) (sales*100);
-		return saleint;
+	public int getTruncatedDiscount() {
+		int discountint = (int) (discount*100);
+		return discountint;
 	}
 	
 	@Transient
-	public String getPriceSales() {
+	public double getDiscountedPrice() {
+		return price*(1-discount);
+	}
+	
+	@Transient
+	public String getFormattedDiscountedPrice() {
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
-		double pricenew = price*(1-sales);
-		String moneyString = formatter.format(pricenew);
-		return moneyString.replace(formatter.getCurrency().getSymbol()+" ", "");
+		double pricenew = price*(1-discount);
+		return formatter.format(pricenew);
 	
 	}
 

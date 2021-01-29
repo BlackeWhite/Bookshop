@@ -31,7 +31,7 @@
 									<h4 class="title">
 										<a href="<c:url value="/show_book/${tBSBooks.id}"/>">${tBSBooks.title}</a>
 									</h4>
-									<p class="price with-discount">€${tBSBooks.priceSales}</p>
+									<p class="price with-discount">€${tBSBooks.formattedDiscountedPrice}</p>
 								</div>
 							</div>
 						</div>
@@ -63,7 +63,7 @@
 									<h5 class="title">
 										<a href="<c:url value="/show_book/${tFNBooks.id}"/>">${tFNBooks.title}</a>
 									</h5>
-									<p class="price with-discount">€${tFNBooks.priceSales}</p>
+									<p class="price with-discount">€${tFNBooks.formattedDiscountedPrice}</p>
 								</div>
 							</div>
 						</div>
@@ -136,8 +136,8 @@
 														alt="#"> <img class="hover-img"
 														src="<c:url value="/resources/img/${tMCB.cover}"/>"
 														alt="#">
-														<c:if test="${tMCB.sales > 0}">
-														<span class="price-dec">${tMCB.truncateSales}%</span>
+														<c:if test="${tMCB.discount > 0}">
+														<span class="price-dec">${tMCB.truncatedDiscount}%</span>
 														</c:if>
 													</a>
 													<div class="button-head">
@@ -153,12 +153,12 @@
 														<a href="<c:url value="/show_book/${tMCB.id}"/>">${tMCB.title}</a>
 													</h3>
 													<div class="product-price">
-														<c:if test="${tMCB.sales > 0}">
-															<span class="old">€${tMCB.formattedPrice}</span>
-															<span>€${tMCB.priceSales}</span>
+														<c:if test="${tMCB.discount > 0}">
+															<span class="old">${tMCB.formattedPrice}</span>
+															<span>${tMCB.formattedDiscountedPrice}</span>
 														</c:if>
-														<c:if test="${tMCB.sales == 0}">
-															<span>€${tMCB.formattedPrice}</span>
+														<c:if test="${tMCB.discount == 0}">
+															<span>${tMCB.formattedPrice}</span>
 														</c:if>
 													</div>
 												</div>

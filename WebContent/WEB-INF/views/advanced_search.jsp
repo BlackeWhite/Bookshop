@@ -8,14 +8,8 @@
 <!-- Variabili per memorizzare i valori dello slider -->
 <!-- Valorizzati al caricamento della pagina e modificati al movimento dello slider-->
 <script type="text/javascript">
-	var currMin = $
-	{
-		priceMin
-	};
-	var currMax = $
-	{
-		priceMax
-	};
+	var currMin = ${priceMin};
+	var currMax = ${priceMax};
 </script>
 
 <!-- Breadcrumbs -->
@@ -96,7 +90,7 @@
 									<h5>
 										<a href="<c:url value="/show_book/${bs.id}"/>">${bs.title}</a>
 									</h5>
-									<p class="price">${bs.priceSales}&euro;</p>
+									<p class="price">${bs.formattedDiscountedPrice}</p>
 									<p class="price">${bs.publish}</p>
 								</div>
 							</div>
@@ -165,8 +159,8 @@
 										style="height: 400px; object-fit: contain"
 										src="<c:url value="/resources/img/${b.cover}"/>"> 
 										<c:if
-											test="${b.sales > 0}">
-											<span class="price-dec">${b.truncateSales}%</span>
+											test="${b.discount > 0}">
+											<span class="price-dec">${b.truncatedDiscount}%</span>
 										</c:if>
 									</a>
 									<div class="button-head">
@@ -185,12 +179,12 @@
 										<a href="product-details.html">${b.title}</a>
 									</h3>
 									<div class="product-price">
-										<c:if test="${b.sales > 0}">
-											<span class="old">€${b.formattedPrice}</span>
-											<span>€${b.priceSales}</span>
+										<c:if test="${b.discount > 0}">
+											<span class="old">${b.formattedPrice}</span>
+											<span>${b.formattedDiscountedPrice}</span>
 										</c:if>
-										<c:if test="${b.sales == 0}">
-											<span>€${b.formattedPrice}</span>
+										<c:if test="${b.discount == 0}">
+											<span>${b.formattedPrice}</span>
 										</c:if>
 									</div>
 								</div>

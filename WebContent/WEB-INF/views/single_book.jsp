@@ -33,11 +33,11 @@
 					</div>
 					<div class="quickview-stock"></div>
 				</div>
-				<c:if test="${book.sales > 0 }">
-				<h3><s style = "color:#B22222">€${book.formattedPrice}</s>&nbsp € ${book.priceSales}<p style = "color:#B22222">(${ book.truncateSales}% di sconto)</p> </h3>
+				<c:if test="${book.discount > 0 }">
+				<h3><s style = "color:#B22222">${book.formattedPrice}</s>&nbsp ${book.formattedDiscountedPrice}<p style = "color:#B22222">(${ book.truncatedDiscount}% di sconto)</p> </h3>
 				</c:if>
-					<c:if test="${book.sales == 0 }">
-				<h3>€${book.formattedPrice}</h3>
+					<c:if test="${book.discount == 0 }">
+				<h3>${book.formattedPrice}</h3>
 				</c:if>
 				<div class="quickview-peragraph">
 					<p>${book.summary}</p>
@@ -112,8 +112,8 @@
 														src="<c:url value="/resources/img/${bookinterestgenre.cover}"/>"
 														alt="#"> <img class="hover-img"
 														src="<c:url value="/resources/img/${bookinterestgenre.cover}"/>" alt="#">
-														<c:if test="${bookinterestgenre.sales > 0}">
-														<span class="price-dec">${bookinterestgenre.truncateSales}%</span>
+														<c:if test="${bookinterestgenre.discount > 0}">
+														<span class="price-dec">${bookinterestgenre.truncatedDiscount}%</span>
 														</c:if>
 													</a>
 								<div class="button-head">
@@ -127,12 +127,12 @@
 							<div class="product-content">
 								<h4><a href="product-details.html"></a>${bookinterestgenre.title}</h4>
 								<div class="product-price">
-									<c:if test="${bookinterestgenre.sales > 0}">
-									<span class="old">€${bookinterestgenre.formattedPrice}</span>
-									<span>€${bookinterestgenre.priceSales}</span>
+									<c:if test="${bookinterestgenre.discount > 0}">
+									<span class="old">${bookinterestgenre.formattedPrice}</span>
+									<span>${bookinterestgenre.formattedDiscountedPrice}</span>
 									</c:if>
-									<c:if test="${bookinterestgenre.sales == 0}">
-									<span>€${bookinterestgenre.formattedPrice}</span>
+									<c:if test="${bookinterestgenre.discount == 0}">
+									<span>${bookinterestgenre.formattedPrice}</span>
 									</c:if>
 								</div>
 							</div>
@@ -166,8 +166,8 @@
 														src="<c:url value="/resources/img/${bookinterestaut.cover}"/>"
 														alt="#"> <img class="hover-img"
 														src="<c:url value="/resources/img/${bookinterestaut.cover}"/>" alt="#">
-														<c:if test="${bookinterestaut.sales > 0}">
-														<span class="price-dec">${bookinterestaut.truncateSales}%</span>
+														<c:if test="${bookinterestaut.discount > 0}">
+														<span class="price-dec">${bookinterestaut.truncatedDiscount}%</span>
 														</c:if>
 													</a>
 								<div class="button-head">
@@ -181,12 +181,12 @@
 							<div class="product-content">
 								<h4><a href="product-details.html"></a>${bookinterestaut.title}</h4>
 								<div class="product-price">
-									<c:if test="${bookinterestaut.sales > 0}">
-									<span class="old">€${bookinterestaut.formattedPrice}</span>
-									<span>€${bookinterestaut.priceSales}</span>
+									<c:if test="${bookinterestaut.discount > 0}">
+									<span class="old">${bookinterestaut.formattedPrice}</span>
+									<span>${bookinterestaut.formattedDiscountedPrice}</span>
 									</c:if>
-									<c:if test="${bookinterestaut.sales == 0}">
-									<span>€${bookinterestgenre.formattedPrice}</span>
+									<c:if test="${bookinterestaut.discount == 0}">
+									<span>${bookinterestgenre.formattedPrice}</span>
 									</c:if>
 								</div>
 							</div>
