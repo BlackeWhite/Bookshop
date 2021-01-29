@@ -165,7 +165,7 @@ public class User implements Serializable{
 			CascadeType.REFRESH,
 			CascadeType.PERSIST,
 			CascadeType.REMOVE},
-			mappedBy="owner",
+			mappedBy="user",
 			fetch = FetchType.EAGER)
 	public Set<PaymentCard> getPaymentCards() {
 		return paymentCards;

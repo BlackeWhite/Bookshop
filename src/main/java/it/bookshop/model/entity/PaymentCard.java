@@ -65,7 +65,7 @@ public class PaymentCard implements Serializable{
 			CascadeType.REFRESH,
 			CascadeType.PERSIST},
 			fetch = FetchType.EAGER)
-	@JoinColumn(name="USER_ID", referencedColumnName="ID")
+	@JoinColumn(name="USER_ID", referencedColumnName="USER_ID")
 	public User getUser() {
 		return user;
 	}
