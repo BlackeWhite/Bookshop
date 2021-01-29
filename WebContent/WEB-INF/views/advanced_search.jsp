@@ -8,8 +8,14 @@
 <!-- Variabili per memorizzare i valori dello slider -->
 <!-- Valorizzati al caricamento della pagina e modificati al movimento dello slider-->
 <script type="text/javascript">
-	var currMin = ${priceMin};
-	var currMax = ${priceMax};
+	var currMin = $
+	{
+		priceMin
+	};
+	var currMax = $
+	{
+		priceMax
+	};
 </script>
 
 <!-- Breadcrumbs -->
@@ -58,8 +64,8 @@
 									class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"></div>
 								<div class="price_slider_amount">
 									<div class="label-input">
-										<span>Intervallo:</span><input type="text" id="amount" name="price"
-											placeholder="Add Your Price" />
+										<span>Intervallo:</span><input type="text" id="amount"
+											name="price" placeholder="Add Your Price" />
 									</div>
 								</div>
 							</div>
@@ -90,7 +96,7 @@
 									<h5>
 										<a href="<c:url value="/show_book/${bs.id}"/>">${bs.title}</a>
 									</h5>
-									<p class="price">${bs.formattedPrice}&euro;</p>
+									<p class="price">${bs.priceSales}&euro;</p>
 									<p class="price">${bs.publish}</p>
 								</div>
 							</div>
@@ -157,16 +163,14 @@
 										src="<c:url value="/resources/img/${b.cover}"/>" alt="#">
 										<img class="hover-img"
 										style="height: 400px; object-fit: contain"
-										src="<c:url value="/resources/img/${b.cover}"/>">
+										src="<c:url value="/resources/img/${b.cover}"/>"> 
+										<c:if
+											test="${b.sales > 0}">
+											<span class="price-dec">${b.truncateSales}%</span>
+										</c:if>
 									</a>
 									<div class="button-head">
-										<div class="product-action">
-											<a data-toggle="modal" data-target="#exampleModal"
-												title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick
-													Shop</span></a> <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add
-													to Wishlist</span></a> <a title="Compare" href="#"><i
-												class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
-										</div>
+										<div class="product-action"></div>
 										<div class="product-action-2">
 											<c:url value="/add_to_cart" var="add_action" />
 											<form action="${add_action}" method="POST">
@@ -181,7 +185,13 @@
 										<a href="product-details.html">${b.title}</a>
 									</h3>
 									<div class="product-price">
-										<span>${b.formattedPrice} &euro;</span>
+										<c:if test="${b.sales > 0}">
+											<span class="old">€${b.formattedPrice}</span>
+											<span>€${b.priceSales}</span>
+										</c:if>
+										<c:if test="${b.sales == 0}">
+											<span>€${b.formattedPrice}</span>
+										</c:if>
 									</div>
 								</div>
 							</div>
@@ -191,27 +201,28 @@
 				<div class="pagination" style="margin: auto">
 					<div class="center" style="margin: auto">
 						<ul class="pagination pagination-lg pagination-list">
-							<c:if test="${page == 1}"> 
-								 <c:set value="disabled" var="disabledBegin"/>
+							<c:if test="${page == 1}">
+								<c:set value="disabled" var="disabledBegin" />
 							</c:if>
-							<li class="page-item ${disabledBegin}"><a class="page-link" data-page="${page-1}">&laquo;</a></li>
+							<li class="page-item ${disabledBegin}"><a class="page-link"
+								data-page="${page-1}">&laquo;</a></li>
 							<c:forEach begin="1" end="${maxPages}" step="1" varStatus="i">
 								<c:choose>
-									<c:when test="${i.index == page}"> 
-								 		<c:set value="active" var="active"/>
+									<c:when test="${i.index == page}">
+										<c:set value="active" var="active" />
 									</c:when>
 									<c:otherwise>
-										<c:set value="" var="active"/>
+										<c:set value="" var="active" />
 									</c:otherwise>
 								</c:choose>
-								<li class="page-item ${active}"><a class="page-link" data-page="${i.index}">${i.index}</a>
-								</li>
+								<li class="page-item ${active}"><a class="page-link"
+									data-page="${i.index}">${i.index}</a></li>
 							</c:forEach>
-							<c:if test="${page == maxPages}"> 
-							 	<c:set value="disabled" var="disabledEnd"/>
+							<c:if test="${page == maxPages}">
+								<c:set value="disabled" var="disabledEnd" />
 							</c:if>
-							<li class="page-item ${disabledEnd}"><a class="page-link" data-page="${page+1}">&raquo;</a>
-							</li>
+							<li class="page-item ${disabledEnd}"><a class="page-link"
+								data-page="${page+1}">&raquo;</a></li>
 						</ul>
 					</div>
 				</div>

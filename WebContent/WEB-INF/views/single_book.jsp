@@ -6,6 +6,7 @@
 		<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
 			<img src="<c:url value="/resources/img/${book.cover}"/>" alt="#"
 				class="center_image">
+			
 		</div>
 		<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
 			<div class="quickview-content">
@@ -32,7 +33,12 @@
 					</div>
 					<div class="quickview-stock"></div>
 				</div>
-				<h3>€ ${book.price}</h3>
+				<c:if test="${book.sales > 0 }">
+				<h3><s style = "color:#B22222">€${book.formattedPrice}</s>&nbsp € ${book.priceSales}<p style = "color:#B22222">(${ book.truncateSales}% di sconto)</p> </h3>
+				</c:if>
+					<c:if test="${book.sales == 0 }">
+				<h3>€${book.formattedPrice}</h3>
+				</c:if>
 				<div class="quickview-peragraph">
 					<p>${book.summary}</p>
 				</div>
@@ -65,7 +71,7 @@
 					<!--/ End Input Order -->
 				</div>
 				<div class="add-to-cart">
-					<a href="#" class="btn">Add to cart</a>
+					<a href="#" class="btn">Aggiungi al carrello</a>
 				</div>
 				</c:if>
 				<div class="default-social">
@@ -82,5 +88,119 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- Start Most Popular -->
+	<div class="product-area most-popular section">
+        <div class="container">
+            <div class="row">
+				<div class="col-12">
+					<div>
+						<h2>Libri dello stesso genere che potrebbero interessarti</h2>
+					</div>
+				</div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="owl-carousel popular-slider">
+						
+						<!-- Start Single Product -->
+						<c:forEach items="${booksimilgenre}" var="bookinterestgenre">
+						<div class="single-product">
+							<div class="product-img">
+								<a href="<c:url value="/show_book/${bookinterestgenre.id}"/>"> <img
+														class="default-img"
+														src="<c:url value="/resources/img/${bookinterestgenre.cover}"/>"
+														alt="#"> <img class="hover-img"
+														src="<c:url value="/resources/img/${bookinterestgenre.cover}"/>" alt="#">
+														<c:if test="${bookinterestgenre.sales > 0}">
+														<span class="price-dec">${bookinterestgenre.truncateSales}%</span>
+														</c:if>
+													</a>
+								<div class="button-head">
+									<div class="product-action">
+									</div>
+									<div class="product-action-2">
+										<a title="Add to cart" href="#">Aggiungi al carrello </a>
+									</div>
+								</div>
+							</div>
+							<div class="product-content">
+								<h4><a href="product-details.html"></a>${bookinterestgenre.title}</h4>
+								<div class="product-price">
+									<c:if test="${bookinterestgenre.sales > 0}">
+									<span class="old">€${bookinterestgenre.formattedPrice}</span>
+									<span>€${bookinterestgenre.priceSales}</span>
+									</c:if>
+									<c:if test="${bookinterestgenre.sales == 0}">
+									<span>€${bookinterestgenre.formattedPrice}</span>
+									</c:if>
+								</div>
+							</div>
+						</div>
+						</c:forEach>
+						<!-- End Single Product -->
+						
+                    </div>
+                </div>
+            </div>
+   </div>
+   <br>
+        <div class="container">
+            <div class="row">
+				<div class="col-12">
+					<div>
+						<h2>Libri dello stesso autore che potrebbero interessarti</h2>
+					</div>
+				</div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="owl-carousel popular-slider">
+						
+						<!-- Start Single Product -->
+						<c:forEach items="${booksimilaut}" var="bookinterestaut">
+						<div class="single-product">
+							<div class="product-img">
+								<a href="<c:url value="/show_book/${bookinterestaut.id}"/>"> <img
+														class="default-img"
+														src="<c:url value="/resources/img/${bookinterestaut.cover}"/>"
+														alt="#"> <img class="hover-img"
+														src="<c:url value="/resources/img/${bookinterestaut.cover}"/>" alt="#">
+														<c:if test="${bookinterestaut.sales > 0}">
+														<span class="price-dec">${bookinterestaut.truncateSales}%</span>
+														</c:if>
+													</a>
+								<div class="button-head">
+									<div class="product-action">
+									</div>
+									<div class="product-action-2">
+										<a title="Add to cart" href="#">Aggiungi al carrello </a>
+									</div>
+								</div>
+							</div>
+							<div class="product-content">
+								<h4><a href="product-details.html"></a>${bookinterestaut.title}</h4>
+								<div class="product-price">
+									<c:if test="${bookinterestaut.sales > 0}">
+									<span class="old">€${bookinterestaut.formattedPrice}</span>
+									<span>€${bookinterestaut.priceSales}</span>
+									</c:if>
+									<c:if test="${bookinterestaut.sales == 0}">
+									<span>€${bookinterestgenre.formattedPrice}</span>
+									</c:if>
+								</div>
+							</div>
+						</div>
+						</c:forEach>
+						<!-- End Single Product -->
+						
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+	<!-- End Most Popular Area -->
+
 	</div>
 </div>

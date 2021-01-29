@@ -19,6 +19,7 @@ import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
 import it.bookshop.services.AuthorService;
+
 import it.bookshop.services.BookService;
 
 @Controller
@@ -63,7 +64,7 @@ public class HomeController {
 	// mostra tutti i libri filtrati Genere 
 	@GetMapping(value = "/show_genre/{genre}")
 	public String ShowBookforGenre(@PathVariable("genre") String genre,Model model) {
-		List<Book> bookGenre =  this.bookService.getAllBookForGenre(genre); // estrae tutti i libri per il genere scelto 
+		Set<Book> bookGenre =  this.bookService.getAllBookForGenre(genre); // estrae tutti i libri per il genere scelto 
 		List<Genre> allGenres = this.bookService.getAllGenres();
 		List <Author> topFiveAuthor = this.authorService.findBestSellingAuthor();
 		List<Book> topFiveBestSellersBooks = this.bookService.findFiveBestSellingBook();
@@ -88,6 +89,10 @@ public class HomeController {
 		
 		Book b = this.bookService.findById(l_id);
 		Set<Author> authorSet = b.getAuthors();
+				
+		Set<Book> booksimilargenre = this.bookService.getBooksimilargenre(b);
+		Set<Book> booksimilarauthor = this.bookService.getBooksimilarAuthor(b);
+		
 		
 		List<Author> authorsList = this.authorService.getAuthorsListFromSet(authorSet);
 		List<Genre> allGenres = this.bookService.getAllGenres();
@@ -98,6 +103,9 @@ public class HomeController {
 		model.addAttribute("authorsList", authorsList); // lista degli autori del libro
 		model.addAttribute("appName", appName);
 		model.addAttribute("book", b);
+		model.addAttribute("booksimilgenre", booksimilargenre); // libri consigliati per genere
+		model.addAttribute("booksimilaut", booksimilarauthor); // libri consigliati per autore 
+		
 		model.addAttribute("allGenres", allGenres); // per la navbar
 
 		return "single_book"; 

@@ -29,7 +29,7 @@ public class Genre implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String Name;
-	private List<Book> books = new ArrayList<Book>();
+	private Set<Book> books = new HashSet<Book>();
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,11 +59,11 @@ public class Genre implements Serializable{
                 CascadeType.REFRESH,
                 CascadeType.PERSIST
         }, mappedBy = "genres")
-	public List<Book> getBooks() {
+	public Set<Book> getBooks() {
 	return this.books;
 	}
 
-	public void setBooks(List<Book> books) {
+	public void setBooks(Set<Book> books) {
 		this.books = books;
 	}
 	public void addBooks(Book b) {

@@ -37,6 +37,7 @@ public class Book implements Serializable{
 	private Date publish; 
 	private Date insertdata;
 	private int pages;
+	private double sales; // se al libro è applicato uno sconto 
 	private String summary; //short synthesis for book preview
 	private String cover; //file name of cover image
 	private User seller; //Seller of the book
@@ -141,6 +142,13 @@ public class Book implements Serializable{
 	public void setCover(String cover) {
 		this.cover = cover;
 	}
+	@Column(name = "SALES")
+	public double getSales() {
+		return sales;
+	}
+	public void setSales(double sales) {
+		this.sales = sales;
+	}
 	
 	/*
 	 * relations
@@ -227,6 +235,21 @@ public class Book implements Serializable{
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
 		String moneyString = formatter.format(price);
 		return moneyString.replace(formatter.getCurrency().getSymbol()+" ", "");
+	}
+	
+	@Transient
+	public int getTruncateSales() {
+		int saleint = (int) (sales*100);
+		return saleint;
+	}
+	
+	@Transient
+	public String getPriceSales() {
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		double pricenew = price*(1-sales);
+		String moneyString = formatter.format(pricenew);
+		return moneyString.replace(formatter.getCurrency().getSymbol()+" ", "");
+	
 	}
 
 

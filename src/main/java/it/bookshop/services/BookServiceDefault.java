@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -128,20 +130,62 @@ public class BookServiceDefault implements BookService {
 	}
 
 	@Override
-	public List<Book> getAllBookForGenre(String name) {
+	public Set<Book> getAllBookForGenre(String name) {
 		// restituisce una lista di tutti i libri di un particolare genere, definito
 		// attarverso il nome
 		Genre g = genreRepository.findByName(name);
-		List<Book> bookforgenre = g.getBooks();
+		Set<Book> bookforgenre = g.getBooks();
 		return bookforgenre;
 	}
-
+	
+	@Override
+	public Set<Book> getBooksimilargenre(Book b){
+		// estraggo tutti i libri dello stesso genere del libro passato(usata per il singolo libro)
+		Set <Genre> genreSet = b.getGenres(); // tutti i generi di quel libro 
+		Iterator <Genre> iterGenre = genreSet.iterator();
+		Set <Book> listbook = new HashSet<Book>();
+		
+		while(iterGenre.hasNext()) {
+			String gen = iterGenre.next().getName();
+			Set <Book> tempbook = this.getAllBookForGenre(gen);
+			Iterator <Book> iterBook = tempbook.iterator();
+			while(iterBook.hasNext()) {
+				Book btemp = iterBook.next(); 
+				if (btemp.getId()!=b.getId()) { // non va aggiunto il libro da cui estraiamo i libri simili 
+					listbook.add(btemp);
+				}
+			}
+		}
+		return listbook;
+	}
+	
+	@Override
+	public Set<Book> getBooksimilarAuthor(Book b){
+		// estraggo tutti i libri dello stesso autore del libro passato(usata per il singolo libro)
+		Set <Author> AuthorSet = b.getAuthors(); // tutti gli autore di quel libro 
+		Iterator <Author> iterAut = AuthorSet.iterator();
+		Set <Book> listbook = new HashSet<Book>();
+		
+		while(iterAut.hasNext()) {
+			Author  aut = iterAut.next();
+			List <Book> templistbook = this.authorRepository.findBookForAuthor(aut);
+			Iterator <Book> iterBook = templistbook.iterator();
+			while(iterBook.hasNext()) {
+				Book btemp = iterBook.next(); 
+				if (btemp.getId()!=b.getId()) { // non va aggiunto il libro da cui estraiamo i libri simili 
+					listbook.add(btemp);
+				}
+			}
+		}
+		return listbook;
+	}
+	
 	@Override
 	public Book create(String Name_author, String Surname_Author, String isbn, String title, Date publish_date,
 			Date insert_date, int copies, double price, User seller, int pages, String summary, String cover,
-			List<String> genres) {
+			List<String> genres, double sales) {
 		Book b1 = bookRepository.create(isbn, title, publish_date, insert_date, copies, price, seller, pages, summary,
-				cover);
+				cover,sales);
 		Author a1 = authorRepository.findByNameAndSurname(Name_author, Surname_Author);
 		if (a1 != null) {
 			a1.addBooks(b1); // ha trovato il libro

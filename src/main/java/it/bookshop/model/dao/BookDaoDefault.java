@@ -55,7 +55,7 @@ public class BookDaoDefault extends DefaultDao implements BookDao{
 	}
 	
 	@Override
-	public Book create(String isbn,String title, Date publish_date, Date insert_date, int copies, double price, User seller, int pages, String summary, String cover) {
+	public Book create(String isbn,String title, Date publish_date, Date insert_date, int copies, double price, User seller, int pages, String summary, String cover,double sales) {
 		Book b = new Book();
 		b.setIsbn(isbn);
 		b.setTitle(title);
@@ -69,6 +69,7 @@ public class BookDaoDefault extends DefaultDao implements BookDao{
 		b.setInsertData(insert_date);
 		b.setClicked(0);
 		b.setSoldCopies(0);
+		b.setSales(sales);
 		getSession().save(b);
 		return b;
 	}

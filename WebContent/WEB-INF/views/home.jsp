@@ -31,7 +31,7 @@
 									<h4 class="title">
 										<a href="<c:url value="/show_book/${tBSBooks.id}"/>">${tBSBooks.title}</a>
 									</h4>
-									<p class="price with-discount">${tBSBooks.price}</p>
+									<p class="price with-discount">€${tBSBooks.priceSales}</p>
 								</div>
 							</div>
 						</div>
@@ -63,7 +63,7 @@
 									<h5 class="title">
 										<a href="<c:url value="/show_book/${tFNBooks.id}"/>">${tFNBooks.title}</a>
 									</h5>
-									<p class="price with-discount">${tFNBooks.price}</p>
+									<p class="price with-discount">€${tFNBooks.priceSales}</p>
 								</div>
 							</div>
 						</div>
@@ -85,14 +85,17 @@
 						<div class="row">
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="list-image overlay">
-									<img src="<c:url value="/resources/img/${tsAuthor.photo}"/>" alt="author_photo"> <a
-										href="<c:url value="/show_author/${tsAuthor.id}"/>" class="buy"></a>
+									<img src="<c:url value="/resources/img/${tsAuthor.photo}"/>"
+										alt="author_photo"> <a
+										href="<c:url value="/show_author/${tsAuthor.id}"/>"
+										class="buy"></a>
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-6 col-12 no-padding">
 								<div class="content">
 									<h5 class="title">
-										<a href="<c:url value="/show_author/${tsAuthor.id}"/>">${tsAuthor.name} ${tsAuthor.surname}</a>
+										<a href="<c:url value="/show_author/${tsAuthor.id}"/>">${tsAuthor.name}
+											${tsAuthor.surname}</a>
 									</h5>
 								</div>
 							</div>
@@ -131,14 +134,16 @@
 														class="default-img"
 														src="<c:url value="/resources/img/${tMCB.cover}"/>"
 														alt="#"> <img class="hover-img"
-														src="<c:url value="/resources/img/${tMCB.cover}"/>" alt="#">
+														src="<c:url value="/resources/img/${tMCB.cover}"/>"
+														alt="#">
+														<c:if test="${tMCB.sales > 0}">
+														<span class="price-dec">${tMCB.truncateSales}%</span>
+														</c:if>
 													</a>
 													<div class="button-head">
-														<div class="product-action">
-															
-														</div>
+														<div class="product-action"></div>
 														<div class="product-action-2">
-															<a title="Add to cart" href="#">Add to cart</a>
+															<a title="Add to cart" href="#">Aggiungi al carrello</a>
 														</div>
 													</div>
 												</div>
@@ -148,7 +153,13 @@
 														<a href="<c:url value="/show_book/${tMCB.id}"/>">${tMCB.title}</a>
 													</h3>
 													<div class="product-price">
-														<span>${tMCB.price}</span>
+														<c:if test="${tMCB.sales > 0}">
+															<span class="old">€${tMCB.formattedPrice}</span>
+															<span>€${tMCB.priceSales}</span>
+														</c:if>
+														<c:if test="${tMCB.sales == 0}">
+															<span>€${tMCB.formattedPrice}</span>
+														</c:if>
 													</div>
 												</div>
 											</div>
