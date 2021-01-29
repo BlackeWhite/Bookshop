@@ -98,12 +98,12 @@ public class UserController {
 	}
 	
 	@PostMapping(value = "/add_to_cart")
-	public String add_to_cart(@RequestParam("bookID") Long bookID, Authentication authentication) {
+	public String add_to_cart(@RequestParam("bookID") Long bookID,@RequestParam(defaultValue = "1" ) Integer copies, Authentication authentication) {
 		
 		String principal_name = authentication.getName();
 		System.out.println(principal_name);
 		User user = userService.findUserByUsername(principal_name);
-		this.shopCartService.create(user.getUserID(), bookID, 1);
+		this.shopCartService.create(user.getUserID(), bookID, copies);
 		
 		return "redirect:/advanced_search";
 		

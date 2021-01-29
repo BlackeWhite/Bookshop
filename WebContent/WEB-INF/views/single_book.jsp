@@ -94,9 +94,11 @@
         <div class="container">
             <div class="row">
 				<div class="col-12">
+					<c:if test="${checklistgenre == false }">
 					<div>
 						<h2>Libri dello stesso genere che potrebbero interessarti</h2>
 					</div>
+					</c:if>
 				</div>
             </div>
             <div class="row">
@@ -148,9 +150,11 @@
         <div class="container">
             <div class="row">
 				<div class="col-12">
+					<c:if test="${checklistaut == false }">
 					<div>
 						<h2>Libri dello stesso autore che potrebbero interessarti</h2>
 					</div>
+					</c:if>
 				</div>
             </div>
             <div class="row">

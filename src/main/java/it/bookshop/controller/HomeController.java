@@ -77,7 +77,7 @@ public class HomeController {
 		model.addAttribute("genres", allGenres);
 		model.addAttribute("allGenres", allGenres); // per la navbar
 
-		return "advanced_search"; // riutilizzo la vista, siccome  è simile 
+		return "advanced_search"; // craeare una nuova vista  
 
 	}
 	
@@ -92,7 +92,9 @@ public class HomeController {
 				
 		Set<Book> booksimilargenre = this.bookService.getBooksimilargenre(b);
 		Set<Book> booksimilarauthor = this.bookService.getBooksimilarAuthor(b);
-		
+		// ccontrollo se le due liste sono vuote 
+		Boolean checklistaut =  booksimilarauthor.isEmpty(); 
+		Boolean checklistgenre =  booksimilargenre.isEmpty();
 		
 		List<Author> authorsList = this.authorService.getAuthorsListFromSet(authorSet);
 		List<Genre> allGenres = this.bookService.getAllGenres();
@@ -103,6 +105,8 @@ public class HomeController {
 		model.addAttribute("authorsList", authorsList); // lista degli autori del libro
 		model.addAttribute("appName", appName);
 		model.addAttribute("book", b);
+		model.addAttribute("checklistaut", checklistaut); 
+		model.addAttribute("checklistgenre", checklistgenre);  
 		model.addAttribute("booksimilgenre", booksimilargenre); // libri consigliati per genere
 		model.addAttribute("booksimilaut", booksimilarauthor); // libri consigliati per autore 
 		

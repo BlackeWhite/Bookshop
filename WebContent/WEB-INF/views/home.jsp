@@ -31,7 +31,7 @@
 									<h4 class="title">
 										<a href="<c:url value="/show_book/${tBSBooks.id}"/>">${tBSBooks.title}</a>
 									</h4>
-									<p class="price with-discount">€${tBSBooks.formattedDiscountedPrice}</p>
+									<p class="price with-discount">${tBSBooks.formattedDiscountedPrice}</p>
 								</div>
 							</div>
 						</div>
@@ -63,7 +63,7 @@
 									<h5 class="title">
 										<a href="<c:url value="/show_book/${tFNBooks.id}"/>">${tFNBooks.title}</a>
 									</h5>
-									<p class="price with-discount">€${tFNBooks.formattedDiscountedPrice}</p>
+									<p class="price with-discount">${tFNBooks.formattedDiscountedPrice}</p>
 								</div>
 							</div>
 						</div>
@@ -177,36 +177,5 @@
 	</div>
 </div>
 <!-- End Product Area -->
-<!-- Start Cowndown Area -->
-<section class="cown-down">
-	<div class="section-inner ">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-lg-6 col-12 padding-right">
-					<div class="image">
-						<img src="https://via.placeholder.com/750x590" alt="#">
-					</div>
-				</div>
-				<div class="col-lg-6 col-12 padding-left">
-					<div class="content">
-						<div class="heading-block">
-							<p class="small-title">Deal of day</p>
-							<h3 class="title">Beatutyful dress for women</h3>
-							<p class="text">Suspendisse massa leo, vestibulum cursus
-								nulla sit amet, frungilla placerat lorem. Cars fermentum,
-								sapien.</p>
-							<h1 class="price">
-								$1200 <s>$1890</s>
-							</h1>
-							<div class="coming-time">
-								<div class="clearfix" data-countdown="2021/02/30"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-<!-- /End Cowndown Area -->
+
 
