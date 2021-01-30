@@ -60,7 +60,7 @@
 						<c:if test="${book.copies > 0}">
 							
 						<input type="text" name="quant[1]" class="input-number"
-							data-min="1" data-max="${book.copies}" value="1">
+							data-min="1" data-max="${book.copies}" value="1" id="amount_${book.id}">
 						<div class="button plus">
 							<button type="button" class="btn btn-primary btn-number"
 								data-type="plus" data-field="quant[1]">
@@ -71,7 +71,7 @@
 					<!--/ End Input Order -->
 				</div>
 				<div class="add-to-cart">
-					<a href="#" class="btn">Aggiungi al carrello</a>
+					<a data-book="${book.id}" class="btn add_to_cart">Aggiungi al carrello</a>
 				</div>
 				</c:if>
 				<div class="default-social">

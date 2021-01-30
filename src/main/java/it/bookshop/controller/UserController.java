@@ -43,153 +43,248 @@ import it.bookshop.services.UserService;
 import it.bookshop.services.OrderService;
 import it.bookshop.services.ShoppingCartService;
 
-
 @Controller
 public class UserController {
 
 	@Autowired
 	String appName;
-	
-	
+
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private ShoppingCartService shopCartService;
-
 	
+	@Autowired
+	private BookService bookService;
+
 	@RequestMapping(value = "/cart", method = RequestMethod.GET)
 	public String cart(Locale locale, Model model, Authentication authentication) {
 		System.out.println("Cart Controller Page Requested,  locale = " + locale);
-		
-		/*DateFormat date = new SimpleDateFormat("dd-MM-yyyy");
-		java.util.Date date_x = null;
-		try {
-			date_x = date.parse("21-01-2005");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Date birth = new Date(date_x.getTime());
-		long cap = 60135;
-		userService.create(
-				"red_mario65", 
-				"mariorossi65@gmail.com", 
-				"m5r10r0ss1", 
-				"Mario", 
-				"Rossi",
-				birth, 
-				"Via Giuseppe Verdi 14", 
-				"Ancona", 
-				cap, 
-				"Italia");
-		shopCartService.create(
-				Long.valueOf(1), //id user
-				Long.valueOf(2), //id book
-				2); //copie */
-		
+
+		/*
+		 * DateFormat date = new SimpleDateFormat("dd-MM-yyyy"); java.util.Date date_x =
+		 * null; try { date_x = date.parse("21-01-2005"); } catch (ParseException e) {
+		 * // TODO Auto-generated catch block e.printStackTrace(); } Date birth = new
+		 * Date(date_x.getTime()); long cap = 60135; userService.create( "red_mario65",
+		 * "mariorossi65@gmail.com", "m5r10r0ss1", "Mario", "Rossi", birth,
+		 * "Via Giuseppe Verdi 14", "Ancona", cap, "Italia"); shopCartService.create(
+		 * Long.valueOf(1), //id user Long.valueOf(2), //id book 2); //copie
+		 */
+
 		String principal_name = authentication.getName();
 		User user = userService.findUserByUsername(principal_name);
 		List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(user.getShoppingCart());
 		model.addAttribute("user", user);
 		model.addAttribute("user_cart", user_cart);
+		model.addAttribute("cartTotalPrice", user.getFormattedCartTotalPrice());
+		model.addAttribute("cartTotalItems", user.getCartTotalItems());
 		model.addAttribute("appName", appName);
 
 		return "cart";
 	}
-	
-	
-	public static class httpRequestBody{
-	    
-		public httpRequestBody() {	
+
+	@PostMapping(value = "/add_to_cart")
+	@ResponseBody
+	public addCartResponse add_to_cart(@RequestBody httpRequestBody reqBody, Authentication authentication) 
+			throws MaxCopiesException {
+
+		String principal_name = authentication.getName();
+		User user = userService.findUserByUsername(principal_name);
+		ShoppingCart elem = shopCartService.findById(user.getUserID(), reqBody.getBookID());
+		String operation = "";
+
+		if (elem != null) {
+			int copies = Integer.parseInt(reqBody.getArg2()) + elem.getCopies();
+			if(copies > elem.getBook().getCopies()) throw new MaxCopiesException();
+			else elem.setCopies(copies);
+			elem = shopCartService.update(elem);
+			operation = "update";
+		} else {
+			int copies = Integer.parseInt(reqBody.getArg2());
+			if(copies > bookService.findById(reqBody.getBookID()).getCopies()) throw new MaxCopiesException();
+			elem = shopCartService.create(user.getUserID(), reqBody.getBookID(), copies);
+			operation = "add";
 		}
-	    
-	    private long bookID;
+		//To update the state
+		user = userService.findUserByUsername(principal_name);
+		
+		return new addCartResponse(operation, reqBody.getBookID(), elem.getBook().getTitle(), elem.getBook().getCover(), 
+				elem.getCopies(), elem.getFormattedElementTotalPrice(), 
+				user.getFormattedCartTotalPrice(), user.getCartTotalItems());
+	}
+
+	@PostMapping(value = "/cart")
+	@ResponseBody
+	public httpResponseBody cart_update(@RequestBody httpRequestBody reqBody, Locale locale, Model model,
+			Authentication authentication) {
+
+		String principal_name = authentication.getName();
+		User user = userService.findUserByUsername(principal_name);
+		ShoppingCart cartElement = shopCartService.findById(user.getUserID(), reqBody.getBookID());
+		if (reqBody.arg2.equals("delete")) {
+			shopCartService.removeBook(cartElement);
+			return new httpResponseBody("deleted", user.getFormattedCartTotalPrice());
+		} else {
+			if (reqBody.arg2.equals("minus")) {
+				cartElement.setCopies(cartElement.getCopies() - 1);
+			} else {
+				cartElement.setCopies(cartElement.getCopies() + 1);
+			}
+			shopCartService.update(cartElement);
+			return new httpResponseBody(cartElement.getFormattedElementTotalPrice(), user.getFormattedCartTotalPrice());
+		}
+
+	}
+	
+	public class MaxCopiesException extends Exception {
+		
+	}
+
+	public static class httpRequestBody {
+
+		public httpRequestBody() {
+		}
+
+		private long bookID;
 		private String arg2;
-		
-		
+
 		public httpRequestBody(long bookID, String arg2) {
 			super();
 			this.bookID = bookID;
 			this.arg2 = arg2;
 		}
+
 		public long getBookID() {
 			return bookID;
 		}
+
 		public void setBookID(long bookID) {
 			this.bookID = bookID;
 		}
+
 		public String getArg2() {
 			return arg2;
 		}
+
 		public void setArg2(String arg2) {
 			this.arg2 = arg2;
 		}
-}
-	
-	public static class httpResponseBody{
-		    
+	}
+
+	public static class httpResponseBody {
+
 		private String response1;
 		private String response2;
-		
+
 		public httpResponseBody(String response1, String response2) {
 			super();
 			this.response1 = response1;
 			this.response2 = response2;
 		}
+
 		public String getResponse1() {
 			return response1;
 		}
+
 		public void setResponse1(String response1) {
 			this.response1 = response1;
 		}
+
 		public String getResponse2() {
 			return response2;
-			}
+		}
+
 		public void setResponse2(String response2) {
 			this.response2 = response2;
-			}	
+		}
 	}
-	
-	
-	@PostMapping(value = "/add_to_cart")
-	@ResponseBody
-	public httpResponseBody add_to_cart(@RequestBody httpRequestBody reqBody, Authentication authentication) {
-		
-		String principal_name = authentication.getName();
-		User user = userService.findUserByUsername(principal_name);
-		ShoppingCart cartElement = shopCartService.findById(user.getUserID(), reqBody.getBookID());
-		if(cartElement != null ) {
-			cartElement.setCopies(Integer.parseInt(reqBody.getArg2()) + cartElement.getCopies());
-			shopCartService.update(cartElement);
+
+	public static class addCartResponse {
+		private String operation;
+		private long bookID;
+		private String title;
+		private String cover;
+		private int copies;
+		private String elemTotalPrice;
+		private String cartTotalPrice;
+		private int cartTotalItems;
+
+		public addCartResponse(String operation, long bookID, String title, String cover, int copies, String elemTotalPrice,
+				String cartTotalPrice, int cartTotalItems) {
+			this.operation = operation;
+			this.bookID = bookID;
+			this.title = title;
+			this.cover = cover;
+			this.copies = copies;
+			this.elemTotalPrice = elemTotalPrice;
+			this.cartTotalPrice = cartTotalPrice;
+			this.cartTotalItems = cartTotalItems;
 		}
-		else {
-			shopCartService.create(user.getUserID(), reqBody.getBookID(), Integer.parseInt(reqBody.getArg2()));
+
+		public String getOperation() {
+			return operation;
 		}
-		
-		return new httpResponseBody("", "");
+
+		public void setOperation(String operation) {
+			this.operation = operation;
+		}
+
+		public long getBookID() {
+			return bookID;
+		}
+
+		public void setBookID(long bookID) {
+			this.bookID = bookID;
+		}
+
+		public int getCopies() {
+			return copies;
+		}
+
+		public void setCopies(int copies) {
+			this.copies = copies;
+		}
+
+		public String getElemTotalPrice() {
+			return elemTotalPrice;
+		}
+
+		public void setElemTotalPrice(String elemTotalPrice) {
+			this.elemTotalPrice = elemTotalPrice;
+		}
+
+		public String getCartTotalPrice() {
+			return cartTotalPrice;
+		}
+
+		public void setCartTotalPrice(String cartTotalPrice) {
+			this.cartTotalPrice = cartTotalPrice;
+		}
+
+		public int getCartTotalItems() {
+			return cartTotalItems;
+		}
+
+		public void setCartTotalItems(int cartTotalItems) {
+			this.cartTotalItems = cartTotalItems;
+		}
+
+		public String getTitle() {
+			return title;
+		}
+
+		public void setTitle(String title) {
+			this.title = title;
+		}
+
+		public String getCover() {
+			return cover;
+		}
+
+		public void setCover(String cover) {
+			this.cover = cover;
+		}
+
 	}
-	
-	
-	@PostMapping(value = "/cart") 
-	@ResponseBody
-	public httpResponseBody cart_update(@RequestBody httpRequestBody reqBody, Locale locale, Model model,  Authentication authentication) {
-		
-		String principal_name = authentication.getName();
-		User user = userService.findUserByUsername(principal_name);
-		ShoppingCart cartElement = shopCartService.findById(user.getUserID(), reqBody.getBookID());
-		if(reqBody.arg2.equals("delete")) {
-			shopCartService.removeBook(cartElement);
-			return new httpResponseBody("deleted", user.getFormattedCartTotalPrice()); 
-		}
-		else {if (reqBody.arg2.equals("minus")) {
-			cartElement.setCopies(cartElement.getCopies()-1);}
-			else {
-				cartElement.setCopies(cartElement.getCopies()+1);}
-			shopCartService.update(cartElement);
-			return new httpResponseBody(cartElement.getFormattedElementTotalPrice(), user.getFormattedCartTotalPrice());
-		}
-		
-	}
-	
+
 }
-	

@@ -39,8 +39,27 @@ $(document).ready(function() {
 			contentType : 'application/json',
             dataType: "json", //The type of data that you're expecting back from the server
 			success: function (data) {
-				alert("added");
+					if(data["operation"]=="update") {
+						$("#cart_"+data["bookID"]).children("p")
+						.text("Copie: "+data["copies"] + " - Totale: "+data["elemTotalPrice"]);
+					} else {
+						$(".shopping-list").append('<li id="cart_'+data["bookID"]+'"><a'+
+												' data-book="'+data["bookID"]+'" class="remove"'+
+												' title="Elimina questo elemento"><i class="fa fa-remove"></i></a>'+
+												'<a class="cart-img" href="'+show_book_url+'/'+data["bookID"]+'"><img src="'+
+												resources_url+'/img/'+data["cover"]+'" alt="#"></a>'+
+												'<h4><a href="'+show_book_url+'/'+data["bookId"]+'">'+
+												data["title"]+'</a></h4><p class="quantity">'+
+												"Copie: "+data["copies"] + " - Totale: "+data["elemTotalPrice"]+
+												'</p></li>');
+					}
+					$(".total-amount").text(data["cartTotalPrice"]);
+					$(".total-count").text(data["cartTotalItems"]);
+					$(".total-count-text").text(data["cartTotalItems"] + " ELEMENTI");
                 },
+			error: function (e) {
+				alert("Non ci sono abbastanza copie disponibili");
+			},
             processData : false });
 	});
 	

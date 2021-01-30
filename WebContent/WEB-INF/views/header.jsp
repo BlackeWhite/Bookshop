@@ -125,7 +125,7 @@
 												<c:set value="i" var="chr" />
 											</c:otherwise>
 										</c:choose>
-										<span>${cartTotalItems} Element${chr}</span>
+										<span class="total-count-text">${cartTotalItems} Element${chr}</span>
 										<!-- numero oggetti da nel carrello da sistemare con ajax e jquery -->
 										<a href="<c:url value="/cart"/>">Visualizza Carrello</a>
 									</div>
@@ -141,12 +141,11 @@
 													src="<c:url value="/resources/img/${cartElem.book.cover}"/>"
 													alt="#"></a>
 												<h4>
-													<a href="<c:url value="/show_book/${cartElem.book.id}"/>">${cartElem.book.cover}</a>
+													<a href="<c:url value="/show_book/${cartElem.book.id}"/>">${cartElem.book.title}</a>
 												</h4>
-												<p class="quantity">
-													Copie: ${cartElem.copies} - <span class="amount">Totale:
-														${cartElem.formattedElementTotalPrice}</span>
-												</p></li>
+												<p class="quantity">Copie: ${cartElem.copies} - Totale:
+													${cartElem.formattedElementTotalPrice}</p>
+											</li>
 										</c:forEach>
 									</ul>
 									<div class="bottom">
