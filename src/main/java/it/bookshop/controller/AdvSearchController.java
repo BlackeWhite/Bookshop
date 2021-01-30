@@ -105,6 +105,7 @@ public class AdvSearchController {
 		model.addAttribute("priceMin", price_min);
 		model.addAttribute("priceMax", price_max);
 		
+		//Mini carrello
 		if(authentication != null) {
 			String principal_name = authentication.getName();
 			User user = userService.findUserByUsername(principal_name);
