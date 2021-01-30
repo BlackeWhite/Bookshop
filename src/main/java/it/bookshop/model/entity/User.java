@@ -182,19 +182,28 @@ public class User implements Serializable{
 	}
 	
 	@Transient
-	public double getCartTotal() {
+	public double getCartTotalPrice() {
 		double total = 0;
 		for (ShoppingCart c : shoppingCart) {
-			total += c.getTotalPrice(); 
+			total += c.getElementTotalPrice(); 
 		}
 		return total;
 	}
 	
 	@Transient
-	public String getFormattedCartTotal() {
+	public int getCartTotalItems() {
+		int total = 0;
+		for (ShoppingCart c : shoppingCart) {
+			total += c.getCopies(); 
+		}
+		return total;
+	}
+	
+	@Transient
+	public String getFormattedCartTotalPrice() {
 		double total = 0;
 		for (ShoppingCart c : shoppingCart) {
-			total += c.getTotalPrice(); 
+			total += c.getElementTotalPrice(); 
 		}
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
 		return formatter.format(total);  
