@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +29,11 @@ import it.bookshop.model.dao.GenreDao;
 import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
+import it.bookshop.model.entity.ShoppingCart;
+import it.bookshop.model.entity.User;
 import it.bookshop.services.AuthorService;
 import it.bookshop.services.BookService;
+import it.bookshop.services.UserService;
 
 @Controller
 public class AdvSearchController {
@@ -45,6 +49,9 @@ public class AdvSearchController {
 
 	@Autowired
 	private AuthorService authorService;
+	
+	@Autowired
+	private UserService userService;
 
 	@RequestMapping(value = "/advanced_search", method = RequestMethod.GET)
 	public String advSearch(@RequestParam(defaultValue = "title") String search_by,
@@ -52,7 +59,7 @@ public class AdvSearchController {
 			@RequestParam(defaultValue = "title_ASC") String order_by, @RequestParam(required = false) Long authorId,
 			@RequestParam(defaultValue = "0") Double price_min, @RequestParam(defaultValue = "50") Double price_max,
 			@RequestParam(required = false) Integer page, @RequestParam(defaultValue = "6") Integer books_per_page,
-			Locale locale, Model model) {
+			Authentication authentication, Locale locale, Model model) {
 
 		System.out.println("Advanced search Page Requested,  locale = " + locale);
 
@@ -97,7 +104,15 @@ public class AdvSearchController {
 		model.addAttribute("term", term);
 		model.addAttribute("priceMin", price_min);
 		model.addAttribute("priceMax", price_max);
-
+		
+		if(authentication != null) {
+			String principal_name = authentication.getName();
+			User user = userService.findUserByUsername(principal_name);
+			List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(user.getShoppingCart());
+			model.addAttribute("user_cart", user_cart);
+			model.addAttribute("cartTotalPrice", user.getFormattedCartTotalPrice());
+			model.addAttribute("cartTotalItems", user.getCartTotalItems());
+		}
 		return "advanced_search";
 	}
 

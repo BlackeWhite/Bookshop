@@ -35,7 +35,7 @@ $(document).ready(function() {
 		$.ajax({
             type : 'POST',
             url : add_cart_url,
-			data : JSON.stringify({ "b_id" : id, "arg2": amount}),
+			data : JSON.stringify({ "bookID" : id, "arg2": amount}),
 			contentType : 'application/json',
             dataType: "json", //The type of data that you're expecting back from the server
 			success: function (data) {

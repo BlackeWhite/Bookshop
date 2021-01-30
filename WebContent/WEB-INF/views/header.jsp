@@ -1,7 +1,9 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="security"
+	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:url value="logo.jpg" var="logoimg" />
 
 <header class="header shop">
@@ -25,15 +27,18 @@
 						<ul class="list-main">
 							<li><i class="ti-location-pin"></i>Chi siamo</li>
 							<security:authorize access="isAnonymous()">
-							<li><i class="ti-alarm-clock"></i><a href="<c:url value="/register"/>">Registrati</a></li>
+								<li><i class="ti-alarm-clock"></i><a
+									href="<c:url value="/register"/>">Registrati</a></li>
 							</security:authorize>
 							<!--  da mostrare solo agli utenti registrati  
 								<li><i class="ti-user"></i> <a href="#">Account</a></li>  -->
 							<security:authorize access="isAnonymous()">
-								<li><i class="ti-power-off"></i><a href="<c:url value="/login"/>">Login</a></li>
+								<li><i class="ti-power-off"></i><a
+									href="<c:url value="/login"/>">Login</a></li>
 							</security:authorize>
 							<security:authorize access="isAuthenticated()">
-								<li><i class="ti-power-off"></i><a href="<c:url value="/logout"/>">Logout</a></li>
+								<li><i class="ti-power-off"></i><a
+									href="<c:url value="/logout"/>">Logout</a></li>
 							</security:authorize>
 							<security:authorize access="isRememberMe()">
 								<li><a href="#">test remember me</a></li>
@@ -52,7 +57,9 @@
 				<div class="col-lg-2 col-md-2 col-12">
 					<!-- Logo -->
 					<div class="logo">
-						<a href="<c:url value="/"/>"><img src="<c:url value="/resources/img/${logoimg}"/>" width="250" height="10" alt="logo"></a>
+						<a href="<c:url value="/"/>"><img
+							src="<c:url value="/resources/img/${logoimg}"/>" width="250"
+							height="10" alt="logo"></a>
 					</div>
 					<!--/ End Logo -->
 					<!-- Search Form -->
@@ -79,14 +86,16 @@
 				<div class="col-lg-8 col-md-7 col-12">
 					<div class="search-bar-top">
 						<div class="search-bar">
-							<c:url value="/advanced_search" var="search_action"/>
+							<c:url value="/advanced_search" var="search_action" />
 							<form action="${search_action}" method="GET">
 								<select name="search_by" id="search_by">
 									<option id="title" value="title">Titolo</option>
 									<option id="isbn" value="isbn">ISBN</option>
-								</select>
-								<input name="term" placeholder="Cerca i libri qui....." type="search">
-								<button type="submit" class="btnn"><i class="ti-search"></i></button>
+								</select> <input name="term" placeholder="Cerca i libri qui....."
+									type="search">
+								<button type="submit" class="btnn">
+									<i class="ti-search"></i>
+								</button>
 							</form>
 						</div>
 					</div>
@@ -101,41 +110,58 @@
 								<a href="#" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
 							</div>
 							 -->
-						<div class="sinlge-bar shopping">
-							<a href="#" class="single-icon"><i class="ti-bag"></i> <span
-								class="total-count">2</span></a>
-							<!-- Carrello -->
-							<div class="shopping-item">
-								<div class="dropdown-cart-header">
-									<span>2 Items</span>
-									<!-- numero oggetti da nel carrello da sistemare con ajax e jquery -->
-									<a href="#">Visualizza Carrello</a>
-								</div>
-								<ul class="shopping-list">
-									<!-- lista elementi nel carrello -->
-									<!-- ogni elemento del carrello è in un tag <li> -->
-									<li><a href="#" class="remove"
-										title="Elimina questo elemento"><i class="fa fa-remove"></i></a>
-										<a class="cart-img" href="#"><img
-											src="https://via.placeholder.com/70x70" alt="#"></a>
-										<h4>
-											<a href="#">Nome oggetto nel carrello</a>
-										</h4>
-										<p class="quantity">
-											quantita oggetto <span class="amount">costo</span>
-										</p></li>
-								</ul>
-								<div class="bottom">
-									<div class="total">
-										<span>Totale spesa nel carrello</span> <span
-											class="total-amount">Prezzo totale</span>
+						<security:authorize access="isAuthenticated()">
+							<div class="sinlge-bar shopping">
+								<a href="<c:url value="/cart"/>" class="single-icon"><i
+									class="ti-bag"></i> <span class="total-count">${cartTotalItems}</span></a>
+								<!-- Carrello -->
+								<div class="shopping-item">
+									<div class="dropdown-cart-header">
+										<c:choose>
+											<c:when test="${cartTotalItems == 1}">
+												<c:set value="o" var="chr" />
+											</c:when>
+											<c:otherwise>
+												<c:set value="i" var="chr" />
+											</c:otherwise>
+										</c:choose>
+										<span>${cartTotalItems} Element${chr}</span>
+										<!-- numero oggetti da nel carrello da sistemare con ajax e jquery -->
+										<a href="<c:url value="/cart"/>">Visualizza Carrello</a>
 									</div>
-									<a href="checkout.html" class="btn animate">Procedi al
-										pagamento</a>
+									<ul class="shopping-list">
+										<!-- lista elementi nel carrello -->
+										<!-- ogni elemento del carrello è in un tag <li> -->
+										<c:forEach items="${user_cart}" var="cartElem">
+											<li id="cart_${cartElem.book.id}"><a
+												data-book="${cartElem.book.id}" class="remove"
+												title="Elimina questo elemento"><i class="fa fa-remove"></i></a>
+												<a class="cart-img"
+												href="<c:url value="/show_book/${cartElem.book.id}"/>"><img
+													src="<c:url value="/resources/img/${cartElem.book.cover}"/>"
+													alt="#"></a>
+												<h4>
+													<a href="<c:url value="/show_book/${cartElem.book.id}"/>">${cartElem.book.cover}</a>
+												</h4>
+												<p class="quantity">
+													Copie: ${cartElem.copies} - <span class="amount">Totale:
+														${cartElem.formattedElementTotalPrice}</span>
+												</p></li>
+										</c:forEach>
+									</ul>
+									<div class="bottom">
+										<div class="total">
+											<span>Spesa Totale</span> <span class="total-amount">${cartTotalPrice}</span>
+										</div>
+										<c:if test="${cartTotalItems > 0 }">
+											<a href="checkout.html" class="btn animate">Procedi al
+												pagamento</a>
+										</c:if>
+									</div>
 								</div>
+								<!--/ End Shopping Item -->
 							</div>
-							<!--/ End Shopping Item -->
-						</div>
+						</security:authorize>
 					</div>
 				</div>
 			</div>
@@ -157,11 +183,11 @@
 											<li class="active"><a href="<c:url value="/"/>">Home</a></li>
 											<li><a href="#">Generi<i class="ti-angle-down"></i></a>
 												<ul class="dropdown">
-												
+
 													<c:forEach items="${allGenres}" var="genres">
 														<li><a
 															href="<c:url value="/show_genre/${genres.name}"/>">${genres.name}</a></li>
-												</c:forEach>
+													</c:forEach>
 												</ul></li>
 											<li><a href="#">Sconti<span class="new">Sale</span></a></li>
 											<li><a href="#">Acquisti<i class="ti-angle-down"></i></a>
