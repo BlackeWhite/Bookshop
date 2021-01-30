@@ -28,6 +28,22 @@ $(document).ready(function() {
 		window.location.href = adv_search_url;
 	});
 	
+	
+	$(".add_to_cart").click(function(){
+		var id = $(this).attr("data-book");
+		var amount = $("#amount_"+id).val();
+		$.ajax({
+            type : 'POST',
+            url : add_cart_url,
+			data : JSON.stringify({ "b_id" : id, "arg2": amount}),
+			contentType : 'application/json',
+            dataType: "json", //The type of data that you're expecting back from the server
+			success: function (data) {
+				alert("added");
+                },
+            processData : false });
+	});
+	
 	let searchParams = new URLSearchParams(window.location.search)
 	
 	// Codice paginazione

@@ -64,52 +64,8 @@
 								</div>
 							</div>
 						</div>
-						<ul class="check-box-list">
-							<li><label class="checkbox-inline" for="1"><input
-									name="news" id="1" type="checkbox">$20 - $50<span
-									class="count">(3)</span></label></li>
-							<li><label class="checkbox-inline" for="2"><input
-									name="news" id="2" type="checkbox">$50 - $100<span
-									class="count">(5)</span></label></li>
-							<li><label class="checkbox-inline" for="3"><input
-									name="news" id="3" type="checkbox">$100 - $250<span
-									class="count">(8)</span></label></li>
-						</ul>
 					</div>
 					<!--/ End Shop By Price -->
-					<!-- Single Widget -->
-					<div class="single-widget recent-post">
-						<h3 class="title">Libri Popolari</h3>
-						<!-- Single Post -->
-						<c:forEach items="${best_sellers}" var="bs">
-							<div class="single-post first">
-								<div class="image">
-									<img src="<c:url value="/resources/img/${bs.cover}"/>" alt="#">
-								</div>
-								<div class="content">
-									<h5>
-										<a href="<c:url value="/show_book/${bs.id}"/>">${bs.title}</a>
-									</h5>
-									<p class="price">${bs.formattedDiscountedPrice}</p>
-									<p class="price">${bs.publish}</p>
-								</div>
-							</div>
-						</c:forEach>
-						<!-- End Single Post -->
-					</div>
-					<!--/ End Single Widget -->
-					<!-- Single Widget -->
-					<div class="single-widget category">
-						<h3 class="title">Autori popolari</h3>
-						<ul class="categor-list">
-							<c:forEach items="${top_authors}" var="a">
-								<li><a
-									href="<c:url value="/advanced_search?authorId=${a.id}"/>">${a.name}
-										${a.surname}</a></li>
-							</c:forEach>
-						</ul>
-					</div>
-					<!--/ End Single Widget -->
 				</div>
 			</div>
 			<div class="col-lg-9 col-md-8 col-12">
@@ -166,11 +122,8 @@
 									<div class="button-head">
 										<div class="product-action"></div>
 										<div class="product-action-2">
-											<c:url value="/add_to_cart" var="add_action" />
-											<form action="${add_action}" method="POST">
-												<input type="hidden" value="${b.id}" name="bookID">
-												<button type="submit">Aggiungi al carrello</button>
-											</form>
+											<input type="hidden" value="1" id="amount_${b.id}">
+											<button class="add_to_cart" data-book="${b.id}">Aggiungi al carrello</button>
 										</div>
 									</div>
 								</div>
