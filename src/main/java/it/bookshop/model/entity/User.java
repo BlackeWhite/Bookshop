@@ -14,9 +14,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.JoinColumn;
 import javax.persistence.Embedded;
 import java.io.Serializable;
+import java.text.NumberFormat;
 
 @Entity
 @Table(name = "USERS")
@@ -84,6 +86,7 @@ public class User implements Serializable{
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+	
 	public boolean isEnabled() {
 		return this.enabled;
 	}	
@@ -178,6 +181,24 @@ public class User implements Serializable{
 		card.setUser(this);
 	}
 	
-
+	@Transient
+	public double getCartTotal() {
+		double total = 0;
+		for (ShoppingCart c : shoppingCart) {
+			total += c.getTotalPrice(); 
+		}
+		return total;
+	}
+	
+	@Transient
+	public String getFormattedCartTotal() {
+		double total = 0;
+		for (ShoppingCart c : shoppingCart) {
+			total += c.getTotalPrice(); 
+		}
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		return formatter.format(total);  
+	}
+	
 
 }

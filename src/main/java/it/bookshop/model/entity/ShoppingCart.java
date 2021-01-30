@@ -65,11 +65,16 @@ public class ShoppingCart {
 	}
 	
 	@Transient
+	public double getTotalPrice() {
+		return book.getDiscountedPrice() * copies;
+	}
+	
+	
+	@Transient
 	public String getTotalFormattedPrice() {
-		double totalPrice = book.getPrice() * copies;
+		double totalPrice = book.getDiscountedPrice() * copies;
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
-		String moneyString = formatter.format(totalPrice);
-		return moneyString.replace(formatter.getCurrency().getSymbol()+" ", "");
+		return formatter.format(totalPrice);  
 	}
 	
 }
