@@ -155,7 +155,6 @@ public class UserController {
 	@ResponseBody
 	public httpResponseBody add_to_cart(@RequestBody httpRequestBody reqBody, Authentication authentication) {
 		
-		
 		String principal_name = authentication.getName();
 		User user = userService.findUserByUsername(principal_name);
 		ShoppingCart cartElement = shopCartService.findById(user.getUserID(), reqBody.getBookID());
