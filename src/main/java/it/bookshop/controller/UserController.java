@@ -7,8 +7,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -91,22 +90,11 @@ public class UserController {
 		String principal_name = authentication.getName();
 		User user = userService.findUserByUsername(principal_name);
 		List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(user.getShoppingCart());
+		model.addAttribute("user", user);
 		model.addAttribute("user_cart", user_cart);
 		model.addAttribute("appName", appName);
 
 		return "cart";
-	}
-	
-	@PostMapping(value = "/add_to_cart")
-	public String add_to_cart(@RequestParam("bookID") Long bookID,@RequestParam(defaultValue = "1" ) Integer copies, Authentication authentication) {
-		
-		String principal_name = authentication.getName();
-		System.out.println(principal_name);
-		User user = userService.findUserByUsername(principal_name);
-		this.shopCartService.create(user.getUserID(), bookID, copies);
-		
-		return "redirect:/advanced_search";
-		
 	}
 	
 	
@@ -115,42 +103,71 @@ public class UserController {
 		public httpRequestBody() {	
 		}
 	    
-	    private long b_id;
-		private String operation;
+	    private long bookID;
+		private String arg2;
 		
-	    public long getB_id() {
-			return b_id;
+		
+		public httpRequestBody(long bookID, String arg2) {
+			super();
+			this.bookID = bookID;
+			this.arg2 = arg2;
 		}
-	    
-		public void setB_id(long b_id) {
-			this.b_id = b_id;
+		public long getBookID() {
+			return bookID;
 		}
-		public String getOperation() {
-			return operation;
+		public void setBookID(long bookID) {
+			this.bookID = bookID;
 		}
-		public void setOperation(String operation) {
-			this.operation = operation;
+		public String getArg2() {
+			return arg2;
 		}
-	    
-	}
+		public void setArg2(String arg2) {
+			this.arg2 = arg2;
+		}
+}
 	
 	public static class httpResponseBody{
 		    
-		private String response;
+		private String response1;
+		private String response2;
 		
-		public httpResponseBody(String response) {
+		public httpResponseBody(String response1, String response2) {
 			super();
-			this.response = response;
+			this.response1 = response1;
+			this.response2 = response2;
 		}
-	
-		public String getResponse() {
-			return response;
+		public String getResponse1() {
+			return response1;
 		}
+		public void setResponse1(String response1) {
+			this.response1 = response1;
+		}
+		public String getResponse2() {
+			return response2;
+			}
+		public void setResponse2(String response2) {
+			this.response2 = response2;
+			}	
+	}
 	
-		public void setResponse(String response) {
-			this.response = response;
+	
+	@PostMapping(value = "/add_to_cart")
+	@ResponseBody
+	public httpResponseBody add_to_cart(@RequestBody httpRequestBody reqBody, Authentication authentication) {
+		
+		
+		String principal_name = authentication.getName();
+		User user = userService.findUserByUsername(principal_name);
+		ShoppingCart cartElement = shopCartService.findById(user.getUserID(), reqBody.getBookID());
+		if(cartElement != null ) {
+			cartElement.setCopies(Integer.parseInt(reqBody.getArg2()) + cartElement.getCopies());
+			shopCartService.update(cartElement);
+		}
+		else {
+			shopCartService.create(user.getUserID(), reqBody.getBookID(), Integer.parseInt(reqBody.getArg2()));
 		}
 		
+		return new httpResponseBody("", "");
 	}
 	
 	
@@ -160,17 +177,19 @@ public class UserController {
 		
 		String principal_name = authentication.getName();
 		User user = userService.findUserByUsername(principal_name);
-		ShoppingCart cartElement = shopCartService.findById(user.getUserID(), reqBody.getB_id());
-		if(reqBody.operation.equals("delete")) {
+		ShoppingCart cartElement = shopCartService.findById(user.getUserID(), reqBody.getBookID());
+		if(reqBody.arg2.equals("delete")) {
 			shopCartService.removeBook(cartElement);
-			return new httpResponseBody("deleted"); 
+			return new httpResponseBody("deleted", user.getFormattedCartTotalPrice()); 
 		}
-		else {if (reqBody.operation.equals("minus")) {
+		else {if (reqBody.arg2.equals("minus")) {
 			cartElement.setCopies(cartElement.getCopies()-1);}
 			else {
 				cartElement.setCopies(cartElement.getCopies()+1);}
 			shopCartService.update(cartElement);
-			return new httpResponseBody(cartElement.getTotalFormattedPrice());}
+			return new httpResponseBody(cartElement.getFormattedElementTotalPrice(), user.getFormattedCartTotalPrice());
+		}
+		
 	}
 	
 }
