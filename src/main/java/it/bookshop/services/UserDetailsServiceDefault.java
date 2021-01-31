@@ -106,7 +106,7 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 	}
 
 	@Override
-	public List<PaymentCard> findAll() {
+	public List<PaymentCard> findAllPaymentCards() {
 		return this.paymentCardRepository.findAll();
 	}
 
@@ -116,23 +116,23 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 	}
 
 	@Override
-	public PaymentCard create(String type, String number, Date expirationDate, User user) {
-		return this.paymentCardRepository.create(type, number, expirationDate, user);
+	public PaymentCard createPaymentCard(PaymentCard card, User user) {
+		return this.paymentCardRepository.create(card.getType(), card.getNumber(), card.getExpirationDate(), user);
 	}
 	
 	@Override
-	public PaymentCard create(String type, String number, Date expirationDate, Long userId) {
+	public PaymentCard createPaymentCard(String type, String number, Date expirationDate, Long userId) {
 		User user = this.userrepository.findUserById(userId);
 		return this.paymentCardRepository.create(type, number, expirationDate, user);
 	}
 
 	@Override
-	public PaymentCard update(PaymentCard card) {
+	public PaymentCard updatePaymentCard(PaymentCard card) {
 		return this.paymentCardRepository.update(card);
 	}
 
 	@Override
-	public void delete(PaymentCard card) {
+	public void deletePaymentCard(PaymentCard card) {
 		this.paymentCardRepository.delete(card);
 	}
 

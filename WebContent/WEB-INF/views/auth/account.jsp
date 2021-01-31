@@ -58,10 +58,25 @@
 				</div>
 				<div id="payment-column" class="col">
 					<div id="payment-box" class="col-md-12">
-						<c:url value="/account_payment" var="action2"/>
-						<form:form id="payment-form" action="${action2}" class="form" method="post">
+						<c:url value="/add_payment_card" var="action2"/>
+						<form:form id="payment-form" action="${action2}" modelAttribute="newCard" class="form" method="post">
 							<div class="title">
 								<h3>Gestisci carte di pagamento</h3>
+							</div>
+							<div class="form-group">
+								<label for="temp">Tipo:</label>
+								<input type="hidden" id="temp"></input>
+								<br>
+								<form:select required="required" path="type" items="${cardTypes}"/>
+								<br><br>
+							</div>
+							<div class="form-group">
+								<form:label path="number">Numero:</form:label><br> 
+								<form:input required="required" maxlength="16" type="text" path="number" id="number"/>
+							</div>
+							<div class="form-group">
+								<form:label path="expirationDate">Scadenza:</form:label><br> 
+								<form:input required="required" type="date" path="expirationDate" id="birthdate"/>
 							</div>
 							<div class="form-group button">
 								<button type="submit" name="submit" class="btn">Aggiungi</button>

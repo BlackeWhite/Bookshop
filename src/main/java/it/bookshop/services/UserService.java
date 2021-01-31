@@ -26,10 +26,10 @@ public interface UserService {
 	void deleteByUsername(String username);
 	
 	//PaymentCard
-	List<PaymentCard> findAll();
+	List<PaymentCard> findAllPaymentCards();
 	PaymentCard findPaymentCardById(Long id);
-	PaymentCard create(String type, String number, Date expirationDate, User user);
-	PaymentCard create(String type, String number, Date expirationDate, Long userId);
-	PaymentCard update(PaymentCard card);
-	void delete(PaymentCard card);
+	PaymentCard createPaymentCard(PaymentCard card, User user);
+	PaymentCard createPaymentCard(String type, String number, Date expirationDate, Long userId);
+	PaymentCard updatePaymentCard(PaymentCard card);
+	void deletePaymentCard(PaymentCard card);
 }

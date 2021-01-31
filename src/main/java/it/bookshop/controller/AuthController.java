@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import it.bookshop.model.dao.RoleDao;
 import it.bookshop.model.entity.Genre;
+import it.bookshop.model.entity.PaymentCard;
 import it.bookshop.model.entity.PersonalData;
 import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.User;
@@ -90,11 +91,12 @@ public class AuthController {
 	}
     
     @GetMapping(value = "/account")
-    public String account_page(@RequestParam(value = "error", required = false) String error,
+    public String accountPage(@RequestParam(value = "error", required = false) String error,
             Model model, Authentication authentication) {
     	
     	String principal_name = authentication.getName();
 		User currentUser = userService.findUserByUsername(principal_name);
+		PaymentCard newCard = new PaymentCard();
     	
     	List<Genre> allGenres = this.bookService.getAllGenres();
 
@@ -103,10 +105,29 @@ public class AuthController {
         countries.put("Germania", "Germania");
         countries.put("Francia", "Francia");
         countries.put("Svizzera", "Svizzera");
+        
+        Map<String, String> cardTypes = new LinkedHashMap<String, String>();
+        cardTypes.put("Visa", "Visa");
+        cardTypes.put("MasterCard", "MasterCard");
+        cardTypes.put("Bancomat", "Bancomat");
+        cardTypes.put("PostePay", "PostePay");
 
         model.addAttribute("allGenres", allGenres);
         model.addAttribute("countries", countries);
+        model.addAttribute("cardTypes", cardTypes);
         model.addAttribute("currentUser", currentUser);
+        model.addAttribute("newCard", newCard);
     	return "account";
+    }
+    
+    @PostMapping(value = "/add_payment_card")
+    public String addPaymentCard(@ModelAttribute("newCard") PaymentCard newCard, BindingResult br,
+    		Authentication authentication) {
+    	
+    	String principal_name = authentication.getName();
+		User currentUser = userService.findUserByUsername(principal_name);
+		userService.createPaymentCard(newCard, currentUser);
+    	
+    	return "redirect:/account";
     }
 }
