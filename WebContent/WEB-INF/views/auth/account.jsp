@@ -10,7 +10,7 @@
 				class="row">
 				<div id="account-column" class="col-md-7">
 					<div id="account-box" class="col-md-12">
-						<c:url value="/account_data" var="action"/>
+						<c:url value="/account_save" var="action"/>
 						<form:form id="account-form" action="${action}" modelAttribute="currentUser" class="form" method="post">
 							<div class="title">
 								<h3>Modifica i tuoi dati</h3>

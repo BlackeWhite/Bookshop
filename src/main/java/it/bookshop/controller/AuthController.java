@@ -130,4 +130,10 @@ public class AuthController {
     	
     	return "redirect:/account";
     }
+    
+    @PostMapping(value = "/account_save")
+    public String accountSave(@ModelAttribute("currentUser") User currentUser, BindingResult br) {
+    	userService.update(currentUser);
+    	return "redirect:/account";
+    }
 }
