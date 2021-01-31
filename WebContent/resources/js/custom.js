@@ -63,6 +63,23 @@ $(document).ready(function() {
             processData : false });
 	});
 	
+	$(".remove").click(function(){
+		var id = $(this).attr("data-book");
+		$.ajax({
+            type : 'POST',
+            url : cart_url,
+			data : JSON.stringify({ "bookID" : id, "arg2": "delete"}),
+			contentType : 'application/json',
+            dataType: "json", //The type of data that you're expecting back from the server
+			success: function (data) {
+				$("#cart_"+id).remove();
+				$(".total-amount").text(data["response2"]);
+				$(".total-count").text(data["response3"]);
+				$(".total-count-text").text(data["response3"] + " ELEMENTI");
+			},
+			processData : false });
+	});
+	
 	let searchParams = new URLSearchParams(window.location.search)
 	
 	// Codice paginazione

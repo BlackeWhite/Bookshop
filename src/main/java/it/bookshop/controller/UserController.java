@@ -123,7 +123,7 @@ public class UserController {
 		ShoppingCart cartElement = shopCartService.findById(user.getUserID(), reqBody.getBookID());
 		if (reqBody.arg2.equals("delete")) {
 			shopCartService.removeBook(cartElement);
-			return new httpResponseBody("deleted", user.getFormattedCartTotalPrice());
+			return new httpResponseBody("deleted", user.getFormattedCartTotalPrice(), "");
 		} else {
 			if (reqBody.arg2.equals("minus")) {
 				cartElement.setCopies(cartElement.getCopies() - 1);
@@ -131,7 +131,8 @@ public class UserController {
 				cartElement.setCopies(cartElement.getCopies() + 1);
 			}
 			shopCartService.update(cartElement);
-			return new httpResponseBody(cartElement.getFormattedElementTotalPrice(), user.getFormattedCartTotalPrice());
+			return new httpResponseBody(cartElement.getFormattedElementTotalPrice(), user.getFormattedCartTotalPrice(),
+					String.valueOf(user.getCartTotalItems()));
 		}
 
 	}
@@ -175,11 +176,13 @@ public class UserController {
 
 		private String response1;
 		private String response2;
+		private String response3;
 
-		public httpResponseBody(String response1, String response2) {
+		public httpResponseBody(String response1, String response2, String response3) {
 			super();
 			this.response1 = response1;
 			this.response2 = response2;
+			this.response3 = response3;
 		}
 
 		public String getResponse1() {
@@ -196,6 +199,14 @@ public class UserController {
 
 		public void setResponse2(String response2) {
 			this.response2 = response2;
+		}
+
+		public String getResponse3() {
+			return response3;
+		}
+
+		public void setResponse3(String response3) {
+			this.response3 = response3;
 		}
 	}
 
