@@ -6,12 +6,12 @@
 <div id="contact-us" class="contact-us section">
 	<div class="container">
 		<div class="form-main">
-			<div id="login-row"
+			<div id="register-row"
 				class="row justify-content-center align-items-center">
-				<div id="login-column" class="col-md-6">
-					<div id="login-box" class="col-md-12">
+				<div id="register-column" class="col-md-6">
+					<div id="register-box" class="col-md-12">
 						<c:url value="/register" var="action"/>
-						<form:form id="login-form" action="${action}" modelAttribute="newUser" class="form" method="post">
+						<form:form id="register-form" action="${action}" modelAttribute="newUser" class="form" method="post">
 							<div class="title">
 								<h3>Registrati</h3>
 							</div>

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -87,4 +88,25 @@ public class AuthController {
 		// return "redirect:singers/list"; // NB questo non funzionerebbe!
 		
 	}
+    
+    @GetMapping(value = "/account")
+    public String account_page(@RequestParam(value = "error", required = false) String error,
+            Model model, Authentication authentication) {
+    	
+    	String principal_name = authentication.getName();
+		User currentUser = userService.findUserByUsername(principal_name);
+    	
+    	List<Genre> allGenres = this.bookService.getAllGenres();
+
+        Map<String, String> countries = new LinkedHashMap<String, String>();
+        countries.put("Italia", "Italia");
+        countries.put("Germania", "Germania");
+        countries.put("Francia", "Francia");
+        countries.put("Svizzera", "Svizzera");
+
+        model.addAttribute("allGenres", allGenres);
+        model.addAttribute("countries", countries);
+        model.addAttribute("currentUser", currentUser);
+    	return "account";
+    }
 }

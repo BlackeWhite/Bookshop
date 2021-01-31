@@ -37,6 +37,10 @@
 									href="<c:url value="/login"/>">Login</a></li>
 							</security:authorize>
 							<security:authorize access="isAuthenticated()">
+								<li><i class="ti-user"></i> <a
+									href="<c:url value="/account"/>">Il mio account</a></li>
+							</security:authorize>
+							<security:authorize access="isAuthenticated()">
 								<li><i class="ti-power-off"></i><a
 									href="<c:url value="/logout"/>">Logout</a></li>
 							</security:authorize>
@@ -125,7 +129,8 @@
 												<c:set value="i" var="chr" />
 											</c:otherwise>
 										</c:choose>
-										<span class="total-count-text">${cartTotalItems} Element${chr}</span>
+										<span class="total-count-text">${cartTotalItems}
+											Element${chr}</span>
 										<!-- numero oggetti da nel carrello da sistemare con ajax e jquery -->
 										<a href="<c:url value="/cart"/>">Visualizza Carrello</a>
 									</div>
@@ -144,8 +149,7 @@
 													<a href="<c:url value="/show_book/${cartElem.book.id}"/>">${cartElem.book.title}</a>
 												</h4>
 												<p class="quantity">Copie: ${cartElem.copies} - Totale:
-													${cartElem.formattedElementTotalPrice}</p>
-											</li>
+													${cartElem.formattedElementTotalPrice}</p></li>
 										</c:forEach>
 									</ul>
 									<div class="bottom">

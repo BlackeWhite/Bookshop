@@ -31,4 +31,8 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/auth/register.jsp" />
 	</definition>
+	<definition extends="default" name="account">
+		<put-attribute name="body"
+			value="/WEB-INF/views/auth/account.jsp" />
+	</definition>
 </tiles-definitions>
