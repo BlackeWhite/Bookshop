@@ -1,6 +1,7 @@
 package it.bookshop.controller;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import it.bookshop.model.dao.RoleDao;
+import it.bookshop.model.entity.Genre;
 import it.bookshop.model.entity.PersonalData;
 import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.User;
+import it.bookshop.services.BookService;
 import it.bookshop.services.UserDetailsServiceDefault;
 import it.bookshop.services.UserService;
 
@@ -31,6 +34,9 @@ public class AuthController {
 	@Autowired
 	private RoleDao roleDao;
 	
+	@Autowired
+	private BookService bookService;
+	
     @GetMapping(value = "/login")
     public String loginPage(@RequestParam(value = "error", required = false) String error,
                             Model model) {
@@ -38,8 +44,11 @@ public class AuthController {
         if(error != null) {
         	errorMessage = "Username o Password errati !!";
         }
+        
+        List<Genre> allGenres = this.bookService.getAllGenres();
 
         model.addAttribute("errorMessage", errorMessage);
+        model.addAttribute("allGenres", allGenres);
         model.addAttribute("appName", appName);
         return "login";
     }
@@ -58,6 +67,10 @@ public class AuthController {
         model.addAttribute("appName", appName);
         model.addAttribute("countries", countries);
         model.addAttribute("newUser", new User());
+        
+        List<Genre> allGenres = this.bookService.getAllGenres();
+        model.addAttribute("allGenres", allGenres);
+        
         return "register";
     }
     

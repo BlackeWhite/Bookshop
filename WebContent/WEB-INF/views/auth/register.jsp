@@ -45,8 +45,11 @@
 								<input type="password" name="password-confirm" id="password-confirm">
 							</div>
 							<div class="form-group">
-								<form:label path="personalData.state">Paese:</form:label>
+								<label for="temp">Paese:</label>
+								<input type="hidden" id="temp"></input>
+								<br>
 								<form:select path="personalData.state" items="${countries}"/>
+								<br><br>
 							</div>
 							<div class="form-group">
 								<form:label path="personalData.city">Città:</form:label> <br>
