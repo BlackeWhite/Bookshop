@@ -123,7 +123,10 @@ public class UserController {
 		ShoppingCart cartElement = shopCartService.findById(user.getUserID(), reqBody.getBookID());
 		if (reqBody.arg2.equals("delete")) {
 			shopCartService.removeBook(cartElement);
-			return new httpResponseBody("deleted", user.getFormattedCartTotalPrice(), "");
+			//Update user state
+			user = userService.findUserByUsername(principal_name);
+			return new httpResponseBody("deleted", user.getFormattedCartTotalPrice(), 
+					String.valueOf(user.getCartTotalItems()));
 		} else {
 			if (reqBody.arg2.equals("minus")) {
 				cartElement.setCopies(cartElement.getCopies() - 1);
@@ -132,7 +135,7 @@ public class UserController {
 			}
 			shopCartService.update(cartElement);
 			return new httpResponseBody(cartElement.getFormattedElementTotalPrice(), user.getFormattedCartTotalPrice(),
-					String.valueOf(user.getCartTotalItems()));
+					"");
 		}
 
 	}
