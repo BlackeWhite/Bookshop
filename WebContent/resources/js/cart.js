@@ -1,7 +1,3 @@
-/**
- * manage quantity increment and decrement in cart
- */
-
 $(document).ready(function() {
 	
 	$(".decrement").click(function() {

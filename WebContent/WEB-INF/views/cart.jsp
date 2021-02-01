@@ -145,7 +145,7 @@
 									<li id="cart_total" class="last">Cart total<span>TODO</span></li>
 								</ul>
 								<div class="button5">
-									<a href="#" class="btn">Checkout</a> 
+									<a href="<c:url value="/checkout" />" class="btn">Checkout</a> 
 									<a href="#" class="btn">Continue shopping</a>
 								</div>
 							</div>

@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,9 +58,9 @@ public class UserController {
 	@Autowired
 	private BookService bookService;
 
-	@RequestMapping(value = "/cart", method = RequestMethod.GET)
+	@GetMapping(value = "/cart")
 	public String cart(Locale locale, Model model, Authentication authentication) {
-		System.out.println("Cart Controller Page Requested,  locale = " + locale);
+		System.out.println("User Controller Page Requested,  locale = " + locale);
 
 		/*
 		 * DateFormat date = new SimpleDateFormat("dd-MM-yyyy"); java.util.Date date_x =
@@ -152,6 +153,16 @@ public class UserController {
 		}
 	}
 
+	//to finish: add payment management section and input form management
+	@RequestMapping(value = "/checkout", method={RequestMethod.GET, RequestMethod.POST})
+	public String checkout(Locale locale, Model model, Authentication authentication) {
+		String principal_name = authentication.getName();
+		User user = userService.findUserByUsername(principal_name);
+		model.addAttribute("user", user);
+		model.addAttribute("total", user.getFormattedCartTotalPrice());
+		return "checkout";
+	}
+	
 	
 	public class MinCopiesException extends Exception {
 		
