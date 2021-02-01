@@ -68,6 +68,11 @@ public class PersonalData {
     	return city;
     }
     
+    @Transient
+    public String getFullAddress() {
+    	return (this.street + ", " + this.city).trim();
+    }
+    
     public void setCap(long cap) {
     	this.cap = cap;
     }
