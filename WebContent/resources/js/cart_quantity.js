@@ -57,6 +57,10 @@ $(document).ready(function() {
            	dataType: "json", //The type of data that you're expecting back from the server	
 			success: function (data) {
 				$("#cart_subtotal").find($("span")).text(data["response2"]);
+				if (data["response3"]==0) {
+					
+					$(".shopping-cart").text('Carrello vuoto');
+				}
 			},
             processData : false });
 	});

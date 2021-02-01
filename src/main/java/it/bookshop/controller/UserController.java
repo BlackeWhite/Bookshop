@@ -121,7 +121,7 @@ public class UserController {
 		String principal_name = authentication.getName();
 		User user = userService.findUserByUsername(principal_name);
 		ShoppingCart cartElement = shopCartService.findById(user.getUserID(), reqBody.getBookID());
-		if (reqBody.getArg2().equals("delete") && ) {
+		if (reqBody.getArg2().equals("delete")) {
 			shopCartService.removeBook(cartElement);
 			//Update user state
 			user = userService.findUserByUsername(principal_name);
