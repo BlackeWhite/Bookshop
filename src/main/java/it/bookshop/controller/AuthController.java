@@ -13,7 +13,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import it.bookshop.model.dao.RoleDao;
 import it.bookshop.model.entity.Genre;
@@ -137,6 +139,29 @@ public class AuthController {
 		userService.createPaymentCard(newCard, currentUser);
 
 		return "redirect:/account";
+	}
+	
+	public static class CardRequest {
+		private long cardId;
+
+		public CardRequest() {
+		}
+
+		public long getCardId() {
+			return cardId;
+		}
+
+		public void setCardId(long cardId) {
+			this.cardId = cardId;
+		}
+		
+	}
+	
+	@PostMapping(value = "/delete_card")
+	@ResponseBody
+	public String deleteCard(@RequestBody CardRequest card) {
+		userService.deletePaymentCard(card.getCardId());
+		return "";
 	}
 
 	@PostMapping(value = "/account_save")

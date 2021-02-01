@@ -132,7 +132,8 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 	}
 
 	@Override
-	public void deletePaymentCard(PaymentCard card) {
+	public void deletePaymentCard(Long id) {
+		PaymentCard card = paymentCardRepository.findById(id);
 		this.paymentCardRepository.delete(card);
 	}
 

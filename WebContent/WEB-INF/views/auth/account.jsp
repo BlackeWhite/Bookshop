@@ -106,13 +106,15 @@
 						<hr>
 						<h4 class="title" style="margin-bottom: 15px;">Le tue carte</h4>
 						<c:forEach items="${userCards}" var="card">
-						<div class="card-container">
-							<span>Carta </span><p>${card.type}</p><br>
-							<span>Che termina con: </span><p>${card.hiddenNumber}</p>
-							<button data-card="${card.id}" class="remove-card"><i class="fa fa-remove"></i></button><br>
-							<span>Scadenza: </span><p >${card.shortExpirationDate}</p><br>
+						<div id="card_${card.id}">
+							<div class="card-container">
+								<span>Carta </span><p>${card.type}</p><br>
+								<span>Che termina con: </span><p>${card.hiddenNumber}</p>
+								<button data-card="${card.id}" class="remove-card"><i class="fa fa-remove"></i></button><br>
+								<span>Scadenza: </span><p >${card.shortExpirationDate}</p><br>
+							</div>
+							<hr>
 						</div>
-						<hr>
 						</c:forEach>
 					</div>
 				</div>

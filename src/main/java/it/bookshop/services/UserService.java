@@ -31,5 +31,5 @@ public interface UserService {
 	PaymentCard createPaymentCard(PaymentCard card, User user);
 	PaymentCard createPaymentCard(String type, String number, Date expirationDate, Long userId);
 	PaymentCard updatePaymentCard(PaymentCard card);
-	void deletePaymentCard(PaymentCard card);
+	void deletePaymentCard(Long id);
 }

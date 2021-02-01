@@ -47,12 +47,14 @@
 <c:url value="/add_to_cart" var="add_cart" />
 <c:url value="/resources" var="resources" />
 <c:url value="/show_book"  var="show_book"/>
+<c:url value="/delete_card"  var="delete_card"/>
 <script type="text/javascript">
 var adv_search_url = "${adv_search}";
 var cart_url = "${cart}";
 var add_cart_url = "${add_cart}";
 var resources_url = "${resources}";
 var show_book_url = "${show_book}";
+var delete_card_url = "${delete_card}";
 </script>
 
 <c:url value="/resources/js/custom.js" var="custom" />
