@@ -115,55 +115,59 @@
 							</div>
 							 -->
 						<security:authorize access="isAuthenticated()">
-							<div class="sinlge-bar shopping">
-								<a href="<c:url value="/cart"/>" class="single-icon"><i
-									class="ti-bag"></i> <span class="total-count">${cartTotalItems}</span></a>
-								<!-- Carrello -->
-								<div class="shopping-item">
-									<div class="dropdown-cart-header">
-										<c:choose>
-											<c:when test="${cartTotalItems == 1}">
-												<c:set value="o" var="chr" />
-											</c:when>
-											<c:otherwise>
-												<c:set value="i" var="chr" />
-											</c:otherwise>
-										</c:choose>
-										<span class="total-count-text">${cartTotalItems}
-											Element${chr}</span>
-										<!-- numero oggetti da nel carrello da sistemare con ajax e jquery -->
-										<a href="<c:url value="/cart"/>">Visualizza Carrello</a>
-									</div>
-									<ul class="shopping-list">
-										<!-- lista elementi nel carrello -->
-										<!-- ogni elemento del carrello è in un tag <li> -->
-										<c:forEach items="${user_cart}" var="cartElem">
-											<li id="cart_${cartElem.book.id}"><a
-												data-book="${cartElem.book.id}" class="remove"
-												title="Elimina questo elemento"><i class="fa fa-remove"></i></a>
-												<a class="cart-img"
-												href="<c:url value="/show_book/${cartElem.book.id}"/>"><img
-													src="<c:url value="/resources/img/${cartElem.book.cover}"/>"
-													alt="#"></a>
-												<h4>
-													<a href="<c:url value="/show_book/${cartElem.book.id}"/>">${cartElem.book.title}</a>
-												</h4>
-												<p class="quantity">Copie: ${cartElem.copies} - Totale:
-													${cartElem.formattedElementTotalPrice}</p></li>
-										</c:forEach>
-									</ul>
-									<div class="bottom">
-										<div class="total">
-											<span>Spesa Totale</span> <span class="total-amount">${cartTotalPrice}</span>
+							<c:url value="/cart" var="carturl" />
+							<c:if
+								test="${requestScope['javax.servlet.forward.request_uri'] != carturl}">
+								<div class="sinlge-bar shopping">
+									<a href="<c:url value="/cart"/>" class="single-icon"><i
+										class="ti-bag"></i> <span class="total-count">${cartTotalItems}</span></a>
+									<!-- Carrello -->
+									<div class="shopping-item">
+										<div class="dropdown-cart-header">
+											<c:choose>
+												<c:when test="${cartTotalItems == 1}">
+													<c:set value="o" var="chr" />
+												</c:when>
+												<c:otherwise>
+													<c:set value="i" var="chr" />
+												</c:otherwise>
+											</c:choose>
+											<span class="total-count-text">${cartTotalItems}
+												Element${chr}</span>
+											<!-- numero oggetti da nel carrello da sistemare con ajax e jquery -->
+											<a href="<c:url value="/cart"/>">Visualizza Carrello</a>
 										</div>
-										<c:if test="${cartTotalItems > 0 }">
-											<a href="checkout.html" class="btn animate">Procedi al
-												pagamento</a>
-										</c:if>
+										<ul class="shopping-list">
+											<!-- lista elementi nel carrello -->
+											<!-- ogni elemento del carrello è in un tag <li> -->
+											<c:forEach items="${user_cart}" var="cartElem">
+												<li id="cart_${cartElem.book.id}"><a
+													data-book="${cartElem.book.id}" class="remove"
+													title="Elimina questo elemento"><i class="fa fa-remove"></i></a>
+													<a class="cart-img"
+													href="<c:url value="/show_book/${cartElem.book.id}"/>"><img
+														src="<c:url value="/resources/img/${cartElem.book.cover}"/>"
+														alt="#"></a>
+													<h4>
+														<a href="<c:url value="/show_book/${cartElem.book.id}"/>">${cartElem.book.title}</a>
+													</h4>
+													<p class="quantity">Copie: ${cartElem.copies} - Totale:
+														${cartElem.formattedElementTotalPrice}</p></li>
+											</c:forEach>
+										</ul>
+										<div class="bottom">
+											<div class="total">
+												<span>Spesa Totale</span> <span class="total-amount">${cartTotalPrice}</span>
+											</div>
+											<c:if test="${cartTotalItems > 0 }">
+												<a href="checkout.html" class="btn animate">Procedi al
+													pagamento</a>
+											</c:if>
+										</div>
 									</div>
+									<!--/ End Shopping Item -->
 								</div>
-								<!--/ End Shopping Item -->
-							</div>
+							</c:if>
 						</security:authorize>
 					</div>
 				</div>
