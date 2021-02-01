@@ -28,10 +28,6 @@ $(document).ready(function() {
 		window.location.href = adv_search_url;
 	});
 
-	//Picker per le date per browser non supportati
-	if ($('.date').prop('type') != 'date') {
-		$('.date').datepicker();
-	}
 
 	//Funzione per gestire il mini carrello a comparsa
 	$(".add_to_cart").click(function() {
