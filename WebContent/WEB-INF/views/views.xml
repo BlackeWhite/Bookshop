@@ -35,4 +35,8 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/auth/account.jsp" />
 	</definition>
+	<definition extends="default" name="checkout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/checkout.jsp" />
+	</definition>
 </tiles-definitions>

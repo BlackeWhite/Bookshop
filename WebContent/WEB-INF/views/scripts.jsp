@@ -48,6 +48,7 @@
 <c:url value="/resources" var="resources" />
 <c:url value="/show_book"  var="show_book"/>
 <c:url value="/delete_card"  var="delete_card"/>
+<c:url value="/checkout"  var="checkout"/>
 <script type="text/javascript">
 var adv_search_url = "${adv_search}";
 var cart_url = "${cart}";
@@ -55,10 +56,14 @@ var add_cart_url = "${add_cart}";
 var resources_url = "${resources}";
 var show_book_url = "${show_book}";
 var delete_card_url = "${delete_card}";
+var checkout_url = "${checkout}";
 </script>
 
 <c:url value="/resources/js/custom.js" var="custom" />
 <script type="text/javascript" src="${custom}"></script>
 
-<c:url value="/resources/js/cart_quantity.js" var="cart_quant" />
-<script type="text/javascript" src="${cart_quant}"></script>
+<c:url value="/resources/js/cart.js" var="cart" />
+<script type="text/javascript" src="${cart}"></script>
+
+<c:url value="/resources/js/checkout.js" var="checkout" />
+<script type="text/javascript" src="${checkout}"></script>

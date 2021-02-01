@@ -55,6 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		antMatchers("/advanced_search").permitAll().
 		antMatchers("/cart").authenticated().
 		antMatchers("/account").authenticated().
+		antMatchers("/checkout").authenticated().
 		antMatchers("/**").permitAll().
 		
 		
