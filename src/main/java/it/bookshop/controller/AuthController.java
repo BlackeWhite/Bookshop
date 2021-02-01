@@ -116,15 +116,15 @@ public class AuthController {
 		model.addAttribute("countries", countries);
 		model.addAttribute("cardTypes", cardTypes);
 		model.addAttribute("currentUser", currentUser);
+		model.addAttribute("userCards", currentUser.getPaymentCards());
 		model.addAttribute("newCard", newCard);
-		
+
 		// Mini carrello
-		if (authentication != null) {
-			List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(currentUser.getShoppingCart());
-			model.addAttribute("user_cart", user_cart);
-			model.addAttribute("cartTotalPrice", currentUser.getFormattedCartTotalPrice());
-			model.addAttribute("cartTotalItems", currentUser.getCartTotalItems());
-		}
+		List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(currentUser.getShoppingCart());
+		model.addAttribute("user_cart", user_cart);
+		model.addAttribute("cartTotalPrice", currentUser.getFormattedCartTotalPrice());
+		model.addAttribute("cartTotalItems", currentUser.getCartTotalItems());
+
 		return "account";
 	}
 

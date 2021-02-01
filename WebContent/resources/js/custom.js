@@ -28,6 +28,10 @@ $(document).ready(function() {
 		window.location.href = adv_search_url;
 	});
 	
+	//Picker per le date per browser non supportati
+	if ( $('.date').prop('type') != 'date') {
+		$('.date').datepicker();
+	}
 	
 	$(".add_to_cart").click(function(){
 		var id = $(this).attr("data-book");

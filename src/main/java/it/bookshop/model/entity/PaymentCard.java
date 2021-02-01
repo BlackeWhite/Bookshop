@@ -2,6 +2,8 @@ package it.bookshop.model.entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="PAYMENT_METHODS")
@@ -71,6 +74,26 @@ public class PaymentCard implements Serializable{
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	@Transient
+	public String getHiddenNumber() {
+		return "XXXX-XXXX-XXXX-"+number.substring(12, 16);
+	}
+	
+	@Transient
+	public String getShortExpirationDate() {
+		Calendar calendar = new GregorianCalendar();
+		calendar.setTime(expirationDate);
+		String year = String.valueOf(calendar.get(Calendar.YEAR));
+		int month_n = calendar.get(Calendar.MONTH) + 1;
+		String month = "";
+		if(month_n < 10) {
+			month = "0"+String.valueOf(month_n);
+		} else month = String.valueOf(month_n);
+		
+		return month+"/"+year.substring(2,4);
+		
 	}
 	
 	
