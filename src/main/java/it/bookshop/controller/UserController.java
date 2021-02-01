@@ -116,28 +116,45 @@ public class UserController {
 	@PostMapping(value = "/cart")
 	@ResponseBody
 	public httpResponseBody cart_update(@RequestBody httpRequestBody reqBody, Locale locale, Model model,
-			Authentication authentication) {
+			Authentication authentication) throws MaxCopiesException, MinCopiesException {
 
 		String principal_name = authentication.getName();
 		User user = userService.findUserByUsername(principal_name);
 		ShoppingCart cartElement = shopCartService.findById(user.getUserID(), reqBody.getBookID());
-		if (reqBody.arg2.equals("delete")) {
+		if (reqBody.getArg2().equals("delete") && ) {
 			shopCartService.removeBook(cartElement);
 			//Update user state
 			user = userService.findUserByUsername(principal_name);
 			return new httpResponseBody("deleted", user.getFormattedCartTotalPrice(), 
 					String.valueOf(user.getCartTotalItems()));
-		} else {
-			if (reqBody.arg2.equals("minus")) {
+		} 
+		else {
+			int cartElementCopies = cartElement.getCopies();
+			
+			if (reqBody.getArg2().equals("minus") && cartElementCopies>1) {
 				cartElement.setCopies(cartElement.getCopies() - 1);
-			} else {
-				cartElement.setCopies(cartElement.getCopies() + 1);
+			} 
+			else if (reqBody.getArg2().equals("minus") && cartElementCopies==1) {
+				throw new MinCopiesException();
+			}
+			else if (cartElementCopies<bookService.findById(reqBody.getBookID()).getCopies()){ 
+				cartElement.setCopies(cartElementCopies + 1);
+			}
+			else {
+				throw new MaxCopiesException();
+				
 			}
 			shopCartService.update(cartElement);
+			//Update user state
+			user = userService.findUserByUsername(principal_name);
 			return new httpResponseBody(cartElement.getFormattedElementTotalPrice(), user.getFormattedCartTotalPrice(),
 					"");
 		}
+	}
 
+	
+	public class MinCopiesException extends Exception {
+		
 	}
 	
 	public class MaxCopiesException extends Exception {

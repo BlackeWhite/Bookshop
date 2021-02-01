@@ -59,7 +59,19 @@
 											</c:forEach>- Data publicazione:${cart_el.book.publish}
 										</p>
 									</td>
-									<td id="${cart_el.id.bookID}" class="price" data-title="Price"><span>${cart_el.book.formattedPrice} &euro;</span></td>
+									<c:choose>
+									    <c:when test="${cart_el.book.discount>0}">
+									        <td id="${cart_el.id.bookID}" class="price" data-title="Price">
+												<span style="color:red;"><del>${cart_el.book.formattedPrice}</del></span>
+												<span style="white-space:nowrap;">${cart_el.book.formattedDiscountedPrice}</span>
+											</td>
+										</c:when> 
+										<c:otherwise>
+									       <td id="${cart_el.id.bookID}" class="price" data-title="Price">
+												<span>${cart_el.book.formattedPrice}</span>
+											</td>
+									     </c:otherwise>
+									</c:choose>  
 									<td class="qty" data-title="Qty">
 										<!-- Input Order -->
 										<div class="input-group">
@@ -80,8 +92,8 @@
 										</div> 
 										<!--/ End Input Order -->
 									</td>
-									<td id="cart_el_total_price${cart_el.id.bookID}" class="total-amount" data-title="Total">
-										<span>${cart_el.totalFormattedPrice} &euro;</span>
+									<td id="element_total_price${cart_el.id.bookID}" class="element_total_price" data-title="Total" value="${cart_el.elementTotalPrice}">
+										<span style="white-space:nowrap;">${cart_el.formattedElementTotalPrice}</span>
 									</td>
 									<td class="action" data-title="Remove">
 									<button id="${cart_el.id.bookID}_delete" type="button" class="delete_element btn">
@@ -128,21 +140,23 @@
 						<div class="col-lg-4 col-md-7 col-12">
 							<div class="right">
 								<ul>
-									<li>Cart Subtotal<span>$330.00</span></li>
-									<li>Shipping<span>Free</span></li>
-									<li>You Save<span>$20.00</span></li>
-									<li class="last">You Pay<span>$310.00</span></li>
+									<li id="cart_subtotal">Cart subtotal
+										<span>${user.formattedCartTotalPrice}</span>
+									</li>
+									<li>Shipping<span>TODO</span></li>
+									<li>You Save<span>TODO</span></li>
+									<li id="cart_total" class="last">Cart total<span>TODO</span></li>
 								</ul>
 								<div class="button5">
-									<a href="#" class="btn">Checkout</a> <a href="#" class="btn">Continue
-										shopping</a>
+									<a href="#" class="btn">Checkout</a> 
+									<a href="#" class="btn">Continue shopping</a>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				</c:otherwise>
-			</c:choose>
+			</c:otherwise>
+		</c:choose>
 				<!--/ End Total Amount -->
 			</div>
 		</div>

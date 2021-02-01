@@ -3,21 +3,23 @@
  */
 
 $(document).ready(function() {
+	
 	$(".decrement").click(function() {
 		var book_id = $(this).attr("id");
 		//ajax request
         $.ajax({
             type : 'POST',
             url : cart_url,
-			data : JSON.stringify({ "b_id" : book_id, "operation": "minus"}),
+			data : JSON.stringify({ "bookID" : book_id, "arg2": "minus"}),
 			contentType : 'application/json',
             dataType: "json", //The type of data that you're expecting back from the server
 			success: function (data) {
-				$("#cart_el_total_price"+book_id).text(data["price"]);
+				$("#element_total_price"+book_id).text(data["response1"]);
+				$("#cart_subtotal").find($("span")).text(data["response2"]);
                 },
+			error: function (e) {
+			},
             processData : false });
-		//var bPrice = $("#"+book_id, ".price").text();
-	 	//setCartTotal("minus",bPrice);
 	});
 	
 	
@@ -27,15 +29,17 @@ $(document).ready(function() {
         $.ajax({
             type : 'POST',
             url : cart_url,
-			data : JSON.stringify({ "b_id" : book_id, "operation": "plus"}),
+			data : JSON.stringify({ "bookID" : book_id, "arg2": "plus"}),
 			contentType : 'application/json',
            	dataType: "json", //The type of data that you're expecting back from the server	
 			success: function (data) { 
-				$("#cart_el_total_price"+book_id).text(data["response"]);
+				$("#element_total_price"+book_id).text(data["response1"]);
+				$("#cart_subtotal").find($("span")).text(data["response2"]);
                 },
+			error: function (e) {
+				alert("Non ci sono abbastanza copie disponibili");
+			},
             processData : false });
-	// var bPrice = getBookPrice;
-	//setCartTotal("plus",bPrice);
 	});
 
 	
@@ -48,32 +52,20 @@ $(document).ready(function() {
 		$.ajax({
             type : 'POST',
             url : cart_url,
-			data : JSON.stringify({ "b_id" : book_id, "operation": "delete"}),
+			data : JSON.stringify({ "bookID" : book_id, "arg2": "delete"}),
 			contentType : 'application/json',
            	dataType: "json", //The type of data that you're expecting back from the server	
+			success: function (data) {
+				$("#cart_subtotal").find($("span")).text(data["response2"]);
+			},
             processData : false });
-	// var elementTotalPrice = getCartElementTotalPrice;
-	// setCartTotal("delete",total);;
 	});
 		
 });	
 	
-/*function setCartTotal(operation, price) {
-	var currentTotal = getCurrentTotal();
-	var Total;
-	if (operation.localeCompare("minus")==0){
-		Total = currentTotal - price;
-	}
-	else if(operation.localeCompare("plus")==0) {
-		Total = currentTotal + price;
-	}
-	else {
-		Total = currentTotal - price;
-	}
-	return Total;
-}
-
-function getCurrentTotal() {
 	
-}
-*/	
+
+
+
+
+	
