@@ -27,10 +27,7 @@
 				<!-- Shopping Summary -->
 				<c:choose>
 				    <c:when test="${empty user_cart}">
-				        <div class="section-title">
-							<p>Carrello vuoto.</p>
-						</div> 
-				        <br />
+				    	<p style="text-align:center; font-size:40px">Carrello vuoto.</p>
 				    </c:when>    
 				    <c:otherwise><table class="table shopping-summery">
 						<thead>

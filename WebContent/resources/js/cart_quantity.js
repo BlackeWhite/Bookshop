@@ -58,8 +58,7 @@ $(document).ready(function() {
 			success: function (data) {
 				$("#cart_subtotal").find($("span")).text(data["response2"]);
 				if (data["response3"]==0) {
-					
-					$(".shopping-cart").text('Carrello vuoto');
+					$(".shopping-cart").html('<p style="text-align:center; font-size:40px">Carrello vuoto.</p>')
 				}
 			},
             processData : false });
