@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
@@ -47,18 +49,20 @@ public class AuthController {
 
 	@Autowired
 	private BookService bookService;
-	
+
 	@Autowired
 	@Qualifier("registrationValidator")
-	private Validator validator;
+	private Validator userValidator;
 
-	@InitBinder
-	private void initBinder(WebDataBinder binder) {
-		binder.setValidator(validator);
+	@InitBinder // Put the name of the class in lowercase
+	private void initUserBinder(WebDataBinder binder) {
+		if (binder.getTarget() != null && User.class.equals(binder.getTarget().getClass())) {
+			binder.setValidator(userValidator);
+		}
 	}
-	
+
 	private Map<String, String> countries = new LinkedHashMap<String, String>();
-	
+	private Map<String, String> cardTypes = new LinkedHashMap<String, String>();
 
 	@GetMapping(value = "/login")
 	public String loginPage(@RequestParam(value = "error", required = false) String error, Model model) {
@@ -67,30 +71,22 @@ public class AuthController {
 			errorMessage = "Username o Password errati !!";
 		}
 
-		List<Genre> allGenres = this.bookService.getAllGenres();
-
 		model.addAttribute("errorMessage", errorMessage);
-		model.addAttribute("allGenres", allGenres);
-		model.addAttribute("appName", appName);
+
+		// Adds attributes used in almost all requests
+		generalOperations(model);
+
 		return "login";
 	}
 
 	@GetMapping(value = "/register")
 	public String registerPage(@RequestParam(value = "error", required = false) String error, Model model) {
 		String errorMessage = null;
-		
-		countries.put("Italia", "Italia");
-		countries.put("Germania", "Germania");
-		countries.put("Francia", "Francia");
-		countries.put("Svizzera", "Svizzera");
-		
+
 		model.addAttribute("errorMessage", errorMessage);
-		model.addAttribute("appName", appName);
-		model.addAttribute("countries", countries);
 		model.addAttribute("newUser", new User());
 
-		List<Genre> allGenres = this.bookService.getAllGenres();
-		model.addAttribute("allGenres", allGenres);
+		generalOperations(model);
 
 		return "register";
 	}
@@ -98,23 +94,16 @@ public class AuthController {
 	@PostMapping(value = "/register")
 	public String register(@ModelAttribute("newUser") @Validated User user, BindingResult br, Model model) {
 
-		// TODO implementare la validazione e il password confirmation
-		if(br.hasErrors()) {
-			countries.put("Italia", "Italia");
-			countries.put("Germania", "Germania");
-			countries.put("Francia", "Francia");
-			countries.put("Svizzera", "Svizzera");
-			model.addAttribute("countries", countries);
+		if (br.hasErrors()) {
+			generalOperations(model);
 			return "register";
 		}
-		
+
 		Role user_role = roleDao.findByName("USER");
 		user.addRole(user_role);
 		this.userService.create(user);
 
 		return "redirect:/login";
-
-		// return "redirect:singers/list"; // NB questo non funzionerebbe!
 
 	}
 
@@ -123,36 +112,9 @@ public class AuthController {
 			Authentication authentication) {
 
 		String principal_name = authentication.getName();
-		User currentUser = userService.findUserByUsername(principal_name);
-		PaymentCard newCard = new PaymentCard();
 
-		List<Genre> allGenres = this.bookService.getAllGenres();
-
-
-		Map<String, String> cardTypes = new LinkedHashMap<String, String>();
-		cardTypes.put("Visa", "Visa");
-		cardTypes.put("MasterCard", "MasterCard");
-		cardTypes.put("Bancomat", "Bancomat");
-		cardTypes.put("PostePay", "PostePay");
-		
-		countries.put("Italia", "Italia");
-		countries.put("Germania", "Germania");
-		countries.put("Francia", "Francia");
-		countries.put("Svizzera", "Svizzera");
-
-		model.addAttribute("allGenres", allGenres);
-		model.addAttribute("countries", countries);
-		model.addAttribute("cardTypes", cardTypes);
-		model.addAttribute("currentUser", currentUser);
-		model.addAttribute("userCards", currentUser.getPaymentCards());
-		model.addAttribute("newCard", newCard);
-		model.addAttribute("appName", appName);
-
-		// Mini carrello
-		List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(currentUser.getShoppingCart());
-		model.addAttribute("user_cart", user_cart);
-		model.addAttribute("cartTotalPrice", currentUser.getFormattedCartTotalPrice());
-		model.addAttribute("cartTotalItems", currentUser.getCartTotalItems());
+		accountPageSpecificOps(model, principal_name);
+		generalOperations(model);
 
 		return "account";
 	}
@@ -167,7 +129,7 @@ public class AuthController {
 
 		return "redirect:/account";
 	}
-	
+
 	public static class CardRequest {
 		private long cardId;
 
@@ -181,9 +143,9 @@ public class AuthController {
 		public void setCardId(long cardId) {
 			this.cardId = cardId;
 		}
-		
+
 	}
-	
+
 	@PostMapping(value = "/delete_card")
 	@ResponseBody
 	public String deleteCard(@RequestBody CardRequest card) {
@@ -192,8 +154,59 @@ public class AuthController {
 	}
 
 	@PostMapping(value = "/account_save")
-	public String accountSave(@ModelAttribute("currentUser") User currentUser, BindingResult br) {
-		userService.update(currentUser);
+	public String accountSave(@ModelAttribute("currentUser") @Validated User user, BindingResult br, Model model) {
+
+		// String principal_name = authentication.getName();
+
+		if (br.hasErrors()) {
+			accountPageSpecificOps(model, user.getUsername());
+			generalOperations(model);
+			return "account";
+		}
+
+		// FOR SECURITY AND SIMPLICITY REASONS MANY FIELDS ARE NOT PASSED IN THE HTML
+		// FORM
+		// SO WE MUST OVERWRITE THE EDITED FIELDS IN THE EXISTING USER
+		User existingUser = userService.findUserByUsername(user.getUsername());
+		existingUser.setPersonalData(user.getPersonalData());
+		existingUser.setEmail(user.getEmail());
+		userService.update(existingUser);
 		return "redirect:/account";
+	}
+
+	// Adds attributes used in almost all requests
+	private void generalOperations(Model model) {
+		List<Genre> allGenres = this.bookService.getAllGenres();
+		countries.put("Italia", "Italia");
+		countries.put("Germania", "Germania");
+		countries.put("Francia", "Francia");
+		countries.put("Svizzera", "Svizzera");
+
+		cardTypes.put("Visa", "Visa");
+		cardTypes.put("MasterCard", "MasterCard");
+		cardTypes.put("Bancomat", "Bancomat");
+		cardTypes.put("PostePay", "PostePay");
+
+		model.addAttribute("allGenres", allGenres);
+		model.addAttribute("appName", appName);
+		model.addAttribute("countries", countries);
+		model.addAttribute("cardTypes", cardTypes);
+	}
+
+	// Adds attributes for the account page
+	// It'sa function because it's used in two different routes
+	private void accountPageSpecificOps(Model model, String username) {
+		User currentUser = userService.findUserByUsername(username);
+		PaymentCard newCard = new PaymentCard();
+
+		model.addAttribute("currentUser", currentUser);
+		model.addAttribute("userCards", currentUser.getPaymentCards());
+		model.addAttribute("newCard", newCard);
+
+		// Mini carrello
+		List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(currentUser.getShoppingCart());
+		model.addAttribute("user_cart", user_cart);
+		model.addAttribute("cartTotalPrice", currentUser.getFormattedCartTotalPrice());
+		model.addAttribute("cartTotalItems", currentUser.getCartTotalItems());
 	}
 }

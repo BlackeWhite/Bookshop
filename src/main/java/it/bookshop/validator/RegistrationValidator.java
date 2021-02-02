@@ -27,23 +27,24 @@ public class RegistrationValidator implements Validator {
 		// The second argument is not necessary at the moment, it can be implemented in
 		// the validation property file
 		ValidationUtils.rejectIfEmpty(errors, "personalData.birthdate", "personalData.birthdate.required",
-				"Inserisci la tua data di nascita.");
+				"Inserisci la data di nascita.");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "personalData.name", "personalData.name.required",
-				"Inserisci il tuo nome.");
+				"Inserisci il nome.");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "personalData.surname", "personalData.surname.required",
-				"Inserisci il tuo cognome.");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "email.required", "Inserisci la tua Email.");
+				"Inserisci il cognome.");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "email.required", "Inserisci l'Email.");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "email.required", "Inserisci l'username.");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "personalData.state", "personalData.state.required",
-				"Inserisci il tuo paese.");
+				"Inserisci il paese.");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "personalData.city", "personalData.city.required",
-				"Inserisci la tua città.");
+				"Inserisci la città.");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "personalData.street", "personalData.street.required",
-				"Inserisci la tua via.");
+				"Inserisci la via.");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "personalData.cap", "personalData.cap.required",
 				"Inserisci il codice postale.");
 
 		User u = userService.findUserByUsername(user.getUsername());
-		if (u!=null) {
+		if (u!=null && u.getUserID() != user.getUserID() ) {
 			errors.rejectValue("username", "invalidUsername", new Object[] { "'username'" },
 					"Username già utilizzato.");
 		}
