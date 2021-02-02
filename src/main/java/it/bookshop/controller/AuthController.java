@@ -112,6 +112,9 @@ public class AuthController {
 			Authentication authentication) {
 
 		String principal_name = authentication.getName();
+		User currentUser = userService.findUserByUsername(principal_name);
+
+		model.addAttribute("currentUser", currentUser);
 
 		accountPageSpecificOps(model, principal_name);
 		generalOperations(model);
@@ -199,7 +202,6 @@ public class AuthController {
 		User currentUser = userService.findUserByUsername(username);
 		PaymentCard newCard = new PaymentCard();
 
-		model.addAttribute("currentUser", currentUser);
 		model.addAttribute("userCards", currentUser.getPaymentCards());
 		model.addAttribute("newCard", newCard);
 
