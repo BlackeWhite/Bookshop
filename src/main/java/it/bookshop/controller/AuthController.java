@@ -6,11 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,6 +47,18 @@ public class AuthController {
 
 	@Autowired
 	private BookService bookService;
+	
+	@Autowired
+	@Qualifier("registrationValidator")
+	private Validator validator;
+
+	@InitBinder
+	private void initBinder(WebDataBinder binder) {
+		binder.setValidator(validator);
+	}
+	
+	private Map<String, String> countries = new LinkedHashMap<String, String>();
+	
 
 	@GetMapping(value = "/login")
 	public String loginPage(@RequestParam(value = "error", required = false) String error, Model model) {
@@ -61,12 +78,12 @@ public class AuthController {
 	@GetMapping(value = "/register")
 	public String registerPage(@RequestParam(value = "error", required = false) String error, Model model) {
 		String errorMessage = null;
-		Map<String, String> countries = new LinkedHashMap<String, String>();
+		
 		countries.put("Italia", "Italia");
 		countries.put("Germania", "Germania");
 		countries.put("Francia", "Francia");
 		countries.put("Svizzera", "Svizzera");
-
+		
 		model.addAttribute("errorMessage", errorMessage);
 		model.addAttribute("appName", appName);
 		model.addAttribute("countries", countries);
@@ -79,9 +96,18 @@ public class AuthController {
 	}
 
 	@PostMapping(value = "/register")
-	public String register(@ModelAttribute("newUser") User user, BindingResult br) {
+	public String register(@ModelAttribute("newUser") @Validated User user, BindingResult br, Model model) {
 
 		// TODO implementare la validazione e il password confirmation
+		if(br.hasErrors()) {
+			countries.put("Italia", "Italia");
+			countries.put("Germania", "Germania");
+			countries.put("Francia", "Francia");
+			countries.put("Svizzera", "Svizzera");
+			model.addAttribute("countries", countries);
+			return "register";
+		}
+		
 		Role user_role = roleDao.findByName("USER");
 		user.addRole(user_role);
 		this.userService.create(user);
@@ -102,17 +128,17 @@ public class AuthController {
 
 		List<Genre> allGenres = this.bookService.getAllGenres();
 
-		Map<String, String> countries = new LinkedHashMap<String, String>();
-		countries.put("Italia", "Italia");
-		countries.put("Germania", "Germania");
-		countries.put("Francia", "Francia");
-		countries.put("Svizzera", "Svizzera");
 
 		Map<String, String> cardTypes = new LinkedHashMap<String, String>();
 		cardTypes.put("Visa", "Visa");
 		cardTypes.put("MasterCard", "MasterCard");
 		cardTypes.put("Bancomat", "Bancomat");
 		cardTypes.put("PostePay", "PostePay");
+		
+		countries.put("Italia", "Italia");
+		countries.put("Germania", "Germania");
+		countries.put("Francia", "Francia");
+		countries.put("Svizzera", "Svizzera");
 
 		model.addAttribute("allGenres", allGenres);
 		model.addAttribute("countries", countries);
@@ -120,6 +146,7 @@ public class AuthController {
 		model.addAttribute("currentUser", currentUser);
 		model.addAttribute("userCards", currentUser.getPaymentCards());
 		model.addAttribute("newCard", newCard);
+		model.addAttribute("appName", appName);
 
 		// Mini carrello
 		List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(currentUser.getShoppingCart());

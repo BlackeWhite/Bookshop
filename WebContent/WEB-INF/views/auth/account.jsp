@@ -9,6 +9,29 @@
 			<div id="account-row" class="row">
 				<div id="account-column" class="col-md-7">
 					<div id="account-box" class="col-md-12">
+						<c:url value="/change_password" var="action3" />
+						<form id="password-form" action="${action3}" class="form" method="post">
+							<div class="title">
+								<h3>Modifica password</h3>
+							</div>
+							<div class="form-group">
+								<label for="old_password">Vecchia Password:</label> <span>*</span> <br>
+								<input type="password" name="old_password" id="old_password"/>
+							</div>
+							<div class="form-group">
+								<label for="password">Nuova Password:</label> <span>*</span> <br>
+								<input type="password" name="password" id="password"/>
+							</div>
+							<div class="form-group">
+								<label for="password-confirm">Conferma Password:</label> <span>*</span>
+								<br> 
+								<input type="password" name="password-confirm" id="password-confirm">
+							</div>
+							<div class="form-group button">
+								<button type="submit" name="submit" class="btn">Cambia</button>
+							</div>
+						</form>
+						<hr>
 						<c:url value="/account_save" var="action" />
 						<form:form id="account-form" action="${action}"
 							modelAttribute="currentUser" class="form" method="post">
