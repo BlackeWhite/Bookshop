@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.bookshop.model.dao.RoleDao;
 import it.bookshop.model.entity.Genre;
@@ -49,6 +51,9 @@ public class AuthController {
 
 	@Autowired
 	private BookService bookService;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	@Qualifier("registrationValidator")
@@ -156,8 +161,30 @@ public class AuthController {
 		return "";
 	}
 
+	@PostMapping(value = "change_password")
+	public String changePassword(@RequestParam String old_password, @RequestParam String password,
+			Authentication authentication, final RedirectAttributes redirectAttributes) {
+
+		String principal_name = authentication.getName();
+		User currentUser = userService.findUserByUsername(principal_name);
+
+		if (passwordEncoder.matches(old_password, currentUser.getPassword())) {
+			currentUser.setPassword(passwordEncoder.encode(password));
+			userService.update(currentUser);
+			redirectAttributes.addFlashAttribute("message", "Password modificata correttamente!");
+			redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
+			return "redirect:/account";
+		} else {
+			redirectAttributes.addFlashAttribute("message", "Password errata!");
+			redirectAttributes.addFlashAttribute("msgColor", "red");
+			return "redirect:/account";
+		}
+
+	}
+
 	@PostMapping(value = "/account_save")
-	public String accountSave(@ModelAttribute("currentUser") @Validated User user, BindingResult br, Model model) {
+	public String accountSave(@ModelAttribute("currentUser") @Validated User user, BindingResult br, Model model,
+			final RedirectAttributes redirectAttributes) {
 
 		// String principal_name = authentication.getName();
 
@@ -174,6 +201,8 @@ public class AuthController {
 		existingUser.setPersonalData(user.getPersonalData());
 		existingUser.setEmail(user.getEmail());
 		userService.update(existingUser);
+		redirectAttributes.addFlashAttribute("message2", "Dati modificati correttamente!");
+		redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
 		return "redirect:/account";
 	}
 

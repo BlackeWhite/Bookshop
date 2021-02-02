@@ -11,6 +11,7 @@
 					<div id="account-box" class="col-md-12">
 						<c:url value="/change_password" var="action3" />
 						<form id="password-form" action="${action3}" class="form" method="post">
+						<h4 class="title" style="color: ${msgColor}; text-size: 13px;">${message}</h4>
 							<div class="title">
 								<h3>Modifica password</h3>
 							</div>
@@ -28,13 +29,14 @@
 								<input type="password" name="password-confirm" id="password-confirm">
 							</div>
 							<div class="form-group button">
-								<button type="submit" name="submit" class="btn">Cambia</button>
+								<button type="submit" name="submit" class="btn with-pass-conf">Cambia</button>
 							</div>
 						</form>
 						<hr>
 						<c:url value="/account_save" var="action" />
 						<form:form id="account-form" action="${action}"
 							modelAttribute="currentUser" class="form" method="post">
+							<h4 class="title" style="color: ${msgColor}; text-size: 13px;">${message2}</h4>
 							<div class="title">
 								<h3>Modifica i tuoi dati</h3>
 							</div>
@@ -79,7 +81,7 @@
 								<form:errors path="personalData.city" cssClass="validation-error"/>
 							</div>
 							<div class="form-group">
-								<form:label path="personalData.street">Via:</form:label>
+								<form:label path="personalData.street">Indirizzo:</form:label>
 								<br>
 								<form:input required="required" type="text" path="personalData.street" id="street" />
 								<form:errors path="personalData.street" cssClass="validation-error"/>

@@ -28,6 +28,20 @@ $(document).ready(function() {
 		window.location.href = adv_search_url;
 	});
 
+	//Password confirmation
+	$("#password-confirm").focusout(function() {
+		if($(this).val() != $("#password").val()) {
+			$("#error-pass").remove();
+			$(this).after('<span id="error-pass" class="validation-error">Le password non coincidono.</span>');
+		} else $("#error-pass").remove();
+	});
+	$(".with-pass-conf").click(function(e) {
+		if($("#password-confirm").val() != $("#password").val()) {
+			$("#error-pass").remove();
+			$("#password-confirm").after('<span id="error-pass" class="validation-error">Le password non coincidono.</span>');
+			e.preventDefault();
+		}
+	});
 
 	//Funzione per gestire il mini carrello a comparsa
 	$(".add_to_cart").click(function() {

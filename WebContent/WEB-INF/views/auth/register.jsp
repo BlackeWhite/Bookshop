@@ -62,7 +62,7 @@
 								<form:errors path="personalData.city" cssClass="validation-error"/>
 							</div>
 							<div class="form-group">
-								<form:label path="personalData.street">Via:</form:label> <br>
+								<form:label path="personalData.street">Indirizzo:</form:label> <br>
 								<form:input required="required" type="text" path="personalData.street" id="street"/>
 								<form:errors path="personalData.street" cssClass="validation-error"/>
 							</div>
@@ -72,7 +72,7 @@
 								<form:errors path="personalData.cap" cssClass="validation-error"/>
 							</div>
 							<div class="form-group button">
-								<button type="submit" name="submit" class="btn">Registrati</button>
+								<button type="submit" name="submit" class="btn with-pass-conf">Registrati</button>
 							</div>
 							<div id="login-link" class="text-right">
 								<a href="<c:url value="/login"/>" class="text-info">Accedi</a>
