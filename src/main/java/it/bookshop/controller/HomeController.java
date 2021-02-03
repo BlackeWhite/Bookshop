@@ -85,14 +85,12 @@ public class HomeController {
 	public String ShowBookforGenre(@PathVariable("genre") String genre,Model model, Authentication authentication) {
 		Set<Book> bookGenre =  this.bookService.getAllBookForGenre(genre); // estrae tutti i libri per il genere scelto 
 		List<Genre> allGenres = this.bookService.getAllGenres();
-		List <Author> topFiveAuthor = this.authorService.findBestSellingAuthor();
-		List<Book> topFiveBestSellersBooks = this.bookService.findFiveBestSellingBook();
+
 		
 		
 		model.addAttribute("appName", appName);
 		model.addAttribute("books", bookGenre);
-		model.addAttribute("best_sellers", topFiveBestSellersBooks);
-		model.addAttribute("top_authors", topFiveAuthor);
+		model.addAttribute("single_genre", genre);
 		model.addAttribute("genres", allGenres);
 		model.addAttribute("allGenres", allGenres); // per la navbar
 		
@@ -106,7 +104,7 @@ public class HomeController {
 			model.addAttribute("cartTotalItems", user.getCartTotalItems());
 		}
 
-		return "advanced_search"; // craeare una nuova vista  
+		return "grid_book"; // craeare una nuova vista  
 
 	}
 	
