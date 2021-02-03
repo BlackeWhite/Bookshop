@@ -10,6 +10,8 @@ import it.bookshop.model.entity.User;
 
 public interface UserService {
 	
+	List<User> findAllForRole(String role);
+	
 	User findUserByUsername(String username);
 	
 	User findUserById(long id);

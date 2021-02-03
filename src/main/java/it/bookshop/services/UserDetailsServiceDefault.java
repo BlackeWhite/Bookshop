@@ -57,6 +57,11 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 	    
 	    return builder.build();		
 	}
+	
+	@Override
+	public List<User> findAllForRole(String role) {
+		return userrepository.findAllForRole(role);
+	}
 
 	@Override
 	public User findUserByUsername(String username) {

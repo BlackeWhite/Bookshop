@@ -1,6 +1,7 @@
 package it.bookshop.model.dao;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.hibernate.Session;
 import it.bookshop.model.entity.User;
@@ -9,6 +10,8 @@ import it.bookshop.model.entity.PersonalData;
 public interface UserDetailsDao {
 	Session getSession();
 	public void setSession(Session session);
+	
+	List<User> findAllForRole(String role);
 	
 	User findUserByUsername(String username);
 	

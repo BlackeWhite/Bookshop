@@ -23,6 +23,12 @@ public class UserDetailsDaoDefault extends DefaultDao implements UserDetailsDao 
 	private PasswordEncoder passwordEncoder;
 	
 	@Override
+	public List<User> findAllForRole(String role) {
+		return this.getSession().createQuery("SELECT u FROM User u JOIN u.roles rs WHERE rs.name=:role", User.class )
+				.setParameter("role", role).getResultList();
+	}
+	
+	@Override
 	public User findUserByUsername(String username) {
 		try {
 			return this.getSession().createQuery("FROM User u WHERE u.username = :username", User.class).setParameter("username", username).getSingleResult();
