@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
@@ -46,7 +48,9 @@ public class HomeController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model, Authentication authentication) {
+	public String home(Locale locale, Model model, Authentication authentication, 
+			@RequestParam(required = false) Integer page, 
+			@RequestParam(defaultValue = "8") Integer books_per_page) {
 		System.out.println("Home Page Requested,  locale = " + locale);
 		
 		Date date = new Date();
@@ -59,13 +63,27 @@ public class HomeController {
 		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook();
 		List<Book> topMostClickBook = this.bookService.findMostClickBook();
 		
+		// Pagination per I più visualizzati
+		PagedListHolder<Book> pagedListHolder = new PagedListHolder<>(topMostClickBook);
+		pagedListHolder.setPageSize(books_per_page);
+
+		if (page == null || page < 1 || page > pagedListHolder.getPageCount())
+			page = 1;
+
+		pagedListHolder.setPage(page - 1);
+
+		model.addAttribute("topMostClickBook", pagedListHolder.getPageList());
+		model.addAttribute("maxPages", pagedListHolder.getPageCount());
+		model.addAttribute("page", page);
+		// Fine Pagination
+		
 		model.addAttribute("serverTime", formattedDate);
 		model.addAttribute("appName", appName);
 		model.addAttribute("topFiveAuthor", topFiveAuthor);
 		model.addAttribute("allGenres", allGenres); //Da qui sono presi anche i generi della navbar
 		model.addAttribute("topFiveNewBooks", topFiveNewBooks);
 		model.addAttribute("topFiveBestSellersBooks", topFiveBestSellersBooks);
-		model.addAttribute("topMostClickBook", topMostClickBook);
+		//model.addAttribute("topMostClickBook", topMostClickBook);
 		
 		//Mini carrello
 		if(authentication != null) {
