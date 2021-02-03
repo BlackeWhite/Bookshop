@@ -3,6 +3,23 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<!-- Breadcrumbs -->
+<div class="breadcrumbs">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="bread-inner">
+					<ul class="bread-list">
+						<li><a href="<c:url value="/" />">Home<i class="ti-arrow-right"></i></a></li>
+						<li class="active"><a href="<c:url value="/add_seller" />">Aggiungi venditori</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Breadcrumbs -->
+
 <div id="contact-us" class="contact-us section">
 	<div class="container">
 		<div class="form-main">

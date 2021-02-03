@@ -40,7 +40,7 @@ public class AdminController {
 
 	@Autowired
 	private BookService bookService;
-	
+
 	@Autowired
 	@Qualifier("registrationValidator")
 	private Validator userValidator;
@@ -51,18 +51,14 @@ public class AdminController {
 			binder.setValidator(userValidator);
 		}
 	}
-	
+
 	private Map<String, String> countries = new LinkedHashMap<String, String>();
 
 	@GetMapping(value = "/add_seller")
-	public String addSellerPage(@RequestParam(value = "error", required = false) String error, Model model,
-			Authentication authentication) {
+	public String addSellerPage(Model model, Authentication authentication) {
 
 		String principal_name = authentication.getName();
 
-		String errorMessage = null;
-
-		model.addAttribute("errorMessage", errorMessage);
 		model.addAttribute("newSeller", new User());
 
 		generalOperations(model, principal_name);
@@ -90,6 +86,18 @@ public class AdminController {
 		return "redirect:/add_seller";
 
 	}
+	
+	@GetMapping(value = "/sellers_list")
+	public String sellersList(Model model, Authentication authentication) {
+		
+		String principal_name = authentication.getName();
+		
+		List<User> sellers = userService.findAllForRole("SELLER");
+		model.addAttribute("sellers", sellers);
+		
+		generalOperations(model, principal_name);
+		return "sellers_list";
+	}
 
 	private void generalOperations(Model model, String username) {
 
@@ -104,7 +112,7 @@ public class AdminController {
 		model.addAttribute("user_cart", user_cart);
 		model.addAttribute("cartTotalPrice", currentUser.getFormattedCartTotalPrice());
 		model.addAttribute("cartTotalItems", currentUser.getCartTotalItems());
-		
+
 		countries.put("Italia", "Italia");
 		countries.put("Germania", "Germania");
 		countries.put("Francia", "Francia");

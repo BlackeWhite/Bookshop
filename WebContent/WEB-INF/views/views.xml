@@ -47,4 +47,8 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/admin/add_seller.jsp" />
 	</definition>
+	<definition extends="default" name="sellers_list">
+		<put-attribute name="body"
+			value="/WEB-INF/views/admin/sellers_list.jsp" />
+	</definition>
 </tiles-definitions>

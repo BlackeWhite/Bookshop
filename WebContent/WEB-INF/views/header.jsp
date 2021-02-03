@@ -204,7 +204,15 @@
 												</ul></li>
 											<li><a href="contact.html">Contattaci</a></li>
 											<security:authorize access="hasRole('ADMIN')">
-											<li><a href="<c:url value="/add_seller"/>">Aggiungi Venditore</a></li>
+												<li><a href="#">Funzioni Admin<i
+														class="ti-angle-down"></i></a>
+													<ul class="dropdown">
+														<li><a href="<c:url value="/add_seller"/>">Aggiungi
+																Venditore</a></li>
+														<li><a href="<c:url value="/sellers_list"/>">Lista
+																Venditori</a></li>
+													</ul>
+												</li>
 											</security:authorize>
 										</ul>
 									</div>
