@@ -45,11 +45,8 @@ public class AdvSearchController {
 	private BookService bookService;
 
 	@Autowired
-	private GenreDao genreDao;
-
-	@Autowired
 	private AuthorService authorService;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -104,9 +101,9 @@ public class AdvSearchController {
 		model.addAttribute("term", term);
 		model.addAttribute("priceMin", price_min);
 		model.addAttribute("priceMax", price_max);
-		
-		//Mini carrello
-		if(authentication != null) {
+
+		// Mini carrello
+		if (authentication != null) {
 			String principal_name = authentication.getName();
 			User user = userService.findUserByUsername(principal_name);
 			List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(user.getShoppingCart());
@@ -119,6 +116,15 @@ public class AdvSearchController {
 
 	@GetMapping(value = "/populatedb")
 	public String populatedb(Locale locale, Model model) {
+
+		userService.findOrCreateRole("USER");
+		userService.findOrCreateRole("ADMIN");
+		userService.findOrCreateRole("SELLER");
+		User admin = userService.findUserByUsername("admin");
+		if (admin == null) {
+			userService.create("admin", "admin@email.com", "admin", "admin", "admin", null, "Via brecce bianche",
+					"Ancona", 60000, "Italia", Arrays.asList("USER", "ADMIN"));
+		}
 
 		DateFormat date = new SimpleDateFormat("dd-MM-yyyy");
 		java.util.Date date1 = null;

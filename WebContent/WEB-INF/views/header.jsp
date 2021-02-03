@@ -203,6 +203,9 @@
 													<li><a href="checkout.html">Procedi all'acquisto</a></li>
 												</ul></li>
 											<li><a href="contact.html">Contattaci</a></li>
+											<security:authorize access="hasRole('ADMIN')">
+											<li><a href="<c:url value="/add_seller"/>">Aggiungi Venditore</a></li>
+											</security:authorize>
 										</ul>
 									</div>
 								</div>

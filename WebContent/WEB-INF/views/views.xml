@@ -39,4 +39,8 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/checkout.jsp" />
 	</definition>
+	<definition extends="default" name="add_seller">
+		<put-attribute name="body"
+			value="/WEB-INF/views/admin/add_seller.jsp" />
+	</definition>
 </tiles-definitions>

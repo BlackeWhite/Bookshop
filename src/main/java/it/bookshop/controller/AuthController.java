@@ -47,9 +47,6 @@ public class AuthController {
 	private UserService userService;
 
 	@Autowired
-	private RoleDao roleDao;
-
-	@Autowired
 	private BookService bookService;
 
 	@Autowired
@@ -59,7 +56,7 @@ public class AuthController {
 	@Qualifier("registrationValidator")
 	private Validator userValidator;
 
-	@InitBinder // Put the name of the class in lowercase
+	@InitBinder
 	private void initUserBinder(WebDataBinder binder) {
 		if (binder.getTarget() != null && User.class.equals(binder.getTarget().getClass())) {
 			binder.setValidator(userValidator);
@@ -104,7 +101,7 @@ public class AuthController {
 			return "register";
 		}
 
-		Role user_role = roleDao.findByName("USER");
+		Role user_role = userService.findRoleByName("USER");
 		user.addRole(user_role);
 		this.userService.create(user);
 

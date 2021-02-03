@@ -17,6 +17,7 @@ import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.User;
 import it.bookshop.model.dao.AuthorDao;
 import it.bookshop.model.dao.PaymentCardDao;
+import it.bookshop.model.dao.RoleDao;
 import it.bookshop.model.dao.UserDetailsDao;
 
 @Transactional
@@ -26,6 +27,7 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 	
 	private UserDetailsDao userrepository;
 	private PaymentCardDao paymentCardRepository;
+	private RoleDao roleRepository;
 
 	@Transactional(readOnly = true)
 	@Override
@@ -73,10 +75,30 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 
 	@Override
 	public User create(String username, String email, String password, String name, String surname,
-			Date birthdate, String street, String city, long cap, String state) {
-		User newUser = this.userrepository.create(username, email, password, name, surname, birthdate, street, city,
-				cap, state);
-		return newUser;
+			Date birthdate, String street, String city, long cap, String state, List<String> roles) {
+		User user = new User();
+		PersonalData personalData = new PersonalData();
+		
+		user.setUsername(username);
+		user.setEmail(email);
+		user.setPassword(password);
+		user.setEnabled(true);
+		
+		personalData.setName(name);
+		personalData.setSurname(surname);
+		personalData.setBirthdate(birthdate);
+		personalData.setStreet(street);
+		personalData.setCap(cap);
+		personalData.setCity(city);
+		personalData.setState(state);
+
+		user.setPersonalData(personalData);
+		for(String role: roles) {
+			Role r = roleRepository.findByName(role);
+			user.addRole(r);
+		}
+		
+		return userrepository.create(user);
 	}
 	
 	@Override
@@ -94,15 +116,6 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 		User user = this.userrepository.findUserByUsername(username);
 		this.userrepository.delete(user);
 		
-	}
-	@Autowired
-	public void setUserRepository(UserDetailsDao userrepository) {
-		this.userrepository = userrepository;
-	}
-	
-	@Autowired
-	public void setPaymentCardRepository(PaymentCardDao paymentCardRepository) {
-		this.paymentCardRepository = paymentCardRepository;
 	}
 
 	@Override
@@ -135,6 +148,35 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 	public void deletePaymentCard(Long id) {
 		PaymentCard card = paymentCardRepository.findById(id);
 		this.paymentCardRepository.delete(card);
+	}
+
+	@Override
+	public Role findRoleByName(String name) {
+		return roleRepository.findByName(name);
+	}
+
+	@Override
+	public Role findOrCreateRole(String name) {
+		Role role = roleRepository.findByName(name);
+		if(role == null) {
+			return roleRepository.create(name);
+		}
+		return role;
+	}
+
+	@Autowired
+	public void setRoleRepository(RoleDao roleRepository) {
+		this.roleRepository = roleRepository;
+	}
+	
+	@Autowired
+	public void setUserRepository(UserDetailsDao userrepository) {
+		this.userrepository = userrepository;
+	}
+	
+	@Autowired
+	public void setPaymentCardRepository(PaymentCardDao paymentCardRepository) {
+		this.paymentCardRepository = paymentCardRepository;
 	}
 
 	
