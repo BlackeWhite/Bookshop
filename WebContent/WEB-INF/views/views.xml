@@ -51,4 +51,8 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/admin/sellers_list.jsp" />
 	</definition>
+	<definition extends="default" name="home_seller">
+		<put-attribute name="body"
+			value="/WEB-INF/views/seller/home_seller.jsp" />
+	</definition>
 </tiles-definitions>

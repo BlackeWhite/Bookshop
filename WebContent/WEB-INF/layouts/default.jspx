@@ -52,6 +52,9 @@
 <c:url value="/resources/css/themify-icons.css" var="themifyicon" />
 <link rel="stylesheet" type="text/css" media="screen"
 	href="${themifyicon}" />
+<c:url value="/resources/css/w3.css" var="w3" />
+<link rel="stylesheet" type="text/css" media="screen" href="${w3}" />
+	
 <title>Bookshop</title>
 </head>
 <body class="js">
