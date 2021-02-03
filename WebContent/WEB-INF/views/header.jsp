@@ -187,8 +187,19 @@
 								<div class="navbar-collapse">
 									<div class="nav-inner">
 										<ul class="nav main-menu menu navbar-nav">
-											<li class="active"><a href="<c:url value="/"/>">Home</a></li>
-											<li><a href="#">Generi<i class="ti-angle-down"></i></a>
+											<c:url value="/" var="homeUrl" />
+											<c:if
+												test="${requestScope['javax.servlet.forward.request_uri'] == homeUrl}">
+												<c:set value="active" var="active1" />
+											</c:if>
+											<li class="${active1}"><a href="${homeUrl}">Home</a></li>
+
+											<c:if
+												test="${fn:contains(requestScope['javax.servlet.forward.request_uri'],'show_genre')}">
+												<c:set value="active" var="active2" />
+											</c:if>
+											<li class="${active2}"><a href="#">Generi<i
+													class="ti-angle-down"></i></a>
 												<ul class="dropdown">
 
 													<c:forEach items="${allGenres}" var="genres">
@@ -204,15 +215,18 @@
 												</ul></li>
 											<li><a href="contact.html">Contattaci</a></li>
 											<security:authorize access="hasRole('ADMIN')">
-												<li><a href="#">Funzioni Admin<i
+												<c:url value="/add_seller" var="addSeller" />
+												<c:url value="/sellers_list" var="sellersList" />
+												<c:if
+													test="${requestScope['javax.servlet.forward.request_uri'] == addSeller || requestScope['javax.servlet.forward.request_uri'] == sellersList}">
+													<c:set value="active" var="active3" />
+												</c:if>
+												<li class="${active3}"><a href="#">Funzioni Admin<i
 														class="ti-angle-down"></i></a>
 													<ul class="dropdown">
-														<li><a href="<c:url value="/add_seller"/>">Aggiungi
-																Venditore</a></li>
-														<li><a href="<c:url value="/sellers_list"/>">Lista
-																Venditori</a></li>
-													</ul>
-												</li>
+														<li><a href="${addSeller}">Aggiungi Venditore</a></li>
+														<li><a href="${sellersList}">Lista Venditori</a></li>
+													</ul></li>
 											</security:authorize>
 										</ul>
 									</div>
