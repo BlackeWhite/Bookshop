@@ -11,6 +11,7 @@
 				<div id="login-column" class="col-md-6">
 					<div id="login-box" class="col-md-12">
 						<form id="login-form" action="login" class="form" method="post">
+						<h4 class="title" style="color: red; text-size: 13px;">${message}</h4>
 							<div class="title">
 								<h3>Login</h3>
 							</div>

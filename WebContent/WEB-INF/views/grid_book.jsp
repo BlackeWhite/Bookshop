@@ -48,9 +48,9 @@
 											<div class="single-product">
 												<div class="product-img">
 													<a href="<c:url value="/show_book/${b.id}"/>"> <img
-														class="default-img"
+														class="default-img" style="height: 400px; object-fit: contain"
 														src="<c:url value="/resources/img/${b.cover}"/>"
-														alt="#"> <img class="hover-img"
+														alt="#"> <img class="hover-img" style="height: 400px; object-fit: contain"
 														src="<c:url value="/resources/img/${b.cover}"/>"
 														alt="#">
 														<c:if test="${b.discount > 0}">
