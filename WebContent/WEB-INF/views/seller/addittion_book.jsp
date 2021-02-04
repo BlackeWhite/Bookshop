@@ -52,9 +52,37 @@
 					<form:form id="register-form" action="${add_book_action}" modelAttribute="newBook" class="form" method="post">
 						<fieldset>
 						<legend> Informazioni Libro  </legend>
-								<form:label path="title">Nome Libro</form:label> <br>
-								<form:input required="required" type="text" path="title" id="title" />
+								<form:label path="title">Nome Libro</form:label>
+								<form:input required="required" placeholder="nome del libro" type="text" path="title" id="title" />
 								<form:errors path="title" cssClass="validation-error" />
+							
+								<form:label path="title">ISBN</form:label> 
+								<form:input required="required" placeholder="ISBN del libro" type="text" path="isbn" id="isbn" />
+								<form:errors path="isbn" cssClass="validation-error" />
+                            	<br>
+								<form:label path="title">Numero Copie disponibili</form:label>
+								<form:input required="required" type="number" path="copies" id="copies" min="0" />
+								<form:errors path="copies" cssClass="validation-error" />
+								<br>
+						    	<form:label path="title">Prezzo del libro</form:label>
+								<span>€</span><form:input type="number" min="0.01" step="0.01" max="2500" value="10" required="required" path="price" id="price" />
+								<form:errors path="price" cssClass="validation-error" />
+								<form:label path="title">Numero Pagine del libro</form:label>
+								<form:input required="required" type="number" path="pages" id="pages" min="0" />
+								<form:errors path="pages" cssClass="validation-error" />
+                            	<br>
+								<form:label path="title">Data Pubblicazione del libro</form:label>
+								<form:input required="required" type="date" path="publish" id="publish"/>
+								<form:errors path="publish" cssClass="validation-error" />	
+								<br>
+								<form:label path="title">Descrizione del Libro</form:label> <br>
+								<form:input required="required" placeholder="Breve descrizione del libro" type="text" path="summary" id="summary" />
+								<form:errors path="summary" cssClass="validation-error" />
+								<br>
+							
+								<br>
+								
+												
 							</fieldset>
 							<br>
 							<fieldset>
@@ -64,8 +92,8 @@
 								<form:input required="required" type="text" path="title" id="title" />
 								<form:errors path="title" cssClass="validation-error" />
 							</fieldset>
-						
-
+						<br>
+                        <button type="submit" name="submit" class="btn with-pass-conf">Inserisci Libro </button>	
 					</form:form>
 				
 				</div>
