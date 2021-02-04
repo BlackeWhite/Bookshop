@@ -1,5 +1,6 @@
 package it.bookshop.controller;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.User;
 import it.bookshop.model.entity.Book;
+import it.bookshop.model.entity.Genre;
 import it.bookshop.services.BookService;
 import it.bookshop.services.UserService;
 
@@ -41,10 +43,21 @@ public class SellerController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 
-
-
 		return "home_seller";
 	}
+	
+	@RequestMapping(value = "/addition_book", method = RequestMethod.GET)
+	public String additionBooK(Locale locale, Model model) {
+        
+		String errorMessage = null;
+
+		model.addAttribute("errorMessage", errorMessage);
+		model.addAttribute("newBook", new Book());
+
+		generalOperations(model);
+		return "addittion_book";
+	}
+	
 
 	
 	@PostMapping(value = "/add_book")
@@ -57,4 +70,15 @@ public class SellerController {
 		redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
 		return "redirect:/add_seller";
 	}
+	
+	// Adds attributes used in almost all requests
+	private void generalOperations(Model model) {
+		List<Genre> allGenres = this.bookService.getAllGenres();
+
+		model.addAttribute("allGenres", allGenres);
+		model.addAttribute("appName", appName);
+
+	}
+	
+	
 }
