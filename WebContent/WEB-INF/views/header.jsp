@@ -207,7 +207,7 @@
 															href="<c:url value="/show_genre/${genres.name}"/>">${genres.name}</a></li>
 													</c:forEach>
 												</ul></li>
-											<li><a href="#">Sconti<span class="new">Sale</span></a></li>
+											<li><a href="<c:url value="/sales"/>"/>Sconti<span class="new">Sale</span></a></li>
 											<li><a href="#">Acquisti<i class="ti-angle-down"></i></a>
 												<ul class="dropdown">
 													<li><a href="<c:url value="/cart"/>">Carrello</a></li>

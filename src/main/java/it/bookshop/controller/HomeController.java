@@ -104,9 +104,39 @@ public class HomeController {
 			model.addAttribute("cartTotalItems", user.getCartTotalItems());
 		}
 
-		return "grid_book"; // craeare una nuova vista  
+		return "grid_book"; 
 
 	}
+	
+	// mostra tutti i libri in sconto 
+	@RequestMapping(value = "/sales", method = RequestMethod.GET)
+	public String ShowBookonSale(Model model, Authentication authentication) {
+		List<Book> bookSale =  this.bookService.findBookOnSale(); // estrae tutti i libri in sconto 
+		List<Genre> allGenres = this.bookService.getAllGenres();
+        String sale = "In offerta";
+		
+		
+		model.addAttribute("appName", appName);
+		model.addAttribute("books", bookSale);
+		model.addAttribute("single_genre", sale);
+		model.addAttribute("genres", allGenres);
+		model.addAttribute("allGenres", allGenres); // per la navbar
+		
+		//Mini carrello
+		if(authentication != null) {
+			String principal_name = authentication.getName();
+			User user = userService.findUserByUsername(principal_name);
+			List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(user.getShoppingCart());
+			model.addAttribute("user_cart", user_cart);
+			model.addAttribute("cartTotalPrice", user.getFormattedCartTotalPrice());
+			model.addAttribute("cartTotalItems", user.getCartTotalItems());
+		}
+
+		return "grid_book";  
+
+	}
+	
+	
 	
 	
 	@GetMapping(value = "/show_book/{id}")

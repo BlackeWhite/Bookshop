@@ -118,6 +118,11 @@ public class BookServiceDefault implements BookService {
 	public List<Book> findMostClickBook() {
 		return bookRepository.findMostClick();
 	}
+	
+	@Override
+	public List<Book> findBookOnSale() {
+		return bookRepository.findBookOnSale();
+	}
 
 	// aggiunta di un click quando il libro è stato selezionato
 	@Override

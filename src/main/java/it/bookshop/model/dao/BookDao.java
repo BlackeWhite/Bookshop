@@ -24,4 +24,5 @@ public interface BookDao {
 	List<Book> findFiveMostRecentBook();
 	List<Book> findFiveBestSellingBook();
 	List<Book> findMostClick();
+	List<Book> findBookOnSale();
 }

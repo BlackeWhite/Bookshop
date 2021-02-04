@@ -33,4 +33,5 @@ public interface BookService {
 	List<Book> filterByGenres(List<Book> books, List<String> genres);
 	Set<Book> getBooksimilargenre(Book b);
 	Set<Book> getBooksimilarAuthor(Book b);
+	List<Book> findBookOnSale();
 };

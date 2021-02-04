@@ -100,5 +100,9 @@ public class BookDaoDefault extends DefaultDao implements BookDao{
 		return this.getSession().createNativeQuery("SELECT * FROM books ORDER BY CLICK_BOOK DESC", Book.class).getResultList();
 	}
 	 
-
+   @Override
+   public List<Book> findBookOnSale(){
+		return this.getSession().createQuery("FROM Book b WHERE b.discount > 0 ", Book.class).getResultList();
+   }
+   
 }
