@@ -97,6 +97,7 @@ $(document).ready(function() {
 		}
 	});
 
+	//Funzione per rimuovere un libro dal mini carrello
 	$(".remove").click(function() {
 		var id = $(this).attr("data-book");
 		$.ajax({
@@ -113,6 +114,24 @@ $(document).ready(function() {
 			},
 			processData: false
 		});
+	});
+	
+	//Funzione per rimuovere un utente dalla lista di venditori o utenti standard
+	$(".remove-user").click(function() {
+		var username = $(this).attr("data-user");
+		if (confirm("Sei sicuro di voler eliminare questo utente?")) {
+			$.ajax({
+				type: 'POST',
+				url: delete_user_url,
+				data: username,
+				contentType: 'text/plain',
+				dataType: "text", //The type of data that you're expecting back from the server
+				success: function(data) {
+					$("#user_"+username).remove();
+				},
+				processData: false
+			});
+		}
 	});
 
 	let searchParams = new URLSearchParams(window.location.search)

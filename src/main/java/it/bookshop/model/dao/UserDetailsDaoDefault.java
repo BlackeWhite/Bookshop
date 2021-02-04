@@ -29,6 +29,14 @@ public class UserDetailsDaoDefault extends DefaultDao implements UserDetailsDao 
 	}
 	
 	@Override
+	public List<User> findAllForRoleAndUsername(String role, String username) {
+		return this.getSession().createQuery("SELECT u FROM User u JOIN u.roles rs WHERE rs.name=:role" + 
+				" AND LOWER(u.username) LIKE LOWER(CONCAT('%', :term, '%')) ", User.class )
+				.setParameter("role", role)
+				.setParameter("term", username).getResultList();
+	}
+	
+	@Override
 	public User findUserByUsername(String username) {
 		try {
 			return this.getSession().createQuery("FROM User u WHERE u.username = :username", User.class).setParameter("username", username).getSingleResult();

@@ -13,6 +13,8 @@ public interface UserDetailsDao {
 	
 	List<User> findAllForRole(String role);
 	
+	List<User> findAllForRoleAndUsername(String role, String username);
+	
 	User findUserByUsername(String username);
 	
 	User findUserById(long id);

@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.bookshop.model.dao.RoleDao;
@@ -88,15 +90,25 @@ public class AdminController {
 	}
 	
 	@GetMapping(value = "/sellers_list")
-	public String sellersList(Model model, Authentication authentication) {
+	public String sellersList(@RequestParam(required = false) String username, Model model, Authentication authentication) {
 		
 		String principal_name = authentication.getName();
 		
-		List<User> sellers = userService.findAllForRole("SELLER");
+		List<User> sellers = null;
+		if(username != null) sellers = userService.findAllForRoleAndUsername("SELLER", username);
+		else sellers = userService.findAllForRole("SELLER");
 		model.addAttribute("sellers", sellers);
 		
 		generalOperations(model, principal_name);
 		return "sellers_list";
+	}
+	
+	@PostMapping(value = "/delete_user")
+	@ResponseBody
+	public String deleteUser(@RequestBody String username) {
+
+		userService.deleteByUsername(username);
+		return "ok";
 	}
 
 	private void generalOperations(Model model, String username) {

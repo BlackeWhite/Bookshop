@@ -49,13 +49,13 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${sellers}" var="seller">
-					<tr>
+					<tr id="user_${seller.username}">
 						<th scope="row">${seller.userID}</th>
 						<td>${seller.personalData.name}</td>
 						<td>${seller.personalData.surname}</td>
 						<td>${seller.username}</td>
 						<td>${seller.email}</td>
-						<td><button data-user="${seller.userID}" class="remove-user">
+						<td><button data-user="${seller.username}" class="remove-user">
 								<i class="fa fa-remove"></i>
 							</button> <br></td>
 					</tr>

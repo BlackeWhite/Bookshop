@@ -5069,6 +5069,11 @@ Version:1.0
 	border-radius: 0px 5px 5px 0px;
 }
 
+.users-list-search button:hover {
+	background: #F7941D;
+	transition: 0.4s;
+}
+
 .remove-user {
 	width: 20px;
 	height: 20px;
