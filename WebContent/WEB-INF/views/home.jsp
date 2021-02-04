@@ -114,7 +114,7 @@
 		<div class="row">
 			<div class="col-12">
 				<div class="section-title">
-					<h2>Più visualizzati</h2>
+					<h2 id="moreview">Più visualizzati</h2>
 				</div>
 			</div>
 		</div>

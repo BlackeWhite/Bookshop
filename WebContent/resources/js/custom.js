@@ -150,10 +150,11 @@ $(document).ready(function() {
 	// Codice paginazione per la home
 	$(".page-link-home").click(function() {
 		searchParams.delete("page");
-		var url = home_url;
+		var url = home_url ;
 		if (searchParams.toString() != "") url += "?" + searchParams.toString();
 		url += url.includes("?") ? "&" : "?";
 		url += "page=" + $(this).attr("data-page");
+		url += "#moreview";
 		window.location.href = url;
 	});
 
