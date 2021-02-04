@@ -115,9 +115,11 @@
 							</div>
 							 -->
 						<security:authorize access="isAuthenticated()">
+							<c:set value="${requestScope['javax.servlet.forward.request_uri']}" var="uri"/>
 							<c:url value="/cart" var="carturl" />
+							<c:url value="/checkout" var="checkouturl" />
 							<c:if
-								test="${requestScope['javax.servlet.forward.request_uri'] != carturl}">
+								test="${uri != carturl && uri != checkouturl}">
 								<div class="sinlge-bar shopping">
 									<a href="<c:url value="/cart"/>" class="single-icon"><i
 										class="ti-bag"></i> <span class="total-count">${cartTotalItems}</span></a>
@@ -189,13 +191,13 @@
 										<ul class="nav main-menu menu navbar-nav">
 											<c:url value="/" var="homeUrl" />
 											<c:if
-												test="${requestScope['javax.servlet.forward.request_uri'] == homeUrl}">
+												test="${uri == homeUrl}">
 												<c:set value="active" var="active1" />
 											</c:if>
 											<li class="${active1}"><a href="${homeUrl}">Home</a></li>
 
 											<c:if
-												test="${fn:contains(requestScope['javax.servlet.forward.request_uri'],'show_genre')}">
+												test="${fn:contains(uri,'show_genre')}">
 												<c:set value="active" var="active2" />
 											</c:if>
 											<li class="${active2}"><a href="#">Generi<i
@@ -207,18 +209,22 @@
 															href="<c:url value="/show_genre/${genres.name}"/>">${genres.name}</a></li>
 													</c:forEach>
 												</ul></li>
-											<li><a href="<c:url value="/sales"/>"/>Sconti<span class="new">Sale</span></a></li>
-											<li><a href="#">Acquisti<i class="ti-angle-down"></i></a>
+											<li><a href="<c:url value="/sales"/>">Sconti<span class="new">Sale</span></a></li>
+											<c:if test="${uri == carturl || uri == checkouturl}">
+												<c:set value="active" var="active4" />
+											</c:if>
+											<li class="${active4}"><a href="#">Acquisti<i class="ti-angle-down"></i></a>
 												<ul class="dropdown">
-													<li><a href="<c:url value="/cart"/>">Carrello</a></li>
-													<li><a href="checkout.html">Procedi all'acquisto</a></li>
+													<li><a href="${carturl}">Carrello</a></li>
+													<li><a href="${checkouturl}">Procedi all'acquisto</a></li>
 												</ul></li>
 											<li><a href="contact.html">Contattaci</a></li>
 											<security:authorize access="hasRole('ADMIN')">
 												<c:url value="/add_seller" var="addSeller" />
 												<c:url value="/sellers_list" var="sellersList" />
+												<c:url value="/buyers_list" var="buyersList" />
 												<c:if
-													test="${requestScope['javax.servlet.forward.request_uri'] == addSeller || requestScope['javax.servlet.forward.request_uri'] == sellersList}">
+													test="${uri == addSeller || uri == sellersList || uri == buyersList}">
 													<c:set value="active" var="active3" />
 												</c:if>
 												<li class="${active3}"><a href="#">Funzioni Admin<i
@@ -226,6 +232,7 @@
 													<ul class="dropdown">
 														<li><a href="${addSeller}">Aggiungi Venditore</a></li>
 														<li><a href="${sellersList}">Lista Venditori</a></li>
+														<li><a href="${buyersList}">Lista Acquirenti</a></li>
 													</ul></li>
 											</security:authorize>
 										</ul>

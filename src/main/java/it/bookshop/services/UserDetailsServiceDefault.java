@@ -1,6 +1,7 @@
 package it.bookshop.services;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,7 @@ import it.bookshop.model.dao.UserDetailsDao;
 @Transactional
 @Service("userService")
 public class UserDetailsServiceDefault implements UserService, UserDetailsService {
-	
-	
+
 	private UserDetailsDao userrepository;
 	private PaymentCardDao paymentCardRepository;
 	private RoleDao roleRepository;
@@ -33,39 +33,65 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-	    User user = userrepository.findUserByUsername(username);
-	    UserBuilder builder = null;
-	    if (user != null) {
-	      
-	      // qui "mappiamo" uno User della nostra app in uno User di spring
-	      builder = org.springframework.security.core.userdetails.User.withUsername(username);
-	      builder.disabled(!user.isEnabled());
-	      builder.password(user.getPassword());
-	      
-	      // il builder vuole un vettore di stringhe e non hashtable
-	      String [] roles = new String[user.getRoles().size()];
-	      
-	      int j = 0;
-	      for (Role r : user.getRoles()) {
-	    	  roles[j++] = r.getName();
-	      }
-	            
-	      builder.roles(roles);
-	    } else {
-	      throw new UsernameNotFoundException("User not found.");
-	    }
-	    
-	    return builder.build();		
+		User user = userrepository.findUserByUsername(username);
+		UserBuilder builder = null;
+		if (user != null) {
+
+			// qui "mappiamo" uno User della nostra app in uno User di spring
+			builder = org.springframework.security.core.userdetails.User.withUsername(username);
+			builder.disabled(!user.isEnabled());
+			builder.password(user.getPassword());
+
+			// il builder vuole un vettore di stringhe e non hashtable
+			String[] roles = new String[user.getRoles().size()];
+
+			int j = 0;
+			for (Role r : user.getRoles()) {
+				roles[j++] = r.getName();
+			}
+
+			builder.roles(roles);
+		} else {
+			throw new UsernameNotFoundException("User not found.");
+		}
+
+		return builder.build();
 	}
-	
+
 	@Override
 	public List<User> findAllForRole(String role) {
 		return userrepository.findAllForRole(role);
 	}
-	
+
 	@Override
-	public List<User> findAllForRoleAndUsername(String role, String username) {
-		return userrepository.findAllForRoleAndUsername(role, username);
+	public List<User> findAllForRoleByUsername(String role, String username) {
+		return userrepository.findAllForRoleByUsername(role, username);
+	}
+
+	@Override
+	public List<User> findAllBuyersOnly() {
+		List<User> users = userrepository.findAllForRole("USER");
+		List<User> filtered = new ArrayList<User>();
+		for (User u : users) {
+			List<Role> templist = new ArrayList<Role>(u.getRoles());
+			if (templist.size() == 1 && templist.get(0).getName().equals("USER")) {
+				filtered.add(u);
+			}
+		}
+		return filtered;
+	}
+
+	@Override
+	public List<User> findAllBuyersOnlyByUsername(String username) {
+		List<User> users = userrepository.findAllForRoleByUsername("USER", username);
+		List<User> filtered = new ArrayList<User>();
+		for (User u : users) {
+			List<Role> templist = new ArrayList<Role>(u.getRoles());
+			if (templist.size() == 1 && templist.get(0).getName().equals("USER")) {
+				filtered.add(u);
+			}
+		}
+		return filtered;
 	}
 
 	@Override
@@ -84,16 +110,16 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 	}
 
 	@Override
-	public User create(String username, String email, String password, String name, String surname,
-			Date birthdate, String street, String city, long cap, String state, List<String> roles) {
+	public User create(String username, String email, String password, String name, String surname, Date birthdate,
+			String street, String city, long cap, String state, List<String> roles) {
 		User user = new User();
 		PersonalData personalData = new PersonalData();
-		
+
 		user.setUsername(username);
 		user.setEmail(email);
 		user.setPassword(password);
 		user.setEnabled(true);
-		
+
 		personalData.setName(name);
 		personalData.setSurname(surname);
 		personalData.setBirthdate(birthdate);
@@ -103,14 +129,14 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 		personalData.setState(state);
 
 		user.setPersonalData(personalData);
-		for(String role: roles) {
+		for (String role : roles) {
 			Role r = roleRepository.findByName(role);
 			user.addRole(r);
 		}
-		
+
 		return userrepository.create(user);
 	}
-	
+
 	@Override
 	public User create(User user) {
 		return userrepository.create(user);
@@ -125,7 +151,7 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 	public void deleteByUsername(String username) {
 		User user = this.userrepository.findUserByUsername(username);
 		this.userrepository.delete(user);
-		
+
 	}
 
 	@Override
@@ -142,7 +168,7 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 	public PaymentCard createPaymentCard(PaymentCard card, User user) {
 		return this.paymentCardRepository.create(card.getType(), card.getNumber(), card.getExpirationDate(), user);
 	}
-	
+
 	@Override
 	public PaymentCard createPaymentCard(String type, String number, Date expirationDate, Long userId) {
 		User user = this.userrepository.findUserById(userId);
@@ -168,7 +194,7 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 	@Override
 	public Role findOrCreateRole(String name) {
 		Role role = roleRepository.findByName(name);
-		if(role == null) {
+		if (role == null) {
 			return roleRepository.create(name);
 		}
 		return role;
@@ -178,16 +204,15 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 	public void setRoleRepository(RoleDao roleRepository) {
 		this.roleRepository = roleRepository;
 	}
-	
+
 	@Autowired
 	public void setUserRepository(UserDetailsDao userrepository) {
 		this.userrepository = userrepository;
 	}
-	
+
 	@Autowired
 	public void setPaymentCardRepository(PaymentCardDao paymentCardRepository) {
 		this.paymentCardRepository = paymentCardRepository;
 	}
 
-	
 }

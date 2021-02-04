@@ -95,12 +95,27 @@ public class AdminController {
 		String principal_name = authentication.getName();
 		
 		List<User> sellers = null;
-		if(username != null) sellers = userService.findAllForRoleAndUsername("SELLER", username);
+		if(username != null) sellers = userService.findAllForRoleByUsername("SELLER", username);
 		else sellers = userService.findAllForRole("SELLER");
 		model.addAttribute("sellers", sellers);
 		
 		generalOperations(model, principal_name);
 		return "sellers_list";
+	}
+	
+	@GetMapping(value = "/buyers_list")
+	public String buyersList(@RequestParam(required = false) String username, Model model, Authentication authentication) {
+		
+		String principal_name = authentication.getName();
+		generalOperations(model, principal_name);
+		
+		List<User> buyers = null;
+		if(username != null) buyers = userService.findAllBuyersOnlyByUsername(username);
+		else buyers = userService.findAllBuyersOnly();
+		model.addAttribute("buyers", buyers);
+		
+		
+		return "buyers_list";
 	}
 	
 	@PostMapping(value = "/delete_user")
