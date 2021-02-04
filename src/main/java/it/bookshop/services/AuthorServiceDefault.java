@@ -93,12 +93,7 @@ public class AuthorServiceDefault implements AuthorService {
 	
 	@Override
 	public List<Author> getAuthorsListFromSet(Set<Author> authorSet){
-		//Iterator<Author> iterAuthorSet = authorSet.iterator();
 		List <Author> authorsList = new ArrayList<Author>(authorSet);
-		/*
-		while(iterAuthorSet.hasNext()) {
-			authorsList.add( iterAuthorSet.next());
-		}*/
 		return authorsList;
 	}
 	
