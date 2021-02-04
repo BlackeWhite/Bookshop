@@ -126,6 +126,17 @@ $(document).ready(function() {
 		url += "page=" + $(this).attr("data-page");
 		window.location.href = url;
 	});
+	
+	
+	// Codice paginazione per la home
+	$(".page-link-home").click(function() {
+		searchParams.delete("page");
+		var url = home_url;
+		if (searchParams.toString() != "") url += "?" + searchParams.toString();
+		url += url.includes("?") ? "&" : "?";
+		url += "page=" + $(this).attr("data-page");
+		window.location.href = url;
+	});
 
 	//Codice che imposta i filtri a quelli presenti nell'url (altrimenti vengono resettati graficamente)
 	if (searchParams.has('order_by')) {

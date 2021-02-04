@@ -5024,3 +5024,60 @@ Version:1.0
 /*=============================
 	End Footer CSS
 ===============================*/
+/*=============================
+	Start Seller list CSS
+===============================*/
+.users-list {
+	margin-bottom: 70px;
+	margin-top: 50px;
+}
+
+.users-list-bar {
+	padding: 20px 12px 20px 12px;
+	background: #f6f7fb;
+}
+
+.users-list-bar span {
+	font-size: 20px;
+	font-weight: 600;
+}
+
+.users-list-search {
+	background: #fff;
+	float:right;
+	border: 1px solid #ececec;
+	border-radius: 5px;
+	height: 30px;
+	text-align: center;
+}
+
+.users-list-search input[type="search"]{
+	color: #666;
+	padding-left:10px;
+	padding-right: 10px;
+	border: none;
+	width: 80%;
+	height: inherit;
+}
+
+.users-list-search button {
+	width: 20%;
+	height: 30px;
+	background: #333333;
+	color: #fff;
+	float: right;
+	border-radius: 0px 5px 5px 0px;
+}
+
+.remove-user {
+	width: 20px;
+	height: 20px;
+	border: 1px solid gray;
+	background: #fff;
+	margin-left: 12px; 
+}
+
+.remove-user:hover {
+	background:#F7941D;
+	transition: 0.5s;
+}

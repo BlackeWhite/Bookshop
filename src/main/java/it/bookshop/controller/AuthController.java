@@ -73,7 +73,7 @@ public class AuthController {
 			errorMessage = "Username o Password errati !!";
 		}
 
-		model.addAttribute("errorMessage", errorMessage);
+		model.addAttribute("message", errorMessage);
 
 		// Adds attributes used in almost all requests
 		generalOperations(model);
