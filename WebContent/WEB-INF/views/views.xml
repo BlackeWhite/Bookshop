@@ -59,4 +59,9 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/seller/home_seller.jsp" />
 	</definition>
+	<definition extends="default" name="addittion_book">
+		<put-attribute name="body"
+			value="/WEB-INF/views/seller/addittion_book.jsp" />
+	</definition>
+	
 </tiles-definitions>
