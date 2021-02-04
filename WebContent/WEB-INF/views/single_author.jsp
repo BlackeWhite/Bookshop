@@ -44,4 +44,59 @@
 			</div>
 		</div>
 	</div>
+	 <div class="container">
+            <div class="row">
+				<div class="col-12">
+					<c:if test="${checkAuthorBooks == false }">
+					<div>
+						<h2>Libri dell'autore</h2>
+					</div>
+					</c:if>
+				</div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="owl-carousel popular-slider">
+						
+						<!-- Start Single Product -->
+						<c:forEach items="${authorBooks}" var="authorBook">
+						<div class="single-product">
+							<div class="product-img">
+								<a href="<c:url value="/show_book/${authorBook.id}"/>"> <img
+														class="default-img"
+														src="<c:url value="/resources/img/${authorBook.cover}"/>"
+														alt="#"> <img class="hover-img"
+														src="<c:url value="/resources/img/${authorBook.cover}"/>" alt="#">
+														<c:if test="${authorBook.discount > 0}">
+														<span class="price-dec">${authorBook.truncatedDiscount}%</span>
+														</c:if>
+													</a>
+								<div class="button-head">
+									<div class="product-action">
+									</div>
+									<div class="product-action-2">
+										<a title="Add to cart" href="#">Aggiungi al carrello </a>
+									</div>
+								</div>
+							</div>
+							<div class="product-content">
+								<h4><a href="product-details.html"></a>${authorBook.title}</h4>
+								<div class="product-price">
+									<c:if test="${authorBook.discount > 0}">
+									<span class="old">${authorBook.formattedPrice}</span>
+									<span>${authorBook.formattedDiscountedPrice}</span>
+									</c:if>
+									<c:if test="${authorBook.discount == 0}">
+									<span>${authorBook.formattedPrice}</span>
+									</c:if>
+								</div>
+							</div>
+						</div>
+						</c:forEach>
+						<!-- End Single Product -->
+						
+                    </div>
+                </div>
+            </div>
+        </div>
 </div>

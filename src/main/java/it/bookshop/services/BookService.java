@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
 import it.bookshop.model.entity.User;
@@ -34,4 +35,5 @@ public interface BookService {
 	Set<Book> getBooksimilargenre(Book b);
 	Set<Book> getBooksimilarAuthor(Book b);
 	List<Book> findBookOnSale();
+	List<Book> findBooksAuthor(Author author);
 };

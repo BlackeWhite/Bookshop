@@ -22,7 +22,7 @@
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="list-image overlay">
 									<img src="<c:url value="/resources/img/${tBSBooks.cover}"/>"
-										alt="#"> <a href="#" class="buy"><i
+										alt="#" style="height: 300px; object-fit: contain"> <a href="#" class="buy"><i
 										class="fa fa-shopping-bag"></i></a>
 								</div>
 							</div>
@@ -54,7 +54,7 @@
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="list-image overlay">
 									<img src="<c:url value="/resources/img/${tFNBooks.cover}"/>"
-										alt="#"> <a href="#" class="buy"><i
+										alt="#" style="height: 300px; object-fit: contain"> <a href="#" class="buy"><i
 										class="fa fa-shopping-bag"></i></a>
 								</div>
 							</div>
@@ -86,7 +86,7 @@
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="list-image overlay">
 									<img src="<c:url value="/resources/img/${tsAuthor.photo}"/>"
-										alt="author_photo"> <a
+										alt="author_photo" style="height: 300px; object-fit: contain"> <a
 										href="<c:url value="/show_author/${tsAuthor.id}"/>"
 										class="buy"></a>
 								</div>
@@ -133,9 +133,9 @@
 													<a href="<c:url value="/show_book/${tMCB.id}"/>"> <img
 														class="default-img"
 														src="<c:url value="/resources/img/${tMCB.cover}"/>"
-														alt="#"> <img class="hover-img"
+														alt="#" style="height: 400px; object-fit: contain"> <img class="hover-img"
 														src="<c:url value="/resources/img/${tMCB.cover}"/>"
-														alt="#">
+														alt="#" style="height: 400px; object-fit: contain">
 														<c:if test="${tMCB.discount > 0}">
 														<span class="price-dec">${tMCB.truncatedDiscount}%</span>
 														</c:if>

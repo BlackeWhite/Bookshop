@@ -105,6 +105,11 @@ public class BookServiceDefault implements BookService {
 	}
 
 	@Override
+	public List<Book> findBooksAuthor(Author author){
+		return this.authorRepository.findBookForAuthor(author);
+	}
+	
+	@Override
 	public List<Book> findFiveMostRecentBook() {
 		return bookRepository.findFiveMostRecentBook();
 	}

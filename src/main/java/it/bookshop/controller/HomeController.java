@@ -207,8 +207,13 @@ public class HomeController {
 		long long_id = Long.parseLong(id);
 		Author author = this.authorService.findById(long_id);
 		
+		List<Book> authorBooks = this.bookService.findBooksAuthor(author);
+		Boolean checkAuthorBooks = authorBooks.isEmpty();
+		
 		model.addAttribute("appName", appName);
 		model.addAttribute("author", author);
+		model.addAttribute("authorBooks", authorBooks);
+		model.addAttribute("checkAuthorBooks",checkAuthorBooks);
 		
 		//Mini carrello
 		if(authentication != null) {

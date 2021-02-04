@@ -93,14 +93,15 @@ public class AuthorServiceDefault implements AuthorService {
 	
 	@Override
 	public List<Author> getAuthorsListFromSet(Set<Author> authorSet){
-		Iterator<Author> iterAuthorSet = authorSet.iterator();
-		List <Author> authorsList = new ArrayList<Author>();
+		//Iterator<Author> iterAuthorSet = authorSet.iterator();
+		List <Author> authorsList = new ArrayList<Author>(authorSet);
+		/*
 		while(iterAuthorSet.hasNext()) {
 			authorsList.add( iterAuthorSet.next());
-		}
+		}*/
 		return authorsList;
 	}
-
+	
 	@Override
 	public void delete(Author author) {
 		authorRepository.delete(author);

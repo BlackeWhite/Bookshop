@@ -1,10 +1,12 @@
 package it.bookshop.services;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import it.bookshop.model.entity.Author;
+import it.bookshop.model.entity.Book;
 
 public interface AuthorService {
 	
