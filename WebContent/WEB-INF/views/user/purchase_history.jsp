@@ -55,7 +55,7 @@
 												<img
 													src="<c:url value="/resources/img/${bookOrder.book.cover}"/>" />
 												<h4>
-													<a href="">${bookOrder.book.title}</a>
+													<a href="<c:url value="/show_book/${bookOrder.book.id}"/>">${bookOrder.book.title}</a>
 												</h4>
 												<span class="field">Autori: </span> <span> <c:forEach
 														items="${bookOrder.book.authors}" var="author">
@@ -67,7 +67,7 @@
 											<div class="col price-data">
 												<span class="field">Copie:</span> <span>
 													${bookOrder.copies}</span> <br> <span class="field">Prezzo:</span>
-												<span>${bookOrder.price}</span>
+												<span>${bookOrder.formattedPrice}</span>
 											</div>
 										</div>
 									</div>

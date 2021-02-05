@@ -64,7 +64,7 @@ $(document).ready(function() {
 						'<a style="border: none" class="cart-img" href="' + show_book_url + '/' + data["bookID"] +
 						'"><img style="object-fit:contain; border: none" src="' +
 						resources_url + '/img/' + data["cover"] + '" alt="#"></a>' +
-						'<h4><a href="' + show_book_url + '/' + data["bookId"] + '">' +
+						'<h4><a href="' + show_book_url + '/' + data["bookID"] + '">' +
 						data["title"] + '</a></h4><p class="quantity">' +
 						"Copie: " + data["copies"] + " - Totale: " + data["elemTotalPrice"] +
 						'</p></li>');
