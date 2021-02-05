@@ -14,9 +14,9 @@ public interface ShoppingCartService {
 	public ShoppingCart create(User user, Book book, int copies);
 	public ShoppingCart create(Long userId, Long bookId, int copies);
 	public ShoppingCart update(ShoppingCart cart);
-	public List<ShoppingCart> findUserShoppingCart(Long userId);
+	public List<ShoppingCart> findUserShoppingCart(User user);
 	public void removeBook(ShoppingCart cart);
 	public void removeBook(Long userId, Long bookId);
-	public void emptyUserCart(Long userId);
+	public void emptyUserCart(User user);
 	
 }

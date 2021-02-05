@@ -33,11 +33,13 @@ public class OrderServiceDefault implements OrderService {
 	}
 
 	@Override
-	public Order create(User buyer, double total_expense) {
+	public Order create(User buyer, String shipmentAddress, String payment) {
 		Date date = new Date(System.currentTimeMillis());
-		return orderRepository.create(buyer, total_expense, date);
+		return orderRepository.create(buyer, date, shipmentAddress, payment);
 	}
 	
+	//check usage 
+	/*
 	@Override
 	public Order createFromDirectPurchase(User buyer, Book book, int copies) {
 		Date date = new Date(System.currentTimeMillis());
@@ -47,23 +49,22 @@ public class OrderServiceDefault implements OrderService {
 		//Should add the created BookOrder entity to o and update it?
 		return o;
 	}
-	
+	*/
+
 	@Override
-	public Order createFromShoppingCart(Long userId, String payment) {
+	public Order createFromShoppingCart(Long userId, String shipmentAddress, String payment) {
 		Date date = new Date(System.currentTimeMillis());
-		List<ShoppingCart> cart = shoppingCartService.findUserShoppingCart(userId);
-		double total_expense = 0;
+		User user = userService.findUserById(userId);
+		List<ShoppingCart> cart = shoppingCartService.findUserShoppingCart(user);
 		List<BookOrder> books = new ArrayList<BookOrder>();
 		for(ShoppingCart c : cart) {
 			BookOrder b = new BookOrder();
 			b.setBook(c.getBook());
-			b.setCopies(c.getCopies());
-			b.setPrice(c.getBook().getPrice());
+			b.setCopies(c.getCopies()); 
+			b.setPrice(c.getBook().getDiscountedPrice());
 			books.add(b);
-			total_expense = c.getCopies() * c.getBook().getPrice();
 			}
-		User u = userService.findUserById(userId);
-		return orderRepository.create(u, total_expense, date, books, payment);
+		return orderRepository.create(user, date, books, shipmentAddress, payment);
 	}
 
 	@Override

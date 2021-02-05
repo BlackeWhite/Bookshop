@@ -34,8 +34,8 @@ public class ShoppingCartServiceDefault implements ShoppingCartService{
 	}
 
 	@Override
-	public List<ShoppingCart> findUserShoppingCart(Long userId) {
-		return shoppingCartRepository.findUserShoppingCart(userId);
+	public List<ShoppingCart> findUserShoppingCart(User user) {
+		return shoppingCartRepository.findUserShoppingCart(user);
 	}
 	
 
@@ -68,8 +68,8 @@ public class ShoppingCartServiceDefault implements ShoppingCartService{
 	}
 
 	@Override
-	public void emptyUserCart(Long userId) {
-		shoppingCartRepository.emptyUserCart(userId);
+	public void emptyUserCart(User user) {
+		shoppingCartRepository.emptyUserCart(user);
 	}
 
 

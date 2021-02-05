@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -22,10 +23,10 @@ import javax.persistence.Transient;
 @Table(name = "ORDERS")
 public class Order {
 	
-	
 	private Long id;
 	private User buyer;
 	private Date date;
+	private String shipmentAddress;
 	private String payment;
 	private Set<BookOrder> books = new HashSet<BookOrder>();
 	private double totalExpense;
@@ -40,7 +41,7 @@ public class Order {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="BUYER_ID", referencedColumnName="USER_ID")
 	public User getBuyer() {
 		return buyer;
@@ -49,22 +50,28 @@ public class Order {
 		this.buyer = buyer;
 	}
 	
-
-	@Column(name = "TOTAL_EXPENSE")
-	public double getTotalExpense() {
-		return totalExpense;
-	}
-	public void setTotalExpense(double totalExpense) {
-		this.totalExpense = totalExpense;
-	}
-	
-	
 	@Column(name="DATE")
 	public Date getDate() {
 		return date;
 	}
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	
+	@Column(name="SHIP_ADDRESS")
+	public String getShipmentAddress() {
+		return shipmentAddress;
+	}
+	public void setShipmentAddress(String shipmentAddress) {
+		this.shipmentAddress = shipmentAddress;
+	}
+	
+	@Column(name="PAYMENT")
+	public String getPayment() {
+		return payment;
+	}
+	public void setPayment(String payment) {
+		this.payment = payment;
 	}
 	
 	@OneToMany(cascade = { CascadeType.DETACH,
@@ -80,12 +87,12 @@ public class Order {
 		this.books = books;
 	}
 	
-	@Column(name="PAYMENT")
-	public String getPayment() {
-		return payment;
+	@Column(name = "TOTAL_EXPENSE")
+	public double getTotalExpense() {
+		return totalExpense;
 	}
-	public void setPayment(String payment) {
-		this.payment = payment;
+	public void setTotalExpense(double totalExpense) {
+		this.totalExpense = totalExpense;
 	}
 	
 	@Transient

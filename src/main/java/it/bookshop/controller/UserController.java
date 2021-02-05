@@ -1,6 +1,8 @@
 package it.bookshop.controller;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.text.ParseException;
 import java.text.DateFormat;
 import java.sql.Date;
@@ -54,9 +56,11 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private ShoppingCartService shopCartService;
-	
 	@Autowired
 	private BookService bookService;
+	@Autowired
+	private OrderService orderService;
+	
 
 	@GetMapping(value = "/cart")
 	public String cart(Locale locale, Model model, Authentication authentication) {
@@ -85,7 +89,7 @@ public class UserController {
 	}
 
 	@PostMapping(value = "/add_to_cart")
-	@ResponseBody
+	@ResponseBody 
 	public addCartResponse add_to_cart(@RequestBody httpRequestBody reqBody, Authentication authentication) 
 			throws MaxCopiesException {
 
@@ -153,62 +157,103 @@ public class UserController {
 		}
 	}
 
-	//to finish: add payment management section and input form management
-	@RequestMapping(value = "/checkout", method={RequestMethod.GET, RequestMethod.POST})
-	public String checkout(Locale locale, Model model, Authentication authentication) {
+	
+	@GetMapping(value = "/checkout")
+	public String checkout(Locale locale, Model model, Authentication authentication){
+		
 		String principal_name = authentication.getName();
-		User user = userService.findUserByUsername(principal_name);
-		model.addAttribute("user", user);
-		model.addAttribute("total", user.getFormattedCartTotalPrice());
+		User buyer = userService.findUserByUsername(principal_name);
+		model.addAttribute("user", buyer);
+		model.addAttribute("total", buyer.getFormattedCartTotalPrice());
 		return "checkout";
 	}
 	
+	 
+	@PostMapping(value = "/checkout")
+	@ResponseBody
+	public httpResponseBody checkout_fill(@RequestBody checkoutRequest checkoutReq, Locale locale, Model model, Authentication authentication) 
+			throws orderResponseException {
+		
+		String principal_name = authentication.getName();
+		User buyer = userService.findUserByUsername(principal_name);
+		String payment = checkoutReq.getPayment(); //card number
+		String shipmentAddress; 
+		
+	 	//check per valorizzazione indirizzo di spedizione 
+		if 	(checkoutReq.getShipmentAddress().equals("standard shipment address")) {
+			shipmentAddress = buyer.getPersonalData().getFullAddress();
+		}
+		else {
+			shipmentAddress = checkoutReq.getShipmentAddress();
+		}
+		
+		//get order date
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+		LocalDateTime now = LocalDateTime.now(); 
+		//String date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(now);
+		Long buyerID = Long.valueOf(buyer.getUserID());
+		orderService.createFromShoppingCart(buyerID, shipmentAddress, payment);
+		shopCartService.emptyUserCart(buyer);
+		
+		/*
+		//order creation
+		try {
+			orderService.createFromShoppingCart(buyer.getUserID(), shipmentAddress, payment);}
+		catch (Exception e){
+			throw new orderResponseException();
+		}
+		*/
+		model.addAttribute("user", buyer);
+		model.addAttribute("total", buyer.getFormattedCartTotalPrice()); 
+		return new httpResponseBody(shipmentAddress, payment, String.valueOf(now));
+	}
 	
+	public class orderResponseException extends Exception {
+		
+	}
 	public class MinCopiesException extends Exception {
 		
 	}
-	
 	public class MaxCopiesException extends Exception {
 		
 	}
-
+	
+	
 	public static class httpRequestBody {
-
-		public httpRequestBody() {
-		}
 
 		private long bookID;
 		private String arg2;
+		
+		public httpRequestBody() {
+		}
 
 		public httpRequestBody(long bookID, String arg2) {
 			super();
 			this.bookID = bookID;
 			this.arg2 = arg2;
 		}
-
+		
 		public long getBookID() {
 			return bookID;
 		}
-
 		public void setBookID(long bookID) {
 			this.bookID = bookID;
 		}
-
 		public String getArg2() {
 			return arg2;
 		}
-
 		public void setArg2(String arg2) {
 			this.arg2 = arg2;
 		}
 	}
-
+	
 	public static class httpResponseBody {
 
 		private String response1;
 		private String response2;
 		private String response3;
 
+		
 		public httpResponseBody(String response1, String response2, String response3) {
 			super();
 			this.response1 = response1;
@@ -219,28 +264,52 @@ public class UserController {
 		public String getResponse1() {
 			return response1;
 		}
-
 		public void setResponse1(String response1) {
 			this.response1 = response1;
 		}
-
 		public String getResponse2() {
 			return response2;
 		}
-
 		public void setResponse2(String response2) {
 			this.response2 = response2;
 		}
-
 		public String getResponse3() {
 			return response3;
 		}
-
 		public void setResponse3(String response3) {
 			this.response3 = response3;
 		}
 	}
 
+	public static class checkoutRequest {
+		
+		private String shipmentAddress;
+		private String payment;
+		
+		public checkoutRequest() {
+			
+		}
+		
+		public checkoutRequest(String shipmentAddress, String payment) {
+			super();
+			this.shipmentAddress = shipmentAddress;
+			this.payment = payment;
+		}
+
+		public String getShipmentAddress() {
+			return shipmentAddress;
+		}
+		public void setShipmentAddress(String shipmentAddress) {
+			this.shipmentAddress = shipmentAddress;
+		}
+		public String getPayment() {
+			return payment;
+		}
+		public void setPayment(String payment) {
+			this.payment = payment;
+		}	
+	}
+	
 	public static class addCartResponse {
 		private String operation;
 		private long bookID;
@@ -266,67 +335,50 @@ public class UserController {
 		public String getOperation() {
 			return operation;
 		}
-
 		public void setOperation(String operation) {
 			this.operation = operation;
 		}
-
 		public long getBookID() {
 			return bookID;
 		}
-
 		public void setBookID(long bookID) {
 			this.bookID = bookID;
 		}
-
 		public int getCopies() {
 			return copies;
 		}
-
 		public void setCopies(int copies) {
 			this.copies = copies;
 		}
-
 		public String getElemTotalPrice() {
 			return elemTotalPrice;
 		}
-
 		public void setElemTotalPrice(String elemTotalPrice) {
 			this.elemTotalPrice = elemTotalPrice;
 		}
-
 		public String getCartTotalPrice() {
 			return cartTotalPrice;
 		}
-
 		public void setCartTotalPrice(String cartTotalPrice) {
 			this.cartTotalPrice = cartTotalPrice;
 		}
-
 		public int getCartTotalItems() {
 			return cartTotalItems;
 		}
-
 		public void setCartTotalItems(int cartTotalItems) {
 			this.cartTotalItems = cartTotalItems;
 		}
-
 		public String getTitle() {
 			return title;
 		}
-
 		public void setTitle(String title) {
 			this.title = title;
 		}
-
 		public String getCover() {
 			return cover;
 		}
-
 		public void setCover(String cover) {
 			this.cover = cover;
 		}
-
 	}
-
 }

@@ -54,7 +54,6 @@ public class User implements Serializable{
 	public void setUserID(long userID) {
 		this.userID = userID;
 	}
-
 	
 	// Nella colonna USERNAME non possono esserci duplicati
 	// (unique = true � una shortcut di UniqueConstrain)
@@ -118,7 +117,8 @@ public class User implements Serializable{
 				CascadeType.MERGE,
 				CascadeType.REFRESH,
 				CascadeType.PERSIST},
-				mappedBy="buyer")
+				mappedBy="buyer",
+				fetch = FetchType.EAGER)
 	public Set<Order> getOrders() {
 		return orders;
 	}

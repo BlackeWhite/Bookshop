@@ -23,24 +23,27 @@ public class OrderDaoDefault extends DefaultDao implements OrderDao {
 	}
 
 	@Override
-	public Order create(User buyer, double totalExpense, Date date) {
+	public Order create(User buyer, Date date, String shipmentAddress, String payment) {
 		Order p = new Order();
 		p.setBuyer(buyer);
-		p.setTotalExpense(totalExpense);
 		p.setDate(date);
+		p.setShipmentAddress(shipmentAddress);
+		p.setPayment(payment);
+		p.setTotalExpense(buyer.getCartTotalPrice());
 		getSession().save(p);
 		return p;
 	}
-	
+
 	@Override
-	public Order create(User buyer, double totalExpense, Date date, List<BookOrder> books, String payment) {
+	public Order create(User buyer, Date date, List<BookOrder> books, String shipmentAddress, String payment) {
 		Order p = new Order();
 		p.setBuyer(buyer);
-		p.setTotalExpense(totalExpense);
 		p.setDate(date);
+		p.setShipmentAddress(shipmentAddress);
+		p.setPayment(payment);
 		Set<BookOrder> s = new HashSet<BookOrder>(books);
 		p.setBooks(s);
-		p.setPayment(payment);
+		p.setTotalExpense(buyer.getCartTotalPrice());
 		getSession().save(p);
 		return p;
 	}

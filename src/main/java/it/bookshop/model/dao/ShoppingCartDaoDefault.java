@@ -43,14 +43,14 @@ public class ShoppingCartDaoDefault extends DefaultDao implements ShoppingCartDa
 	}
 
 	@Override
-	public List<ShoppingCart> findUserShoppingCart(Long userId) {
-		return getSession().createQuery("FROM ShoppingCart o WHERE o.user = :id", ShoppingCart.class)
-				.setParameter("id", userId).getResultList();
+	public List<ShoppingCart> findUserShoppingCart(User user) {
+		return getSession().createQuery("FROM ShoppingCart o WHERE o.user = :user", ShoppingCart.class)
+				.setParameter("user", user).getResultList();
 	}
 
 	@Override
-	public void emptyUserCart(Long userId) {
-		getSession().createQuery("DELETE FROM ShoppingCart o WHERE o.user = :id").setParameter("id", userId);
+	public void emptyUserCart(User user) {
+		getSession().createQuery("DELETE FROM ShoppingCart o WHERE o.user = :user").setParameter("user", user);
 	}
 
 }
