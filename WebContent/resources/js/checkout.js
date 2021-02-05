@@ -41,16 +41,16 @@ $(document).ready(function() {
 	//Richiesta AJAX per gestione metodo di pagamento
 	$("#checkout").click(function() {
 		var fullAddress;
-		var paymentDetails = "Metodo di pagamento: ";
+		var paymentDetails = "";
 		if (Boolean(newAddr)) {
 			fullAddress = $("#newShipAddr").val() +","+ $("#newShipCity").val() +","+ $("#newShipCAP").val();
 		}
 		else{
 			fullAddress = "standard shipment address";
 		};
-		if ($(".card_payment").is(":checked")) {
+		if ($("#card_payment").is(":checked")) {
 			paymentDetails += $("#credit_card_select").val();
-		} else if ($(".cash_payment").is(":checked")) {
+		} else if ($("#cash_payment").is(":checked")) {
 			paymentDetails += "Pagamento alla consegna";
 		} else {
 			paymentDetails += "Paypal";
@@ -70,7 +70,7 @@ $(document).ready(function() {
 							'<div class="col-12">' +
 								'<p style="text-align:center; font-size:40px" > Ordine effettuato con successo </p>' +
 								'<p style="text-align:center; font-size:20px" >' + data["response1"] +
-								'<p style="text-align:center; font-size:20px" >' + data["response2"] +
+								'<p style="text-align:center; font-size:20px" >' + 'Metodo di pagamento: ' +data["response2"] +
 								'<p style="text-align:center; font-size:20px" >' + data["response3"] +
 							'</div>' +
 						'</div>' +

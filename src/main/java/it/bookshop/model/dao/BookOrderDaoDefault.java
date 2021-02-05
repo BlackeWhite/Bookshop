@@ -25,5 +25,6 @@ public class BookOrderDaoDefault extends DefaultDao implements BookOrderDao {
 		getSession().save(b);
 		return b;
 	}
+	
 
 }

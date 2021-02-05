@@ -74,7 +74,8 @@ public class Order {
 		this.payment = payment;
 	}
 	
-	@OneToMany(cascade = { CascadeType.DETACH,
+	@OneToMany(fetch = FetchType.EAGER,
+			cascade = { CascadeType.DETACH,
 			CascadeType.MERGE,
 			CascadeType.REFRESH,
 			CascadeType.PERSIST,
@@ -85,6 +86,10 @@ public class Order {
 	}
 	public void setBooks(Set<BookOrder> books) {
 		this.books = books;
+	}
+	public void addBook(BookOrder book) {
+		books.add(book);
+		book.setOrder(this);
 	}
 	
 	@Column(name = "TOTAL_EXPENSE")

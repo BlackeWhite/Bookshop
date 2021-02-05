@@ -2,6 +2,7 @@ package it.bookshop.model.entity;
 
 import java.text.NumberFormat;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -31,7 +32,11 @@ public class BookOrder {
 		this.id = id;
 	}
 	
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.DETACH,
+			CascadeType.MERGE,
+			CascadeType.REFRESH,
+			CascadeType.PERSIST,
+			CascadeType.REMOVE})
 	@JoinColumn(name="ORDER_ID", referencedColumnName="ID")
 	@MapsId("orderId")
 	public Order getOrder() {

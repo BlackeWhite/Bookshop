@@ -22,7 +22,7 @@ public interface OrderService {
 	public Order update(Order order);
 	public List<Order> findAll();
 	public List<Order> findAllMadeAfter(Date date);
-	public List<Order> findUserOrders(Long buyerId);
-	public List<Order> findUserOrdersMadeAfter(Long buyerId, Date date);
+	public List<Order> findUserOrders(User user);
+	public List<Order> findUserOrdersMadeAfter(User user, Date date);
 	public void delete(Order order);
 }

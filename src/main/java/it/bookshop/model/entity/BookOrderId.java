@@ -32,10 +32,10 @@ public class BookOrderId implements Serializable {
 	}
 
 	@Column(name = "BOOK_ID")
-	public Long getBookID() {
+	public Long getBookId() {
 		return bookId;
 	}
-	public void setBookID(Long bookId) {
+	public void setBookId(Long bookId) {
 		this.bookId = bookId;
 	}
 	

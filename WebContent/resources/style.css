@@ -5086,3 +5086,69 @@ Version:1.0
 	background:#F7941D;
 	transition: 0.5s;
 }
+/*=============================
+	End Seller list CSS
+===============================*/
+/*=============================
+	Start Purchase history CSS
+===============================*/
+.purchase-history{
+	margin-top: 100px;
+}
+
+.purchase-history .title{
+	margin-bottom: 30px;
+	font-size: 30px;
+	font-weight: 600;
+}
+
+.purchase-history .order{
+	border: 1px solid #e6e2f5;
+	border-radius: 5px;
+	margin-bottom: 20px;
+}
+
+.purchase-history .order .info{
+	background: #f6f7fb;
+	padding: 12px;
+	border-radius: 5px 5px 0px 0px;
+	font-size: 13px;
+}
+
+.purchase-history .order .field{
+	color: #F7941D;
+	font-weight: 400;
+}
+
+.purchase-history .order .info .value{
+}
+
+.purchase-history .order .books .single-book{
+	border-top: 1px solid #e6e2f5;
+	padding: 12px;
+}
+
+.purchase-history .order .books .single-book img{
+	max-width: 130px;
+	object-fit: contain;
+	float:left;
+	margin-right: 30px;
+}
+
+.purchase-history .order .books .single-book h4 a{
+	font-weight: 600;
+	transition: 0.4s;
+}
+
+.purchase-history .order .books .single-book h4 a:hover{
+	color: #F7941D;
+}
+
+.purchase-history .order .books .single-book .price-data {
+	margin-top: 28px;
+}
+
+
+
+
+

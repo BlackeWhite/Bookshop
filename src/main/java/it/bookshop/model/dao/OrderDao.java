@@ -2,6 +2,7 @@ package it.bookshop.model.dao;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 
@@ -16,9 +17,9 @@ public interface OrderDao {
 	
 	public Order findById(Long id);
 	public Order create(User buyer, Date date, String shipmentAddress, String payment);
-	public Order create(User buyer, Date date, List<BookOrder> books, String shipmentAddress, String payment);
+	public Order create(User buyer, Date date, Set<BookOrder> books, String shipmentAddress, String payment);
 	public Order update(Order order);
 	public List<Order> findAll();
-	public List<Order> findUserOrders(Long buyerId);
+	public List<Order> findUserOrders(User user);
 	public void delete(Order order);
 }

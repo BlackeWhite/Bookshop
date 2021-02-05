@@ -2,7 +2,9 @@ package it.bookshop.services;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,9 +58,11 @@ public class OrderServiceDefault implements OrderService {
 		Date date = new Date(System.currentTimeMillis());
 		User user = userService.findUserById(userId);
 		List<ShoppingCart> cart = shoppingCartService.findUserShoppingCart(user);
-		List<BookOrder> books = new ArrayList<BookOrder>();
+		
+		Set<BookOrder> books = new HashSet<BookOrder>();
 		for(ShoppingCart c : cart) {
 			BookOrder b = new BookOrder();
+			System.out.println(c.getBook().getTitle());
 			b.setBook(c.getBook());
 			b.setCopies(c.getCopies()); 
 			b.setPrice(c.getBook().getDiscountedPrice());
@@ -87,13 +91,13 @@ public class OrderServiceDefault implements OrderService {
 	}
 	
 	@Override
-	public List<Order> findUserOrders(Long buyerId) {
-		return orderRepository.findUserOrders(buyerId);
+	public List<Order> findUserOrders(User user) {
+		return orderRepository.findUserOrders(user);
 	}
 	
 	@Override
-	public List<Order> findUserOrdersMadeAfter(Long buyerId, Date date) {
-		List<Order> all = orderRepository.findUserOrders(buyerId);
+	public List<Order> findUserOrdersMadeAfter(User user, Date date) {
+		List<Order> all = orderRepository.findUserOrders(user);
 		List<Order> after = all.stream()
 				.filter(p -> p.getDate().after(date)).collect(Collectors.toList());
 		return after;

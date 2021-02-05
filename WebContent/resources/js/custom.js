@@ -61,7 +61,8 @@ $(document).ready(function() {
 					$(".shopping-list").append('<li id="cart_' + data["bookID"] + '"><a' +
 						' data-book="' + data["bookID"] + '" class="remove"' +
 						' title="Elimina questo elemento"><i class="fa fa-remove"></i></a>' +
-						'<a class="cart-img" href="' + show_book_url + '/' + data["bookID"] + '"><img src="' +
+						'<a style="border: none" class="cart-img" href="' + show_book_url + '/' + data["bookID"] +
+						'"><img style="object-fit:contain; border: none" src="' +
 						resources_url + '/img/' + data["cover"] + '" alt="#"></a>' +
 						'<h4><a href="' + show_book_url + '/' + data["bookId"] + '">' +
 						data["title"] + '</a></h4><p class="quantity">' +
@@ -82,7 +83,7 @@ $(document).ready(function() {
 			processData: false
 		});
 	});
-	
+
 	//Funzione per rimuovere un libro dal mini carrello
 	$(".shopping-list").on('click', '.remove', function() {
 		var id = $(this).attr("data-book");
@@ -143,10 +144,10 @@ $(document).ready(function() {
 
 	let searchParams = new URLSearchParams(window.location.search)
 
-	// Codice paginazione
+	// Codice paginazione generalizzata
 	$(".page-link").click(function() {
 		searchParams.delete("page");
-		var url = adv_search_url;
+		var url = window.location.href.split('?')[0];
 		if (searchParams.toString() != "") url += "?" + searchParams.toString();
 		url += url.includes("?") ? "&" : "?";
 		url += "page=" + $(this).attr("data-page");

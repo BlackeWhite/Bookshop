@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,9 @@ import it.bookshop.model.entity.User;
 public class OrderDaoDefault extends DefaultDao implements OrderDao {
 
 
+	@Autowired
+	BookOrderDao bookOrderRepository;
+	
 	@Override
 	public Order findById(Long id) {
 		return getSession().find(Order.class, id);
@@ -35,17 +39,22 @@ public class OrderDaoDefault extends DefaultDao implements OrderDao {
 	}
 
 	@Override
-	public Order create(User buyer, Date date, List<BookOrder> books, String shipmentAddress, String payment) {
-		Order p = new Order();
-		p.setBuyer(buyer);
-		p.setDate(date);
-		p.setShipmentAddress(shipmentAddress);
-		p.setPayment(payment);
-		Set<BookOrder> s = new HashSet<BookOrder>(books);
-		p.setBooks(s);
-		p.setTotalExpense(buyer.getCartTotalPrice());
-		getSession().save(p);
-		return p;
+	public Order create(User buyer, Date date, Set<BookOrder> books, String shipmentAddress, String payment) {
+		Order o = new Order();
+		o.setBuyer(buyer);
+		o.setDate(date);
+		o.setShipmentAddress(shipmentAddress);
+		o.setPayment(payment);
+		o.setBooks(books);
+		o.setTotalExpense(buyer.getCartTotalPrice());
+		Long id = (Long) getSession().save(o);
+		//For some reasong bookOrder set is not getting persisted
+		//So we must save them manually
+		o = findById(id);
+		for(BookOrder b: books) {
+			bookOrderRepository.create(o, b.getBook(), b.getCopies());
+		}
+		return o;
 	}
 
 	@Override
@@ -64,9 +73,9 @@ public class OrderDaoDefault extends DefaultDao implements OrderDao {
 	}
 
 	@Override
-	public List<Order> findUserOrders(Long buyerId) {
-		return getSession().createQuery("FROM Order o WHERE o.buyer = :id", Order.class)
-				.setParameter("id", buyerId).getResultList();
+	public List<Order> findUserOrders(User user) {
+		return getSession().createQuery("FROM Order o WHERE o.buyer = :user ORDER BY o.date DESC", Order.class)
+				.setParameter("user", user).getResultList();
 	}
 
 
