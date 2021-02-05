@@ -17,8 +17,8 @@ public interface ShoppingCartDao {
 	public ShoppingCart findById(ShoppingCartId id);
 	public ShoppingCart create(User user, Book book, int copies);
 	public ShoppingCart update(ShoppingCart cart);
-	public List<ShoppingCart> findUserShoppingCart(Long userId);
+	public List<ShoppingCart> findUserShoppingCart(User user);
 	public void removeBook(ShoppingCart cart);
-	public void emptyUserCart(Long userId);
+	public void emptyUserCart(User user);
 	
 }
