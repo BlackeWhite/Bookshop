@@ -71,7 +71,7 @@ $(document).ready(function() {
 				$(".total-amount").text(data["cartTotalPrice"]);
 				$(".total-count").text(data["cartTotalItems"]);
 				$(".total-count-text").text(data["cartTotalItems"] + " ELEMENTI");
-				if ($(".mini-checkout").length) {
+				if ($(".mini-checkout").length == 0) {
 					$(".total").after('<a href="' + checkout_url + '" ' +
 						'class="btn animate mini-checkout">Procedi al pagamento</a>')
 				}

@@ -147,10 +147,10 @@
 												<li id="cart_${cartElem.book.id}"><a
 													data-book="${cartElem.book.id}" class="remove"
 													title="Elimina questo elemento"><i class="fa fa-remove"></i></a>
-													<a class="cart-img"
+													<a class="cart-img" style="border: none"
 													href="<c:url value="/show_book/${cartElem.book.id}"/>"><img
 														src="<c:url value="/resources/img/${cartElem.book.cover}"/>"
-														alt="#"></a>
+														alt="#" style="object-fit:contain; border: none"></a>
 													<h4>
 														<a href="<c:url value="/show_book/${cartElem.book.id}"/>">${cartElem.book.title}</a>
 													</h4>
