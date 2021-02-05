@@ -163,16 +163,19 @@ public class UserController {
 		
 		String principal_name = authentication.getName();
 		User buyer = userService.findUserByUsername(principal_name);
+		if (buyer.getCartTotalItems()==0) {
+			return "cart";
+		}
+		else {
 		model.addAttribute("user", buyer);
 		model.addAttribute("total", buyer.getFormattedCartTotalPrice());
-		return "checkout";
+		return "checkout";}
 	}
 	
 	 
 	@PostMapping(value = "/checkout")
 	@ResponseBody
-	public httpResponseBody checkout_fill(@RequestBody checkoutRequest checkoutReq, Locale locale, Model model, Authentication authentication) 
-			throws orderResponseException {
+	public httpResponseBody checkout_fill(@RequestBody checkoutRequest checkoutReq, Locale locale, Model model, Authentication authentication) {
 		
 		String principal_name = authentication.getName();
 		User buyer = userService.findUserByUsername(principal_name);
@@ -195,22 +198,12 @@ public class UserController {
 		orderService.createFromShoppingCart(buyerID, shipmentAddress, payment);
 		shopCartService.emptyUserCart(buyer);
 		
-		/*
-		//order creation
-		try {
-			orderService.createFromShoppingCart(buyer.getUserID(), shipmentAddress, payment);}
-		catch (Exception e){
-			throw new orderResponseException();
-		}
-		*/
 		model.addAttribute("user", buyer);
 		model.addAttribute("total", buyer.getFormattedCartTotalPrice()); 
 		return new httpResponseBody(shipmentAddress, payment, String.valueOf(now));
 	}
 	
-	public class orderResponseException extends Exception {
-		
-	}
+	
 	public class MinCopiesException extends Exception {
 		
 	}
