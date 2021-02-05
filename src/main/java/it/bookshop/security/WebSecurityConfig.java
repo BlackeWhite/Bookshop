@@ -56,6 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		antMatchers("/cart").authenticated().
 		antMatchers("/account").authenticated().
 		antMatchers("/checkout").authenticated().
+		antMatchers("/purchase_history").authenticated().
 		antMatchers("/admin/**").hasRole("ADMIN").
 		antMatchers("/**").permitAll().
 		

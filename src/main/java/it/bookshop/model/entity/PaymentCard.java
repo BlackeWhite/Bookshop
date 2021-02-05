@@ -19,7 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name="PAYMENT_METHODS")
+@Table(name="PAYMENT_CARDS")
 public class PaymentCard implements Serializable{
 	
 	private static final long serialVersionUID = 1L;

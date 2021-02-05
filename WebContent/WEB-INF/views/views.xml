@@ -17,7 +17,7 @@
 	</definition>
 	<definition extends="default" name="cart">
 		<put-attribute name="body"
-			value="/WEB-INF/views/cart.jsp" />
+			value="/WEB-INF/views/user/cart.jsp" />
 	</definition>
 	<definition extends="default" name="single_book">
 		<put-attribute name="body"
@@ -41,7 +41,12 @@
 	</definition>
 	<definition extends="default" name="checkout">
 		<put-attribute name="body"
-			value="/WEB-INF/views/checkout.jsp" />
+			value="/WEB-INF/views/user/checkout.jsp" />
+	</definition>
+	
+	<definition extends="default" name="purchase_history">
+		<put-attribute name="body"
+			value="/WEB-INF/views/user/purchase_history.jsp" />
 	</definition>
 	<definition extends="default" name="add_seller">
 		<put-attribute name="body"

@@ -210,7 +210,8 @@
 													</c:forEach>
 												</ul></li>
 											<li><a href="<c:url value="/sales"/>">Sconti<span class="new">Sale</span></a></li>
-											<c:if test="${uri == carturl || uri == checkouturl}">
+											<c:url value="/purchase_history" var="purchhisturl" />
+											<c:if test="${uri == carturl || uri == checkouturl || uri == purchhisturl}">
 												<c:set value="active" var="active4" />
 											</c:if>
 											<li class="${active4}"><a href="#">Acquisti<i class="ti-angle-down"></i></a>
@@ -219,6 +220,7 @@
 													<c:if test="${cartTotalItems > 0 }">
 														<li><a href="${checkouturl}">Procedi all'acquisto</a></li>
 													</c:if>
+													<li><a href="${purchhisturl}">Cronologia acquisti</a></li>
 												</ul></li>
 											<li><a href="contact.html">Contattaci</a></li>
 											<security:authorize access="hasRole('ADMIN')">

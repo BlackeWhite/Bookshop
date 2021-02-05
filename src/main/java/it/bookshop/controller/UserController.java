@@ -203,6 +203,21 @@ public class UserController {
 		return new httpResponseBody(shipmentAddress, payment, String.valueOf(now));
 	}
 	
+	@GetMapping(value = "/purchase_history")
+	public String purchaseHistory(Locale locale, Model model, Authentication authentication) {
+		
+		String principal_name = authentication.getName();
+		User user = userService.findUserByUsername(principal_name);
+		List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(user.getShoppingCart());
+		model.addAttribute("user", user);
+		model.addAttribute("user_cart", user_cart);
+		model.addAttribute("cartTotalPrice", user.getFormattedCartTotalPrice());
+		model.addAttribute("cartTotalItems", user.getCartTotalItems());
+		model.addAttribute("appName", appName);
+		
+		return "purchase_history";
+	}
+	
 	
 	public class MinCopiesException extends Exception {
 		
