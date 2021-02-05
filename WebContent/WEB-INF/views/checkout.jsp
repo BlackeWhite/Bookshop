@@ -20,7 +20,7 @@
 <!-- End Breadcrumbs -->
 				
 <!-- Start Checkout -->
-<section class="shop checkout section">
+<section class="checkout shop section">
 	<div class="container">
 		<div class="row"> 
 			<div class="col-lg-8 col-12">
@@ -28,7 +28,7 @@
 					<h2>Dati personali</h2>
 					<br>
 					<!-- Form -->
-					<form class="form" method="post" action="#">
+					<form class="form" method="post"action="#" >
 						<div class="row">
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="form-group">
@@ -131,29 +131,34 @@
 					<br>
 					<form class="shipmentForm form" method="post">
 						<div class="row">
-							<div class="col-lg-6 col-md-6 col-12">
-								<div class="form-group">
-									<label>Indirizzo di spedizione <span>*</span></label>
-									<input type="text" name="address" placeholder="${user.personalData.fullAddress}" disabled>
+								<div class="col-lg-6 col-md-6 col-12">
+									<div class="form-group">
+										<label>Città <span>*</span></label>
+										<input type="text" name="città" placeholder="${user.personalData.city}" disabled>
+									</div>
 								</div>
-							</div>
-						
-							<div class="col-lg-6 col-md-6 col-12">
-								<div class="form-group">
-									<label>Codice postale<span>*</span></label>
-									<input type="text" name="post" placeholder="${user.personalData.cap}" disabled>
+								<div class="col-lg-6 col-md-6 col-12">
+									<div class="form-group">
+										<label>Indirizzo di spedizione <span>*</span></label>
+										<input type="text" name="address" placeholder="${user.personalData.fullAddress}" disabled>
+									</div>
 								</div>
-							</div>
-							<div class="col-12">
-								<div class="form-group ">
-									<button id="newAddress" class="btn btn-sm" >
-										<span style="font-size:smaller;">
-											Inserisci un nuovo indirizzo
-										</span>
-									</button>
-									<%-- <label>Vuoi inserire un nuovo indirizzo?</label> --%>
+								<div class="col-lg-6 col-md-6 col-12">
+									<div class="form-group">
+										<label>Codice postale<span>*</span></label>
+										<input type="text" name="post" placeholder="${user.personalData.cap}" disabled>
+									</div>
 								</div>
-							</div>
+								<div class="col-12">
+									<div class="form-group ">
+										<button id="newAddress" class="btn btn-sm" >
+											<span style="font-size:smaller;">
+												Inserisci un nuovo indirizzo
+											</span>
+										</button>
+										<%-- <label>Vuoi inserire un nuovo indirizzo?</label> --%>
+									</div>
+								</div>
 						</div>
 					</form>
 					<!--/ End Form -->
@@ -163,7 +168,7 @@
 				<div class="order-details">
 					<!-- Order Widget -->
 					<div class="single-widget">
-						<h2>CART  TOTALS</h2>
+						<h2>Riepilogo totale carrello</h2>
 						<div class="content">
 							<ul>
 								<li>Sub Total<span>${total}</span></li>
@@ -175,12 +180,26 @@
 					<!--/ End Order Widget -->
 					<!-- Order Widget -->
 					<div class="single-widget">
-						<h2>Payments</h2>
+						<h2>Metodo di pagamento</h2>
 						<div class="content">
-							<div class="checkbox">
-								<label class="checkbox-inline" for="1"><input name="updates" id="1" type="checkbox"> Check Payments</label>
-								<label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox"> Cash On Delivery</label>
-								<label class="checkbox-inline" for="3"><input name="news" id="3" type="checkbox"> PayPal</label>
+							<div class="card_selection">
+								<br>
+								<p style="text-align:center;">Seleziona una carta</p>
+								<br>
+								<select id="credit_card_select" id="credit_card">
+									<c:forEach items="${user.paymentCards}" var="card">
+										<option id="" value="${card.type} ${card.hiddenNumber} ${card.shortExpirationDate}" style="margin:auto; font-size:2px">
+											${card.type} | ${card.hiddenNumber.toLowerCase()} | ${card.shortExpirationDate}
+										</option>
+									</c:forEach>
+								</select>
+							</div>
+							<div class="radio">
+							<ul>
+								<li><label ><input id="card_payment" class="card_payment"type="radio" name="payment" value="" checked> Card</label></li>
+								<li><label ><input id="cash_payment" class="no_card_payment" type="radio" name="payment" value=""> Cash On Delivery</label></li>
+								<li><label ><input id="paypal_payment" class="no_card_payment" type="radio" name="payment" value=""> PayPal</label></li>
+							</ul>
 							</div>
 						</div>
 					</div>
@@ -194,10 +213,12 @@
 					<!--/ End Payment Method Widget -->
 					<!-- Button Widget -->
 					<div class="single-widget get-button">
-						<div class="content">
-							<div class="button">
-								<a href="#" class="btn">proceed to checkout</a>
-							</div>
+						<div class="form-group ">
+							<button id="checkout" class="btn" >
+								<span >
+									Checkout
+								</span>
+							</button>
 						</div>
 					</div>
 					<!--/ End Button Widget -->
