@@ -1,6 +1,7 @@
 package it.bookshop.controller;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.text.ParseException;
@@ -190,17 +191,17 @@ public class UserController {
 			shipmentAddress = checkoutReq.getShipmentAddress();
 		}
 		
-		//get order date
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
-		LocalDateTime now = LocalDateTime.now(); 
-		//String date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(now);
+		//get order date  
+		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		String date = formatter.format(now);
 		Long buyerID = Long.valueOf(buyer.getUserID());
 		orderService.createFromShoppingCart(buyerID, shipmentAddress, payment);
 		shopCartService.emptyUserCart(buyer);
 		
 		model.addAttribute("user", buyer);
 		model.addAttribute("total", buyer.getFormattedCartTotalPrice()); 
-		return new httpResponseBody(shipmentAddress, payment, String.valueOf(now));
+		return new httpResponseBody(shipmentAddress, payment, date);
 	}
 	
 	@GetMapping(value = "/purchase_history")

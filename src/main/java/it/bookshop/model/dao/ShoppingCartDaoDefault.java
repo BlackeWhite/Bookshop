@@ -11,7 +11,7 @@ import it.bookshop.model.entity.ShoppingCartId;
 import it.bookshop.model.entity.User;
 
 @Transactional
-@Repository("shoppingCartDao") //@Repository  is a specialization of @Component
+@Repository("shoppingCartDao") // @Repository is a specialization of @Component
 public class ShoppingCartDaoDefault extends DefaultDao implements ShoppingCartDao {
 
 	@Override
@@ -36,7 +36,6 @@ public class ShoppingCartDaoDefault extends DefaultDao implements ShoppingCartDa
 		return (ShoppingCart) getSession().merge(offer);
 	}
 
-
 	@Override
 	public void removeBook(ShoppingCart cart) {
 		getSession().delete(cart);
@@ -50,7 +49,9 @@ public class ShoppingCartDaoDefault extends DefaultDao implements ShoppingCartDa
 
 	@Override
 	public void emptyUserCart(User user) {
-		getSession().createQuery("DELETE FROM ShoppingCart o WHERE o.user = :user").setParameter("user", user);
+		int i = getSession().createQuery("DELETE FROM ShoppingCart o WHERE o.user = :user").setParameter("user", user)
+				.executeUpdate();
+		System.out.println("Deleted " + String.valueOf(i) + "ShoppingCart rows");
 	}
 
 }

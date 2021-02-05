@@ -30,13 +30,13 @@ $(document).ready(function() {
 
 	//Password confirmation
 	$("#password-confirm").focusout(function() {
-		if($(this).val() != $("#password").val()) {
+		if ($(this).val() != $("#password").val()) {
 			$("#error-pass").remove();
 			$(this).after('<span id="error-pass" class="validation-error">Le password non coincidono.</span>');
 		} else $("#error-pass").remove();
 	});
 	$(".with-pass-conf").click(function(e) {
-		if($("#password-confirm").val() != $("#password").val()) {
+		if ($("#password-confirm").val() != $("#password").val()) {
 			$("#error-pass").remove();
 			$("#password-confirm").after('<span id="error-pass" class="validation-error">Le password non coincidono.</span>');
 			e.preventDefault();
@@ -71,6 +71,10 @@ $(document).ready(function() {
 				$(".total-amount").text(data["cartTotalPrice"]);
 				$(".total-count").text(data["cartTotalItems"]);
 				$(".total-count-text").text(data["cartTotalItems"] + " ELEMENTI");
+				if (data["cartTotalItems"] > 0) {
+					$(".total").after('<a href="' + checkout_url + '" ' +
+						'class="btn animate mini-checkout">Procedi al pagamento</a>')
+				}
 			},
 			error: function(e) {
 				alert("Non ci sono abbastanza copie disponibili");
@@ -111,11 +115,14 @@ $(document).ready(function() {
 				$(".total-amount").text(data["response2"]);
 				$(".total-count").text(data["response3"]);
 				$(".total-count-text").text(data["response3"] + " ELEMENTI");
+				if (data["response3"] == "0") {
+					$(".mini-checkout").remove();
+				}
 			},
 			processData: false
 		});
 	});
-	
+
 	//Funzione per rimuovere un utente dalla lista di venditori o utenti standard
 	$(".remove-user").click(function() {
 		var username = $(this).attr("data-user");
@@ -127,7 +134,7 @@ $(document).ready(function() {
 				contentType: 'text/plain',
 				dataType: "text", //The type of data that you're expecting back from the server
 				success: function(data) {
-					$("#user_"+username).remove();
+					$("#user_" + username).remove();
 				},
 				processData: false
 			});
@@ -145,12 +152,12 @@ $(document).ready(function() {
 		url += "page=" + $(this).attr("data-page");
 		window.location.href = url;
 	});
-	
-	
+
+
 	// Codice paginazione per la home
 	$(".page-link-home").click(function() {
 		searchParams.delete("page");
-		var url = home_url ;
+		var url = home_url;
 		if (searchParams.toString() != "") url += "?" + searchParams.toString();
 		url += url.includes("?") ? "&" : "?";
 		url += "page=" + $(this).attr("data-page");

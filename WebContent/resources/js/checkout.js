@@ -41,7 +41,7 @@ $(document).ready(function() {
 	//Richiesta AJAX per gestione metodo di pagamento
 	$("#checkout").click(function() {
 		var fullAddress;
-		var paymentDetails = "Payment method: ";
+		var paymentDetails = "Metodo di pagamento: ";
 		if (Boolean(newAddr)) {
 			fullAddress = $("#newShipAddr").val() +","+ $("#newShipCity").val() +","+ $("#newShipCAP").val();
 		}
@@ -51,9 +51,9 @@ $(document).ready(function() {
 		if ($(".card_payment").is(":checked")) {
 			paymentDetails += $("#credit_card_select").val();
 		} else if ($(".cash_payment").is(":checked")) {
-			paymentDetails += "cash on delivery";
+			paymentDetails += "Pagamento alla consegna";
 		} else {
-			paymentDetails += "paypal";
+			paymentDetails += "Paypal";
 		};
 		$.ajax({
 		   	type : 'POST',

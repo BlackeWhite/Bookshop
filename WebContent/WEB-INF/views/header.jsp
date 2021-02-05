@@ -115,11 +115,12 @@
 							</div>
 							 -->
 						<security:authorize access="isAuthenticated()">
-							<c:set value="${requestScope['javax.servlet.forward.request_uri']}" var="uri"/>
+							<c:set
+								value="${requestScope['javax.servlet.forward.request_uri']}"
+								var="uri" />
 							<c:url value="/cart" var="carturl" />
 							<c:url value="/checkout" var="checkouturl" />
-							<c:if
-								test="${uri != carturl && uri != checkouturl}">
+							<c:if test="${uri != carturl && uri != checkouturl}">
 								<div class="sinlge-bar shopping">
 									<a href="<c:url value="/cart"/>" class="single-icon"><i
 										class="ti-bag"></i> <span class="total-count">${cartTotalItems}</span></a>
@@ -162,8 +163,8 @@
 												<span>Spesa Totale</span> <span class="total-amount">${cartTotalPrice}</span>
 											</div>
 											<c:if test="${cartTotalItems > 0 }">
-												<a href="checkout.html" class="btn animate">Procedi al
-													pagamento</a>
+												<a href="<c:url value="/checkout"/>"
+													class="btn animate mini-checkout">Procedi al pagamento</a>
 											</c:if>
 										</div>
 									</div>
@@ -190,14 +191,12 @@
 									<div class="nav-inner">
 										<ul class="nav main-menu menu navbar-nav">
 											<c:url value="/" var="homeUrl" />
-											<c:if
-												test="${uri == homeUrl}">
+											<c:if test="${uri == homeUrl}">
 												<c:set value="active" var="active1" />
 											</c:if>
 											<li class="${active1}"><a href="${homeUrl}">Home</a></li>
 
-											<c:if
-												test="${fn:contains(uri,'show_genre')}">
+											<c:if test="${fn:contains(uri,'show_genre')}">
 												<c:set value="active" var="active2" />
 											</c:if>
 											<li class="${active2}"><a href="#">Generi<i
@@ -209,12 +208,15 @@
 															href="<c:url value="/show_genre/${genres.name}"/>">${genres.name}</a></li>
 													</c:forEach>
 												</ul></li>
-											<li><a href="<c:url value="/sales"/>">Sconti<span class="new">Sale</span></a></li>
+											<li><a href="<c:url value="/sales"/>">Sconti<span
+													class="new">Sale</span></a></li>
 											<c:url value="/purchase_history" var="purchhisturl" />
-											<c:if test="${uri == carturl || uri == checkouturl || uri == purchhisturl}">
+											<c:if
+												test="${uri == carturl || uri == checkouturl || uri == purchhisturl}">
 												<c:set value="active" var="active4" />
 											</c:if>
-											<li class="${active4}"><a href="#">Acquisti<i class="ti-angle-down"></i></a>
+											<li class="${active4}"><a href="#">Acquisti<i
+													class="ti-angle-down"></i></a>
 												<ul class="dropdown">
 													<li><a href="${carturl}">Carrello</a></li>
 													<c:if test="${cartTotalItems > 0 }">
