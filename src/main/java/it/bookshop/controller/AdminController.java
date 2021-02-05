@@ -56,7 +56,7 @@ public class AdminController {
 
 	private Map<String, String> countries = new LinkedHashMap<String, String>();
 
-	@GetMapping(value = "/add_seller")
+	@GetMapping(value = "/admin/add_seller")
 	public String addSellerPage(Model model, Authentication authentication) {
 
 		String principal_name = authentication.getName();
@@ -68,7 +68,7 @@ public class AdminController {
 		return "add_seller";
 	}
 
-	@PostMapping(value = "/add_seller")
+	@PostMapping(value = "/admin/add_seller")
 	public String addSeller(@ModelAttribute("newSeller") @Validated User user, BindingResult br, Model model,
 			final RedirectAttributes redirectAttributes, Authentication authentication) {
 
@@ -89,7 +89,7 @@ public class AdminController {
 
 	}
 	
-	@GetMapping(value = "/sellers_list")
+	@GetMapping(value = "/admin/sellers_list")
 	public String sellersList(@RequestParam(required = false) String username, Model model, Authentication authentication) {
 		
 		String principal_name = authentication.getName();
@@ -103,7 +103,7 @@ public class AdminController {
 		return "sellers_list";
 	}
 	
-	@GetMapping(value = "/buyers_list")
+	@GetMapping(value = "/admin/buyers_list")
 	public String buyersList(@RequestParam(required = false) String username, Model model, Authentication authentication) {
 		
 		String principal_name = authentication.getName();
@@ -118,7 +118,7 @@ public class AdminController {
 		return "buyers_list";
 	}
 	
-	@PostMapping(value = "/delete_user")
+	@PostMapping(value = "/admin/delete_user")
 	@ResponseBody
 	public String deleteUser(@RequestBody String username) {
 

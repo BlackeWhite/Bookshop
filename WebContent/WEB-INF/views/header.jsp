@@ -216,13 +216,15 @@
 											<li class="${active4}"><a href="#">Acquisti<i class="ti-angle-down"></i></a>
 												<ul class="dropdown">
 													<li><a href="${carturl}">Carrello</a></li>
-													<li><a href="${checkouturl}">Procedi all'acquisto</a></li>
+													<c:if test="${cartTotalItems > 0 }">
+														<li><a href="${checkouturl}">Procedi all'acquisto</a></li>
+													</c:if>
 												</ul></li>
 											<li><a href="contact.html">Contattaci</a></li>
 											<security:authorize access="hasRole('ADMIN')">
-												<c:url value="/add_seller" var="addSeller" />
-												<c:url value="/sellers_list" var="sellersList" />
-												<c:url value="/buyers_list" var="buyersList" />
+												<c:url value="/admin/add_seller" var="addSeller" />
+												<c:url value="/admin/sellers_list" var="sellersList" />
+												<c:url value="/admin/buyers_list" var="buyersList" />
 												<c:if
 													test="${uri == addSeller || uri == sellersList || uri == buyersList}">
 													<c:set value="active" var="active3" />
