@@ -71,13 +71,35 @@ $(document).ready(function() {
 				$(".total-amount").text(data["cartTotalPrice"]);
 				$(".total-count").text(data["cartTotalItems"]);
 				$(".total-count-text").text(data["cartTotalItems"] + " ELEMENTI");
-				if (data["cartTotalItems"] > 0) {
+				if ($(".mini-checkout").length) {
 					$(".total").after('<a href="' + checkout_url + '" ' +
 						'class="btn animate mini-checkout">Procedi al pagamento</a>')
 				}
 			},
 			error: function(e) {
 				alert("Non ci sono abbastanza copie disponibili");
+			},
+			processData: false
+		});
+	});
+	
+	//Funzione per rimuovere un libro dal mini carrello
+	$(".shopping-list").on('click', '.remove', function() {
+		var id = $(this).attr("data-book");
+		$.ajax({
+			type: 'POST',
+			url: cart_url,
+			data: JSON.stringify({ "bookID": id, "arg2": "delete" }),
+			contentType: 'application/json',
+			dataType: "json", //The type of data that you're expecting back from the server
+			success: function(data) {
+				$("#cart_" + id).remove();
+				$(".total-amount").text(data["response2"]);
+				$(".total-count").text(data["response3"]);
+				$(".total-count-text").text(data["response3"] + " ELEMENTI");
+				if (data["response3"] == "0") {
+					$(".mini-checkout").remove();
+				}
 			},
 			processData: false
 		});
@@ -99,28 +121,6 @@ $(document).ready(function() {
 				processData: false
 			});
 		}
-	});
-
-	//Funzione per rimuovere un libro dal mini carrello
-	$(".remove").click(function() {
-		var id = $(this).attr("data-book");
-		$.ajax({
-			type: 'POST',
-			url: cart_url,
-			data: JSON.stringify({ "bookID": id, "arg2": "delete" }),
-			contentType: 'application/json',
-			dataType: "json", //The type of data that you're expecting back from the server
-			success: function(data) {
-				$("#cart_" + id).remove();
-				$(".total-amount").text(data["response2"]);
-				$(".total-count").text(data["response3"]);
-				$(".total-count-text").text(data["response3"] + " ELEMENTI");
-				if (data["response3"] == "0") {
-					$(".mini-checkout").remove();
-				}
-			},
-			processData: false
-		});
 	});
 
 	//Funzione per rimuovere un utente dalla lista di venditori o utenti standard
