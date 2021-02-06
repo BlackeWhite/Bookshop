@@ -75,5 +75,21 @@ public class Genre implements Serializable{
 		this.books.remove(b);
 		b.getGenres().remove(this);
 	}
+	
+    @Override
+    public int hashCode() {
+        return new Long(id).hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (! (obj instanceof Genre)) {
+            return false;
+        }
+        return this.id == ((Genre)obj).getId();
+    }
 
 }

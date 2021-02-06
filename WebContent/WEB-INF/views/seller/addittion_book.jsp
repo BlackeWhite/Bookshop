@@ -48,7 +48,7 @@
 					</div>
 				</div>
 				<div class="row">
-				  <c:url value="/add_book" var="add_book_action"/>
+				  <c:url value="/seller/add_book" var="add_book_action"/>
 					<form:form id="register-form" action="${add_book_action}" modelAttribute="newBook" class="form" method="post">
 						<fieldset>
 						<legend> Informazioni Libro  </legend>
@@ -57,7 +57,7 @@
 								<form:errors path="title" cssClass="validation-error" />
 							
 								<form:label path="title">ISBN</form:label> 
-								<form:input required="required" placeholder="ISBN del libro" type="text" path="isbn" id="isbn" />
+								<form:input required="required" placeholder="ISBN del libro" type="text" path="isbn" id="isbn"  maxlength="13"/>
 								<form:errors path="isbn" cssClass="validation-error" />
                             	<br>
 								<form:label path="title">Numero Copie disponibili</form:label>
@@ -65,7 +65,7 @@
 								<form:errors path="copies" cssClass="validation-error" />
 								<br>
 						    	<form:label path="title">Prezzo del libro</form:label>
-								<span>€</span><form:input type="number" min="0.01" step="0.01" max="2500" value="10" required="required" path="price" id="price" />
+								<span>&euro;</span><form:input type="number" min="0.01" step="0.01" max="2500" value="10" required="required" path="price" id="price" />
 								<form:errors path="price" cssClass="validation-error" />
 								<form:label path="title">Numero Pagine del libro</form:label>
 								<form:input required="required" type="number" path="pages" id="pages" min="0" />
@@ -74,24 +74,49 @@
 								<form:label path="title">Data Pubblicazione del libro</form:label>
 								<form:input required="required" type="date" path="publish" id="publish"/>
 								<form:errors path="publish" cssClass="validation-error" />	
-								<br>
-								<form:label path="title">Descrizione del Libro</form:label> <br>
-								<form:input required="required" placeholder="Breve descrizione del libro" type="text" path="summary" id="summary" />
+								<br> 
+								
+							    <form:label path="title">Descrizione del Libro</form:label> <br>
+								<form:textarea required="required" placeholder="Breve descrizione del libro" path="summary" id="summary" maxlength="250" rows="4" cols="50" />
 								<form:errors path="summary" cssClass="validation-error" />
 								<br>
 							
-								<br>
-								
 												
 							</fieldset>
+							<fieldset>
+							<legend>Genere del libro</legend>
+							
+								<c:forEach items="${genre}" var="g"> 
+							     <p hidden>${i=i+1}</p> 
+										<form:checkbox id="${g.id}" name="${g.name}" path="genres" value="${g}" label="${g.name}" />
+										 &thinsp; &nbsp;
+									    <form:errors path="genres" cssClass="validation-error"/>
+									<c:if test="${i%6 == 0 }"> <br></c:if>	 
+								</c:forEach>
+							
+						</fieldset>
+						
+						<br>
+						<fieldset>
+						<legend>Applica un sconto al libro</legend>
+
+							<form:label path="title">Sconto</form:label>
+							
+							<form:input type="number" min="0" step="1" max="100"
+								value="0" path="discount" id="discount" /> <span>&#37;</span>
+							<form:errors path="discount" cssClass="validation-error" />
+
+						</fieldset>
+							
 							<br>
+						<!-- 
 							<fieldset>
 							
 						<legend>Autore  </legend>
-								<form:label path="title">Nome Libro</form:label> <br>
+								<form:label path="title">Nome autore</form:label> <br>
 								<form:input required="required" type="text" path="title" id="title" />
 								<form:errors path="title" cssClass="validation-error" />
-							</fieldset>
+							</fieldset>  -->
 						<br>
                         <button type="submit" name="submit" class="btn with-pass-conf">Inserisci Libro </button>	
 					</form:form>

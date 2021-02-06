@@ -22,6 +22,7 @@ public class GenreDaoDefault extends DefaultDao implements GenreDao {
 		return this.getSession().createQuery("FROM Genre g", Genre.class).getResultList();
 	}
 	
+	
 	@Override
 	public Genre findByName(String name) {
 		//non rimuovere altrimenti restituisce eccezione 

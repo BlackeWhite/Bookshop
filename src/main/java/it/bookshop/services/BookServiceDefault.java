@@ -45,6 +45,13 @@ public class BookServiceDefault implements BookService {
 	public List<Genre> getAllGenres() {
 		return genreRepository.findAll();
 	}
+	
+	@Override
+	public Set<Genre> getAllGenresinSet() {
+		List<Genre> listgen = genreRepository.findAll();
+		Set<Genre> genreSet = new HashSet<Genre>(listgen);
+		return genreSet;
+	}
 
 	@Override
 	public List<Genre> findGenresFromNamesArray(List<String> names) {
@@ -213,6 +220,27 @@ public class BookServiceDefault implements BookService {
 			}
 		}
 		return b1;
+	}
+	
+	@Override
+	public Book create(Book book, User seller) {
+		String cover = "img_01.jpg";
+		Book b1 = bookRepository.create(book,cover,seller);
+		Author a1 = authorRepository.findByNameAndSurname("Alessandro","Manzoni");
+		if (a1 != null) {
+			a1.addBooks(b1); // ha trovato il libro
+		} else { // se non trova l'autore lo crea
+			Author a2 = authorRepository.findByNameAndSurname("Alessandro","Manzoni");
+			a2.addBooks(b1);
+		}
+		Iterator <Genre> itergen = book.getGenres().iterator();
+		while(itergen.hasNext()) {
+			Genre g1 = genreRepository.findByName(itergen.next().getName());
+			g1.addBooks(b1);
+		}
+		
+		
+		return book;
 	}
 
 	@Override

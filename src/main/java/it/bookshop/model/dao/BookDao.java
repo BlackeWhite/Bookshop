@@ -25,4 +25,5 @@ public interface BookDao {
 	List<Book> findFiveBestSellingBook();
 	List<Book> findMostClick();
 	List<Book> findBookOnSale();
+	Book create(Book b, String cover, User seller);
 }

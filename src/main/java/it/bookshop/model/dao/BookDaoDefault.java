@@ -1,7 +1,9 @@
 package it.bookshop.model.dao;
 
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
+
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,6 +76,22 @@ public class BookDaoDefault extends DefaultDao implements BookDao{
 		getSession().save(b);
 		return b;
 	}
+	
+	@Override
+	public Book create(Book b, String cover, User seller) {
+		b.setCover(cover);
+		Date date = new Date(Calendar.getInstance().getTime().getTime()); // si prende la data odierna per l'inserimento del libro 
+		b.setInsertData(date);
+		b.setClicked(0);
+		b.setSoldCopies(0);
+		b.setSeller(seller);
+		if (b.getDiscount() == 0){ // se non c'è sconto setto a zero 
+			b.setDiscount(0);
+		}
+		getSession().save(b);
+		return b;
+	}
+	
 	
 	@Override
 	public Book update(Book book) {

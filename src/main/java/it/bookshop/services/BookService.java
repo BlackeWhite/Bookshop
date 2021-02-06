@@ -14,12 +14,14 @@ public interface BookService {
 	Book findById(Long bookId);
 	List<Book> searchBooksByParams(String search_by, String term, Double price_min, Double price_max, String order_by);
 	List<Genre> getAllGenres();
+	Set<Genre> getAllGenresinSet();
 	List<Genre> findGenresFromNamesArray(List<String> names);
 	List<Book> findAll();
 	List<Book> findAll(Double price_min, Double price_max, String order_by);
 	Book create(String Name_author,String Surname_Author,String isbn, String title, 
 				Date publish_date, Date insert_date, int copies, double price, User seller, 
 				int pages, String summary, String cover, List<String> genres, double discount);
+	Book create(Book book, User seller);
 	Book update(Book book);
 	void delete(Book book);
 	void delete(Long bookId);
