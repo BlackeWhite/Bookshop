@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.bookshop.model.Object_form.Bookform;
 import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.User;
@@ -78,16 +79,22 @@ public class BookDaoDefault extends DefaultDao implements BookDao{
 	}
 	
 	@Override
-	public Book create(Book b, String cover, User seller) {
+	public Book create(Bookform book, String cover, User seller) {
+		Book b = new Book();
+		b.setIsbn(book.getIsbn());
+		b.setTitle(book.getTitle());
+		b.setPublish(book.getPublish());
+		b.setCopies(book.getCopies());
+		b.setPrice(book.getPrice());
+		b.setSeller(seller);
+		b.setPages(book.getPages());
+		b.setSummary(book.getSummary());
 		b.setCover(cover);
 		Date date = new Date(Calendar.getInstance().getTime().getTime()); // si prende la data odierna per l'inserimento del libro 
 		b.setInsertData(date);
 		b.setClicked(0);
 		b.setSoldCopies(0);
-		b.setSeller(seller);
-		if (b.getDiscount() == 0){ // se non c'è sconto setto a zero 
-			b.setDiscount(0);
-		}
+		b.setDiscount(book.getDiscount());
 		getSession().save(b);
 		return b;
 	}

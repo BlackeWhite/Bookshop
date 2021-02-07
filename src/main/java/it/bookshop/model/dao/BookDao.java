@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import it.bookshop.model.Object_form.Bookform;
 import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.User;
@@ -25,5 +26,5 @@ public interface BookDao {
 	List<Book> findFiveBestSellingBook();
 	List<Book> findMostClick();
 	List<Book> findBookOnSale();
-	Book create(Book b, String cover, User seller);
+	Book create(Bookform b, String cover, User seller);
 }

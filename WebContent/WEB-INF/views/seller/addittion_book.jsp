@@ -88,9 +88,9 @@
 							
 								<c:forEach items="${genre}" var="g"> 
 							     <p hidden>${i=i+1}</p> 
-										<form:checkbox id="${g.id}" name="${g.name}" path="genres" value="${g}" label="${g.name}" />
+										<form:checkbox id="${g}" name="${g}" path="genre" value="${g}" label="${g}" />
 										 &thinsp; &nbsp;
-									    <form:errors path="genres" cssClass="validation-error"/>
+									    <form:errors path="genre" cssClass="validation-error"/>
 									<c:if test="${i%6 == 0 }"> <br></c:if>	 
 								</c:forEach>
 							

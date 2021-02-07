@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.bookshop.model.Object_form.Bookform;
 import it.bookshop.model.dao.AuthorDao;
 import it.bookshop.model.dao.BookDao;
 import it.bookshop.model.dao.GenreDao;
@@ -44,13 +45,6 @@ public class BookServiceDefault implements BookService {
 	@Override
 	public List<Genre> getAllGenres() {
 		return genreRepository.findAll();
-	}
-	
-	@Override
-	public Set<Genre> getAllGenresinSet() {
-		List<Genre> listgen = genreRepository.findAll();
-		Set<Genre> genreSet = new HashSet<Genre>(listgen);
-		return genreSet;
 	}
 
 	@Override
@@ -223,24 +217,24 @@ public class BookServiceDefault implements BookService {
 	}
 	
 	@Override
-	public Book create(Book book, User seller) {
-		String cover = "img_01.jpg";
+	public Book create(Bookform book, User seller) {
+		String cover = "img_01.jpg"; // usato come nome di test, va modificato 
 		Book b1 = bookRepository.create(book,cover,seller);
-		Author a1 = authorRepository.findByNameAndSurname("Alessandro","Manzoni");
+		Author a1 = authorRepository.findByNameAndSurname("Alessandro","Manzoni"); // !!usato in fase di test, va modificata 
 		if (a1 != null) {
-			a1.addBooks(b1); // ha trovato il libro
+			a1.addBooks(b1); // aggiungo il libro alla lista dei libri dell'autore 
 		} else { // se non trova l'autore lo crea
 			Author a2 = authorRepository.findByNameAndSurname("Alessandro","Manzoni");
 			a2.addBooks(b1);
 		}
-		Iterator <Genre> itergen = book.getGenres().iterator();
-		while(itergen.hasNext()) {
-			Genre g1 = genreRepository.findByName(itergen.next().getName());
+		Iterator <String> itergen = book.getGenre().iterator();
+		while(itergen.hasNext()) { // associa il libro ai diversi generi ad esso associato 
+			Genre g1 = genreRepository.findByName(itergen.next());
 			g1.addBooks(b1);
 		}
 		
 		
-		return book;
+		return b1;
 	}
 
 	@Override
