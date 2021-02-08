@@ -88,6 +88,10 @@
 											decrescente</option>
 										<option id="price_ASC" value="price_ASC">Prezzo
 											crescente</option>
+										<option id="discount_DESC" value="discount_DESC">Sconto 
+											decrescente</option>
+										<option id="discount_ASC" value="discount_ASC">Sconto 
+											crescente</option>
 									</select>
 								</div>
 							</div>

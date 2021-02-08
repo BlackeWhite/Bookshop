@@ -17,7 +17,6 @@ public interface BookService {
 	List<Genre> getAllGenres();
 	List<Genre> findGenresFromNamesArray(List<String> names);
 	List<Book> findAll();
-	List<Book> findAll(Double price_min, Double price_max, String order_by);
 	Book create(String Name_author,String Surname_Author,String isbn, String title, 
 				Date publish_date, Date insert_date, int copies, double price, User seller, 
 				int pages, String summary, String cover, List<String> genres, double discount);

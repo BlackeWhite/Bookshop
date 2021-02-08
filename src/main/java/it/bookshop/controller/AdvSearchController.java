@@ -65,14 +65,8 @@ public class AdvSearchController {
 		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook();
 
 		List<Book> books;
-		if (!term.equals("")) {
-			books = bookService.searchBooksByParams(search_by, term, price_min, price_max, order_by);
-		} else if (authorId != null) {
-			Set<Book> a_books = authorService.findById(authorId).getBooks();
-			books = new ArrayList<Book>(a_books);
-		} else {
-			books = bookService.findAll(price_min, price_max, order_by);
-		}
+		books = bookService.searchBooksByParams(search_by, term, price_min, price_max, order_by);
+		
 
 		Map<String, Integer> books_for_genre = bookService.booksAmountPerGenreFromList(books);
 

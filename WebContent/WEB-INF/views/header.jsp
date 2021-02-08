@@ -95,6 +95,7 @@
 								<select name="search_by" id="search_by">
 									<option id="title" value="title">Titolo</option>
 									<option id="isbn" value="isbn">ISBN</option>
+									<option id="author" value="author">Autore</option>
 								</select> <input name="term" placeholder="Cerca i libri qui....."
 									type="search">
 								<button type="submit" class="btnn">

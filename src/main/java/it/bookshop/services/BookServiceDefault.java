@@ -38,8 +38,14 @@ public class BookServiceDefault implements BookService {
 	}
 
 	@Override
-	public List<Book> searchBooksByParams(String search_by, String title, Double price_min, Double price_max, String order_by) {
-		return bookRepository.searchBooksByParams(search_by, title, price_min, price_max, order_by);
+	public List<Book> searchBooksByParams(String search_by, String term, Double price_min, Double price_max, String order_by) {
+		if(term.equals(""))
+			return bookRepository.findAll(price_min, price_max, order_by);
+			
+		if(search_by.equals("author"))
+			return bookRepository.searchBooksByParamsAndAuthor(term, price_min, price_max, order_by);
+		else
+			return bookRepository.searchBooksByParams(search_by, term, price_min, price_max, order_by);
 	}
 
 	@Override
@@ -61,10 +67,6 @@ public class BookServiceDefault implements BookService {
 		return bookRepository.findAll();
 	}
 
-	@Override
-	public List<Book> findAll(Double price_min, Double price_max, String order_by) {
-		return bookRepository.findAll(price_min, price_max, order_by);
-	}
 
 	@Override
 	public Book update(Book book) {

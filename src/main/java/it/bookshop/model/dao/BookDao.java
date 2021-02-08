@@ -19,6 +19,7 @@ public interface BookDao {
 	
 	Book findById(Long bookId);
 	List<Book> searchBooksByParams(String search_by, String term, Double price_min, Double price_max, String order_by);
+	List<Book> searchBooksByParamsAndAuthor(String term, Double price_min, Double price_max, String order_by);
 	Book create(String isbn,String title, Date publish_date, Date insert_date, int copies, double price, User seller, int pages, String summary, String cover, double discount);
 	Book update(Book book);
 	void delete(Book book);
