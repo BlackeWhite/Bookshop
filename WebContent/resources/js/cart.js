@@ -10,7 +10,7 @@ $(document).ready(function() {
 			contentType : 'application/json',
             dataType: "json", //The type of data that you're expecting back from the server
 			success: function (data) {
-				$("#element_total_price"+book_id).text(data["response1"]);
+				$("#element_total_price"+book_id).find($("span")).text(data["response1"]);
 				$("#cart_subtotal").find($("span")).text(data["response2"]);
                 },
 			error: function (e) {
@@ -29,7 +29,7 @@ $(document).ready(function() {
 			contentType : 'application/json',
            	dataType: "json", //The type of data that you're expecting back from the server	
 			success: function (data) { 
-				$("#element_total_price"+book_id).text(data["response1"]);
+				$("#element_total_price"+book_id).find($("span")).text(data["response1"]);
 				$("#cart_subtotal").find($("span")).text(data["response2"]);
                 },
 			error: function (e) {
