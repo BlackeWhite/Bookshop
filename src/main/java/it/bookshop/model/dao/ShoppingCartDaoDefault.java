@@ -1,7 +1,9 @@
 package it.bookshop.model.dao;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,13 +29,15 @@ public class ShoppingCartDaoDefault extends DefaultDao implements ShoppingCartDa
 		s.setUser(user);
 		s.setBook(book);
 		s.setCopies(copies);
+		s.setCreationTime(LocalDateTime.now());
 		getSession().save(s);
 		return s;
 	}
 
 	@Override
-	public ShoppingCart update(ShoppingCart offer) {
-		return (ShoppingCart) getSession().merge(offer);
+	public ShoppingCart update(ShoppingCart cart) {
+		cart.setCreationTime(LocalDateTime.now());
+		return (ShoppingCart) getSession().merge(cart);
 	}
 
 	@Override
@@ -51,6 +55,15 @@ public class ShoppingCartDaoDefault extends DefaultDao implements ShoppingCartDa
 	public void emptyUserCart(User user) {
 		int i = getSession().createQuery("DELETE FROM ShoppingCart o WHERE o.user = :user").setParameter("user", user)
 				.executeUpdate();
+		System.out.println("Deleted " + String.valueOf(i) + "ShoppingCart rows");
+	}
+
+	//Every 15 minutes
+	@Scheduled(fixedDelay = 900000)
+	public void scheduleCleaningTask() {
+		LocalDateTime threshold = LocalDateTime.now().minusMinutes(30);
+		int i = getSession().createQuery("DELETE FROM ShoppingCart o WHERE o.creationTime < :date")
+				.setParameter("date", threshold).executeUpdate();
 		System.out.println("Deleted " + String.valueOf(i) + "ShoppingCart rows");
 	}
 
