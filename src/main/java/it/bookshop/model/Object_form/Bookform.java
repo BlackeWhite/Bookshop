@@ -14,7 +14,8 @@ public class Bookform {
 	private String isbn;
 	private String title;
 	private int copies; //  Copie Disponibili
-	private List<String> genre; 
+	private List<String> genre;
+	private List<String> authors;
 	private double price;
 	private Date publish; 
 	private Date insertdata;
@@ -81,6 +82,12 @@ public class Bookform {
 	}
 	public List<String> getGenre() {
 		return genre;
+	}
+	public void setAuthors(List<String> authors) {
+		this.authors = authors;
+	}
+	public List<String> getAuthors() {
+		return authors;
 	}
 	public void setGenre(List<String> genre) {
 		this.genre = genre;

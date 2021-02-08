@@ -51,6 +51,18 @@
 				  <c:url value="/seller/add_book" var="add_book_action"/>
 					<form:form id="register-form" action="${add_book_action}" modelAttribute="newBook" class="form" method="post">
 						<fieldset>
+							<legend>Autore del libro</legend>
+							
+								<c:forEach items="${authors}" var="author"> 
+							     <p hidden>${i=i+1}</p> 
+										<form:checkbox id="${author}" name="${author}" path="authors" value="${author}" label="${author}" />
+										 &thinsp; &nbsp;
+									    <form:errors path="authors" cssClass="validation-error"/>
+									<c:if test="${i%6 == 0 }"> <br></c:if>	 
+								</c:forEach>
+							
+						</fieldset>
+						<fieldset>
 						<legend> Informazioni Libro  </legend>
 								<form:label path="title">Nome Libro</form:label>
 								<form:input required="required" placeholder="nome del libro" type="text" path="title" id="title" />

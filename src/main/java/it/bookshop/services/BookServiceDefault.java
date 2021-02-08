@@ -219,13 +219,12 @@ public class BookServiceDefault implements BookService {
 	@Override
 	public Book create(Bookform book, User seller) {
 		String cover = "img_01.jpg"; // usato come nome di test, va modificato 
-		Book b1 = bookRepository.create(book,cover,seller);
-		Author a1 = authorRepository.findByNameAndSurname("Alessandro","Manzoni"); // !!usato in fase di test, va modificata 
-		if (a1 != null) {
-			a1.addBooks(b1); // aggiungo il libro alla lista dei libri dell'autore 
-		} else { // se non trova l'autore lo crea
-			Author a2 = authorRepository.findByNameAndSurname("Alessandro","Manzoni");
-			a2.addBooks(b1);
+		Book b1 = bookRepository.create(book,cover,seller); 
+		Iterator <String> iterAuthors = book.getAuthors().iterator();
+		while(iterAuthors.hasNext()) { // associa il libro ai diversi autori ad esso associato
+			String[] parts = iterAuthors.next().split(" ");
+			Author a1 = authorRepository.findByNameAndSurname(parts[0], parts[1]);
+			a1.addBooks(b1);
 		}
 		Iterator <String> itergen = book.getGenre().iterator();
 		while(itergen.hasNext()) { // associa il libro ai diversi generi ad esso associato 
