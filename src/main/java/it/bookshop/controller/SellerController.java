@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.User;
 import it.bookshop.model.Object_form.Bookform;
@@ -34,6 +35,7 @@ import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
 import it.bookshop.services.BookService;
 import it.bookshop.services.UserService;
+import it.bookshop.services.AuthorService;
 
 import org.springframework.security.core.Authentication;
 
@@ -50,6 +52,9 @@ public class SellerController {
 	@Autowired
 	private BookService bookService;
 
+	@Autowired
+	private AuthorService authorService;
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 
@@ -66,19 +71,27 @@ public class SellerController {
 		Bookform bf = new Bookform();
 		
         List<String> gen = new ArrayList<String>();
-        
+        List<String> authors = new ArrayList<String>();
+       
         List<Genre> allGenres = this.bookService.getAllGenres();
         Iterator<Genre> iteGen = allGenres.iterator();
         
         while(iteGen.hasNext()) {
         	gen.add(iteGen.next().getName());
         }       
-        // manca l'upload di un'immagine del libro e l'aggiunta di un'autore 
+        
+        List<Author> allAuthors = this.authorService.findAll();
+        Iterator<Author> iterAuthors = allAuthors.iterator();
+        while(iterAuthors.hasNext()) {
+        	authors.add(iterAuthors.next().getFullName());
+        }
+        // manca l'upload di un'immagine del libro 
         
      
 		model.addAttribute("errorMessage", errorMessage);
 		model.addAttribute("newBook", bf);
 		model.addAttribute("genre", gen);
+		model.addAttribute("authors", authors);
 		model.addAttribute("i", i); // utilizzata come contatore nella vista 
       
 		generalOperations(model);
@@ -100,13 +113,22 @@ public class SellerController {
 	        Iterator<Genre> iteGen = allGenres.iterator(); 
 	        while(iteGen.hasNext()) {
 	        	gen.add(iteGen.next().getName());
-	        }       
+	        }
+	        
+			List<String> authors = new ArrayList<String>();
+	        List<Author> allAuthors = this.authorService.findAll();
+	        Iterator<Author> iterAuthor = allAuthors.iterator(); 
+	        while(iterAuthor.hasNext()) {
+	        	authors.add(iterAuthor.next().getFullName());
+	        }
+	        
 			model.addAttribute("genre", gen);
 			model.addAttribute("newBook", book);
+			model.addAttribute("authors", authors);
 			return "addittion_book";
 		}
 		else {
-		   this.bookService.create(book, seller);  // manca l'upload di un'immagine del libro e l'aggiunta di un'autore 
+		   this.bookService.create(book, seller);  // manca l'upload di un'immagine del libro
 		}
 		/*
 		redirectAttributes.addFlashAttribute("message", "Account venditore creato correttamente!");
