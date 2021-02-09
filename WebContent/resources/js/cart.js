@@ -12,6 +12,7 @@ $(document).ready(function() {
 			success: function (data) {
 				$("#element_total_price"+book_id).find($("span")).text(data["response1"]);
 				$("#cart_subtotal").find($("span")).text(data["response2"]);
+				$("#checkout_total").find($("span")).text(data["response3"]);
                 },
 			error: function (e) {
 			},
@@ -31,6 +32,7 @@ $(document).ready(function() {
 			success: function (data) { 
 				$("#element_total_price"+book_id).find($("span")).text(data["response1"]);
 				$("#cart_subtotal").find($("span")).text(data["response2"]);
+				$("#checkout_total").find($("span")).text(data["response3"]);
                 },
 			error: function (e) {
 				alert("Non ci sono abbastanza copie disponibili");
@@ -52,7 +54,8 @@ $(document).ready(function() {
 			contentType : 'application/json',
            	dataType: "json", //The type of data that you're expecting back from the server	
 			success: function (data) {
-				$("#cart_subtotal").find($("span")).text(data["response2"]);
+				$("#cart_subtotal").find($("span")).text(data["response1"]);
+				$("#checkout_total").find($("span")).text(data["response2"]);
 				if (data["response3"]==0) {
 					$(".shopping-cart").html('<p style="text-align:center; font-size:40px">Carrello vuoto.</p>')
 				}

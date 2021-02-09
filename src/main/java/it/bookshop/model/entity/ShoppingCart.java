@@ -79,6 +79,10 @@ public class ShoppingCart {
 		return book.getDiscountedPrice() * copies;
 	}
 	
+	@Transient
+	public double getElementSavedMoney() {
+		return (book.getPrice()-book.getDiscountedPrice()) * copies;
+	}
 	
 	@Transient
 	public String getFormattedElementTotalPrice() {

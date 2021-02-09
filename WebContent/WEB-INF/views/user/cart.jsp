@@ -137,16 +137,16 @@
 						<div class="col-lg-4 col-md-7 col-12">
 							<div class="right">
 								<ul>
-									<li id="cart_subtotal">Cart subtotal
-										<span>${user.formattedCartTotalPrice}</span>
+									<li id="cart_subtotal">Subtotale
+										<span>${user.formattedCartSubtotalPrice}</span>
 									</li>
-									<li>Shipping<span>TODO</span></li>
-									<li>You Save<span>TODO</span></li>
-									<li id="cart_total" class="last">Cart total<span>TODO</span></li>
+									<li>Costi di spedizione<span>€ 5,00</span></li>
+									<li>Risparmio<span>${user.formattedSavedMoney}</span></li>
+									<li id="checkout_total" class="last">Totale<span>${user.formattedCheckoutTotalPrice}</span></li>
 								</ul>
 								<div class="button5">
 									<a href="<c:url value="/checkout" />" class="btn">Checkout</a> 
-									<a href="#" class="btn">Continue shopping</a>
+									<a href="<c:url value="/" />" class="btn">Continua gli acquisti</a>
 								</div>
 							</div>
 						</div>

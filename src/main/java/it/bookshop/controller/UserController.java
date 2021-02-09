@@ -83,7 +83,7 @@ public class UserController {
 		List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(user.getShoppingCart());
 		model.addAttribute("user", user);
 		model.addAttribute("user_cart", user_cart);
-		model.addAttribute("cartTotalPrice", user.getFormattedCartTotalPrice());
+		model.addAttribute("cartTotalPrice", user.getFormattedCartSubtotalPrice());
 		model.addAttribute("cartTotalItems", user.getCartTotalItems());
 		model.addAttribute("appName", appName);
 
@@ -119,7 +119,7 @@ public class UserController {
 		user = userService.findUserByUsername(principal_name);
 
 		return new addCartResponse(operation, reqBody.getBookID(), elem.getBook().getTitle(), elem.getBook().getCover(),
-				elem.getCopies(), elem.getFormattedElementTotalPrice(), user.getFormattedCartTotalPrice(),
+				elem.getCopies(), elem.getFormattedElementTotalPrice(), user.getFormattedCartSubtotalPrice(),
 				user.getCartTotalItems());
 	}
 
@@ -135,7 +135,7 @@ public class UserController {
 			shopCartService.removeBook(cartElement);
 			// Update user state
 			user = userService.findUserByUsername(principal_name);
-			return new httpResponseBody("deleted", user.getFormattedCartTotalPrice(),
+			return new httpResponseBody( user.getFormattedCartSubtotalPrice(), user.getFormattedCheckoutTotalPrice(),
 					String.valueOf(user.getCartTotalItems()));
 		} else {
 			int cartElementCopies = cartElement.getCopies();
@@ -148,13 +148,12 @@ public class UserController {
 				cartElement.setCopies(cartElementCopies + 1);
 			} else {
 				throw new MaxCopiesException();
-
 			}
 			shopCartService.update(cartElement);
 			// Update user state
 			user = userService.findUserByUsername(principal_name);
-			return new httpResponseBody(cartElement.getFormattedElementTotalPrice(), user.getFormattedCartTotalPrice(),
-					"");
+			return new httpResponseBody(cartElement.getFormattedElementTotalPrice(), user.getFormattedCartSubtotalPrice(),
+					user.getFormattedCheckoutTotalPrice());
 		}
 	}
 
@@ -169,7 +168,7 @@ public class UserController {
 			return "cart";
 		} else {
 			model.addAttribute("user", buyer);
-			model.addAttribute("total", buyer.getFormattedCartTotalPrice());
+			model.addAttribute("total", buyer.getFormattedCartSubtotalPrice());
 			return "checkout";
 		}
 	}
@@ -200,7 +199,7 @@ public class UserController {
 		shopCartService.emptyUserCart(buyer);
 
 		model.addAttribute("user", buyer);
-		model.addAttribute("total", buyer.getFormattedCartTotalPrice());
+		model.addAttribute("total", buyer.getFormattedCartSubtotalPrice());
 		return new httpResponseBody(shipmentAddress, payment, date);
 	}
 
@@ -231,7 +230,7 @@ public class UserController {
 		model.addAttribute("allGenres", allGenres);
 		model.addAttribute("user", user);
 		model.addAttribute("user_cart", user_cart);
-		model.addAttribute("cartTotalPrice", user.getFormattedCartTotalPrice());
+		model.addAttribute("cartTotalPrice", user.getFormattedCartSubtotalPrice());
 		model.addAttribute("cartTotalItems", user.getCartTotalItems());
 		model.addAttribute("appName", appName);
 
