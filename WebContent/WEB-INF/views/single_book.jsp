@@ -1,6 +1,7 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <div class="modal-body">
 	<div class="row no-gutters">
 		<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
@@ -52,13 +53,12 @@
 					<!-- Input Order -->
 					<div class="input-group">
 						<div class="button minus">
+						<c:if test="${book.copies > 0}">
 							<button type="button" class="btn btn-primary btn-number"
 								disabled="disabled" data-type="minus" data-field="quant[1]">
 								<i class="ti-minus"></i>
 							</button>
-						</div>
-						<c:if test="${book.copies > 0}">
-							
+						</div>   	
 						<input type="text" name="quant[1]" class="input-number"
 							data-min="1" data-max="${book.copies}" value="1" id="amount_${book.id}">
 						<div class="button plus">
@@ -66,14 +66,29 @@
 								data-type="plus" data-field="quant[1]">
 								<i class="ti-plus"></i>
 							</button>
+							</c:if>
 						</div>
 					</div>
+					
 					<!--/ End Input Order -->
 				</div>
+			
+				
+				
 				<div class="add-to-cart">
+					<security:authorize access="!isAuthenticated()">
+                  <b> Effettua il login per poter acquistare </b>
+                </security:authorize>
+				<security:authorize access="hasRole('USER')">
 					<a data-book="${book.id}" class="btn add_to_cart">Aggiungi al carrello</a>
+				
+				</security:authorize>
+					<security:authorize access="hasAnyRole('SELLER','ADMIN')">
+					<b>Non hai i permessi per poter acquistare</b>
+				
+				</security:authorize>
+				
 				</div>
-				</c:if>
 				<div class="default-social">
 					<h4 class="share-now">Share:</h4>
 					<ul>
@@ -118,16 +133,20 @@
 														<span class="price-dec">${bookinterestgenre.truncatedDiscount}%</span>
 														</c:if>
 													</a>
+								<security:authorize access="hasRole('USER')">
 								<div class="button-head">
 									<div class="product-action">
 									</div>
+									
 									<div class="product-action-2">
-										<a title="Add to cart" href="#">Aggiungi al carrello </a>
+										<a data-book="${bookinterestgenre.id}" class="btn add_to_cart">Aggiungi al carrello</a>
 									</div>
+									
 								</div>
+								</security:authorize>
 							</div>
 							<div class="product-content">
-								<h4><a href="product-details.html"></a>${bookinterestgenre.title}</h4>
+								<a href="<c:url value="/show_book/${bookinterestgenre.id}"/>"><h4>${bookinterestgenre.title}</h4></a>
 								<div class="product-price">
 									<c:if test="${bookinterestgenre.discount > 0}">
 									<span class="old">${bookinterestgenre.formattedPrice}</span>
@@ -174,16 +193,19 @@
 														<span class="price-dec">${bookinterestaut.truncatedDiscount}%</span>
 														</c:if>
 													</a>
+								<security:authorize access="hasRole('USER')">
 								<div class="button-head">
 									<div class="product-action">
 									</div>
 									<div class="product-action-2">
-										<a title="Add to cart" href="#">Aggiungi al carrello </a>
+										<a data-book="${bookinterestaut.id}" class="btn add_to_cart">Aggiungi al carrello</a>
 									</div>
+									
 								</div>
+								</security:authorize>
 							</div>
 							<div class="product-content">
-								<h4><a href="product-details.html"></a>${bookinterestaut.title}</h4>
+								<a href="<c:url value="/show_book/${bookinterestaut.id}"/>"><h4>${bookinterestaut.title}</h4></a>
 								<div class="product-price">
 									<c:if test="${bookinterestaut.discount > 0}">
 									<span class="old">${bookinterestaut.formattedPrice}</span>
