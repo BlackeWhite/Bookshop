@@ -49,18 +49,6 @@
 						<div class="col-lg-6 col-12"></div>
 					</div>
 				</div>
-				<security:authorize access="!isAuthenticated()">
-                 <div class="quantity">
-                 <b> Effettua il login per poter acquistare </b>
-                 <div class="input-group">
-                  
-                  </div>
-                  </div>
-                  <div class="add-to-cart">
-			     <a href="<c:url value="/login"/>" class="btn add_to_cart">Login</a>
-				</div>
-                </security:authorize>
-				<security:authorize access="hasRole('USER')">
 				<div class="quantity">
 					<!-- Input Order -->
 					<div class="input-group">
@@ -78,29 +66,26 @@
 								data-type="plus" data-field="quant[1]">
 								<i class="ti-plus"></i>
 							</button>
-							
+							</c:if>
 						</div>
 					</div>
 					
 					<!--/ End Input Order -->
 				</div>
-							
+			
+				
+				
 				<div class="add-to-cart">
-				<a data-book="${book.id}" class="btn add_to_cart">Aggiungi al carrello</a>
-				</div>
-			   </c:if>
+					<security:authorize access="!isAuthenticated()">
+                  <b> Effettua il login per poter acquistare </b>
+                </security:authorize>
+				<security:authorize access="hasRole('USER')">
+					<a data-book="${book.id}" class="btn add_to_cart">Aggiungi al carrello</a>
+				
 				</security:authorize>
-				<security:authorize access="hasAnyRole('SELLER','ADMIN')">
-			<div class="quantity">
-                <b>Non hai i permessi per poter acquistare</b>
-                 <div class="input-group">
-                  
-                  </div>
-                  </div>
-                  <div class="add-to-cart">
-			     <br>
-				</div>
-							
+					<security:authorize access="hasAnyRole('SELLER','ADMIN')">
+					<b>Non hai i permessi per poter acquistare</b>
+				
 				</security:authorize>
 				
 				</div>
@@ -112,6 +97,8 @@
 						<li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
 						<li><a class="youtube" href="#"><i
 								class="fa fa-pinterest-p"></i></a></li>
+						<li><a class="dribbble" href="#"><i
+								class="fa fa-google-plus"></i></a></li>
 					</ul>
 				</div>
 			</div>
@@ -138,26 +125,22 @@
 						<div class="single-product">
 							<div class="product-img">
 								<a href="<c:url value="/show_book/${bookinterestgenre.id}"/>"> <img
-														class="default-img"
+														class="default-img" style="height: 400px; object-fit: contain"
 														src="<c:url value="/resources/img/${bookinterestgenre.cover}"/>"
-														alt="#"> <img class="hover-img"
+														alt="#"> <img class="hover-img" style="height: 400px; object-fit: contain"
 														src="<c:url value="/resources/img/${bookinterestgenre.cover}"/>" alt="#">
 														<c:if test="${bookinterestgenre.discount > 0}">
 														<span class="price-dec">${bookinterestgenre.truncatedDiscount}%</span>
 														</c:if>
 													</a>
 								<security:authorize access="hasRole('USER')">
-									
 								<div class="button-head">
 									<div class="product-action">
 									</div>
+									
 									<div class="product-action-2">
-										<c:if test="${bookinterestgenre.copies > 0 }">
+										<input type="hidden" value="1" id="amount_${bookinterestgenre.id}">
 										<a data-book="${bookinterestgenre.id}" class="btn add_to_cart">Aggiungi al carrello</a>
-										</c:if>
-										 <c:if test="${bookinterestgenre.copies <= 0 }">
-										<a class="btn add_to_cart">Non disponibile</a>
-										</c:if>
 									</div>
 									
 								</div>
@@ -203,26 +186,21 @@
 						<div class="single-product">
 							<div class="product-img">
 								<a href="<c:url value="/show_book/${bookinterestaut.id}"/>"> <img
-														class="default-img"
+														class="default-img" style="height: 400px; object-fit: contain"
 														src="<c:url value="/resources/img/${bookinterestaut.cover}"/>"
-														alt="#"> <img class="hover-img"
+														alt="#"> <img class="hover-img" style="height: 400px; object-fit: contain"
 														src="<c:url value="/resources/img/${bookinterestaut.cover}"/>" alt="#">
 														<c:if test="${bookinterestaut.discount > 0}">
 														<span class="price-dec">${bookinterestaut.truncatedDiscount}%</span>
 														</c:if>
 													</a>
-							
-									<security:authorize access="hasRole('USER')">
+								<security:authorize access="hasRole('USER')">
 								<div class="button-head">
 									<div class="product-action">
 									</div>
 									<div class="product-action-2">
-										<c:if test="${bookinterestaut.copies > 0 }">
+										<input type="hidden" value="1" id="amount_${bookinterestaut.id}">
 										<a data-book="${bookinterestaut.id}" class="btn add_to_cart">Aggiungi al carrello</a>
-										</c:if>
-										 <c:if test="${bookinterestaut.copies <= 0 }">
-										<a class="btn add_to_cart">Non disponibile</a>
-										</c:if>
 									</div>
 									
 								</div>
