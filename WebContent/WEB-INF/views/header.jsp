@@ -4,7 +4,7 @@
 <%@ taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<c:url value="logo.jpg" var="logoimg" />
+<c:url value="logo.png" var="logoimg" />
 
 <header class="header shop">
 	<!-- Topbar -->
@@ -58,12 +58,11 @@
 	<div class="middle-inner">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-2 col-md-2 col-12">
+				<div class="col">
 					<!-- Logo -->
 					<div class="logo">
 						<a href="<c:url value="/"/>"><img
-							src="<c:url value="/resources/img/${logoimg}"/>" width="250"
-							height="10" alt="logo"></a>
+							src="<c:url value="/resources/img/${logoimg}"/>" style="height: 35px;"alt="logo"></a>
 					</div>
 					<!--/ End Logo -->
 					<!-- Search Form -->
@@ -87,7 +86,7 @@
 					<!--/ End Search Form -->
 					<div class="mobile-nav"></div>
 				</div>
-				<div class="col-lg-8 col-md-7 col-12">
+				<div class="col-lg-7 col-md-7 col-12">
 					<div class="search-bar-top">
 						<div class="search-bar">
 							<c:url value="/advanced_search" var="search_action" />
