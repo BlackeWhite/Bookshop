@@ -63,7 +63,7 @@ public class HomeController {
 		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook();
 		List<Book> topMostClickBook = this.bookService.findMostClickBook();
 		
-		// Pagination per I più visualizzati
+		// Pagination per I piï¿½ visualizzati
 		PagedListHolder<Book> pagedListHolder = new PagedListHolder<>(topMostClickBook);
 		pagedListHolder.setPageSize(books_per_page);
 
@@ -91,7 +91,7 @@ public class HomeController {
 			User user = userService.findUserByUsername(principal_name);
 			List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(user.getShoppingCart());
 			model.addAttribute("user_cart", user_cart);
-			model.addAttribute("cartTotalPrice", user.getFormattedCartTotalPrice());
+			model.addAttribute("cartTotalPrice", user.getFormattedCartSubtotalPrice());
 			model.addAttribute("cartTotalItems", user.getCartTotalItems());
 		}
 		
@@ -118,7 +118,7 @@ public class HomeController {
 			User user = userService.findUserByUsername(principal_name);
 			List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(user.getShoppingCart());
 			model.addAttribute("user_cart", user_cart);
-			model.addAttribute("cartTotalPrice", user.getFormattedCartTotalPrice());
+			model.addAttribute("cartTotalPrice", user.getFormattedCartSubtotalPrice());
 			model.addAttribute("cartTotalItems", user.getCartTotalItems());
 		}
 
@@ -146,7 +146,7 @@ public class HomeController {
 			User user = userService.findUserByUsername(principal_name);
 			List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(user.getShoppingCart());
 			model.addAttribute("user_cart", user_cart);
-			model.addAttribute("cartTotalPrice", user.getFormattedCartTotalPrice());
+			model.addAttribute("cartTotalPrice", user.getFormattedCartSubtotalPrice());
 			model.addAttribute("cartTotalItems", user.getCartTotalItems());
 		}
 
@@ -193,7 +193,7 @@ public class HomeController {
 			User user = userService.findUserByUsername(principal_name);
 			List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(user.getShoppingCart());
 			model.addAttribute("user_cart", user_cart);
-			model.addAttribute("cartTotalPrice", user.getFormattedCartTotalPrice());
+			model.addAttribute("cartTotalPrice", user.getFormattedCartSubtotalPrice());
 			model.addAttribute("cartTotalItems", user.getCartTotalItems());
 		}
 
@@ -221,7 +221,7 @@ public class HomeController {
 			User user = userService.findUserByUsername(principal_name);
 			List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(user.getShoppingCart());
 			model.addAttribute("user_cart", user_cart);
-			model.addAttribute("cartTotalPrice", user.getFormattedCartTotalPrice());
+			model.addAttribute("cartTotalPrice", user.getFormattedCartSubtotalPrice());
 			model.addAttribute("cartTotalItems", user.getCartTotalItems());
 		}
 		

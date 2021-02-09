@@ -234,7 +234,7 @@ public class AuthController {
 		// Mini carrello
 		List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(currentUser.getShoppingCart());
 		model.addAttribute("user_cart", user_cart);
-		model.addAttribute("cartTotalPrice", currentUser.getFormattedCartTotalPrice());
+		model.addAttribute("cartTotalPrice", currentUser.getFormattedCartSubtotalPrice());
 		model.addAttribute("cartTotalItems", currentUser.getCartTotalItems());
 	}
 }

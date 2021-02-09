@@ -102,7 +102,7 @@ public class AdvSearchController {
 			User user = userService.findUserByUsername(principal_name);
 			List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(user.getShoppingCart());
 			model.addAttribute("user_cart", user_cart);
-			model.addAttribute("cartTotalPrice", user.getFormattedCartTotalPrice());
+			model.addAttribute("cartTotalPrice", user.getFormattedCartSubtotalPrice());
 			model.addAttribute("cartTotalItems", user.getCartTotalItems());
 		}
 		return "advanced_search";
@@ -149,7 +149,7 @@ public class AdvSearchController {
 		bookService.create("Dante", "Alighieri", "838832989113223", "La Divina Commedia", publish_date1, publish_date1,
 				3, 34, null, 300, "Nel mezzo del cammin...", "6.jpg", Arrays.asList("Poema"), 0.15);
 		bookService.create("J.J.R.", "Tolkien", "746382492401", "Il Signore degli Anelli - Le due torri", publish_date2,
-				publish_date2, 4, 40.99, null, 450, "Sauron è tornato a Mordor...", "7.jpg", Arrays.asList("Fantasy"),
+				publish_date2, 4, 40.99, null, 450, "Sauron ï¿½ tornato a Mordor...", "7.jpg", Arrays.asList("Fantasy"),
 				0);
 		bookService.create("Alessandro", "Manzoni", "8235234631481401", "I promessi sposi", publish_date3,
 				publish_date3, 10, 25.99, null, 370, "Renzo e Lucia ...", "8.jpg", Arrays.asList("Romanzo"), 0);
@@ -163,12 +163,12 @@ public class AdvSearchController {
 				publish_date6, publish_date6, 10, 37.99, null, 390, "Aragorn, dopo un discorso da Oscar ...", "10.jpg",
 				Arrays.asList("Fantasy"), 0.10);
 		bookService.create("Michael", "Crichton", "198934345798876", "Jurassic Park", publish_date3, publish_date3, 12,
-				18.30, null, 267, "Alan Grant è un paleontologo che ...", "12.jpg",
+				18.30, null, 267, "Alan Grant ï¿½ un paleontologo che ...", "12.jpg",
 				Arrays.asList("Fantascienza", "Horror"), 0);
 		bookService.create("Stephen W.", "Hawking", "5667899121887",
 				"Dal Big Bang ai buchi neri - Breve storia del tempo", publish_date4, publish_date4, 18, 23, null, 280,
-				"Il Big Bang è stato un evento ...", "13.jpg", Arrays.asList("Divulgativo"), 0.20);
-		bookService.create("Primo", "Levi", "23456789045678", "Se questo è un uomo", publish_date1, publish_date1, 15,
+				"Il Big Bang ï¿½ stato un evento ...", "13.jpg", Arrays.asList("Divulgativo"), 0.20);
+		bookService.create("Primo", "Levi", "23456789045678", "Se questo ï¿½ un uomo", publish_date1, publish_date1, 15,
 				28.99, null, 220, "Boh non me ricordo ...", "14.jpg", Arrays.asList("Biografia"), 0);
 		bookService.create("Michael", "Ende", "345678899876756", "La storia infinita", publish_date2, publish_date2, 20,
 				15.00, null, 440, "Questa scritta stava sulla porta ...", "15.jpg",
