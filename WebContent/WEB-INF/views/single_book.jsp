@@ -125,9 +125,9 @@
 						<div class="single-product">
 							<div class="product-img">
 								<a href="<c:url value="/show_book/${bookinterestgenre.id}"/>"> <img
-														class="default-img"
+														class="default-img" style="height: 400px; object-fit: contain"
 														src="<c:url value="/resources/img/${bookinterestgenre.cover}"/>"
-														alt="#"> <img class="hover-img"
+														alt="#"> <img class="hover-img" style="height: 400px; object-fit: contain"
 														src="<c:url value="/resources/img/${bookinterestgenre.cover}"/>" alt="#">
 														<c:if test="${bookinterestgenre.discount > 0}">
 														<span class="price-dec">${bookinterestgenre.truncatedDiscount}%</span>
@@ -139,6 +139,7 @@
 									</div>
 									
 									<div class="product-action-2">
+										<input type="hidden" value="1" id="amount_${bookinterestgenre.id}">
 										<a data-book="${bookinterestgenre.id}" class="btn add_to_cart">Aggiungi al carrello</a>
 									</div>
 									
@@ -185,9 +186,9 @@
 						<div class="single-product">
 							<div class="product-img">
 								<a href="<c:url value="/show_book/${bookinterestaut.id}"/>"> <img
-														class="default-img"
+														class="default-img" style="height: 400px; object-fit: contain"
 														src="<c:url value="/resources/img/${bookinterestaut.cover}"/>"
-														alt="#"> <img class="hover-img"
+														alt="#"> <img class="hover-img" style="height: 400px; object-fit: contain"
 														src="<c:url value="/resources/img/${bookinterestaut.cover}"/>" alt="#">
 														<c:if test="${bookinterestaut.discount > 0}">
 														<span class="price-dec">${bookinterestaut.truncatedDiscount}%</span>
@@ -198,6 +199,7 @@
 									<div class="product-action">
 									</div>
 									<div class="product-action-2">
+										<input type="hidden" value="1" id="amount_${bookinterestaut.id}">
 										<a data-book="${bookinterestaut.id}" class="btn add_to_cart">Aggiungi al carrello</a>
 									</div>
 									

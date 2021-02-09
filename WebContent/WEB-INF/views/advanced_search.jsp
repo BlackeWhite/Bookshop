@@ -3,6 +3,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
+
 <!-- Hidden input to get the current search term in the javascript -->
 <input id="search_term" type="hidden" value="${term}">
 <!-- Variabili per memorizzare i valori dello slider -->
@@ -123,6 +125,7 @@
 											<span class="price-dec">${b.truncatedDiscount}%</span>
 										</c:if>
 									</a>
+									<security:authorize access="hasRole('USER')">
 									<div class="button-head">
 										<div class="product-action"></div>
 										<div class="product-action-2">
@@ -130,6 +133,7 @@
 											<button class="add_to_cart" data-book="${b.id}">Aggiungi al carrello</button>
 										</div>
 									</div>
+									</security:authorize>
 								</div>
 								<div class="product-content">
 									<h3>
