@@ -62,7 +62,8 @@
 					<!-- Logo -->
 					<div class="logo">
 						<a href="<c:url value="/"/>"><img
-							src="<c:url value="/resources/img/${logoimg}"/>" style="height: 35px;"alt="logo"></a>
+							src="<c:url value="/resources/img/${logoimg}"/>"
+							style="height: 35px;" alt="logo"></a>
 					</div>
 					<!--/ End Logo -->
 					<!-- Search Form -->
@@ -150,7 +151,7 @@
 													<a class="cart-img" style="border: none"
 													href="<c:url value="/show_book/${cartElem.book.id}"/>"><img
 														src="<c:url value="/resources/img/${cartElem.book.cover}"/>"
-														alt="#" style="object-fit:contain; border: none"></a>
+														alt="#" style="object-fit: contain; border: none"></a>
 													<h4>
 														<a href="<c:url value="/show_book/${cartElem.book.id}"/>">${cartElem.book.title}</a>
 													</h4>
@@ -253,5 +254,8 @@
 		</div>
 	</div>
 	<!--/ End Header Inner -->
+	<div class="bookshop-popup">
+		<span class="popup-message">Libro aggiunto correttamente</span>
+	</div>
 </header>
 <!--/ End Header -->

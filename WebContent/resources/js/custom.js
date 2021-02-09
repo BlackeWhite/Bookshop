@@ -1,5 +1,13 @@
 $(document).ready(function() {
 
+
+	//Per mostrare un piccolo messaggio a comparsa al centro dello schermo
+	function popupMessage(message) {
+		$(".popup-message").text(message);
+		$(".bookshop-popup").fadeIn(200).delay(1000).fadeOut(200);
+	}
+	
+	
 	//Codice che passa i filtri come parametri dell'url
 	$(".apply_filter").click(function() {
 		var url = adv_search_url;
@@ -43,7 +51,7 @@ $(document).ready(function() {
 		}
 	});
 
-	//Funzione per gestire il mini carrello a comparsa
+	//Funzione per aggiungere libri al mini carrello a comparsa
 	$(".add_to_cart").click(function() {
 		var id = $(this).attr("data-book");
 		var amount = $("#amount_" + id).val();
@@ -76,9 +84,10 @@ $(document).ready(function() {
 					$(".total").after('<a href="' + checkout_url + '" ' +
 						'class="btn animate mini-checkout">Procedi al pagamento</a>')
 				}
+				popupMessage("Libro aggiunto al carrello!");
 			},
 			error: function(e) {
-				alert("Non ci sono abbastanza copie disponibili");
+				popupMessage("Non ci sono abbastanza copie disponibili");
 			},
 			processData: false
 		});
