@@ -91,6 +91,24 @@
 				<a data-book="${book.id}" class="btn add_to_cart">Aggiungi al carrello</a>
 				</div>
 			   </c:if>
+			   
+			   	<c:if test="${book.copies <= 0}">
+							
+						</div>   	
+					
+						<div class="button plus">
+							
+							
+						</div>
+					</div>
+					
+					<!--/ End Input Order -->
+				</div>
+							
+				<div class="add-to-cart">
+				</div>
+			   </c:if>
+			   
 				</security:authorize>
 				<security:authorize access="hasAnyRole('SELLER','ADMIN')">
 			<div class="quantity">
