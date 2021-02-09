@@ -200,10 +200,32 @@ public class User implements Serializable{
 	}
 	
 	@Transient
-	public String getFormattedCartTotalPrice() {
+	public String getFormattedCartSubtotalPrice() {
 		double total = 0;
 		for (ShoppingCart c : shoppingCart) {
 			total += c.getElementTotalPrice(); 
+		}
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		return formatter.format(total);  
+	}
+	
+	@Transient
+	public String getFormattedCheckoutTotalPrice(/*int coupon*/) {
+		double total = 0;
+		for (ShoppingCart c : shoppingCart) {
+			total += c.getElementTotalPrice(); 
+		}
+		total += 5; //costi di spedizione
+		//total = total - (total/100*coupon);
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		return formatter.format(total);  
+	}
+	
+	@Transient
+	public String getFormattedSavedMoney() {
+		double total = 0;
+		for (ShoppingCart c : shoppingCart) {
+			total += c.getElementSavedMoney(); 
 		}
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
 		return formatter.format(total);  

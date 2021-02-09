@@ -136,7 +136,7 @@ public class UserController {
 			// Update user state
 			user = userService.findUserByUsername(principal_name);
 			return new httpResponseBody( user.getFormattedCartSubtotalPrice(), user.getFormattedCheckoutTotalPrice(),
-					String.valueOf(user.getCartTotalItems()));
+					String.valueOf(user.getCartTotalItems()), user.getFormattedSavedMoney());
 		} else {
 			int cartElementCopies = cartElement.getCopies();
 
@@ -153,7 +153,7 @@ public class UserController {
 			// Update user state
 			user = userService.findUserByUsername(principal_name);
 			return new httpResponseBody(cartElement.getFormattedElementTotalPrice(), user.getFormattedCartSubtotalPrice(),
-					user.getFormattedCheckoutTotalPrice());
+					user.getFormattedCheckoutTotalPrice(), user.getFormattedSavedMoney());
 		}
 	}
 
@@ -200,7 +200,7 @@ public class UserController {
 
 		model.addAttribute("user", buyer);
 		model.addAttribute("total", buyer.getFormattedCartSubtotalPrice());
-		return new httpResponseBody(shipmentAddress, payment, date);
+		return new httpResponseBody(shipmentAddress, payment, date, "");
 	}
 
 	@GetMapping(value = "/purchase_history")
@@ -281,12 +281,14 @@ public class UserController {
 		private String response1;
 		private String response2;
 		private String response3;
+		private String response4;
 
-		public httpResponseBody(String response1, String response2, String response3) {
+		public httpResponseBody(String response1, String response2, String response3, String response4) {
 			super();
 			this.response1 = response1;
 			this.response2 = response2;
 			this.response3 = response3;
+			this.response4 = response4;
 		}
 
 		public String getResponse1() {
@@ -311,6 +313,14 @@ public class UserController {
 
 		public void setResponse3(String response3) {
 			this.response3 = response3;
+		}
+		
+		public String getResponse4() {
+			return response4;
+		}
+
+		public void setResponse4(String response4) {
+			this.response4 = response4;
 		}
 	}
 
