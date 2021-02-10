@@ -39,6 +39,7 @@ public class User implements Serializable{
 	private Set<Book> booksForSale = new HashSet<Book>();
 	private Set<ShoppingCart> shoppingCart = new HashSet<ShoppingCart>();
 	private Set<PaymentCard> paymentCards = new HashSet<PaymentCard>();
+	private Set<Coupon> coupons = new HashSet<Coupon>();
 
     @Embedded
     private PersonalData personalData;
@@ -181,6 +182,21 @@ public class User implements Serializable{
 		card.setUser(this);
 	}
 	
+	@ManyToMany
+	@JoinTable(
+			name = "USERS_COUPONS",
+			joinColumns = @JoinColumn(
+					name = "USER_ID", referencedColumnName = "USER_ID"),
+			inverseJoinColumns = @JoinColumn(
+					name = "COUPON_ID", referencedColumnName = "ID"))
+	public Set<Coupon> getCoupons(){
+		return this.coupons;
+	}
+	public void setCoupons(Set<Coupon> coupons) {
+		this.coupons = coupons;
+	}
+
+	
 	@Transient
 	public double getCartTotalPrice() {
 		double total = 0;
@@ -231,6 +247,5 @@ public class User implements Serializable{
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
 		return formatter.format(total);  
 	}
-	
 
 }
