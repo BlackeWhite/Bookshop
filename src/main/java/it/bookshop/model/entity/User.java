@@ -215,7 +215,8 @@ public class User implements Serializable{
 		for (ShoppingCart c : shoppingCart) {
 			total += c.getElementTotalPrice(); 
 		}
-		total += 5; //costi di spedizione
+		if (total>0) {
+		total += 5;} //costi di spedizione
 		//total = total - (total/100*coupon);
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
 		return formatter.format(total);  
