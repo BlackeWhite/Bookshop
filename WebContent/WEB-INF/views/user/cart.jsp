@@ -123,14 +123,10 @@
 						<div class="col-lg-8 col-md-5 col-12">
 							<div class="left">
 								<div class="coupon">
-									<form action="#" target="_blank">
-										<input name="Coupon" placeholder="Enter Your Coupon">
-										<button class="btn">Apply</button>
+									<form class="couponForm form" target="_blank">
+										<input name="Coupon" placeholder="Inserisci un coupon...">
+										<button class="btn">Inserisci</button>
 									</form>
-								</div>
-								<div class="checkbox">
-									<label class="checkbox-inline" for="2"><input
-										name="news" id="2" type="checkbox"> Shipping (+10$)</label>
 								</div>
 							</div>
 						</div>
