@@ -27,7 +27,7 @@
 				class="row justify-content-center align-items-center">
 				<div id="add-seller-column" class="col-md-6">
 					<div id="add-seller-box" class="col-md-12">
-						<c:url value="/add_seller" var="action"/>
+						<c:url value="/admin/add_seller" var="action"/>
 						<form:form id="add-seller-form" action="${action}" modelAttribute="newSeller" class="form" method="post">
 							<h4 class="title" style="color: ${msgColor}; text-size: 13px;">${message}</h4>
 							<div class="title">
@@ -90,7 +90,7 @@
 								<form:errors path="personalData.cap" cssClass="validation-error"/>
 							</div>
 							<div class="form-group button">
-								<button type="submit" name="submit" class="btn">AGGIUNGI</button>
+								<button type="submit" name="submit" class="btn with-pass-conf">AGGIUNGI</button>
 							</div>
 						</form:form>
 					</div>

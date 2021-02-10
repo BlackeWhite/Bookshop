@@ -85,7 +85,7 @@ public class AdminController {
 
 		redirectAttributes.addFlashAttribute("message", "Account venditore creato correttamente!");
 		redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
-		return "redirect:/add_seller";
+		return "redirect:/admin/add_seller";
 
 	}
 	
@@ -123,6 +123,8 @@ public class AdminController {
 		
 		String principal_name = authentication.getName();
 		generalOperations(model, principal_name);
+		
+		model.addAttribute("newGenre", new Genre());
 		
 		return "manage_genres";
 	}
