@@ -11,7 +11,7 @@
 					<ul class="bread-list">
 						<li><a href="<c:url value="/" />">Home<i
 								class="ti-arrow-right"></i></a></li>
-						<li class="active"><a href="<c:url value="/sellers_list" />">Lista
+						<li class="active"><a href="<c:url value="/admin/sellers_list" />">Lista
 								venditori</a></li>
 					</ul>
 				</div>

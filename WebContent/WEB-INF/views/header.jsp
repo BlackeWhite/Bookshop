@@ -230,8 +230,9 @@
 												<c:url value="/admin/add_seller" var="addSeller" />
 												<c:url value="/admin/sellers_list" var="sellersList" />
 												<c:url value="/admin/buyers_list" var="buyersList" />
+												<c:url value="/admin/manage_genres" var="manageGenres" />
 												<c:if
-													test="${uri == addSeller || uri == sellersList || uri == buyersList}">
+													test="${fn:contains(uri,'admin')}">
 													<c:set value="active" var="active3" />
 												</c:if>
 												<li class="${active3}"><a href="#">Funzioni Admin<i
@@ -240,6 +241,7 @@
 														<li><a href="${addSeller}">Aggiungi Venditore</a></li>
 														<li><a href="${sellersList}">Lista Venditori</a></li>
 														<li><a href="${buyersList}">Lista Acquirenti</a></li>
+														<li><a href="${manageGenres}">Gestisci generi</a></li>
 													</ul></li>
 											</security:authorize>
 										</ul>

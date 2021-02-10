@@ -118,6 +118,15 @@ public class AdminController {
 		return "buyers_list";
 	}
 	
+	@GetMapping(value = "/admin/manage_genres")
+	public String manageGenresPage(Model model, Authentication authentication) {
+		
+		String principal_name = authentication.getName();
+		generalOperations(model, principal_name);
+		
+		return "manage_genres";
+	}
+	
 	@PostMapping(value = "/admin/delete_user")
 	@ResponseBody
 	public String deleteUser(@RequestBody String username) {
