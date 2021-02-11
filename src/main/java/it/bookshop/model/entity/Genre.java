@@ -52,7 +52,8 @@ public class Genre implements Serializable{
 	}
 	
 	
-	@ManyToMany(fetch = FetchType.EAGER,         cascade =
+	@ManyToMany(fetch = FetchType.LAZY,         
+			cascade =
         {
                 CascadeType.DETACH,
                 CascadeType.MERGE,

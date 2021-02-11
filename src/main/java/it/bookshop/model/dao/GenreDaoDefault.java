@@ -14,7 +14,6 @@ import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
 
 
-@Transactional
 @Repository("genreDao") // annotazione usata per operazioni CRUD
 public class GenreDaoDefault extends DefaultDao implements GenreDao {
 	@Override

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
 
 public interface GenreDao {

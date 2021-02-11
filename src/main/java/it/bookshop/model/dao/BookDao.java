@@ -2,6 +2,7 @@ package it.bookshop.model.dao;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 
@@ -27,5 +28,6 @@ public interface BookDao {
 	List<Book> findFiveBestSellingBook();
 	List<Book> findMostClick();
 	List<Book> findBookOnSale();
+	List<Book> findAllBookForGenre(String name);
 	Book create(Bookform b, String cover, User seller);
 }

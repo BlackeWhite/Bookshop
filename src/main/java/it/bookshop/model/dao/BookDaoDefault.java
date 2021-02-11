@@ -3,6 +3,7 @@ package it.bookshop.model.dao;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -140,6 +141,12 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 	public List<Book> findMostClick() {
 		return this.getSession().createNativeQuery("SELECT * FROM books ORDER BY CLICK_BOOK DESC", Book.class)
 				.getResultList();
+	}
+	
+	@Override
+	public List<Book> findAllBookForGenre(String name) {
+		return this.getSession().createQuery("SELECT b FROM Book b JOIN b.genres g WHERE g.name=:name", Book.class)
+				.setParameter("name", name).getResultList();
 	}
 
 	@Override

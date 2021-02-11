@@ -146,8 +146,7 @@ public class BookServiceDefault implements BookService {
 	public Set<Book> getAllBookForGenre(String name) {
 		// restituisce una lista di tutti i libri di un particolare genere, definito
 		// attarverso il nome
-		Genre g = genreRepository.findByName(name);
-		Set<Book> bookforgenre = g.getBooks();
+		Set<Book> bookforgenre = new HashSet<Book>(bookRepository.findAllBookForGenre(name));
 		return bookforgenre;
 	}
 	
