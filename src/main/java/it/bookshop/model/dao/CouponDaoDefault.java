@@ -1,17 +1,25 @@
 package it.bookshop.model.dao;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.NoResultException;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Coupon;
 
-@Transactional
+
 @Repository("couponDao")
 public class CouponDaoDefault extends DefaultDao implements CouponDao {
+	
+	@Override
+	public Coupon findByID(long couponID) {
+		return this.getSession().createQuery("FROM Coupon c WHERE c.couponID = :couponID", Coupon.class).setParameter("couponID", couponID)
+				.getSingleResult();
+		}
 	
 	@Override
 	public Coupon findByCode(String code) {
@@ -23,6 +31,11 @@ public class CouponDaoDefault extends DefaultDao implements CouponDao {
 		}
 	}
 
+	@Override
+	public List<Coupon> findAll() {
+		return this.getSession().createQuery("FROM Coupon c", Coupon.class).getResultList();
+	}
+	
 	@Override
 	public Coupon create(String code, int discount, Date expireDate) {
 		Coupon c = new Coupon();
