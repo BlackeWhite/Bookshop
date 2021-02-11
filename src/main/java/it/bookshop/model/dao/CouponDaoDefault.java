@@ -29,6 +29,7 @@ public class CouponDaoDefault extends DefaultDao implements CouponDao {
 		c.setCode(code);
 		c.setDiscount(discount);
 		c.setExpireDate(expireDate);
+		c.setUsageCounter(0);
 		this.getSession().save(c);
 		return c;
 	}
