@@ -6,10 +6,11 @@ $(document).ready(function() {
         $.ajax({
             type : 'POST',
             url : cart_url,
-			data : JSON.stringify({ "bookID" : book_id, "arg2": "minus"}),
+			data : JSON.stringify({"bookID" : book_id, "arg2": "minus", "arg3": ""}),
 			contentType : 'application/json',
             dataType: "json", //The type of data that you're expecting back from the server
 			success: function (data) {
+				availabilityCheck(book_id);
 				$("#element_total_price"+book_id).find($("span")).text(data["response1"]);
 				$("#cart_subtotal").find($("span")).text(data["response2"]);
 				$("#checkout_total").find($("span")).text(data["response3"]);
@@ -18,8 +19,8 @@ $(document).ready(function() {
 			error: function (e) {
 			},
             processData : false });
+		
 	});
-	
 	
 	$(".increment").click(function() {
 		var book_id = $(this).attr("id");
@@ -27,7 +28,7 @@ $(document).ready(function() {
         $.ajax({
             type : 'POST',
             url : cart_url,
-			data : JSON.stringify({ "bookID" : book_id, "arg2": "plus"}),
+			data : JSON.stringify({"bookID" : book_id, "arg2": "plus", "arg3": ""}),
 			contentType : 'application/json',
            	dataType: "json", //The type of data that you're expecting back from the server	
 			success: function (data) { 
@@ -37,11 +38,25 @@ $(document).ready(function() {
 				$("#savings").find($("span")).text(data["response4"]);
                 },
 			error: function (e) {
-				alert("Non ci sono abbastanza copie disponibili");
+				popupMessage("Non ci sono abbastanza copie disponibili");
 			},
             processData : false });
 	});
-
+	
+	function availabilityCheck (book_id){
+		var book_cp = $("#cp_"+book_id).attr("data-max");
+		var input = $("#cp_"+book_id).val();
+		if (book_cp >= input ) {
+			$("#cp_"+book_id+"_error").remove();
+		}
+	}
+	
+	$("#pre-checkout").click(function(e) {
+		if (document.querySelectorAll(".copies_error").length) {
+			e.preventDefault();
+			popupMessage("Attenzione! Disponibilità di copie insufficiente");
+		}
+	});
 	
 	// delete implementation
 	$(".delete_element").click(function() {
@@ -52,7 +67,7 @@ $(document).ready(function() {
 		$.ajax({
             type : 'POST',
             url : cart_url,
-			data : JSON.stringify({ "bookID" : book_id, "arg2": "delete"}),
+			data : JSON.stringify({"bookID" : book_id, "arg2": "delete", "arg3": ""}),
 			contentType : 'application/json',
            	dataType: "json", //The type of data that you're expecting back from the server	
 			success: function (data) {
@@ -62,6 +77,26 @@ $(document).ready(function() {
 				if (data["response3"]==0) {
 					$(".shopping-cart").html('<p style="text-align:center; font-size:40px">Carrello vuoto.</p>')
 				}
+			},
+            processData : false });
+	});
+	
+	$(".coupon").click(function() { 
+		coupon_code = $("#coupon").val().toUpperCase();
+		$.ajax({
+            type : 'POST',
+            url : cart_url,
+			data : JSON.stringify({"bookID" : null, "arg2": "coupon", "arg3": coupon_code}),
+			contentType : 'application/json',
+           	dataType: "json", //The type of data that you're expecting back from the server	
+			success: function (data) {
+				if (data["response1"]=="used coupon") {
+					//aggiunta nuovo campo sconto in ul 
+					$("#savings").find($("span")).text(data["response4"]);
+				} else {
+					//add discoount field in chechkout 
+					$(".shopping-cart").html('<p style="text-align:center; font-size:40px">Carrello vuoto.</p>')
+				}	
 			},
             processData : false });
 	});

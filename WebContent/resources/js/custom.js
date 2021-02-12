@@ -1,12 +1,11 @@
-$(document).ready(function() {
 
-
-	//Per mostrare un piccolo messaggio a comparsa al centro dello schermo
+//Per mostrare un piccolo messaggio a comparsa al centro dello schermo
 	function popupMessage(message) {
 		$(".popup-message").text(message);
 		$(".bookshop-popup").fadeIn(200).delay(1000).fadeOut(200);
 	}
-	
+
+$(document).ready(function() {
 	
 	//Codice che passa i filtri come parametri dell'url
 	$(".apply_filter").click(function() {

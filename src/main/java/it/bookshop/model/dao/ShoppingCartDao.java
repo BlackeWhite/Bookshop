@@ -3,7 +3,7 @@ package it.bookshop.model.dao;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.springframework.scheduling.annotation.Scheduled;
+//import org.springframework.scheduling.annotation.Scheduled;
 
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.ShoppingCart;
@@ -22,7 +22,7 @@ public interface ShoppingCartDao {
 	public void removeBook(ShoppingCart cart);
 	public void emptyUserCart(User user);
 	
-	@Scheduled(fixedDelay = 1000)
-	public void scheduleCleaningTask();
+	//@Scheduled(fixedDelay = 1000)
+	//public void scheduleCleaningTask();
 	
 }

@@ -1,7 +1,7 @@
 package it.bookshop.model.entity;
 
 import java.text.NumberFormat;
-import java.time.LocalDateTime;
+//import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
@@ -22,7 +22,7 @@ public class ShoppingCart {
 	private User user;
 	private Book book;
 	private int copies;
-	private LocalDateTime creationTime;
+	//private LocalDateTime creationTime;
 	
 	@EmbeddedId
 	public ShoppingCartId getId() {
@@ -66,6 +66,7 @@ public class ShoppingCart {
 		this.copies = copies;
 	}
 	
+	/*
 	@Column(name = "CREATION_TIME")
 	public LocalDateTime getCreationTime() {
 		return creationTime;
@@ -73,6 +74,7 @@ public class ShoppingCart {
 	public void setCreationTime(LocalDateTime creationTime) {
 		this.creationTime = creationTime;
 	}
+	*/
 	
 	@Transient
 	public double getElementTotalPrice() {

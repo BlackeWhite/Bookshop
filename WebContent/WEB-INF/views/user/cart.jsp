@@ -44,7 +44,7 @@
 						    	<c:forEach items="${user_cart}" var="cart_el">
 								<tr id="${cart_el.id.bookID}">
 									<td class="image" data-title="No">
-										<img src="<c:url value="/resources/img/${cart_el.book.cover}"/>" alt="#">
+										<img src="<c:url value="/resources/img/${cart_el.book.cover}"/>" style="height: 100px; object-fit: contain" alt="#">
 									</td>
 									<td class="product-des" data-title="Description">
 										<p class="product-name">
@@ -55,6 +55,18 @@
 												${author.fullName} 
 											</c:forEach>- Data publicazione:${cart_el.book.publish}
 										</p>
+										<c:choose>
+									    	<c:when test="${cart_el.book.copies > 5}">
+												<p style="color:green" >Disponibile</p>
+											</c:when> 
+											<c:when test="${cart_el.book.copies <= 5 && cart_el.book.copies >= 1 }">
+												<p style="color:orange" > Copie disponibili: ${cart_el.book.copies}</p>
+											</c:when>
+											<c:otherwise>
+											<p style="color:red">Non disponibile</p>
+											</c:otherwise>
+										</c:choose>
+												
 									</td>
 									<c:choose>
 									    <c:when test="${cart_el.book.discount>0}">
@@ -78,7 +90,7 @@
 													<i class="ti-minus"></i>
 												</button>
 											</div>
-											<input type="text" name="${cart_el.id.bookID}" class="input-number"
+											<input id="cp_${cart_el.id.bookID}" type="text" name="${cart_el.id.bookID}" class="input-number"
 												data-min="1" data-max="${cart_el.book.copies}" value="${cart_el.copies}"> 
 											<div class="button plus">
 												<button type="button" class="increment btn btn-primary btn-number"
@@ -86,6 +98,9 @@
 													<i class="ti-plus"></i>
 												</button>
 											</div>
+											<c:if  test="${cart_el.copies > cart_el.book.copies}">
+												<p id="cp_${cart_el.id.bookID}_error" class="copies_error" style="color:red"> Disponibilità non sufficiente </p>
+											</c:if>
 										</div> 
 										<!--/ End Input Order -->
 									</td>
@@ -124,8 +139,8 @@
 							<div class="left">
 								<div class="coupon">
 									<form class="couponForm form" target="_blank">
-										<input name="Coupon" placeholder="Inserisci un coupon...">
-										<button class="btn">Inserisci</button>
+										<input name="coupon" placeholder="Inserisci un coupon...">
+										<button id="coupon" class="btn">Inserisci</button>
 									</form>
 								</div>
 							</div>
@@ -141,7 +156,7 @@
 									<li id="checkout_total" class="last">Totale<span>${user.formattedCheckoutTotalPrice}</span></li>
 								</ul>
 								<div class="button5">
-									<a href="<c:url value="/checkout" />" class="btn">Checkout</a> 
+									<a id="pre-checkout" href="<c:url value="/checkout" />" class="btn">Checkout</a> 
 									<a href="<c:url value="/" />" class="btn">Continua gli acquisti</a>
 								</div>
 							</div>
