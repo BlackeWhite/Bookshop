@@ -49,20 +49,6 @@ public class BookServiceDefault implements BookService {
 	}
 
 	@Override
-	public List<Genre> getAllGenres() {
-		return genreRepository.findAll();
-	}
-
-	@Override
-	public List<Genre> findGenresFromNamesArray(List<String> names) {
-		List<Genre> genres = new ArrayList<Genre>();
-		for (String name : names) {
-			genres.add(genreRepository.findByName(name));
-		}
-		return genres;
-	}
-
-	@Override
 	public List<Book> findAll() {
 		return bookRepository.findAll();
 	}
@@ -261,5 +247,30 @@ public class BookServiceDefault implements BookService {
 						.anyMatch(pickedGenres.stream().map(Genre::getName).collect(Collectors.toSet())::contains))
 				.collect(Collectors.toList());
 		return books;
+	}
+	
+	
+	@Override
+	public List<Genre> getAllGenres() {
+		return genreRepository.findAll();
+	}
+
+	@Override
+	public List<Genre> findGenresFromNamesArray(List<String> names) {
+		List<Genre> genres = new ArrayList<Genre>();
+		for (String name : names) {
+			genres.add(genreRepository.findByName(name));
+		}
+		return genres;
+	}
+	
+	@Override
+	public Genre createGenre(String name) {
+		return genreRepository.create(name);
+	}
+	
+	@Override
+	public Genre findByName(String name) {
+		return genreRepository.findByName(name);
 	}
 }

@@ -14,8 +14,6 @@ import it.bookshop.model.entity.User;
 public interface BookService {
 	Book findById(Long bookId);
 	List<Book> searchBooksByParams(String search_by, String term, Double price_min, Double price_max, String order_by);
-	List<Genre> getAllGenres();
-	List<Genre> findGenresFromNamesArray(List<String> names);
 	List<Book> findAll();
 	Book create(String Name_author,String Surname_Author,String isbn, String title, 
 				Date publish_date, Date insert_date, int copies, double price, User seller, 
@@ -37,4 +35,9 @@ public interface BookService {
 	Set<Book> getBooksimilarAuthor(Book b);
 	List<Book> findBookOnSale();
 	List<Book> findBooksAuthor(Author author);
+	
+	List<Genre> getAllGenres();
+	List<Genre> findGenresFromNamesArray(List<String> names);
+	Genre createGenre(String name);
+	Genre findByName(String name);
 };
