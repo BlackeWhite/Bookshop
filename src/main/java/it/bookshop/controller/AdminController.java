@@ -27,11 +27,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.bookshop.model.dao.RoleDao;
 import it.bookshop.model.entity.Book;
+import it.bookshop.model.entity.Coupon;
 import it.bookshop.model.entity.Genre;
 import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.ShoppingCart;
 import it.bookshop.model.entity.User;
 import it.bookshop.services.BookService;
+import it.bookshop.services.CouponService;
 import it.bookshop.services.UserService;
 
 @Controller
@@ -45,6 +47,9 @@ public class AdminController {
 
 	@Autowired
 	private BookService bookService;
+	
+	@Autowired
+	private CouponService couponService;
 
 	@Autowired
 	@Qualifier("registrationValidator")
@@ -136,6 +141,16 @@ public class AdminController {
 		return "ok";
 	}
 	
+	@GetMapping(value = "/admin/manage_coupons")
+	public String manageCouponsPage(Model model, Authentication authentication) {
+		String principal_name = authentication.getName();
+		generalOperations(model, principal_name);
+		
+		model.addAttribute("coupons", couponService.findAll());
+		model.addAttribute("newCoupon", new Coupon());
+		return "manage_coupons";
+	}
+	
 	@GetMapping(value = "/admin/manage_genres")
 	public String manageGenresPage(Model model, Authentication authentication) {
 		
@@ -146,6 +161,7 @@ public class AdminController {
 		
 		return "manage_genres";
 	}
+	
 	
 	@PostMapping(value = "/admin/add_genre")
 	public String addGenre(@ModelAttribute("newGenre") @Validated Genre genre, BindingResult br, Model model,

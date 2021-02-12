@@ -13,7 +13,7 @@
 						<li><a href="<c:url value="/" />">Home<i
 								class="ti-arrow-right"></i></a></li>
 						<li class="active"><a
-							href="<c:url value="/admin/manage_genres" />">Gestisci generi</a></li>
+							href="<c:url value="/admin/manage_coupons" />">Gestisci Coupon</a></li>
 					</ul>
 				</div>
 			</div>
@@ -27,37 +27,39 @@
 		<div class="row">
 			<div class="col-md-7 items-list">
 				<div class="items-list-bar">
-					<span>Lista generi</span>
+					<span>Lista coupon</span>
 				</div>
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col">Nome</th>
-							<th scope="col">Elimina</th>
+							<th scope="col">Codice</th>
+							<th scope="col">Sconto</th>
+							<th scope="col">Scadenza</th>
+							<th scope="col">Utilizzi</th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${allGenres}" var="genre">
-							<tr id="genre_${genre.name}">
-								<th scope="row">${genre.name}</th>
-								<td><button data-genre="${genre.name}" class="remove-genre">
-										<i class="fa fa-remove"></i>
-									</button> <br></td>
+						<c:forEach items="${coupons}" var="coupon">
+							<tr>
+								<th scope="row">${coupon.code}</th>
+								<td>${coupon.discount}</td>
+								<td>${coupon.expireDate}</td>
+								<td>${coupon.usageCounter}</td>
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
 			</div>
 			<div class="col contact-us section" style="padding-top: 0px">
-				<c:url value="/admin/add_genre" var="action" />
+				<c:url value="/admin/add_coupon" var="action" />
 				<form:form id="account-form" action="${action}" class="form"
-					modelAttribute="newGenre" method="post">
+					modelAttribute="newCoupon" method="post">
 					<h4 class="title" style="color: ${msgColor}; text-size: 13px;">${message}</h4>
-					<h3 class="title">Aggiungi un genere</h3>
+					<h3 class="title">Aggiungi un coupon</h3>
 					<div class="form-group">
-						<form:label path="name">Nome:</form:label>
-						<form:input required="required" path="name" type="text" />
-						<form:errors path="name" cssClass="validation-error" />
+						<form:label path="code">Codice:</form:label>
+						<form:input required="required" path="code" type="text" />
+						<form:errors path="code" cssClass="validation-error" />
 					</div>
 					<div class="form-group button">
 						<button type="submit" name="submit" class="btn">Aggiungi</button>
