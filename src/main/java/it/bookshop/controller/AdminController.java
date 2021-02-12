@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
@@ -46,11 +47,19 @@ public class AdminController {
 	@Autowired
 	@Qualifier("registrationValidator")
 	private Validator userValidator;
+	
+	@Autowired
+	@Qualifier("genreValidator")
+	private Validator genreValidator;
 
 	@InitBinder
 	private void initUserBinder(WebDataBinder binder) {
+		//Only known working way to use multiple validators
 		if (binder.getTarget() != null && User.class.equals(binder.getTarget().getClass())) {
 			binder.setValidator(userValidator);
+		}
+		else if (binder.getTarget() != null && Genre.class.equals(binder.getTarget().getClass())) {
+			binder.setValidator(genreValidator);
 		}
 	}
 
@@ -127,6 +136,24 @@ public class AdminController {
 		model.addAttribute("newGenre", new Genre());
 		
 		return "manage_genres";
+	}
+	
+	@PostMapping(value = "/admin/add_genre")
+	public String addGenre(@ModelAttribute("newGenre") @Validated Genre genre, BindingResult br, Model model,
+			final RedirectAttributes redirectAttributes, Authentication authentication) {
+
+		if (br.hasErrors()) {
+			generalOperations(model, authentication.getName());
+			return "manage_genres";
+		}
+		
+		String formattedName = StringUtils.capitalize(genre.getName().toLowerCase().trim());
+		bookService.createGenre(formattedName);
+		
+		redirectAttributes.addFlashAttribute("message", "Genere aggiunto!");
+		redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
+		return "redirect:/admin/manage_genres";
+
 	}
 	
 	@PostMapping(value = "/admin/delete_user")

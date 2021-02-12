@@ -49,14 +49,14 @@
 				</table>
 			</div>
 			<div class="col contact-us section" style="padding-top: 0px">
-				<c:url value="/save_genre" var="action" />
+				<c:url value="/admin/add_genre" var="action" />
 				<form:form id="account-form" action="${action}" class="form"
 					modelAttribute="newGenre" method="post">
 					<h4 class="title" style="color: ${msgColor}; text-size: 13px;">${message}</h4>
 					<h3 class="title">Aggiungi un genere</h3>
 					<div class="form-group">
 						<form:label path="name">Nome:</form:label>
-						<form:input path="name" type="text" />
+						<form:input required="required" path="name" type="text" />
 						<form:errors path="name" cssClass="validation-error" />
 					</div>
 					<div class="form-group button">

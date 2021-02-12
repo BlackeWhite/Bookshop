@@ -2,6 +2,7 @@ package it.bookshop.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -25,7 +26,8 @@ public class GenreValidator implements Validator {
 		Genre genre = (Genre) target;
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name.required", "Inserisci un nome.");
 
-		Genre existing = bookService.findByName(genre.getName());
+		String formattedName = StringUtils.capitalize(genre.getName().toLowerCase().trim());
+		Genre existing = bookService.findByName(formattedName);
 		if (existing != null) {
 			errors.rejectValue("name", "invalidName", new Object[] { "'name'" }, "Genere già esistente.");
 		}
