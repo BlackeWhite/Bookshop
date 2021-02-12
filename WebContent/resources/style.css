@@ -5188,10 +5188,9 @@ Version:1.0
 	padding-right: 20px !important;
 }
 
-.items-list tbody{
+.items-list table{
 	overflow: scroll;
 }
-
 
 .items-list-bar {
 	padding: 20px 12px 20px 12px;

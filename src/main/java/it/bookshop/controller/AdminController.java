@@ -58,6 +58,10 @@ public class AdminController {
 	@Autowired
 	@Qualifier("genreValidator")
 	private Validator genreValidator;
+	
+	@Autowired
+	@Qualifier("couponValidator")
+	private Validator couponValidator;
 
 	@InitBinder
 	private void initUserBinder(WebDataBinder binder) {
@@ -67,6 +71,9 @@ public class AdminController {
 		}
 		else if (binder.getTarget() != null && Genre.class.equals(binder.getTarget().getClass())) {
 			binder.setValidator(genreValidator);
+		}
+		else if (binder.getTarget() != null && Coupon.class.equals(binder.getTarget().getClass())) {
+			binder.setValidator(couponValidator);
 		}
 	}
 
@@ -149,6 +156,24 @@ public class AdminController {
 		model.addAttribute("coupons", couponService.findAll());
 		model.addAttribute("newCoupon", new Coupon());
 		return "manage_coupons";
+	}
+	
+	@PostMapping(value = "/admin/manage_coupons")
+	public String addCoupon(@ModelAttribute("newCoupon") @Validated Coupon coupon, BindingResult br, Model model,
+			final RedirectAttributes redirectAttributes, Authentication authentication) {
+		
+		if (br.hasErrors()) {
+			generalOperations(model, authentication.getName());
+			model.addAttribute("coupons", couponService.findAll());
+			return "manage_coupons";
+		}
+		
+		//TODO implement a create function that takes a coupon directly
+		couponService.create(coupon.getCode(), coupon.getDiscount(), coupon.getExpireDate());
+		
+		redirectAttributes.addFlashAttribute("message", "Coupon aggiunto!");
+		redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
+		return "redirect:/admin/manage_coupons";
 	}
 	
 	@GetMapping(value = "/admin/manage_genres")

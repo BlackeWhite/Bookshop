@@ -25,7 +25,7 @@
 	class="container justify-content-center align-items-center manage-items">
 	<div class="col-12">
 		<div class="row">
-			<div class="col-md-7 items-list">
+			<div class="col-md-8 items-list">
 				<div class="items-list-bar">
 					<span>Lista generi</span>
 				</div>
