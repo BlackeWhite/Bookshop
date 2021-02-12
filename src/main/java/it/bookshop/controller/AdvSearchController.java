@@ -33,6 +33,7 @@ import it.bookshop.model.entity.ShoppingCart;
 import it.bookshop.model.entity.User;
 import it.bookshop.services.AuthorService;
 import it.bookshop.services.BookService;
+import it.bookshop.services.CouponService;
 import it.bookshop.services.UserService;
 
 @Controller
@@ -49,6 +50,9 @@ public class AdvSearchController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private CouponService couponService;
 
 	@RequestMapping(value = "/advanced_search", method = RequestMethod.GET)
 	public String advSearch(@RequestParam(defaultValue = "title") String search_by,
@@ -127,6 +131,8 @@ public class AdvSearchController {
 		java.util.Date date4 = null;
 		java.util.Date date5 = null;
 		java.util.Date date6 = null;
+		java.util.Date datec1 = null;
+		java.util.Date datec2 = null;
 		try {
 			date1 = date.parse("21-01-2005");
 			date2 = date.parse("28-03-2008");
@@ -134,6 +140,8 @@ public class AdvSearchController {
 			date4 = date.parse("01-01-2012");
 			date5 = date.parse("15-08-2014");
 			date6 = date.parse("21-01-2018");
+			datec1 = date.parse("21-04-2021");
+			datec2 = date.parse("31-12-2021");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -144,6 +152,9 @@ public class AdvSearchController {
 		Date publish_date4 = new Date(date4.getTime());
 		Date publish_date5 = new Date(date5.getTime());
 		Date publish_date6 = new Date(date6.getTime());
+		Date dateC1 = new Date(datec1.getTime());
+		Date dateC2 = new Date(datec2.getTime());
+		
 		bookService.deleteAll();
 
 		bookService.create("Dante", "Alighieri", "838832989113223", "La Divina Commedia", publish_date1, publish_date1,
@@ -179,6 +190,11 @@ public class AdvSearchController {
 		bookService.create("Conan", "Doyle", "111111111111", "Le avventure di Sherlock Holmes", publish_date6,
 				publish_date6, 5, 20.99, null, 256, "Elementare Watson! ...", "17.jpg",
 				Arrays.asList("Giallo", "Romanzo"), 0.25);
+		
+		//coupons generation
+		couponService.create("INVERNO2021", 10, dateC1);
+		couponService.create("EXTRASCONTO15", 15, dateC2);
+		
 		return "redirect:/advanced_search";
 	}
 
