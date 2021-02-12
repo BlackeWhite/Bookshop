@@ -265,6 +265,11 @@ public class BookServiceDefault implements BookService {
 	}
 	
 	@Override
+	public Genre findGenreByName(String name) {
+		return genreRepository.findByName(name);
+	}
+	
+	@Override
 	public Genre createGenre(String name) {
 		return genreRepository.create(name);
 	}
@@ -272,5 +277,10 @@ public class BookServiceDefault implements BookService {
 	@Override
 	public Genre findByName(String name) {
 		return genreRepository.findByName(name);
+	}
+	
+	@Override
+	public void deleteGenre(Genre genre) {
+		genreRepository.delete(genre);
 	}
 }

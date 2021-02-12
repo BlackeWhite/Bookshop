@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.bookshop.model.dao.RoleDao;
+import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
 import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.ShoppingCart;
@@ -127,6 +129,13 @@ public class AdminController {
 		return "buyers_list";
 	}
 	
+	@PostMapping(value = "/admin/delete_user")
+	@ResponseBody
+	public String deleteUser(@RequestBody String username) {
+		userService.deleteByUsername(username);
+		return "ok";
+	}
+	
 	@GetMapping(value = "/admin/manage_genres")
 	public String manageGenresPage(Model model, Authentication authentication) {
 		
@@ -156,12 +165,19 @@ public class AdminController {
 
 	}
 	
-	@PostMapping(value = "/admin/delete_user")
+	@PostMapping(value = "/admin/delete_genre")
 	@ResponseBody
-	public String deleteUser(@RequestBody String username) {
-
-		userService.deleteByUsername(username);
+	public String deleteGenre(@RequestBody String name) throws NotEmptyGenreException {
+		Set<Book> books = bookService.getAllBookForGenre(name);
+		if(books == null || books.size()==0) {
+			Genre genre = bookService.findGenreByName(name);
+			bookService.deleteGenre(genre);
+		} else throw new NotEmptyGenreException();
 		return "ok";
+	}
+	
+	private class NotEmptyGenreException extends Exception {
+		
 	}
 
 	private void generalOperations(Model model, String username) {

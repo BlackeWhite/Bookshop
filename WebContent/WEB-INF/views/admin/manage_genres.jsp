@@ -40,7 +40,7 @@
 						<c:forEach items="${allGenres}" var="genre">
 							<tr id="genre_${genre.name}">
 								<th scope="row">${genre.name}</th>
-								<td><button data-user="${genre.name}" class="remove-genre">
+								<td><button data-genre="${genre.name}" class="remove-genre">
 										<i class="fa fa-remove"></i>
 									</button> <br></td>
 							</tr>

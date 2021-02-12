@@ -51,6 +51,7 @@
 <c:url value="/delete_card"  var="delete_card"/>
 <c:url value="/checkout"  var="checkout"/>
 <c:url value="/admin/delete_user"  var="delete_user"/>
+<c:url value="/admin/delete_genre"  var="delete_genre"/>
 <script type="text/javascript">
 var adv_search_url = "${adv_search}";
 var home_url = "${home}";
@@ -61,6 +62,7 @@ var show_book_url = "${show_book}";
 var delete_card_url = "${delete_card}";
 var checkout_url = "${checkout}";
 var delete_user_url = "${delete_user}";
+var delete_genre_url = "${delete_genre}";
 </script>
 
 <c:url value="/resources/js/custom.js" var="custom" />

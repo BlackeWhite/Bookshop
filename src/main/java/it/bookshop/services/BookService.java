@@ -38,6 +38,8 @@ public interface BookService {
 	
 	List<Genre> getAllGenres();
 	List<Genre> findGenresFromNamesArray(List<String> names);
+	Genre findGenreByName(String name);
 	Genre createGenre(String name);
 	Genre findByName(String name);
+	void deleteGenre(Genre genre);
 };
