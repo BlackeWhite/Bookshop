@@ -37,6 +37,7 @@ import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.BookOrder;
 import it.bookshop.model.entity.BookOrderId;
+import it.bookshop.model.entity.Coupon;
 import it.bookshop.model.entity.Genre;
 import it.bookshop.model.entity.Order;
 import it.bookshop.model.entity.Role;
@@ -45,6 +46,7 @@ import it.bookshop.model.entity.ShoppingCartId;
 
 import it.bookshop.model.dao.ShoppingCartDao;
 import it.bookshop.services.BookService;
+import it.bookshop.services.CouponService;
 import it.bookshop.services.UserService;
 import it.bookshop.services.OrderService;
 import it.bookshop.services.ShoppingCartService;
@@ -63,6 +65,8 @@ public class UserController {
 	private BookService bookService;
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private CouponService couponService;
 
 	@GetMapping(value = "/cart")
 	public String cart(Locale locale, Model model, Authentication authentication) {
@@ -92,7 +96,7 @@ public class UserController {
 
 	@PostMapping(value = "/add_to_cart")
 	@ResponseBody
-	public addCartResponse add_to_cart(@RequestBody httpRequestBody reqBody, Authentication authentication)
+	public addCartResponse add_to_cart(@RequestBody CartRequestBody reqBody, Authentication authentication)
 			throws MaxCopiesException {
 
 		String principal_name = authentication.getName();
@@ -125,35 +129,42 @@ public class UserController {
 
 	@PostMapping(value = "/cart")
 	@ResponseBody
-	public httpResponseBody cart_update(@RequestBody httpRequestBody reqBody, Locale locale, Model model,
+	public httpResponseBody cart_update(@RequestBody CartRequestBody reqBody, Locale locale, Model model,
 			Authentication authentication) throws MaxCopiesException, MinCopiesException {
 
 		String principal_name = authentication.getName();
 		User user = userService.findUserByUsername(principal_name);
 		ShoppingCart cartElement = shopCartService.findById(user.getUserID(), reqBody.getBookID());
+		int cartElementCopies = cartElement.getCopies();
 		if (reqBody.getArg2().equals("delete")) {
 			shopCartService.removeBook(cartElement);
 			// Update user state
 			user = userService.findUserByUsername(principal_name);
-			return new httpResponseBody( user.getFormattedCartSubtotalPrice(), user.getFormattedCheckoutTotalPrice(),
+			return new httpResponseBody(user.getFormattedCartSubtotalPrice(), user.getFormattedCheckoutTotalPrice(),
 					String.valueOf(user.getCartTotalItems()), user.getFormattedSavedMoney());
 		} else {
-			int cartElementCopies = cartElement.getCopies();
-
-			if (reqBody.getArg2().equals("minus") && cartElementCopies > 1) {
-				cartElement.setCopies(cartElement.getCopies() - 1);
-			} else if (reqBody.getArg2().equals("minus") && cartElementCopies == 1) {
-				throw new MinCopiesException();
-			} else if (cartElementCopies < bookService.findById(reqBody.getBookID()).getCopies()) {
-				cartElement.setCopies(cartElementCopies + 1);
+			if (reqBody.getArg2().equals("minus")) {
+				
+				if (cartElementCopies > 1) {
+					cartElement.setCopies(cartElement.getCopies() - 1);
+					shopCartService.update(cartElement);
+				} else {
+					throw new MinCopiesException();
+				} 
 			} else {
-				throw new MaxCopiesException();
+
+				if (cartElementCopies < bookService.findById(reqBody.getBookID()).getCopies()) {
+					cartElement.setCopies(cartElementCopies + 1);
+					shopCartService.update(cartElement);
+				} else {
+					throw new MaxCopiesException();
+				}
 			}
-			shopCartService.update(cartElement);
-			// Update user state
+			// update user state
 			user = userService.findUserByUsername(principal_name);
-			return new httpResponseBody(cartElement.getFormattedElementTotalPrice(), user.getFormattedCartSubtotalPrice(),
-					user.getFormattedCheckoutTotalPrice(), user.getFormattedSavedMoney());
+			return new httpResponseBody(cartElement.getFormattedElementTotalPrice(),
+					user.getFormattedCartSubtotalPrice(), user.getFormattedCheckoutTotalPrice(),
+					user.getFormattedSavedMoney());
 		}
 	}
 
@@ -164,6 +175,16 @@ public class UserController {
 		User buyer = userService.findUserByUsername(principal_name);
 		List<Genre> allGenres = this.bookService.getAllGenres();
 		model.addAttribute("allGenres", allGenres);
+
+		/*
+		 * else if (reqBody.getArg2().equals("coupon")) { Coupon coupon =
+		 * couponService.findByCode(reqBody.getArg3()); if (coupon!= null) { if (true)
+		 * //user.checkUsage(coupon) { return new httpResponseBody("already used", "",
+		 * "", ""); } else { //user.addUsedCoupon(coupon); return new
+		 * httpResponseBody("", "", "", ""); } } else { return new httpResponseBody("",
+		 * "", "", ""); } }
+		 */
+
 		if (buyer.getCartTotalItems() == 0) {
 			return "cart";
 		} else {
@@ -245,15 +266,16 @@ public class UserController {
 
 	}
 
-	public static class httpRequestBody {
+	public static class CartRequestBody {
 
 		private long bookID;
 		private String arg2;
+		private String arg3;
 
-		public httpRequestBody() {
+		public CartRequestBody() {
 		}
 
-		public httpRequestBody(long bookID, String arg2) {
+		public CartRequestBody(long bookID, String arg2) {
 			super();
 			this.bookID = bookID;
 			this.arg2 = arg2;
@@ -274,6 +296,15 @@ public class UserController {
 		public void setArg2(String arg2) {
 			this.arg2 = arg2;
 		}
+
+		public String getArg3() {
+			return arg3;
+		}
+
+		public void setArg3(String arg3) {
+			this.arg3 = arg3;
+		}
+
 	}
 
 	public static class httpResponseBody {
@@ -314,7 +345,7 @@ public class UserController {
 		public void setResponse3(String response3) {
 			this.response3 = response3;
 		}
-		
+
 		public String getResponse4() {
 			return response4;
 		}
