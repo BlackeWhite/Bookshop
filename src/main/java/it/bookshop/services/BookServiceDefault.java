@@ -205,8 +205,7 @@ public class BookServiceDefault implements BookService {
 	
 	@Override
 	public Book create(Bookform book, User seller) {
-		String cover = "img_01.jpg"; // usato come nome di test, va modificato 
-		Book b1 = bookRepository.create(book,cover,seller); 
+		Book b1 = bookRepository.create(book,seller); 
 		Iterator <String> iterAuthors = book.getAuthors().iterator();
 		while(iterAuthors.hasNext()) { // associa il libro ai diversi autori ad esso associato
 			String[] parts = iterAuthors.next().split(" ");

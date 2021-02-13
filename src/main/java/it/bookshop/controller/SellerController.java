@@ -1,5 +1,9 @@
 package it.bookshop.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -7,6 +11,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.bookshop.model.entity.Author;
@@ -102,8 +109,9 @@ public class SellerController {
 	}
 
 	// procedura per l'aggiunta di un libro
-	@PostMapping(value = "/add_book")
-	public String addBook(@ModelAttribute("newBook") @RequestBody @Valid Bookform book, BindingResult br, Model model) {
+	@RequestMapping(value = "/add_book", method = RequestMethod.POST, consumes = { "multipart/form-data" })
+	public String addBook(@ModelAttribute("newBook") @RequestBody @Valid Bookform book,
+			 BindingResult br, Model model,HttpSession session) {
 
 		User seller = userService.create("admin", "admin@email.com", "libreria", "seller", "seller", null,
 				"Via brecce bianche", "Ancona", 60000, "Italia", Arrays.asList("SELLER", "ADMIN"));
@@ -129,10 +137,22 @@ public class SellerController {
 			model.addAttribute("authors", authors);
 			return "addittion_book";
 		} else {
-			this.bookService.create(book, seller); // manca l'upload di un'immagine del libro
+			try {
+				String path=session.getServletContext().getRealPath("/"); 
+				byte barr[]=book.getCover().getBytes();  
+		          
+		        BufferedOutputStream bout=new BufferedOutputStream(new FileOutputStream(path+"resources/img/cover_book/" + book.getCover().getOriginalFilename()));  
+		        bout.write(barr);  
+		        bout.flush();  
+		        bout.close();  
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			this.bookService.create(book, seller); 
 			String message = "Libro aggiunto correttamente ";
 			model.addAttribute("message", message);
-		return "redirect:/seller/";
+			return "home_seller";
 		}
 	}
 

@@ -94,7 +94,7 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 	}
 
 	@Override
-	public Book create(Bookform book, String cover, User seller) {
+	public Book create(Bookform book, User seller) {
 		Book b = new Book();
 		b.setIsbn(book.getIsbn());
 		b.setTitle(book.getTitle());
@@ -104,7 +104,7 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 		b.setSeller(seller);
 		b.setPages(book.getPages());
 		b.setSummary(book.getSummary());
-		b.setCover(cover);
+		b.setCover(book.getCover().getOriginalFilename());
 		Date date = new Date(Calendar.getInstance().getTime().getTime()); // si prende la data odierna per l'inserimento
 																			// del libro
 		b.setInsertData(date);

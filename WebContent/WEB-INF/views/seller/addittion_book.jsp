@@ -53,7 +53,7 @@
 				  <c:if test="${mode == 'modify'}">
 				   <c:url value="/seller/modify_book" var="book_action"/>
 				   </c:if>
-					<form:form id="register-form" action="${book_action}" modelAttribute="newBook" class="form" method="post">
+					<form:form id="register-form" action="${book_action}" modelAttribute="newBook" class="form" method="post" enctype="multipart/form-data">
 					
 						
 						<fieldset>
@@ -98,8 +98,9 @@
 								<form:textarea required="required" placeholder="Breve descrizione del libro" path="summary" id="summary" maxlength="250" rows="4" cols="50" />
 								<form:errors path="summary" cssClass="validation-error" />
 								<br>
-							
-												
+							    <form:label path="cover">Carica la copertina del libro</form:label></td>
+                                <form:input type="file" name="cover" path="cover"/>
+								<form:errors path="summary" cssClass="validation-error" />		
 							</fieldset>
 							<fieldset>
 							<legend>Genere del libro</legend>

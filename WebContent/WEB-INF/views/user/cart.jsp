@@ -44,7 +44,7 @@
 						    	<c:forEach items="${user_cart}" var="cart_el">
 								<tr id="${cart_el.id.bookID}">
 									<td class="image" data-title="No">
-										<img src="<c:url value="/resources/img/${cart_el.book.cover}"/>" style="height: 100px; object-fit: contain" alt="#">
+										<img src="<c:url value="/resources/img/cover_book/${cart_el.book.cover}"/>" style="height: 100px; object-fit: contain" alt="#">
 									</td>
 									<td class="product-des" data-title="Description">
 										<p class="product-name">

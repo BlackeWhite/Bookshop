@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
@@ -29,7 +31,9 @@ public class Bookform {
 	private int pages;
 	private int discount; // se al libro è applicato uno sconto
 	private String summary; // short synthesis for book preview
-	private String cover; // file name of cover image
+	private MultipartFile cover; // file name of cover image
+	private String cover_name;
+	
 
 	public long getId() {
 		return id;
@@ -103,14 +107,22 @@ public class Bookform {
 		this.summary = summary;
 	}
 
-	public String getCover() {
+	public MultipartFile getCover() {
 		return cover;
 	}
 
-	public void setCover(String cover) {
+	public void setCover(MultipartFile cover) {
 		this.cover = cover;
 	}
+	
+	public String getCover_name() {
+		return cover_name;
+	}
 
+	public void setCover_name(String cover) {
+		this.cover_name = cover;
+	}
+ 
 	public List<String> getGenre() {
 		return genre;
 	}
@@ -145,7 +157,7 @@ public class Bookform {
 		this.discount = (int) (b.getDiscount()*100);
 		this.pages = b.getPages();
 		this.summary = b.getSummary();
-		this.cover = b.getCover();
+		this.cover_name = b.getCover();
         
 		// per la lista dei generi
 		List<String> genrelist  = new ArrayList<String>();

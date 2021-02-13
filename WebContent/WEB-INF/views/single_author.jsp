@@ -4,7 +4,7 @@
 <div class="modal-body">
 	<div class="row no-gutters">
 		<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-			<img src="<c:url value="/resources/img/${author.photo}"/>" alt="#"
+			<img src="<c:url value="/resources/img/cover_book/${author.photo}"/>" alt="#"
 				class="center_image">
 		</div>
 		<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
@@ -64,9 +64,9 @@
 							<div class="product-img">
 								<a href="<c:url value="/show_book/${authorBook.id}"/>"> <img
 														class="default-img"
-														src="<c:url value="/resources/img/${authorBook.cover}"/>"
+														src="<c:url value="/resources/img/cover_book/${authorBook.cover}"/>"
 														alt="#"> <img class="hover-img"
-														src="<c:url value="/resources/img/${authorBook.cover}"/>" alt="#">
+														src="<c:url value="/resources/img/cover_book/${authorBook.cover}"/>" alt="#">
 														<c:if test="${authorBook.discount > 0}">
 														<span class="price-dec">${authorBook.truncatedDiscount}%</span>
 														</c:if>

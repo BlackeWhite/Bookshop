@@ -21,7 +21,7 @@
 						<div class="row">
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="list-image overlay">
-									<img src="<c:url value="/resources/img/${tBSBooks.cover}"/>"
+									<img src="<c:url value="/resources/img/cover_book/${tBSBooks.cover}"/>"
 										alt="#" style="height: 300px; object-fit: contain"> <a href="#" class="buy"><i
 										class="fa fa-shopping-bag"></i></a>
 								</div>
@@ -53,7 +53,7 @@
 						<div class="row">
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="list-image overlay">
-									<img src="<c:url value="/resources/img/${tFNBooks.cover}"/>"
+									<img src="<c:url value="/resources/img/cover_book/${tFNBooks.cover}"/>"
 										alt="#" style="height: 300px; object-fit: contain"> <a href="#" class="buy"><i
 										class="fa fa-shopping-bag"></i></a>
 								</div>
@@ -85,7 +85,7 @@
 						<div class="row">
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="list-image overlay">
-									<img src="<c:url value="/resources/img/${tsAuthor.photo}"/>"
+									<img src="<c:url value="/resources/img/cover_book/${tsAuthor.photo}"/>"
 										alt="author_photo" style="height: 300px; object-fit: contain"> <a
 										href="<c:url value="/show_author/${tsAuthor.id}"/>"
 										class="buy"></a>
@@ -132,9 +132,9 @@
 												<div class="product-img">
 													<a href="<c:url value="/show_book/${tMCB.id}"/>"> <img
 														class="default-img"
-														src="<c:url value="/resources/img/${tMCB.cover}"/>"
+														src="<c:url value="/resources/img/cover_book/${tMCB.cover}"/>"
 														alt="#" style="height: 400px; object-fit: contain"> <img class="hover-img"
-														src="<c:url value="/resources/img/${tMCB.cover}"/>"
+														src="<c:url value="/resources/img/cover_book/${tMCB.cover}"/>"
 														alt="#" style="height: 400px; object-fit: contain">
 														<c:if test="${tMCB.discount > 0}">
 														<span class="price-dec">${tMCB.truncatedDiscount}%</span>
