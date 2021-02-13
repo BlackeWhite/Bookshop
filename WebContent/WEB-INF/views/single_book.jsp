@@ -5,7 +5,7 @@
 <div class="modal-body">
 	<div class="row no-gutters">
 		<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-			<img src="<c:url value="/resources/img/${book.cover}"/>" alt="#"
+			<img src="<c:url value="/resources/img/cover_book/${book.cover}"/>" alt="#"
 				class="center_image">
 			
 		</div>
@@ -162,9 +162,9 @@
 							<div class="product-img">
 								<a href="<c:url value="/show_book/${bookinterestgenre.id}"/>"> <img
 														class="default-img" style="height: 400px; object-fit: contain"
-														src="<c:url value="/resources/img/${bookinterestgenre.cover}"/>"
+														src="<c:url value="/resources/img/cover_book/${bookinterestgenre.cover}"/>"
 														alt="#"> <img class="hover-img" style="height: 400px; object-fit: contain"
-														src="<c:url value="/resources/img/${bookinterestgenre.cover}"/>" alt="#">
+														src="<c:url value="/resources/img/cover_book/${bookinterestgenre.cover}"/>" alt="#">
 														<c:if test="${bookinterestgenre.discount > 0}">
 														<span class="price-dec">${bookinterestgenre.truncatedDiscount}%</span>
 														</c:if>
@@ -229,9 +229,9 @@
 							<div class="product-img">
 								<a href="<c:url value="/show_book/${bookinterestaut.id}"/>"> <img
 														class="default-img" style="height: 400px; object-fit: contain"
-														src="<c:url value="/resources/img/${bookinterestaut.cover}"/>"
+														src="<c:url value="/resources/img/cover_book/${bookinterestaut.cover}"/>"
 														alt="#"> <img class="hover-img" style="height: 400px; object-fit: contain"
-														src="<c:url value="/resources/img/${bookinterestaut.cover}"/>" alt="#">
+														src="<c:url value="/resources/img/cover_book/${bookinterestaut.cover}"/>" alt="#">
 														<c:if test="${bookinterestaut.discount > 0}">
 														<span class="price-dec">${bookinterestaut.truncatedDiscount}%</span>
 														</c:if>

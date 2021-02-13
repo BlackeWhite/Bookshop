@@ -1,8 +1,9 @@
 
-//Per mostrare un piccolo messaggio a comparsa al centro dello schermo
-	function popupMessage(message) {
+	//Per mostrare un piccolo messaggio a comparsa al centro dello schermo
+	//Delay default 1 secondo
+	function popupMessage(message, delay=1000) {
 		$(".popup-message").text(message);
-		$(".bookshop-popup").fadeIn(200).delay(1000).fadeOut(200);
+		$(".bookshop-popup").fadeIn(200).delay(delay).fadeOut(200);
 	}
 
 $(document).ready(function() {
@@ -144,6 +145,29 @@ $(document).ready(function() {
 				dataType: "text", //The type of data that you're expecting back from the server
 				success: function(data) {
 					$("#user_" + username).remove();
+					popupMessage("Utente: "+username+" eliminato");
+				},
+				processData: false
+			});
+		}
+	});
+	
+	//Funzione per rimuovere un genere dalla lista dei generi
+	$(".remove-genre").click(function() {
+		var name = $(this).attr("data-genre");
+		if(confirm("Sei sicuro di voler eliminare questo genere?")) {
+			$.ajax({
+				type: 'POST',
+				url: delete_genre_url,
+				data: name,
+				contentType: 'text/plain',
+				dataType: "text",
+				success: function(data) {
+					$("#genre_"+name).remove();
+					popupMessage("Genere:"+name+" eliminato");
+				},
+				error: function(e) {
+					popupMessage("Non puoi eliminare questo genere, ha uno o più libri associati!", 1500);
 				},
 				processData: false
 			});

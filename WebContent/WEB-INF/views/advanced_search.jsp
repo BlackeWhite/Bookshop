@@ -114,10 +114,10 @@
 								<div class="product-img">
 									<a href="<c:url value="/show_book/${b.id}"/>"> <img
 										class="default-img" style="height: 400px; object-fit: contain"
-										src="<c:url value="/resources/img/${b.cover}"/>" alt="#">
+										src="<c:url value="/resources/img/cover_book/${b.cover}"/>" alt="#">
 										<img class="hover-img"
 										style="height: 400px; object-fit: contain"
-										src="<c:url value="/resources/img/${b.cover}"/>"> 
+										src="<c:url value="/resources/img/cover_book/${b.cover}"/>"> 
 										<c:if
 											test="${b.discount > 0}">
 											<span class="price-dec">${b.truncatedDiscount}%</span>

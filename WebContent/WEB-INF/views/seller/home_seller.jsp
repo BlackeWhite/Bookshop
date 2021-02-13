@@ -47,7 +47,7 @@
 					<div class="col-12"></div>
 				</div>
 				<div class="row">
-					
+					<b>${message}</b>
 				</div>
 
 			</div>

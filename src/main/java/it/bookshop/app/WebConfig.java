@@ -58,6 +58,17 @@ public class WebConfig implements WebMvcConfigurer {
 		return new StandardServletMultipartResolver();
 	}
 	
+	/* per l'uplaod delle immagini 
+	  @Bean(name = "multipartResolver")
+public CommonsMultipartResolver multipartResolver() {
+    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+    multipartResolver.setMaxUploadSize(100000);
+    return multipartResolver;
+}
+	 * 
+	 */
+	
+	
 	@Bean
 	UrlBasedViewResolver tilesViewResolver() {
 		UrlBasedViewResolver tilesViewResolver = new UrlBasedViewResolver();

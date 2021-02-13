@@ -18,7 +18,7 @@ import it.bookshop.model.entity.Genre;
 public class GenreDaoDefault extends DefaultDao implements GenreDao {
 	@Override
 	public List<Genre> findAll() {
-		return this.getSession().createQuery("FROM Genre g", Genre.class).getResultList();
+		return this.getSession().createQuery("FROM Genre g ORDER BY g.name ASC", Genre.class).getResultList();
 	}
 	
 	

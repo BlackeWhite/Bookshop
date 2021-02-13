@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,11 +26,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.bookshop.model.dao.RoleDao;
+import it.bookshop.model.entity.Book;
+import it.bookshop.model.entity.Coupon;
 import it.bookshop.model.entity.Genre;
 import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.ShoppingCart;
 import it.bookshop.model.entity.User;
 import it.bookshop.services.BookService;
+import it.bookshop.services.CouponService;
 import it.bookshop.services.UserService;
 
 @Controller
@@ -43,6 +47,9 @@ public class AdminController {
 
 	@Autowired
 	private BookService bookService;
+	
+	@Autowired
+	private CouponService couponService;
 
 	@Autowired
 	@Qualifier("registrationValidator")
@@ -51,6 +58,10 @@ public class AdminController {
 	@Autowired
 	@Qualifier("genreValidator")
 	private Validator genreValidator;
+	
+	@Autowired
+	@Qualifier("couponValidator")
+	private Validator couponValidator;
 
 	@InitBinder
 	private void initUserBinder(WebDataBinder binder) {
@@ -60,6 +71,9 @@ public class AdminController {
 		}
 		else if (binder.getTarget() != null && Genre.class.equals(binder.getTarget().getClass())) {
 			binder.setValidator(genreValidator);
+		}
+		else if (binder.getTarget() != null && Coupon.class.equals(binder.getTarget().getClass())) {
+			binder.setValidator(couponValidator);
 		}
 	}
 
@@ -127,6 +141,41 @@ public class AdminController {
 		return "buyers_list";
 	}
 	
+	@PostMapping(value = "/admin/delete_user")
+	@ResponseBody
+	public String deleteUser(@RequestBody String username) {
+		userService.deleteByUsername(username);
+		return "ok";
+	}
+	
+	@GetMapping(value = "/admin/manage_coupons")
+	public String manageCouponsPage(Model model, Authentication authentication) {
+		String principal_name = authentication.getName();
+		generalOperations(model, principal_name);
+		
+		model.addAttribute("coupons", couponService.findAll());
+		model.addAttribute("newCoupon", new Coupon());
+		return "manage_coupons";
+	}
+	
+	@PostMapping(value = "/admin/manage_coupons")
+	public String addCoupon(@ModelAttribute("newCoupon") @Validated Coupon coupon, BindingResult br, Model model,
+			final RedirectAttributes redirectAttributes, Authentication authentication) {
+		
+		if (br.hasErrors()) {
+			generalOperations(model, authentication.getName());
+			model.addAttribute("coupons", couponService.findAll());
+			return "manage_coupons";
+		}
+		
+		//TODO implement a create function that takes a coupon directly
+		couponService.create(coupon.getCode(), coupon.getDiscount(), coupon.getExpireDate());
+		
+		redirectAttributes.addFlashAttribute("message", "Coupon aggiunto!");
+		redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
+		return "redirect:/admin/manage_coupons";
+	}
+	
 	@GetMapping(value = "/admin/manage_genres")
 	public String manageGenresPage(Model model, Authentication authentication) {
 		
@@ -137,6 +186,7 @@ public class AdminController {
 		
 		return "manage_genres";
 	}
+	
 	
 	@PostMapping(value = "/admin/add_genre")
 	public String addGenre(@ModelAttribute("newGenre") @Validated Genre genre, BindingResult br, Model model,
@@ -156,12 +206,19 @@ public class AdminController {
 
 	}
 	
-	@PostMapping(value = "/admin/delete_user")
+	@PostMapping(value = "/admin/delete_genre")
 	@ResponseBody
-	public String deleteUser(@RequestBody String username) {
-
-		userService.deleteByUsername(username);
+	public String deleteGenre(@RequestBody String name) throws NotEmptyGenreException {
+		Set<Book> books = bookService.getAllBookForGenre(name);
+		if(books == null || books.size()==0) {
+			Genre genre = bookService.findGenreByName(name);
+			bookService.deleteGenre(genre);
+		} else throw new NotEmptyGenreException();
 		return "ok";
+	}
+	
+	private class NotEmptyGenreException extends Exception {
+		
 	}
 
 	private void generalOperations(Model model, String username) {

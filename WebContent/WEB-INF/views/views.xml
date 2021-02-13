@@ -64,6 +64,10 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/admin/manage_genres.jsp" />
 	</definition>
+	<definition extends="default" name="manage_coupons">
+		<put-attribute name="body"
+			value="/WEB-INF/views/admin/manage_coupons.jsp" />
+	</definition>
 	<definition extends="default" name="home_seller">
 		<put-attribute name="body"
 			value="/WEB-INF/views/seller/home_seller.jsp" />

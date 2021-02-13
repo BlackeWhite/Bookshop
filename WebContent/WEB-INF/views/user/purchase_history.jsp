@@ -53,7 +53,7 @@
 										<div class="row">
 											<div class="col-10">
 												<img
-													src="<c:url value="/resources/img/${bookOrder.book.cover}"/>" />
+													src="<c:url value="/resources/img/cover_book/${bookOrder.book.cover}"/>" />
 												<h4>
 													<a href="<c:url value="/show_book/${bookOrder.book.id}"/>">${bookOrder.book.title}</a>
 												</h4>

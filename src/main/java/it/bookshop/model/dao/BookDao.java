@@ -29,5 +29,5 @@ public interface BookDao {
 	List<Book> findMostClick();
 	List<Book> findBookOnSale();
 	List<Book> findAllBookForGenre(String name);
-	Book create(Bookform b, String cover, User seller);
+	Book create(Bookform book, User seller);
 }

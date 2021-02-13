@@ -5176,24 +5176,28 @@ Version:1.0
 	End Popup Message CSS
 ===============================*/
 /*=============================
-	Start Manage Genres CSS
+	Start Manage Genres/Coupons CSS
 ===============================*/
-.manage-genres {
+.manage-items {
 	margin-bottom: 70px;
 	margin-top: 50px;
 }
 
-.genres-list {
+.items-list {
 	padding-left: 20px !important;
 	padding-right: 20px !important;
 }
 
-.genres-list-bar {
+.items-list table{
+	overflow: scroll;
+}
+
+.items-list-bar {
 	padding: 20px 12px 20px 12px;
 	background: #f6f7fb;
 }
 
-.genres-list-bar span {
+.items-list-bar span {
 	font-size: 20px;
 	font-weight: 600;
 }
@@ -5203,7 +5207,7 @@ Version:1.0
 	height: 20px;
 	border: 1px solid gray;
 	background: #fff;
-	margin-left: 12px; 
+	margin-left: 12px;
 }
 
 .remove-genre:hover {
