@@ -1,6 +1,7 @@
 package it.bookshop.model.Object_form;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -26,7 +27,7 @@ public class Bookform {
 	private Date publish;
 	private Date insertdata;
 	private int pages;
-	private double discount; // se al libro è applicato uno sconto
+	private int discount; // se al libro è applicato uno sconto
 	private String summary; // short synthesis for book preview
 	private String cover; // file name of cover image
 
@@ -86,11 +87,11 @@ public class Bookform {
 		this.pages = pages;
 	}
 
-	public double getDiscount() {
+	public int getDiscount() {
 		return discount;
 	}
 
-	public void setDiscount(double discount) {
+	public void setDiscount(int discount) {
 		this.discount = discount;
 	}
 
@@ -141,19 +142,28 @@ public class Bookform {
 		this.publish = b.getPublish();
 		this.copies = b.getCopies();
 		this.price = b.getPrice();
-		this.discount = b.getDiscount();
+		this.discount = (int) (b.getDiscount()*100);
 		this.pages = b.getPages();
 		this.summary = b.getSummary();
 		this.cover = b.getCover();
-
+        
+		// per la lista dei generi
+		List<String> genrelist  = new ArrayList<String>();
 		Iterator<Genre> iteGen = b.getGenres().iterator();
-		while (iteGen.hasNext()) {
-			this.genre.add(iteGen.next().getName());
+		while (iteGen.hasNext()) {	
+			genrelist.add(iteGen.next().getName());
 		}
+		
+		this.genre = genrelist;
+		
+		//per la lista degli autori
+		List<String> autlist  = new ArrayList<String>();
 		Iterator<Author> iterAuthors = b.getAuthors().iterator();
 		while (iterAuthors.hasNext()) {
-			this.authors.add(iterAuthors.next().getFullName());
+			autlist.add(iterAuthors.next().getFullName());
 		}
+		
+		this.authors = autlist;
 
 	}
 

@@ -32,7 +32,7 @@
 				<div class="shop-sidebar">
 					<div class="single-widget range">
 						<h3 class="title">Menu</h3>
-						<c:url value="/addittion_book" var="addition_book"/>
+						<c:url value="/seller/addition_book" var="addition_book"/>
 						<li><a href="${addition_book}"> Aggiungi un libro in vendita </a></li>
 						<li><a href=""> Modifica un libro in vendita </a></li>
 						<li><a href=""> Metti in sconto un libro in vendita </a></li>
@@ -48,8 +48,14 @@
 					</div>
 				</div>
 				<div class="row">
-				  <c:url value="/seller/add_book" var="add_book_action"/>
-					<form:form id="register-form" action="${add_book_action}" modelAttribute="newBook" class="form" method="post">
+				  <c:if test="${mode == 'add'}">
+				  <c:url value="/seller/add_book" var="book_action"/> </c:if>
+				  <c:if test="${mode == 'modify'}">
+				   <c:url value="/seller/modify_book" var="book_action"/>
+				   </c:if>
+					<form:form id="register-form" action="${book_action}" modelAttribute="newBook" class="form" method="post">
+					
+						
 						<fieldset>
 							<legend>Autore del libro</legend>
 							
@@ -77,7 +83,7 @@
 								<form:errors path="copies" cssClass="validation-error" />
 								<br>
 						    	<form:label path="title">Prezzo del libro</form:label>
-								<span>&euro;</span><form:input type="number" min="0.01" step="0.01" max="2500" value="10" required="required" path="price" id="price" />
+								<span>&euro;</span><form:input type="number" min="0.01" step="0.01" max="2500" required="required" path="price" id="price" />
 								<form:errors path="price" cssClass="validation-error" />
 								<form:label path="title">Numero Pagine del libro</form:label>
 								<form:input required="required" type="number" path="pages" id="pages" min="0" />
@@ -115,7 +121,7 @@
 							<form:label path="title">Sconto</form:label>
 							
 							<form:input type="number" min="0" step="1" max="100"
-								value="0" path="discount" id="discount" /> <span>&#37;</span>
+								path="discount" id="discount" /> <span>&#37;</span>
 							<form:errors path="discount" cssClass="validation-error" />
 
 						</fieldset>
@@ -130,7 +136,13 @@
 								<form:errors path="title" cssClass="validation-error" />
 							</fieldset>  -->
 						<br>
-                        <button type="submit" name="submit" class="btn with-pass-conf">Inserisci Libro </button>	
+					 <c:if test="${mode == 'add'}">
+				 <button type="submit" name="submit" class="btn with-pass-conf">Inserisci Libro </button>
+				 </c:if>
+				  <c:if test="${mode == 'modify'}">
+				   <button type="submit" name="submit" class="btn with-pass-conf">Modifca Libro </button>
+				   </c:if>
+              	
 					</form:form>
 				
 				</div>

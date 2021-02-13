@@ -110,7 +110,7 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 		b.setInsertData(date);
 		b.setClicked(0);
 		b.setSoldCopies(0);
-		b.setDiscount(book.getDiscount());
+		b.setDiscount(((double)book.getDiscount())/100);
 		getSession().save(b);
 		return b;
 	}
