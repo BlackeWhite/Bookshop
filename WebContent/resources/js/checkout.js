@@ -58,7 +58,7 @@ $(document).ready(function() {
 		$.ajax({
 		   	type : 'POST',
 			url : checkout_url,
-			data : JSON.stringify({ "shipmentAddress" : fullAddress, "payment": paymentDetails}),
+			data : JSON.stringify({ "arg1" : fullAddress, "arg2": paymentDetails}),
 			contentType : 'application/json',
 		   	dataType: "json", //The type of data that you're expecting back from the server	
 			success: function (data) { 
@@ -83,6 +83,28 @@ $(document).ready(function() {
 			},
 		    processData : false });
 		
+	});
+	
+	$(".coupon").click(function() { 
+		coupon_code = $("#coupon").val().toUpperCase();
+		$.ajax({
+            type : 'POST',
+            url : checkout_url,
+			data : JSON.stringify({"arg1": "coupon_validation", "arg2": coupon_code}),
+			contentType : 'application/json',
+           	dataType: "json", //The type of data that you're expecting back from the server	
+			success: function (data) {
+				if (data["response1"]=="used coupon") {
+					//aggiunta nuovo campo sconto in ul 
+					popupMessage("Coupon già utilizzato!");
+				} else if (data["response1"]=="nonexistent"){ 
+					popupMessage("Coupon non esistente!");
+				} else {
+					//add discoount field in chechkout 
+					$(".shopping-cart").html('<p style="text-align:center; font-size:40px">Carrello vuoto.</p>')
+				}	
+			},
+            processData : false });
 	});
 	
 });

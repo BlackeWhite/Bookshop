@@ -152,7 +152,7 @@
 								<div class="col-12">
 									<div class="form-group ">
 										<button id="newAddress" class="btn btn-sm" >
-											<span style="font-size:smaller;">
+											<span >
 												Inserisci un nuovo indirizzo
 											</span>
 										</button>
@@ -171,36 +171,66 @@
 						<h2>Riepilogo totale carrello</h2>
 						<div class="content">
 							<ul>
-								<li>Sub Total<span>${total}</span></li>
-								<li>(+) Shipping<span>TODO</span></li>
-								<li class="last">Total<span>TODO</span></li>
+								<li>Subtotale<span>${user.formattedCartSubtotalPrice}</span></li>
+								<li>Costi di spedizione<span>€ 5,00</span></li>
+								<li id="savings">Risparmio<span>${user.formattedSavedMoney}</span></li>
+								<li id="checkout_total" class="last">Totale<span>${user.formattedCheckoutTotalPrice}</span></li>
 							</ul>
 						</div>
 					</div>
+					<div class="single-widget">
+						<h2>Coupon</h2>
+						<div class="content">
+						<ul>
+							<li>
+								<div class="coupon">
+									<!--  <form class="couponForm form" target="_blank">  </form> -->
+									<input name="coupon" type="text" placeholder="INSERISCI IL COUPON">
+									<button id="coupon" class="btn btn-sm">APPLICA</button>
+								</div>
+							</li>
+						</ul>
+						</div>
+					</div>	
 					<!--/ End Order Widget -->
 					<!-- Order Widget -->
 					<div class="single-widget">
 						<h2>Metodo di pagamento</h2>
 						<div class="content">
-							<div class="card_selection">
-								<br>
-								<p style="text-align:center;">Seleziona una carta</p>
-								<br>
-								<select id="credit_card_select" id="credit_card">
+						<ul>
+							<li>
+								<div class="card_selection">
+									<p style="text-align:center;">Seleziona una carta</p>
+									<br>
+									<select id="credit_card_select" id="credit_card">
+										<option>
+											Nessuna carta selezionata    
+										</option>
 									<c:forEach items="${user.paymentCards}" var="card">
 										<option id="" value="${card.type} ${card.hiddenNumber} ${card.shortExpirationDate}" style="margin:auto; font-size:2px">
 											${card.type} | ${card.hiddenNumber.toLowerCase()} | ${card.shortExpirationDate}
 										</option>
 									</c:forEach>
-								</select>
-							</div>
+									</select>
+								</div>
+							</li>
 							<div class="radio">
-							<ul>
-								<li><label ><input id="card_payment" class="card_payment"type="radio" name="payment" value="" checked> Card</label></li>
-								<li><label ><input id="cash_payment" class="no_card_payment" type="radio" name="payment" value=""> Cash On Delivery</label></li>
-								<li><label ><input id="paypal_payment" class="no_card_payment" type="radio" name="payment" value=""> PayPal</label></li>
-							</ul>
+								<li>
+									<label ><input id="card_payment" class="card_payment"type="radio" name="payment" value="" checked> Card
+									<img src="images/payment-method.png">
+									<img src="images/payment-method.png">
+									<img src="images/payment-method.png"></label>
+								</li> 
+								<li>
+									<label><input id="cash_payment" class="no_card_payment" type="radio" name="payment" value=""> Cash On Delivery</label>
+									<img src="images/payment-method.png" alt="#"></label>
+								</li>
+								<li>
+									<label><input id="paypal_payment" class="no_card_payment" type="radio" name="payment" value=""> PayPal</label>
+									<img src="images/payment-method.png" alt="#"></label>
+								</li>
 							</div>
+						</ul>
 						</div>
 					</div>
 					<!--/ End Order Widget -->

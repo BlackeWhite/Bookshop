@@ -55,6 +55,18 @@ $(document).ready(function() {
 		if (document.querySelectorAll(".copies_error").length) {
 			e.preventDefault();
 			popupMessage("Attenzione! Disponibilità di copie insufficiente");
+		} else { 
+			$.ajax({
+            type : 'POST',
+            url : cart_url,
+			data : JSON.stringify({"bookID" : null, "arg2": "availability_check", "arg3": ""}),
+			contentType : 'application/json',
+           	dataType: "json", //The type of data that you're expecting back from the server	
+			error: function () {
+				window.location.href = cart_url;
+			},
+            processData : false });
+			
 		}
 	});
 	
@@ -77,26 +89,6 @@ $(document).ready(function() {
 				if (data["response3"]==0) {
 					$(".shopping-cart").html('<p style="text-align:center; font-size:40px">Carrello vuoto.</p>')
 				}
-			},
-            processData : false });
-	});
-	
-	$(".coupon").click(function() { 
-		coupon_code = $("#coupon").val().toUpperCase();
-		$.ajax({
-            type : 'POST',
-            url : cart_url,
-			data : JSON.stringify({"bookID" : null, "arg2": "coupon", "arg3": coupon_code}),
-			contentType : 'application/json',
-           	dataType: "json", //The type of data that you're expecting back from the server	
-			success: function (data) {
-				if (data["response1"]=="used coupon") {
-					//aggiunta nuovo campo sconto in ul 
-					$("#savings").find($("span")).text(data["response4"]);
-				} else {
-					//add discoount field in chechkout 
-					$(".shopping-cart").html('<p style="text-align:center; font-size:40px">Carrello vuoto.</p>')
-				}	
 			},
             processData : false });
 	});

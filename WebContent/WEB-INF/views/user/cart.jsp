@@ -137,12 +137,7 @@
 					<div class="row">
 						<div class="col-lg-8 col-md-5 col-12">
 							<div class="left">
-								<div class="coupon">
-									<form class="couponForm form" target="_blank">
-										<input name="coupon" placeholder="Inserisci un coupon...">
-										<button id="coupon" class="btn">Inserisci</button>
-									</form>
-								</div>
+
 							</div>
 						</div>
 						<div class="col-lg-4 col-md-7 col-12">
@@ -156,7 +151,7 @@
 									<li id="checkout_total" class="last">Totale<span>${user.formattedCheckoutTotalPrice}</span></li>
 								</ul>
 								<div class="button5">
-									<a id="pre-checkout" href="<c:url value="/checkout" />" class="btn">Checkout</a> 
+									<a id="pre-checkout" class="btn">Checkout</a> 
 									<a href="<c:url value="/" />" class="btn">Continua gli acquisti</a>
 								</div>
 							</div>

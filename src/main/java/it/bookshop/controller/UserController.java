@@ -130,7 +130,7 @@ public class UserController {
 	@PostMapping(value = "/cart")
 	@ResponseBody
 	public httpResponseBody cart_update(@RequestBody CartRequestBody reqBody, Locale locale, Model model,
-			Authentication authentication) throws MaxCopiesException, MinCopiesException {
+			Authentication authentication) throws MaxCopiesException, MinCopiesException, NoAvailableCopies {
 
 		String principal_name = authentication.getName();
 		User user = userService.findUserByUsername(principal_name);
@@ -151,6 +151,15 @@ public class UserController {
 				} else {
 					throw new MinCopiesException();
 				} 
+			} else if (reqBody.getArg2().equals("availability_check")) {
+				//check disponibilità copie
+				List<ShoppingCart> cart = shopCartService.findUserShoppingCart(user);
+				for (ShoppingCart element : cart) {
+					if (element.getCopies() > element.getBook().getCopies()) {
+						throw new NoAvailableCopies();
+					}
+				return new httpResponseBody("available", "", "", "");
+				}
 			} else {
 
 				if (cartElementCopies < bookService.findById(reqBody.getBookID()).getCopies()) {
@@ -171,6 +180,7 @@ public class UserController {
 	@GetMapping(value = "/checkout")
 	public String checkout(Locale locale, Model model, Authentication authentication) {
 
+		//@RequestBody checkoutRequestBody checkoutReq,
 		String principal_name = authentication.getName();
 		User buyer = userService.findUserByUsername(principal_name);
 		List<Genre> allGenres = this.bookService.getAllGenres();
@@ -184,9 +194,9 @@ public class UserController {
 		 * httpResponseBody("", "", "", ""); } } else { return new httpResponseBody("",
 		 * "", "", ""); } }
 		 */
-
+		
 		if (buyer.getCartTotalItems() == 0) {
-			return "cart";
+			return "cart"; 
 		} else {
 			model.addAttribute("user", buyer);
 			model.addAttribute("total", buyer.getFormattedCartSubtotalPrice());
@@ -196,32 +206,52 @@ public class UserController {
 
 	@PostMapping(value = "/checkout")
 	@ResponseBody
-	public httpResponseBody checkout_fill(@RequestBody checkoutRequest checkoutReq, Locale locale, Model model,
+	public httpResponseBody checkout_fill(@RequestBody checkoutRequestBody checkoutReq, Locale locale, Model model,
 			Authentication authentication) {
 
 		String principal_name = authentication.getName();
 		User buyer = userService.findUserByUsername(principal_name);
-		String payment = checkoutReq.getPayment(); // card number
-		String shipmentAddress;
+		
+		model.addAttribute("user", buyer); 
+		
+		if (checkoutReq.getArg1().equals("standard shipment address")) {
+			String payment; // card number
+			String shipmentAddress;
 
-		// check per valorizzazione indirizzo di spedizione
-		if (checkoutReq.getShipmentAddress().equals("standard shipment address")) {
-			shipmentAddress = buyer.getPersonalData().getFullAddress();
-		} else {
-			shipmentAddress = checkoutReq.getShipmentAddress();
+			// check per valorizzazione indirizzo di spedizione
+			if (checkoutReq.getArg1().equals("standard shipment address")) {
+				payment = checkoutReq.getArg2();
+				shipmentAddress = buyer.getPersonalData().getFullAddress();
+			} else {
+				payment = checkoutReq.getArg2();
+				shipmentAddress = checkoutReq.getArg1();
+			}
+			
+			// get order date
+			LocalDateTime now = LocalDateTime.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+			String date = formatter.format(now);
+			Long buyerID = Long.valueOf(buyer.getUserID());
+			orderService.createFromShoppingCart(buyerID, shipmentAddress, payment);
+			shopCartService.emptyUserCart(buyer);
+			
+			return new httpResponseBody(shipmentAddress, payment, date, "");
+			
+		} else {//if (checkoutReq.getArg1().equals("coupon_validation")) {
+			
+			Coupon coupon = couponService.findByCode(checkoutReq.getArg2());
+			if (coupon != null) {
+				//check validità coupon
+				if (buyer.checkUsage(coupon)) {
+					return new httpResponseBody("used", "", "", "");
+				} else {
+					buyer.addUsedCoupon(coupon);
+					return new httpResponseBody("available", "", "", "");
+				}
+			} else {
+				return new httpResponseBody("nonexistent", "", "", "");
+			}
 		}
-
-		// get order date
-		LocalDateTime now = LocalDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-		String date = formatter.format(now);
-		Long buyerID = Long.valueOf(buyer.getUserID());
-		orderService.createFromShoppingCart(buyerID, shipmentAddress, payment);
-		shopCartService.emptyUserCart(buyer);
-
-		model.addAttribute("user", buyer);
-		model.addAttribute("total", buyer.getFormattedCartSubtotalPrice());
-		return new httpResponseBody(shipmentAddress, payment, date, "");
 	}
 
 	@GetMapping(value = "/purchase_history")
@@ -263,6 +293,10 @@ public class UserController {
 	}
 
 	public class MaxCopiesException extends Exception {
+
+	}
+	
+	public class NoAvailableCopies extends Exception {
 
 	}
 
@@ -355,36 +389,32 @@ public class UserController {
 		}
 	}
 
-	public static class checkoutRequest {
+	public static class checkoutRequestBody {
 
-		private String shipmentAddress;
-		private String payment;
+		private String arg1;
+		private String arg2;
 
-		public checkoutRequest() {
+		public checkoutRequestBody() {
 
 		}
 
-		public checkoutRequest(String shipmentAddress, String payment) {
-			super();
-			this.shipmentAddress = shipmentAddress;
-			this.payment = payment;
+		public String getArg1() {
+			return arg1;
 		}
 
-		public String getShipmentAddress() {
-			return shipmentAddress;
+		public void setArg1(String arg1) {
+			this.arg1 = arg1;
 		}
 
-		public void setShipmentAddress(String shipmentAddress) {
-			this.shipmentAddress = shipmentAddress;
+		public String getArg2() {
+			return arg2;
 		}
 
-		public String getPayment() {
-			return payment;
+		public void setArg2(String arg2) {
+			this.arg2 = arg2;
 		}
 
-		public void setPayment(String payment) {
-			this.payment = payment;
-		}
+		
 	}
 
 	public static class addCartResponse {

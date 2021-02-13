@@ -110,7 +110,6 @@ public class User implements Serializable{
 		if (this.roles == null) {
 			this.roles = new HashSet<Role>();
 		}
-		
 		this.roles.add(role);
 	}	
 	
@@ -195,7 +194,15 @@ public class User implements Serializable{
 	public void setCoupons(Set<Coupon> coupons) {
 		this.coupons = coupons;
 	}
-
+	
+	public void addUsedCoupon(Coupon coupon) {
+		this.coupons.add(coupon);
+	}	
+	
+	@Transient
+	public boolean checkUsage(Coupon coupon) {
+		return this.coupons.contains(coupon);	
+	}
 	
 	@Transient
 	public double getCartTotalPrice() {
