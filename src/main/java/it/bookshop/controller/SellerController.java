@@ -138,6 +138,7 @@ public class SellerController {
 			return "addittion_book";
 		} else {
 			try {
+				// memorizza il file appena caricato dalla form (stackoverflow)
 				String path=session.getServletContext().getRealPath("/"); 
 				byte barr[]=book.getCover().getBytes();  
 		          

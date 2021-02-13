@@ -98,9 +98,13 @@
 								<form:textarea required="required" placeholder="Breve descrizione del libro" path="summary" id="summary" maxlength="250" rows="4" cols="50" />
 								<form:errors path="summary" cssClass="validation-error" />
 								<br>
+								<c:if test="${mode == 'add'}">
 							    <form:label path="cover">Carica la copertina del libro</form:label></td>
                                 <form:input type="file" name="cover" path="cover"/>
-								<form:errors path="summary" cssClass="validation-error" />		
+								<form:errors path="cover" cssClass="validation-error" />
+								</c:if>
+								<!-- TO-DO manca upload quando si modifca un libro  -->
+										
 							</fieldset>
 							<fieldset>
 							<legend>Genere del libro</legend>
