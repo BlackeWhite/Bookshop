@@ -1,32 +1,30 @@
 $(document).ready(function() { 
-	var newAddr = 0;
 	
 	//Inserimento nuovo indirizzo
 	$("#newAddress").click(function() {
 		$(".shipmentForm").html(
-			'<form class=" shipment_form form" method="post">' +
+			'<form class=" shipmentForm form" method="post">' +
 				'<div class="row">' +
 					'<div class="col-lg-6 col-md-6 col-12">' +
 						'<div class="form-group">' +
 							'<label>Città <span>*</span></label>' +
-							'<input id="newShipCity" type="text" name="città" placeholder="" >' +
+							'<input id="shipCity" type="text" placeholder="Città" >' +
 						'</div>' +
 					'</div>' +
 					'<div class="col-lg-6 col-md-6 col-12">' +
 						'<div class="form-group">' +
 							'<label>Indirizzo di spedizione <span>*</span></label>' +
-							'<input id="newShipAddr" type="text" name="address" placeholder="Via/Piazza/Frazione ...">' +
+							'<input id="shipAddr" type="text" placeholder="Via/Piazza/Frazione ...">' +
 						'</div>' +
 					'</div>' +
 					'<div class="col-lg-6 col-md-6 col-12">' +
 						'<div class="form-group">' +
 							'<label>Codice postale<span>*</span> </label>' +
-							'<input id="newShipCAP" type="text" name="post" placeholder="" >' +
+							'<input id="shipCAP" type="text" placeholder="CAP" >' +
 						'</div>' +
 					'</div>' +
 				'</div>' +
 			'</form>');
-		newAddr = 1;
 	});
 
 	//Gestione metodo di pagamento con comparsa e scomparsa 
@@ -38,27 +36,54 @@ $(document).ready(function() {
 		$(".card_selection").hide();
 		});
 	
-	//Richiesta AJAX per gestione metodo di pagamento
-	$("#checkout").click(function() {
+	//Gestione checkout
+	$("#checkout").click(function() { //$(document).on('click', '#checkout', function()
 		var fullAddress;
 		var paymentDetails = "";
-		if (Boolean(newAddr)) {
-			fullAddress = $("#newShipAddr").val() +","+ $("#newShipCity").val() +","+ $("#newShipCAP").val();
-		}
-		else{
-			fullAddress = "standard shipment address";
+		var coupon_code = $("#coupon_code").val().toUpperCase();
+		
+		var emptyForm;
+		//Controllo form indirizzo di spedizione completo
+		$(".shipmentForm input").each(function() {
+			if($(this).val() == "") {
+				popupMessage("Completare l'indirizzo di spedizione!");
+				throw new Error("Incomplete Address Form"); 
+			}
+		});
+		
+		fullAddress = $("#shipAddr").val() +", "+ $("#shipCity").val() +", "+ $("#shipCAP").val();
+			
+		//payment method management
+		$("#paymentMethods input").each(function() {
+	    	if ($(this).is(":checked")) {
+				if ($(this).attr("id") == "card_payment") {
+					var selection = $("#credit_card_select :selected").text();
+					if (selection=="Nessuna carta selezionata") {
+						popupMessage("Nessuna carta selezionata!");
+						throw new Error("No credit card selected");
+					} else{
+						paymentDetails = selection;
+						return false;
+					} //forza uscita dall'iterazione dell'each())
+				} else if ($(this).attr("id") == "cash_payment") {
+					paymentDetails = "Pagamento alla consegna";
+					return false;
+				} else {
+					paymentDetails = "Paypal";
+					return false;
+				}
+			};
+		});
+		
+		if (paymentDetails =="") {
+				popupMessage("Scegliere un metodo di pagamento!");
+				throw new Error("No payment method selected");
 		};
-		if ($("#card_payment").is(":checked")) {
-			paymentDetails += $("#credit_card_select").val();
-		} else if ($("#cash_payment").is(":checked")) {
-			paymentDetails += "Pagamento alla consegna";
-		} else {
-			paymentDetails += "Paypal";
-		};
+
 		$.ajax({
 		   	type : 'POST',
 			url : checkout_url,
-			data : JSON.stringify({ "arg1" : fullAddress, "arg2": paymentDetails}),
+			data : JSON.stringify({ "arg1" : fullAddress, "arg2": paymentDetails, "arg3": coupon_code}),
 			contentType : 'application/json',
 		   	dataType: "json", //The type of data that you're expecting back from the server	
 			success: function (data) { 
@@ -70,7 +95,7 @@ $(document).ready(function() {
 							'<div class="col-12">' +
 								'<p style="text-align:center; font-size:40px" > Ordine effettuato con successo </p>' +
 								'<p style="text-align:center; font-size:20px" >' + data["response1"] +
-								'<p style="text-align:center; font-size:20px" >' + 'Metodo di pagamento: ' +data["response2"] +
+								'<p style="text-align:center; font-size:20px" >' + 'Metodo di pagamento: ' + data["response2"] +
 								'<p style="text-align:center; font-size:20px" >' + data["response3"] +
 							'</div>' +
 						'</div>' +
@@ -85,26 +110,40 @@ $(document).ready(function() {
 		
 	});
 	
-	$(".coupon").click(function() { 
-		coupon_code = $("#coupon").val().toUpperCase();
+	//Validazione e applicazione coupon
+	$(document).on('click', '#coupon', function(){ 
+		coupon_code = $("#coupon_code").val().toUpperCase();
 		$.ajax({
             type : 'POST',
-            url : checkout_url,
-			data : JSON.stringify({"arg1": "coupon_validation", "arg2": coupon_code}),
+            url : coupon_validation_url,
+			data : JSON.stringify({"arg1": "", "arg2": "", "arg3": coupon_code}),
 			contentType : 'application/json',
            	dataType: "json", //The type of data that you're expecting back from the server	
 			success: function (data) {
-				if (data["response1"]=="used coupon") {
+				if (data["response1"]=="used") {
 					//aggiunta nuovo campo sconto in ul 
 					popupMessage("Coupon già utilizzato!");
-				} else if (data["response1"]=="nonexistent"){ 
+				} else if (data["response1"]=="unavailable") { 
 					popupMessage("Coupon non esistente!");
 				} else {
 					//add discoount field in chechkout 
-					$(".shopping-cart").html('<p style="text-align:center; font-size:40px">Carrello vuoto.</p>')
+					$("#savings").after('<li id="coupon_save">'+  coupon_code + '<span>' + '-' +data["response2"] +'</span></li>');
+					var oldValue = $("#checkout_total span").text().split(" ")[1];
+					$("#checkout_total").replaceWith('<li id="checkout_total" class="last" oldValue=' + oldValue + '>Totale<span>'+ data["response3"] +'</span></li>');
+					$("#coupon").replaceWith('<button id="delCoupon" class="btn btn-sm">RIMUOVI</button>');
 				}	
 			},
             processData : false });
 	});
+	
+	//Eliminazione coupon
+	$(document).on('click', '#delCoupon', function(){
+		//remove coupon
+		$("#coupon_save").remove();
+		$("#checkout_total").replaceWith('<li id="checkout_total" class="last">Totale<span>€ '+ $("#checkout_total").attr("oldValue") +'</span></li>');
+		$("#coupon_code").replaceWith('<input id="coupon_code" type="text" placeholder="INSERISCI IL COUPON">');
+		$("#delCoupon").replaceWith('<button id="coupon" class="btn btn-sm">APPLICA</button>');
+	});
+	
 	
 });

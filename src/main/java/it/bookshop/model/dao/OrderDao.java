@@ -7,6 +7,7 @@ import java.util.Set;
 import org.hibernate.Session;
 
 import it.bookshop.model.entity.BookOrder;
+import it.bookshop.model.entity.Coupon;
 import it.bookshop.model.entity.Order;
 import it.bookshop.model.entity.User;
 
@@ -18,6 +19,7 @@ public interface OrderDao {
 	public Order findById(Long id);
 	public Order create(User buyer, Date date, String shipmentAddress, String payment);
 	public Order create(User buyer, Date date, Set<BookOrder> books, String shipmentAddress, String payment);
+	public Order create(User buyer, Date date, Set<BookOrder> books, String shipmentAddress, String payment, int coupon_discount);
 	public Order update(Order order);
 	public List<Order> findAll();
 	public List<Order> findUserOrders(User user);

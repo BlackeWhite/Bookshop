@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.text.ParseException;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -126,7 +127,27 @@ public class UserController {
 				elem.getCopies(), elem.getFormattedElementTotalPrice(), user.getFormattedCartSubtotalPrice(),
 				user.getCartTotalItems());
 	}
-
+	
+	//controllo disponibilità copie per libri nel carello 
+	//NB: non si specifica per quale/i libro/i si ha insufficienza di copie
+	@GetMapping(value = "/copies_check")
+	@ResponseBody
+	public httpResponseBody copies_check(Locale locale, Model model,
+			Authentication authentication) throws NoAvailableCopies {
+		
+		String principal_name = authentication.getName();
+		User user = userService.findUserByUsername(principal_name);
+	
+			//check disponibilità copie
+			List<ShoppingCart> cart = shopCartService.findUserShoppingCart(user);
+			for (ShoppingCart element : cart) {
+				if (element.getCopies() > element.getBook().getCopies()) {
+					throw new NoAvailableCopies();
+				}
+			}
+			return new httpResponseBody("available", "", "", "");
+	}
+	
 	@PostMapping(value = "/cart")
 	@ResponseBody
 	public httpResponseBody cart_update(@RequestBody CartRequestBody reqBody, Locale locale, Model model,
@@ -151,15 +172,6 @@ public class UserController {
 				} else {
 					throw new MinCopiesException();
 				} 
-			} else if (reqBody.getArg2().equals("availability_check")) {
-				//check disponibilità copie
-				List<ShoppingCart> cart = shopCartService.findUserShoppingCart(user);
-				for (ShoppingCart element : cart) {
-					if (element.getCopies() > element.getBook().getCopies()) {
-						throw new NoAvailableCopies();
-					}
-				return new httpResponseBody("available", "", "", "");
-				}
 			} else {
 
 				if (cartElementCopies < bookService.findById(reqBody.getBookID()).getCopies()) {
@@ -203,7 +215,46 @@ public class UserController {
 			return "checkout";
 		}
 	}
+	
+	//coupon validation
+	private String couponValidation (checkoutRequestBody checkoutReq, User buyer) {
+		Coupon coupon = couponService.findByCode(checkoutReq.getArg3());
+		if (coupon != null) {
+			//check validità coupon
+			if (buyer.checkUsage(coupon)) {
+				return "used";
+			} else {
+				return "available";
+			}
+		} else {
+			return "unavailable";
+		}
+	}
+	
+	//price formatter
+	private String currencyFormatter (double value) {
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		return formatter.format(value);
+	}
 
+	@PostMapping(value = "/coupon_validation")
+	@ResponseBody
+	public httpResponseBody couponCheck(@RequestBody checkoutRequestBody checkoutReq, Locale locale, Model model,
+			Authentication authentication) {
+		
+		String principal_name = authentication.getName();
+		User buyer = userService.findUserByUsername(principal_name);
+		Coupon coupon = couponService.findByCode(checkoutReq.getArg3());
+		String result = couponValidation(checkoutReq, buyer);
+		if (coupon == null) {
+			return new httpResponseBody(result, "", "", "");
+		}
+		else {
+			double couponSaving = buyer.getCartTotalPrice()*(double)(coupon.getDiscount()/100.00f);
+			return new httpResponseBody(result, currencyFormatter(couponSaving), currencyFormatter(buyer.getCartTotalPrice() - couponSaving), "");
+		}
+	}
+	
 	@PostMapping(value = "/checkout")
 	@ResponseBody
 	public httpResponseBody checkout_fill(@RequestBody checkoutRequestBody checkoutReq, Locale locale, Model model,
@@ -211,49 +262,31 @@ public class UserController {
 
 		String principal_name = authentication.getName();
 		User buyer = userService.findUserByUsername(principal_name);
-		
-		model.addAttribute("user", buyer); 
-		
-		if (checkoutReq.getArg1().equals("standard shipment address")) {
-			String payment; // card number
-			String shipmentAddress;
+		Coupon coupon; //= couponService.findByCode(checkoutReq.getArg3());
+		String shipmentAddress = checkoutReq.getArg1();
+		String payment = checkoutReq.getArg2();
 
-			// check per valorizzazione indirizzo di spedizione
-			if (checkoutReq.getArg1().equals("standard shipment address")) {
-				payment = checkoutReq.getArg2();
-				shipmentAddress = buyer.getPersonalData().getFullAddress();
-			} else {
-				payment = checkoutReq.getArg2();
-				shipmentAddress = checkoutReq.getArg1();
-			}
-			
-			// get order date
-			LocalDateTime now = LocalDateTime.now();
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-			String date = formatter.format(now);
-			Long buyerID = Long.valueOf(buyer.getUserID());
-			orderService.createFromShoppingCart(buyerID, shipmentAddress, payment);
-			shopCartService.emptyUserCart(buyer);
-			
-			return new httpResponseBody(shipmentAddress, payment, date, "");
-			
-		} else {//if (checkoutReq.getArg1().equals("coupon_validation")) {
-			
-			Coupon coupon = couponService.findByCode(checkoutReq.getArg2());
-			if (coupon != null) {
-				//check validità coupon
-				if (buyer.checkUsage(coupon)) {
-					return new httpResponseBody("used", "", "", "");
-				} else {
-					buyer.addUsedCoupon(coupon);
-					return new httpResponseBody("available", "", "", "");
-				}
-			} else {
-				return new httpResponseBody("nonexistent", "", "", "");
-			}
+		if (couponValidation(checkoutReq, buyer) == "available") {
+			coupon = couponService.findByCode(checkoutReq.getArg3());
+			buyer.addUsedCoupon(coupon);
+			long newUsageCount = coupon.getUsageCounter() + 1;
+			coupon.setUsageCounter(newUsageCount);//update usage
 		}
-	}
+		else {
+			coupon = null;
+		}
+		
+		// get order date
+		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		String date = formatter.format(now);
+		Long buyerID = Long.valueOf(buyer.getUserID());
+		orderService.createFromShoppingCart(buyerID, shipmentAddress, payment, coupon);
+		shopCartService.emptyUserCart(buyer);
 
+		return new httpResponseBody(shipmentAddress, payment, date, "");
+	}	
+	
 	@GetMapping(value = "/purchase_history")
 	public String purchaseHistory(@RequestParam(required = false) Integer page, Locale locale, Model model,
 			Authentication authentication) {
@@ -393,6 +426,7 @@ public class UserController {
 
 		private String arg1;
 		private String arg2;
+		private String arg3;
 
 		public checkoutRequestBody() {
 
@@ -414,7 +448,13 @@ public class UserController {
 			this.arg2 = arg2;
 		}
 
-		
+		public String getArg3() {
+			return arg3;
+		}
+
+		public void setArg3(String arg3) {
+			this.arg3 = arg3;
+		}
 	}
 
 	public static class addCartResponse {

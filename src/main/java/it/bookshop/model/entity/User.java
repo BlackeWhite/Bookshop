@@ -181,7 +181,15 @@ public class User implements Serializable{
 		card.setUser(this);
 	}
 	
-	@ManyToMany
+	/*fetch = FetchType.EAGER,
+	cascade = CascadeType.ALL*/
+
+	@ManyToMany(cascade = { 
+			CascadeType.DETACH,
+			CascadeType.MERGE,
+			CascadeType.REFRESH,
+			CascadeType.PERSIST,},
+			fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "USERS_COUPONS",
 			joinColumns = @JoinColumn(
@@ -197,6 +205,8 @@ public class User implements Serializable{
 	
 	public void addUsedCoupon(Coupon coupon) {
 		this.coupons.add(coupon);
+		this.setCoupons(coupons);
+		
 	}	
 	
 	@Transient

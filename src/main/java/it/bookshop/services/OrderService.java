@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import it.bookshop.model.entity.Book;
+import it.bookshop.model.entity.Coupon;
 import it.bookshop.model.entity.Order;
 import it.bookshop.model.entity.User;
 
@@ -17,7 +18,7 @@ public interface OrderService {
 	//TODO delete some unused create functions
 	//public Order createFromDirectPurchase(User buyer, Book book, int copies);
 	//If user buys from shopping cart page
-	public Order createFromShoppingCart(Long userId, String shipmentAdress, String payment);
+	public Order createFromShoppingCart(Long userId, String shipmentAdress, String payment, Coupon coupon);
 	
 	public Order update(Order order);
 	public List<Order> findAll();

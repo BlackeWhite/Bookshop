@@ -49,6 +49,8 @@
 <c:url value="/resources" var="resources" />
 <c:url value="/show_book"  var="show_book"/>
 <c:url value="/delete_card"  var="delete_card"/>
+<c:url value="/copies_check"  var="copies_check"/>
+<c:url value="/coupon_validation"  var="coupon_validation"/>
 <c:url value="/checkout"  var="checkout"/>
 <c:url value="/admin/delete_user"  var="delete_user"/>
 <c:url value="/admin/delete_genre"  var="delete_genre"/>
@@ -60,6 +62,8 @@ var add_cart_url = "${add_cart}";
 var resources_url = "${resources}";
 var show_book_url = "${show_book}";
 var delete_card_url = "${delete_card}";
+var copies_check_url = "${copies_check}";
+var coupon_validation_url = "${coupon_validation}";
 var checkout_url = "${checkout}";
 var delete_user_url = "${delete_user}";
 var delete_genre_url = "${delete_genre}";

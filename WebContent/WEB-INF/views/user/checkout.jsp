@@ -134,19 +134,19 @@
 								<div class="col-lg-6 col-md-6 col-12">
 									<div class="form-group">
 										<label>Città <span>*</span></label>
-										<input type="text" name="città" placeholder="${user.personalData.city}" disabled>
+										<input id="shipCity" type="text" placeholder="${user.personalData.city}" value="${user.personalData.city}" disabled>
 									</div>
 								</div>
 								<div class="col-lg-6 col-md-6 col-12">
 									<div class="form-group">
 										<label>Indirizzo di spedizione <span>*</span></label>
-										<input type="text" name="address" placeholder="${user.personalData.fullAddress}" disabled>
+										<input id="shipAddr" type="text" placeholder="${user.personalData.street}" value="${user.personalData.street}" disabled>
 									</div>
 								</div>
 								<div class="col-lg-6 col-md-6 col-12">
 									<div class="form-group">
 										<label>Codice postale<span>*</span></label>
-										<input type="text" name="post" placeholder="${user.personalData.cap}" disabled>
+										<input id="shipCAP" type="text" placeholder="${user.personalData.cap}" value="${user.personalData.cap}" disabled>
 									</div>
 								</div>
 								<div class="col-12">
@@ -170,10 +170,10 @@
 					<div class="single-widget">
 						<h2>Riepilogo totale carrello</h2>
 						<div class="content">
-							<ul>
+							<ul id="checkout_costs_report">
 								<li>Subtotale<span>${user.formattedCartSubtotalPrice}</span></li>
 								<li>Costi di spedizione<span>€ 5,00</span></li>
-								<li id="savings">Risparmio<span>${user.formattedSavedMoney}</span></li>
+								<li id="savings">Risparmio<span>- ${user.formattedSavedMoney}</span></li>
 								<li id="checkout_total" class="last">Totale<span>${user.formattedCheckoutTotalPrice}</span></li>
 							</ul>
 						</div>
@@ -185,7 +185,7 @@
 							<li>
 								<div class="coupon">
 									<!--  <form class="couponForm form" target="_blank">  </form> -->
-									<input name="coupon" type="text" placeholder="INSERISCI IL COUPON">
+									<input id="coupon_code" type="text" placeholder="INSERISCI IL COUPON">
 									<button id="coupon" class="btn btn-sm">APPLICA</button>
 								</div>
 							</li>
@@ -203,9 +203,7 @@
 									<p style="text-align:center;">Seleziona una carta</p>
 									<br>
 									<select id="credit_card_select" id="credit_card">
-										<option>
-											Nessuna carta selezionata    
-										</option>
+										<option selected>Nessuna carta selezionata</option>
 									<c:forEach items="${user.paymentCards}" var="card">
 										<option id="" value="${card.type} ${card.hiddenNumber} ${card.shortExpirationDate}" style="margin:auto; font-size:2px">
 											${card.type} | ${card.hiddenNumber.toLowerCase()} | ${card.shortExpirationDate}
@@ -214,19 +212,19 @@
 									</select>
 								</div>
 							</li>
-							<div class="radio">
+							<div id="paymentMethods" class="radio">
 								<li>
-									<label ><input id="card_payment" class="card_payment"type="radio" name="payment" value="" checked> Card
+									<label ><input id="card_payment" class="card_payment" type="radio" name="payment" checked> Card
 									<img src="images/payment-method.png">
 									<img src="images/payment-method.png">
 									<img src="images/payment-method.png"></label>
 								</li> 
 								<li>
-									<label><input id="cash_payment" class="no_card_payment" type="radio" name="payment" value=""> Cash On Delivery</label>
+									<label><input id="cash_payment" class="no_card_payment" type="radio" name="payment"> Cash On Delivery</label>
 									<img src="images/payment-method.png" alt="#"></label>
 								</li>
 								<li>
-									<label><input id="paypal_payment" class="no_card_payment" type="radio" name="payment" value=""> PayPal</label>
+									<label><input id="paypal_payment" class="no_card_payment" type="radio" name="payment"> PayPal</label>
 									<img src="images/payment-method.png" alt="#"></label>
 								</li>
 							</div>

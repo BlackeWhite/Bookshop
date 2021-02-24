@@ -16,6 +16,7 @@ import it.bookshop.model.dao.OrderDao;
 import it.bookshop.model.dao.ShoppingCartDao;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.BookOrder;
+import it.bookshop.model.entity.Coupon;
 import it.bookshop.model.entity.Order;
 import it.bookshop.model.entity.ShoppingCart;
 import it.bookshop.model.entity.User;
@@ -54,7 +55,7 @@ public class OrderServiceDefault implements OrderService {
 	*/
 
 	@Override
-	public Order createFromShoppingCart(Long userId, String shipmentAddress, String payment) {
+	public Order createFromShoppingCart(Long userId, String shipmentAddress, String payment, Coupon coupon) {
 		Date date = new Date(System.currentTimeMillis());
 		User user = userService.findUserById(userId);
 		List<ShoppingCart> cart = shoppingCartService.findUserShoppingCart(user);
@@ -68,7 +69,14 @@ public class OrderServiceDefault implements OrderService {
 			b.setPrice(c.getBook().getDiscountedPrice());
 			books.add(b);
 			}
-		return orderRepository.create(user, date, books, shipmentAddress, payment);
+		
+		if (coupon != null) {
+			return orderRepository.create(user, date, books, shipmentAddress, payment, coupon.getDiscount());
+		}
+		else {
+			return orderRepository.create(user, date, books, shipmentAddress, payment);
+		}
+		
 	}
 
 	@Override

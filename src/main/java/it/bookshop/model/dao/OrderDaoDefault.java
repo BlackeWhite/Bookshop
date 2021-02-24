@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.bookshop.model.entity.BookOrder;
+import it.bookshop.model.entity.Coupon;
 import it.bookshop.model.entity.Order;
 import it.bookshop.model.entity.User;
 
@@ -45,7 +46,7 @@ public class OrderDaoDefault extends DefaultDao implements OrderDao {
 		o.setDate(date);
 		o.setShipmentAddress(shipmentAddress);
 		o.setPayment(payment);
-		o.setBooks(books);
+		o.setBooks(books); 
 		o.setTotalExpense(buyer.getCartTotalPrice());
 		Long id = (Long) getSession().save(o);
 		//For some reasong bookOrder set is not getting persisted
@@ -56,7 +57,27 @@ public class OrderDaoDefault extends DefaultDao implements OrderDao {
 		}
 		return o;
 	}
-
+	
+	@Override
+	public Order create(User buyer, Date date, Set<BookOrder> books, String shipmentAddress, String payment, int coupon_discount) {
+		Order o = new Order();
+		o.setBuyer(buyer);
+		o.setDate(date);
+		o.setShipmentAddress(shipmentAddress);
+		o.setPayment(payment);
+		o.setBooks(books); 
+		double coupon_saving = buyer.getCartTotalPrice()*(coupon_discount/100);
+		o.setTotalExpense(buyer.getCartTotalPrice() - coupon_saving);
+		Long id = (Long) getSession().save(o);
+		//For some reasong bookOrder set is not getting persisted
+		//So we must save them manually
+		o = findById(id);
+		for(BookOrder b: books) {
+			bookOrderRepository.create(o, b.getBook(), b.getCopies());
+		}
+		return o;
+	}
+	
 	@Override
 	public Order update(Order order) {
 		return (Order) getSession().merge(order);
