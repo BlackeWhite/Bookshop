@@ -52,21 +52,28 @@ $(document).ready(function() {
 	}
 	
 	$("#pre-checkout").click(function(e) {
+		//controllo disponibilità basato su presenza elemento html p 
+		//che segnala insufficienza copie
 		if (document.querySelectorAll(".copies_error").length) {
 			e.preventDefault();
 			popupMessage("Attenzione! Disponibilità di copie insufficiente");
 		} else { 
+			//controllo in caso di disponibilità modificata in fase di acquisto 
+			// mentre si era rimasti sulla pagina di carrello
 			$.ajax({
-            type : 'POST',
-            url : cart_url,
-			data : JSON.stringify({"bookID" : null, "arg2": "availability_check", "arg3": ""}),
+            type : 'GET',
+            url : copies_check_url,
 			contentType : 'application/json',
            	dataType: "json", //The type of data that you're expecting back from the server	
+			success: function (data) {
+				if (data["response1"]=="available") {
+					window.location.href = checkout_url;
+				}
+			},
 			error: function () {
 				window.location.href = cart_url;
 			},
             processData : false });
-			
 		}
 	});
 	
