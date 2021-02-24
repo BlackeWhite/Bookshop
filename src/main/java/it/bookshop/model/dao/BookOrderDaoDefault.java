@@ -20,6 +20,7 @@ public class BookOrderDaoDefault extends DefaultDao implements BookOrderDao {
 		b.setId(id);
 		b.setOrder(order);
 		b.setBook(book);
+		book.setCopies(book.getCopies()-copies); //aggiornamento copie disponibili
 		b.setCopies(copies);
 		b.setPrice(book.getPrice());
 		getSession().save(b);
