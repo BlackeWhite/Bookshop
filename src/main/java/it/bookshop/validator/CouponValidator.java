@@ -29,9 +29,9 @@ public class CouponValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "code", "code.required", "Inserisci un codice.");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "expireDate", "expireDate.required", "Inserisci una data di scadenza.");
 		
-		Coupon existing = couponService.findByCode(coupon.getCode());
+		Coupon existing = couponService.findByCode(coupon.getCode().trim().toUpperCase());
 		if(existing != null) {
-			errors.rejectValue("code", "invalidCode", new Object[] { "'code'" }, "Codice già inserito.");
+			errors.rejectValue("code", "invalidCode", new Object[] { "'code'" }, "Codice già esistente.");
 		}
 		
 		//La data di scadenza non deve essere precedente alla data odierna

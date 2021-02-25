@@ -167,6 +167,8 @@ public class AdminController {
 			model.addAttribute("coupons", couponService.findAll());
 			return "manage_coupons";
 		}
+		//Codice case insensitive
+		coupon.setCode(coupon.getCode().trim().toUpperCase());
 		
 		//TODO implement a create function that takes a coupon directly
 		couponService.create(coupon.getCode(), coupon.getDiscount(), coupon.getExpireDate());
