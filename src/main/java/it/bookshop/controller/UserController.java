@@ -91,6 +91,8 @@ public class UserController {
 		model.addAttribute("cartTotalPrice", user.getFormattedCartSubtotalPrice());
 		model.addAttribute("cartTotalItems", user.getCartTotalItems());
 		model.addAttribute("appName", appName);
+		List<Genre> allGenres = this.bookService.getAllGenres();
+		model.addAttribute("allGenres", allGenres);
 
 		return "cart";
 	}
@@ -130,22 +132,15 @@ public class UserController {
 	
 	//controllo disponibilità copie per libri nel carello 
 	//NB: non si specifica per quale/i libro/i si ha insufficienza di copie
-	@GetMapping(value = "/copies_check")
-	@ResponseBody
-	public httpResponseBody copies_check(Locale locale, Model model,
-			Authentication authentication) throws NoAvailableCopies {
-		
-		String principal_name = authentication.getName();
-		User user = userService.findUserByUsername(principal_name);
-	
-			//check disponibilità copie
-			List<ShoppingCart> cart = shopCartService.findUserShoppingCart(user);
-			for (ShoppingCart element : cart) {
-				if (element.getCopies() > element.getBook().getCopies()) {
-					throw new NoAvailableCopies();
-				}
+	private boolean copies_check(User buyer) {
+		//check disponibilità copie
+		List<ShoppingCart> cart = shopCartService.findUserShoppingCart(buyer);
+		for (ShoppingCart element : cart) {
+			if (element.getCopies() > element.getBook().getCopies()) {
+				return false;
 			}
-			return new httpResponseBody("available", "", "", "");
+		}
+		return true;
 	}
 	
 	@PostMapping(value = "/cart")
@@ -195,8 +190,6 @@ public class UserController {
 		//@RequestBody checkoutRequestBody checkoutReq,
 		String principal_name = authentication.getName();
 		User buyer = userService.findUserByUsername(principal_name);
-		List<Genre> allGenres = this.bookService.getAllGenres();
-		model.addAttribute("allGenres", allGenres);
 
 		/*
 		 * else if (reqBody.getArg2().equals("coupon")) { Coupon coupon =
@@ -207,17 +200,20 @@ public class UserController {
 		 * "", "", ""); } }
 		 */
 		
-		if (buyer.getCartTotalItems() == 0) {
-			return "cart"; 
-		} else {
-			model.addAttribute("user", buyer);
-			model.addAttribute("total", buyer.getFormattedCartSubtotalPrice());
-			return "checkout";
+		if (buyer.getCartTotalItems() == 0 || !copies_check(buyer)) {
+			return "redirect:/cart"; 
 		}
+		
+		model.addAttribute("user", buyer);
+		model.addAttribute("total", buyer.getFormattedCartSubtotalPrice());
+		List<Genre> allGenres = this.bookService.getAllGenres();
+		model.addAttribute("allGenres", allGenres);
+		return "checkout";
+		
 	}
 	
 	//coupon validation
-	private String couponValidation (checkoutRequestBody checkoutReq, User buyer) {
+	private String couponCheck (checkoutRequestBody checkoutReq, User buyer) {
 		Coupon coupon = couponService.findByCode(checkoutReq.getArg3());
 		if (coupon != null) {
 			//check validità coupon
@@ -239,13 +235,13 @@ public class UserController {
 
 	@PostMapping(value = "/coupon_validation")
 	@ResponseBody
-	public httpResponseBody couponCheck(@RequestBody checkoutRequestBody checkoutReq, Locale locale, Model model,
+	public httpResponseBody couponValidation(@RequestBody checkoutRequestBody checkoutReq, Locale locale, Model model,
 			Authentication authentication) {
 		
 		String principal_name = authentication.getName();
 		User buyer = userService.findUserByUsername(principal_name);
 		Coupon coupon = couponService.findByCode(checkoutReq.getArg3());
-		String result = couponValidation(checkoutReq, buyer);
+		String result = couponCheck(checkoutReq, buyer);
 		if (coupon == null) {
 			return new httpResponseBody(result, "", "", "");
 		}
@@ -258,19 +254,26 @@ public class UserController {
 	@PostMapping(value = "/checkout")
 	@ResponseBody
 	public httpResponseBody checkout_fill(@RequestBody checkoutRequestBody checkoutReq, Locale locale, Model model,
-			Authentication authentication) {
+			Authentication authentication) throws NoAvailableCopies{
 
 		String principal_name = authentication.getName();
 		User buyer = userService.findUserByUsername(principal_name);
+		
+		if (!copies_check(buyer)) {
+			throw new NoAvailableCopies();
+		}
+		
 		Coupon coupon; //= couponService.findByCode(checkoutReq.getArg3());
 		String shipmentAddress = checkoutReq.getArg1();
 		String payment = checkoutReq.getArg2();
 
-		if (couponValidation(checkoutReq, buyer) == "available") {
+		if (couponCheck(checkoutReq, buyer) == "available") {
 			coupon = couponService.findByCode(checkoutReq.getArg3());
 			buyer.addUsedCoupon(coupon);
 			long newUsageCount = coupon.getUsageCounter() + 1;
 			coupon.setUsageCounter(newUsageCount);//update usage
+			userService.update(buyer);
+			couponService.update(coupon);
 		}
 		else {
 			coupon = null;

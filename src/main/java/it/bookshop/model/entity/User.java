@@ -205,13 +205,14 @@ public class User implements Serializable{
 	
 	public void addUsedCoupon(Coupon coupon) {
 		this.coupons.add(coupon);
-		this.setCoupons(coupons);
-		
 	}	
 	
 	@Transient
 	public boolean checkUsage(Coupon coupon) {
-		return this.coupons.contains(coupon);	
+		/*for (Coupon c : this.coupons) 
+			if(coupon.getCode().equals(c.getCode())) return true;
+		return false;*/
+		return this.coupons.contains(coupon);
 	}
 	
 	@Transient
@@ -254,6 +255,16 @@ public class User implements Serializable{
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
 		return formatter.format(total);  
 	}
+	
+	@Transient
+	public double getSavedMoney() {
+		double total = 0;
+		for (ShoppingCart c : shoppingCart) {
+			total += c.getElementSavedMoney(); 
+		}
+		return total;  
+	}
+	
 	
 	@Transient
 	public String getFormattedSavedMoney() {

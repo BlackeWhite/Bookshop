@@ -151,7 +151,7 @@
 									<li id="checkout_total" class="last">Totale<span>${user.formattedCheckoutTotalPrice}</span></li>
 								</ul>
 								<div class="button5">
-									<a id="pre-checkout" class="btn">Checkout</a> 
+									<a id="pre-checkout" class="btn" href="<c:url value="/checkout" />">Checkout</a> 
 									<a href="<c:url value="/" />" class="btn">Continua gli acquisti</a>
 								</div>
 							</div>

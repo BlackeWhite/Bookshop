@@ -40,7 +40,7 @@ $(document).ready(function() {
 	$("#checkout").click(function() { //$(document).on('click', '#checkout', function()
 		var fullAddress;
 		var paymentDetails = "";
-		var coupon_code = $("#coupon_code").val().toUpperCase();
+		var coupon_code = $("#coupon_code_hidden").val().toUpperCase().trim();
 		
 		var emptyForm;
 		//Controllo form indirizzo di spedizione completo
@@ -102,9 +102,10 @@ $(document).ready(function() {
 					'</div>' +
 				'</div>' +
 			'</section>');
+			
 		    },
 			error: function (e) {
-				alert("La conferma dell'ordine non è andato a buon fine.");
+				window.location.href = cart_url;
 			},
 		    processData : false });
 		
@@ -112,7 +113,7 @@ $(document).ready(function() {
 	
 	//Validazione e applicazione coupon
 	$(document).on('click', '#coupon', function(){ 
-		coupon_code = $("#coupon_code").val().toUpperCase();
+		coupon_code = $("#coupon_code").val().toUpperCase().trim();
 		$.ajax({
             type : 'POST',
             url : coupon_validation_url,
@@ -131,6 +132,8 @@ $(document).ready(function() {
 					var oldValue = $("#checkout_total span").text().split(" ")[1];
 					$("#checkout_total").replaceWith('<li id="checkout_total" class="last" oldValue=' + oldValue + '>Totale<span>'+ data["response3"] +'</span></li>');
 					$("#coupon").replaceWith('<button id="delCoupon" class="btn btn-sm">RIMUOVI</button>');
+					$("#coupon_code_hidden").val($("#coupon_code").val());
+					$("#coupon_code").prop("disabled", true);
 				}	
 			},
             processData : false });
@@ -141,7 +144,9 @@ $(document).ready(function() {
 		//remove coupon
 		$("#coupon_save").remove();
 		$("#checkout_total").replaceWith('<li id="checkout_total" class="last">Totale<span>€ '+ $("#checkout_total").attr("oldValue") +'</span></li>');
-		$("#coupon_code").replaceWith('<input id="coupon_code" type="text" placeholder="INSERISCI IL COUPON">');
+		$("#coupon_code_hidden").val("");
+		$("#coupon_code").val("");
+		$("#coupon_code").prop("disabled", false);
 		$("#delCoupon").replaceWith('<button id="coupon" class="btn btn-sm">APPLICA</button>');
 	});
 	

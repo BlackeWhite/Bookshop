@@ -71,7 +71,7 @@ $(document).ready(function() {
 						' title="Elimina questo elemento"><i class="fa fa-remove"></i></a>' +
 						'<a style="border: none" class="cart-img" href="' + show_book_url + '/' + data["bookID"] +
 						'"><img style="object-fit:contain; border: none" src="' +
-						resources_url + '/img/' + data["cover"] + '" alt="#"></a>' +
+						resources_url + '/img/cover_book/' + data["cover"] + '" alt="#"></a>' +
 						'<h4><a href="' + show_book_url + '/' + data["bookID"] + '">' +
 						data["title"] + '</a></h4><p class="quantity">' +
 						"Copie: " + data["copies"] + " - Totale: " + data["elemTotalPrice"] +
