@@ -53,7 +53,7 @@ public class OrderDaoDefault extends DefaultDao implements OrderDao {
 		//So we must save them manually
 		o = findById(id);
 		for(BookOrder b: books) {
-			bookOrderRepository.create(o, b.getBook(), b.getCopies());
+			bookOrderRepository.create(o, b);
 		}
 		return o;
 	}

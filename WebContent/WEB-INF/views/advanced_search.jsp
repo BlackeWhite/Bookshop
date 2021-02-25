@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="security"
+	uri="http://www.springframework.org/security/tags"%>
 
 <!-- Hidden input to get the current search term in the javascript -->
 <input id="search_term" type="hidden" value="${term}">
@@ -123,13 +125,15 @@
 											<span class="price-dec">${b.truncatedDiscount}%</span>
 										</c:if>
 									</a>
-									<div class="button-head">
-										<div class="product-action"></div>
-										<div class="product-action-2">
-											<input type="hidden" value="1" id="amount_${b.id}">
-											<button class="add_to_cart" data-book="${b.id}">Aggiungi al carrello</button>
+									<security:authorize access="isAuthenticated()">
+										<div class="button-head">
+											<div class="product-action"></div>
+											<div class="product-action-2">
+												<input type="hidden" value="1" id="amount_${b.id}">
+												<button class="add_to_cart" data-book="${b.id}">Aggiungi al carrello</button>
+											</div>
 										</div>
-									</div>
+									</security:authorize>
 								</div>
 								<div class="product-content">
 									<h3>

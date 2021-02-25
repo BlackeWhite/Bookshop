@@ -13,4 +13,5 @@ public interface BookOrderDao {
 	public void setSession(Session session);
 	
 	public BookOrder create(Order order, Book book, int copies);
+	public BookOrder create(Order order, BookOrder b);
 }

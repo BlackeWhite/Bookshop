@@ -63,7 +63,6 @@ public class OrderServiceDefault implements OrderService {
 		Set<BookOrder> books = new HashSet<BookOrder>();
 		for(ShoppingCart c : cart) {
 			BookOrder b = new BookOrder();
-			System.out.println(c.getBook().getTitle());
 			b.setBook(c.getBook());
 			b.setCopies(c.getCopies()); 
 			b.setPrice(c.getBook().getDiscountedPrice());
