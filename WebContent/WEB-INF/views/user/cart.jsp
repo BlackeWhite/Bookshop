@@ -147,7 +147,9 @@
 										<span>${user.formattedCartSubtotalPrice}</span>
 									</li>
 									<li>Costi di spedizione<span>€ 5,00</span></li>
-									<li id="savings">Risparmio<span>${user.formattedSavedMoney}</span></li>
+									<c:if test="${user.savedMoney>0}">
+										<li id="savings">Risparmio<span>${user.formattedSavedMoney}</span></li>
+									</c:if>
 									<li id="checkout_total" class="last">Totale<span>${user.formattedCheckoutTotalPrice}</span></li>
 								</ul>
 								<div class="button5">
