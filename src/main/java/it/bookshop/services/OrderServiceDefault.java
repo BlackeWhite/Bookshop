@@ -1,6 +1,7 @@
 package it.bookshop.services;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -37,8 +38,9 @@ public class OrderServiceDefault implements OrderService {
 
 	@Override
 	public Order create(User buyer, String shipmentAddress, String payment) {
-		Date date = new Date(System.currentTimeMillis());
-		return orderRepository.create(buyer, date, shipmentAddress, payment);
+		double shipmentCost = 5;
+		LocalDateTime date = LocalDateTime.now();
+		return orderRepository.create(buyer, date, shipmentAddress, payment, shipmentCost);
 	}
 	
 	//check usage 
@@ -56,7 +58,7 @@ public class OrderServiceDefault implements OrderService {
 
 	@Override
 	public Order createFromShoppingCart(Long userId, String shipmentAddress, String payment, Coupon coupon) {
-		Date date = new Date(System.currentTimeMillis());
+		LocalDateTime date = LocalDateTime.now();
 		User user = userService.findUserById(userId);
 		List<ShoppingCart> cart = shoppingCartService.findUserShoppingCart(user);
 		
@@ -69,11 +71,13 @@ public class OrderServiceDefault implements OrderService {
 			books.add(b);
 			}
 		
+		double shipmentCost = 5;
+		
 		if (coupon != null) {
-			return orderRepository.create(user, date, books, shipmentAddress, payment, coupon.getDiscount());
+			return orderRepository.create(user, date, books, shipmentAddress, payment, shipmentCost, coupon.getDiscount());
 		}
 		else {
-			return orderRepository.create(user, date, books, shipmentAddress, payment);
+			return orderRepository.create(user, date, books, shipmentAddress, payment, shipmentCost);
 		}
 		
 	}
@@ -89,24 +93,24 @@ public class OrderServiceDefault implements OrderService {
 	}
 	
 	@Override
-	public List<Order> findAllMadeAfter(Date date) {
+	public List<Order> findAllMadeAfter(LocalDateTime date) {
 		List<Order> all = orderRepository.findAll();
 		//Lambda and streams to filter a list
 		List<Order> after = all.stream()
-				.filter(p -> p.getDate().after(date)).collect(Collectors.toList());
+				.filter(p -> p.getDate().isAfter(date)).collect(Collectors.toList());
 		return after;
 	}
 	
 	@Override
 	public List<Order> findUserOrders(User user) {
-		return orderRepository.findUserOrders(user);
+		return orderRepository.findUserOrders(user); 
 	}
 	
 	@Override
-	public List<Order> findUserOrdersMadeAfter(User user, Date date) {
+	public List<Order> findUserOrdersMadeAfter(User user, LocalDateTime date) {
 		List<Order> all = orderRepository.findUserOrders(user);
 		List<Order> after = all.stream()
-				.filter(p -> p.getDate().after(date)).collect(Collectors.toList());
+				.filter(p -> p.getDate().isAfter(date)).collect(Collectors.toList());
 		return after;
 	}
 

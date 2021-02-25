@@ -1,6 +1,7 @@
 package it.bookshop.model.dao;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,26 +29,26 @@ public class OrderDaoDefault extends DefaultDao implements OrderDao {
 	}
 
 	@Override
-	public Order create(User buyer, Date date, String shipmentAddress, String payment) {
+	public Order create(User buyer, LocalDateTime date, String shipmentAddress, String payment, double shipmentCost) {
 		Order p = new Order();
 		p.setBuyer(buyer);
 		p.setDate(date);
 		p.setShipmentAddress(shipmentAddress);
 		p.setPayment(payment);
-		p.setTotalExpense(buyer.getCartTotalPrice());
+		p.setTotalExpense(buyer.getCartTotalPrice() + shipmentCost);
 		getSession().save(p);
 		return p;
 	}
 
 	@Override
-	public Order create(User buyer, Date date, Set<BookOrder> books, String shipmentAddress, String payment) {
+	public Order create(User buyer, LocalDateTime date, Set<BookOrder> books, String shipmentAddress, String payment, double shipmentCost) {
 		Order o = new Order();
 		o.setBuyer(buyer);
 		o.setDate(date);
 		o.setShipmentAddress(shipmentAddress);
 		o.setPayment(payment);
 		o.setBooks(books); 
-		o.setTotalExpense(buyer.getCartTotalPrice());
+		o.setTotalExpense(buyer.getCartTotalPrice() + shipmentCost);
 		Long id = (Long) getSession().save(o);
 		//For some reasong bookOrder set is not getting persisted
 		//So we must save them manually
@@ -59,7 +60,7 @@ public class OrderDaoDefault extends DefaultDao implements OrderDao {
 	}
 	
 	@Override
-	public Order create(User buyer, Date date, Set<BookOrder> books, String shipmentAddress, String payment, int coupon_discount) {
+	public Order create(User buyer, LocalDateTime date, Set<BookOrder> books, String shipmentAddress, String payment, double shipmentCost, int coupon_discount) {
 		Order o = new Order();
 		o.setBuyer(buyer);
 		o.setDate(date);
@@ -67,7 +68,7 @@ public class OrderDaoDefault extends DefaultDao implements OrderDao {
 		o.setPayment(payment);
 		o.setBooks(books); 
 		double coupon_saving = buyer.getCartTotalPrice()*(coupon_discount/100);
-		o.setTotalExpense(buyer.getCartTotalPrice() - coupon_saving);
+		o.setTotalExpense(buyer.getCartTotalPrice() + shipmentCost - coupon_saving);
 		Long id = (Long) getSession().save(o);
 		//For some reasong bookOrder set is not getting persisted
 		//So we must save them manually

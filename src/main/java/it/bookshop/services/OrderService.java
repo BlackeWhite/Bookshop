@@ -1,6 +1,7 @@
 package it.bookshop.services;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import it.bookshop.model.entity.Book;
@@ -22,8 +23,8 @@ public interface OrderService {
 	
 	public Order update(Order order);
 	public List<Order> findAll();
-	public List<Order> findAllMadeAfter(Date date);
+	public List<Order> findAllMadeAfter(LocalDateTime date);
 	public List<Order> findUserOrders(User user);
-	public List<Order> findUserOrdersMadeAfter(User user, Date date);
+	public List<Order> findUserOrdersMadeAfter(User user, LocalDateTime date);
 	public void delete(Order order);
 }

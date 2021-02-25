@@ -1,6 +1,7 @@
 package it.bookshop.model.dao;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -17,9 +18,9 @@ public interface OrderDao {
 	public void setSession(Session session);
 	
 	public Order findById(Long id);
-	public Order create(User buyer, Date date, String shipmentAddress, String payment);
-	public Order create(User buyer, Date date, Set<BookOrder> books, String shipmentAddress, String payment);
-	public Order create(User buyer, Date date, Set<BookOrder> books, String shipmentAddress, String payment, int coupon_discount);
+	public Order create(User buyer, LocalDateTime date, String shipmentAddress, String payment, double shipmentCost);
+	public Order create(User buyer, LocalDateTime date, Set<BookOrder> books, String shipmentAddress, String payment, double paymentCost);
+	public Order create(User buyer, LocalDateTime date, Set<BookOrder> books, String shipmentAddress, String payment, double paymentCost, int coupon_discount);
 	public Order update(Order order);
 	public List<Order> findAll();
 	public List<Order> findUserOrders(User user);

@@ -2,6 +2,7 @@ package it.bookshop.model.entity;
 
 import java.sql.Date;
 import java.text.NumberFormat;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,7 +26,7 @@ public class Order {
 	
 	private Long id;
 	private User buyer;
-	private Date date;
+	private LocalDateTime date;
 	private String shipmentAddress;
 	private String payment;
 	private Set<BookOrder> books = new HashSet<BookOrder>();
@@ -51,10 +52,10 @@ public class Order {
 	}
 	
 	@Column(name="DATE")
-	public Date getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 	
