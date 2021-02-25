@@ -30,7 +30,8 @@ public class BookOrderDaoDefault extends DefaultDao implements BookOrderDao {
 	@Override
 	public BookOrder create(Order order, BookOrder b) {
 		BookOrderId id = new BookOrderId(order.getId(), b.getBook().getId());
-		b.getBook().setCopies(b.getBook().getCopies()-b.getCopies()); //aggiornamento copie disponibili
+		b.getBook().setCopies(b.getBook().getCopies() - b.getCopies()); //aggiornamento copie disponibili
+		b.getBook().setSoldCopies(b.getBook().getCopies() + b.getCopies());
 		b.setId(id);
 		b.setOrder(order);
 		getSession().save(b);
