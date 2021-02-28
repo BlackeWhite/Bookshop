@@ -43,12 +43,17 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 	public Author create(String name, String surname, Date date, String nationality, String biography, String photo) {
 		Author a = new Author();
 		a.setName(name);
-		a.setSurname(surname);
+		if(surname.isEmpty()) {
+			a.setSurname("#SURNAME_PLACEHOLDER");
+			}
+		else {
+			a.setSurname(surname);
+		}
 		a.setBirthdate(date);
 		a.setNationality(nationality);
 		a.setBiography(biography);
 		a.setPhoto(photo);
-		
+		if(a.getPhoto().isEmpty()) a.setPhoto("profile-placeholder.png");
 		getSession().save(a);
 		return a;
 	}
@@ -56,7 +61,13 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 	public Author create(String name, String surname) {
 		Author a = new Author();
 		a.setName(name);
-		a.setSurname(surname);	
+		if(surname.isEmpty()) {
+			a.setSurname("#SURNAME_PLACEHOLDER");
+			}
+		else {
+			a.setSurname(surname);
+		}
+		a.setPhoto("profile-placeholder.png");
 		getSession().save(a);
 		return a;
 	}

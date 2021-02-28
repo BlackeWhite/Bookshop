@@ -68,7 +68,7 @@ public class SellerController {
 
 		return "home_seller";
 	}
-
+	
 	// form per l'aggiunta di un libro
 	@GetMapping(value = "/addition_book")
 	public String additionBooK(@RequestParam(value = "error", required = false) Locale locale, Model model) {
@@ -81,26 +81,27 @@ public class SellerController {
 		Bookform bf = new Bookform();
 
 		List<String> gen = new ArrayList<String>();
-		List<String> authors = new ArrayList<String>();
-
+		List<String> authors_name = new ArrayList<String>();
+		List<String> authors_surname = new ArrayList<String>();
+		
 		List<Genre> allGenres = this.bookService.getAllGenres();
 		Iterator<Genre> iteGen = allGenres.iterator();
 
 		while (iteGen.hasNext()) {
 			gen.add(iteGen.next().getName());
 		}
-
+		/*
 		List<Author> allAuthors = this.authorService.findAll();
 		Iterator<Author> iterAuthors = allAuthors.iterator();
 		while (iterAuthors.hasNext()) {
 			authors.add(iterAuthors.next().getFullName());
-		}
-		// manca l'upload di un'immagine del libro
+		}*/
 
 		model.addAttribute("errorMessage", errorMessage);
 		model.addAttribute("newBook", bf);
 		model.addAttribute("genre", gen);
-		model.addAttribute("authors", authors);
+		model.addAttribute("authorsName", authors_name);
+		model.addAttribute("authorsSurname", authors_surname);
 		model.addAttribute("mode", mode);
 		model.addAttribute("i", i); // utilizzata come contatore nella vista
 
@@ -124,24 +125,25 @@ public class SellerController {
 			while (iteGen.hasNext()) {
 				gen.add(iteGen.next().getName());
 			}
-
+			
+			/*
 			List<String> authors = new ArrayList<String>();
 			List<Author> allAuthors = this.authorService.findAll();
 			Iterator<Author> iterAuthor = allAuthors.iterator();
 			while (iterAuthor.hasNext()) {
+				if(iterAuthor.next() == null) break;
 				authors.add(iterAuthor.next().getFullName());
-			}
+			}*/
 
 			model.addAttribute("genre", gen);
 			model.addAttribute("newBook", book);
-			model.addAttribute("authors", authors);
+			//model.addAttribute("authors", authors);
 			return "addittion_book";
 		} else {
 			try {
 				// memorizza il file appena caricato dalla form (stackoverflow)
 				String path=session.getServletContext().getRealPath("/"); 
-				byte barr[]=book.getCover().getBytes();  
-		          
+				byte barr[]=book.getCover().getBytes();   
 		        BufferedOutputStream bout=new BufferedOutputStream(new FileOutputStream(path+"resources/img/cover_book/" + book.getCover().getOriginalFilename()));  
 		        bout.write(barr);  
 		        bout.flush();  
@@ -149,7 +151,6 @@ public class SellerController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 			this.bookService.create(book, seller); 
 			String message = "Libro aggiunto correttamente ";
 			model.addAttribute("message", message);

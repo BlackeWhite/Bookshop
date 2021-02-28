@@ -5215,7 +5215,21 @@ Version:1.0
 	transition: 0.5s;
 }
 
+/*
+label{
+    display: inline-block;
+    float: left;
+    clear: left;
+    width: 250px;
+    text-align: right;
+}
+input {
+  display: inline-block;
+  float: left;
+}*/
 
-
-
+.inputview {
+  width: 100%;
+  clear: both;
+}
 

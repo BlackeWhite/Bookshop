@@ -205,23 +205,55 @@ public class BookServiceDefault implements BookService {
 	
 	@Override
 	public Book create(Bookform book, User seller) {
-		Book b1 = bookRepository.create(book,seller); 
+		Book b1 = bookRepository.create(book,seller);
+		/*
 		Iterator <String> iterAuthors = book.getAuthors().iterator();
 		while(iterAuthors.hasNext()) { // associa il libro ai diversi autori ad esso associato
 			String[] parts = iterAuthors.next().split(" ");
-			Author a1 = authorRepository.findByNameAndSurname(parts[0], parts[1]);
-			a1.addBooks(b1);
-		}
+			try {	
+				Author a1 = authorRepository.findByNameAndSurname(parts[0], parts[1]);
+				a1.addBooks(b1);
+			} catch(Exception e) {
+				authorRepository.create(parts[0], parts[1]);
+				Author a1 = authorRepository.findByNameAndSurname(parts[0], parts[1]);
+				a1.addBooks(b1);
+			}
+		}*/
+		Iterator <String> iterAuthorsName = book.getAuthorsName().iterator();
+		//Iterator <String> iterAuthorsSurname = book.getAuthorsSurname().iterator();//PRENDI DIRETTAMENTE LA LISTA DEI COGNOMI
+		List<String> authorsSurnameList = book.getAuthorsSurname();
+		//String[] authorsSurnameList = (String[]) book.getAuthorsSurname().toArray();
+		int i = 0;
+		while(iterAuthorsName.hasNext()) { // associa il libro ai diversi autori ad esso associato
+			String name = iterAuthorsName.next();
+			// Il cognome non è obbligatorio, così se è omesso, viene inserito un placeholder
+			String surname;
+			try {
+				surname = authorsSurnameList.get(i);
+				if(surname.isEmpty()) surname = "#SURNAME_PLACEHOLDER";
+			} catch(Exception e){
+				surname = "#SURNAME_PLACEHOLDER";
+			}
+			
+			try {	
+				Author a1 = authorRepository.findByNameAndSurname(name, surname);
+				a1.addBooks(b1);
+				i++;
+			} catch(Exception e) {
+				authorRepository.create(name, surname);
+				Author a1 = authorRepository.findByNameAndSurname(name, surname);
+				a1.addBooks(b1);
+				i++;
+			}
 		Iterator <String> itergen = book.getGenre().iterator();
 		while(itergen.hasNext()) { // associa il libro ai diversi generi ad esso associato 
 			Genre g1 = genreRepository.findByName(itergen.next());
 			g1.addBooks(b1);
 		}
-		
-		
+		}
 		return b1;
+	
 	}
-
 	@Override
 	public Map<String, Integer> booksAmountPerGenreFromList(List<Book> books) {
 		Map<String, Integer> books_for_genre = new HashMap<String, Integer>();

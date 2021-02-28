@@ -85,6 +85,7 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 		b.setPages(pages);
 		b.setSummary(summary);
 		b.setCover(cover);
+		if(b.getCover().isEmpty()) b.setCover("bookcover-placeholder.png");
 		b.setInsertData(insert_date);
 		b.setClicked(0);
 		b.setSoldCopies(0);
@@ -105,6 +106,7 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 		b.setPages(book.getPages());
 		b.setSummary(book.getSummary());
 		b.setCover(book.getCover().getOriginalFilename());
+		if(b.getCover().isEmpty()) b.setCover("bookcover-placeholder.png");
 		Date date = new Date(Calendar.getInstance().getTime().getTime()); // si prende la data odierna per l'inserimento
 																			// del libro
 		b.setInsertData(date);
