@@ -104,7 +104,7 @@ $(document).ready(function() {
 			dataType: "json", //The type of data that you're expecting back from the server
 			success: function(data) {
 				$("#cart_" + id).remove();
-				$(".total-amount").text(data["response2"]);
+				$(".total-amount").text(data["response1"]);
 				$(".total-count").text(data["response3"]);
 				$(".total-count-text").text(data["response3"] + " ELEMENTI");
 				if (data["response3"] == "0") {

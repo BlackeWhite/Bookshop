@@ -31,6 +31,7 @@ public class Order {
 	private String payment;
 	private Set<BookOrder> books = new HashSet<BookOrder>();
 	private double totalExpense;
+	private double shipmentCost;
 
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -105,6 +106,20 @@ public class Order {
 	public String getFormattedTotalExpense() {
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
 		return formatter.format(totalExpense);
+	}
+	
+	@Column(name = "SHIPMENT_COST")
+	public double getShipmentCost() {
+		return shipmentCost;
+	}
+	public void setShipmentCost(double shipmentCost) {
+		this.shipmentCost = shipmentCost;
+	}
+	
+	@Transient
+	public String getFormattedShipmentCost() {
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		return formatter.format(shipmentCost);
 	}
 	
 }
