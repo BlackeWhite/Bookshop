@@ -47,6 +47,7 @@ public class OrderDaoDefault extends DefaultDao implements OrderDao {
 		o.setDate(date);
 		o.setShipmentAddress(shipmentAddress);
 		o.setPayment(payment);
+		o.setShipmentCost(shipmentCost);
 		o.setBooks(books); 
 		o.setTotalExpense(buyer.getCartTotalPrice() + shipmentCost);
 		Long id = (Long) getSession().save(o);

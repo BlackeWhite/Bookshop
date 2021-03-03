@@ -3,6 +3,7 @@ package it.bookshop.model.entity;
 import java.sql.Date;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -58,6 +59,13 @@ public class Order {
 	}
 	public void setDate(LocalDateTime date) {
 		this.date = date;
+	}
+	
+	//Perché il normale dateTime inserisce una T tra la data e l'ora
+	@Transient
+	public String getFormattedDate() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		return date.format(formatter);
 	}
 	
 	@Column(name="SHIP_ADDRESS")

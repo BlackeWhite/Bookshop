@@ -35,13 +35,15 @@
 								<div class="row">
 									<div class="col-3 field">ORDINE EFFETTUATO IL</div>
 									<div class="col field">TOTALE</div>
+									<div class="col field">SPEDIZIONE</div>
 									<div class="col-3 field">SPEDITO A</div>
 									<div class="col-3 field">PAGATO CON:</div>
 									<div class="col field">ORDINE N°:</div>
 								</div>
 								<div class="row">
-									<div class="col-3 value">${order.date}</div>
+									<div class="col-3 value">${order.formattedDate}</div>
 									<div class="col value">${order.formattedTotalExpense}</div>
+									<div class="col value">${order.formattedShipmentCost}</div>
 									<div class="col-3 value">${order.shipmentAddress}</div>
 									<div class="col-3 value">${order.payment}</div>
 									<div class="col value">${order.id}</div>
