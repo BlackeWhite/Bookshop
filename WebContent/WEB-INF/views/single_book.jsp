@@ -110,20 +110,6 @@
 			   </c:if>
 			   
 				</security:authorize>
-				<security:authorize access="hasAnyRole('SELLER','ADMIN')">
-			<div class="quantity">
-                <b>Non hai i permessi per poter acquistare</b>
-                 <div class="input-group">
-                  
-                  </div>
-                  </div>
-                  <div class="add-to-cart">
-			     <br>
-				</div>
-							
-				</security:authorize>
-				
-				
 				</div>
 				<div class="default-social">
 					<h4 class="share-now">Share:</h4>

@@ -129,11 +129,11 @@ public class UserController {
 				elem.getCopies(), elem.getFormattedElementTotalPrice(), user.getFormattedCartSubtotalPrice(),
 				user.getCartTotalItems());
 	}
-	
-	//controllo disponibilità copie per libri nel carello 
-	//NB: non si specifica per quale/i libro/i si ha insufficienza di copie
+
+	// controllo disponibilità copie per libri nel carello
+	// NB: non si specifica per quale/i libro/i si ha insufficienza di copie
 	private boolean copies_check(User buyer) {
-		//check disponibilità copie
+		// check disponibilità copie
 		List<ShoppingCart> cart = shopCartService.findUserShoppingCart(buyer);
 		for (ShoppingCart element : cart) {
 			if (element.getCopies() > element.getBook().getCopies()) {
@@ -142,7 +142,7 @@ public class UserController {
 		}
 		return true;
 	}
-	
+
 	@PostMapping(value = "/cart")
 	@ResponseBody
 	public httpResponseBody cart_update(@RequestBody CartRequestBody reqBody, Locale locale, Model model,
@@ -160,13 +160,13 @@ public class UserController {
 					String.valueOf(user.getCartTotalItems()), user.getFormattedSavedMoney());
 		} else {
 			if (reqBody.getArg2().equals("minus")) {
-				
+
 				if (cartElementCopies > 1) {
 					cartElement.setCopies(cartElement.getCopies() - 1);
 					shopCartService.update(cartElement);
 				} else {
 					throw new MinCopiesException();
-				} 
+				}
 			} else {
 
 				if (cartElementCopies < bookService.findById(reqBody.getBookID()).getCopies()) {
@@ -187,7 +187,7 @@ public class UserController {
 	@GetMapping(value = "/checkout")
 	public String checkout(Locale locale, Model model, Authentication authentication) {
 
-		//@RequestBody checkoutRequestBody checkoutReq,
+		// @RequestBody checkoutRequestBody checkoutReq,
 		String principal_name = authentication.getName();
 		User buyer = userService.findUserByUsername(principal_name);
 
@@ -199,26 +199,27 @@ public class UserController {
 		 * httpResponseBody("", "", "", ""); } } else { return new httpResponseBody("",
 		 * "", "", ""); } }
 		 */
-		
+
 		if (buyer.getCartTotalItems() == 0 || !copies_check(buyer)) {
-			return "redirect:/cart"; 
+			return "redirect:/cart";
 		}
-		
+
 		model.addAttribute("user", buyer);
 		model.addAttribute("total", buyer.getFormattedCartSubtotalPrice());
 		List<Genre> allGenres = this.bookService.getAllGenres();
 		model.addAttribute("allGenres", allGenres);
 		return "checkout";
-		
+
 	}
-	
-	//coupon validation
-	private String couponCheck (checkoutRequestBody checkoutReq, User buyer) {
-		Coupon coupon = couponService.findByCode(checkoutReq.getArg3());
+
+	// coupon validation
+	private String couponCheck(Coupon coupon, User buyer) {
 		if (coupon != null) {
-			//check validità coupon
+			// check validità coupon
 			if (buyer.checkUsage(coupon)) {
 				return "used";
+			} else if (coupon.getExpireDate().before(new Date(System.currentTimeMillis()))) {
+				return "expired";
 			} else {
 				return "available";
 			}
@@ -226,9 +227,9 @@ public class UserController {
 			return "unavailable";
 		}
 	}
-	
-	//price formatter
-	private String currencyFormatter (double value) {
+
+	// price formatter
+	private String currencyFormatter(double value) {
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
 		return formatter.format(value);
 	}
@@ -237,48 +238,46 @@ public class UserController {
 	@ResponseBody
 	public httpResponseBody couponValidation(@RequestBody checkoutRequestBody checkoutReq, Locale locale, Model model,
 			Authentication authentication) {
-		
+
 		String principal_name = authentication.getName();
 		User buyer = userService.findUserByUsername(principal_name);
 		Coupon coupon = couponService.findByCode(checkoutReq.getArg3());
-		String result = couponCheck(checkoutReq, buyer);
-		if (coupon == null) {
+		String result = couponCheck(coupon, buyer);
+		if (!result.equals("available")) {
 			return new httpResponseBody(result, "", "", "");
-		}
-		else {
-			double couponSaving = buyer.getCartTotalPrice()*(double)(coupon.getDiscount()/100.00f);
-			return new httpResponseBody(result, currencyFormatter(couponSaving), currencyFormatter(buyer.getCartTotalPrice() - couponSaving), "");
+		} else {
+			double couponSaving = buyer.getCartTotalPrice() * (double) (coupon.getDiscount() / 100.00f);
+			double shipmentCost = 5;
+			return new httpResponseBody(result, currencyFormatter(couponSaving),
+					currencyFormatter(buyer.getCartTotalPrice() + shipmentCost - couponSaving), "");
 		}
 	}
-	
+
 	@PostMapping(value = "/checkout")
 	@ResponseBody
 	public httpResponseBody checkout_fill(@RequestBody checkoutRequestBody checkoutReq, Locale locale, Model model,
-			Authentication authentication) throws NoAvailableCopies{
+			Authentication authentication) throws NoAvailableCopies {
 
 		String principal_name = authentication.getName();
 		User buyer = userService.findUserByUsername(principal_name);
-		
+
 		if (!copies_check(buyer)) {
 			throw new NoAvailableCopies();
 		}
-		
-		Coupon coupon; //= couponService.findByCode(checkoutReq.getArg3());
+
+		Coupon coupon; // = couponService.findByCode(checkoutReq.getArg3());
 		String shipmentAddress = checkoutReq.getArg1();
 		String payment = checkoutReq.getArg2();
 
-		if (couponCheck(checkoutReq, buyer) == "available") {
-			coupon = couponService.findByCode(checkoutReq.getArg3());
+		coupon = couponService.findByCode(checkoutReq.getArg3());
+		if (couponCheck(coupon, buyer) == "available") {
 			buyer.addUsedCoupon(coupon);
 			long newUsageCount = coupon.getUsageCounter() + 1;
-			coupon.setUsageCounter(newUsageCount);//update usage
+			coupon.setUsageCounter(newUsageCount);// update usage
 			userService.update(buyer);
 			couponService.update(coupon);
 		}
-		else {
-			coupon = null;
-		}
-		
+
 		// get order date
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -288,8 +287,8 @@ public class UserController {
 		shopCartService.emptyUserCart(buyer);
 
 		return new httpResponseBody(shipmentAddress, payment, date, "");
-	}	
-	
+	}
+
 	@GetMapping(value = "/purchase_history")
 	public String purchaseHistory(@RequestParam(required = false) Integer page, Locale locale, Model model,
 			Authentication authentication) {
@@ -331,7 +330,7 @@ public class UserController {
 	public class MaxCopiesException extends Exception {
 
 	}
-	
+
 	public class NoAvailableCopies extends Exception {
 
 	}

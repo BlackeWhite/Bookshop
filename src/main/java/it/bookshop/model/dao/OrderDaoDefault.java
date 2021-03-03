@@ -67,13 +67,13 @@ public class OrderDaoDefault extends DefaultDao implements OrderDao {
 		o.setDate(date);
 		o.setShipmentAddress(shipmentAddress);
 		o.setPayment(payment);
-		o.setBooks(books); 
-		double coupon_saving = buyer.getCartTotalPrice()*(coupon_discount/100);
+		o.setBooks(books);
+		double coupon_saving = buyer.getCartTotalPrice()*(double)(coupon_discount/100.00f);
 		o.setTotalExpense(buyer.getCartTotalPrice() + shipmentCost - coupon_saving);
 		o.setShipmentCost(shipmentCost);
 		Long id = (Long) getSession().save(o);
-		//For some reasong bookOrder set is not getting persisted
-		//So we must save them manually
+		//Per qualche ragione il set di BookOrder non viene reso persistente
+		//Quindi bisogna farlo manualmente
 		o = findById(id);
 		for(BookOrder b: books) {
 			bookOrderRepository.create(o, b);

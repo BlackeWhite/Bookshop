@@ -209,10 +209,10 @@ public class User implements Serializable{
 	
 	@Transient
 	public boolean checkUsage(Coupon coupon) {
-		/*for (Coupon c : this.coupons) 
+		for (Coupon c : this.coupons) 
 			if(coupon.getCode().equals(c.getCode())) return true;
-		return false;*/
-		return this.coupons.contains(coupon);
+		return false;
+		//return this.coupons.contains(coupon);
 	}
 	
 	@Transient

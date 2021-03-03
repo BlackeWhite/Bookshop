@@ -126,6 +126,8 @@ $(document).ready(function() {
 					popupMessage("Coupon già utilizzato!");
 				} else if (data["response1"]=="unavailable") { 
 					popupMessage("Coupon non esistente!");
+				} else if (data["response1"]=="expired") { 
+					popupMessage("Coupon scaduto!");
 				} else {
 					//add discoount field in chechkout 
 					$("#savings").after('<li id="coupon_save">'+  coupon_code + '<span>' + '-' +data["response2"] +'</span></li>');
@@ -143,7 +145,7 @@ $(document).ready(function() {
 	$(document).on('click', '#delCoupon', function(){
 		//remove coupon
 		$("#coupon_save").remove();
-		$("#checkout_total").replaceWith('<li id="checkout_total" class="last">Totale<span>€ '+ $("#checkout_total").attr("oldValue") +'</span></li>');
+		$("#checkout_total").html('Totale<span>€ '+ $("#checkout_total").attr("oldValue") +'</span>');
 		$("#coupon_code_hidden").val("");
 		$("#coupon_code").val("");
 		$("#coupon_code").prop("disabled", false);
