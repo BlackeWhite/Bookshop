@@ -19,8 +19,10 @@ public interface CouponDao {
 	
 	Coupon create(String code, int discount, Date expireDate);
 	
-	Coupon update(Coupon role);
+	Coupon create(Coupon coupon);
 	
-	void delete(Coupon role);
+	Coupon update(Coupon coupon);
+	
+	void delete(Coupon rcoupon);
 
 }

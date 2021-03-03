@@ -170,8 +170,7 @@ public class AdminController {
 		//Codice case insensitive
 		coupon.setCode(coupon.getCode().trim().toUpperCase());
 		
-		//TODO implement a create function that takes a coupon directly
-		couponService.create(coupon.getCode(), coupon.getDiscount(), coupon.getExpireDate());
+		couponService.create(coupon);
 		
 		redirectAttributes.addFlashAttribute("message", "Coupon aggiunto!");
 		redirectAttributes.addFlashAttribute("msgColor", "#F7941D");

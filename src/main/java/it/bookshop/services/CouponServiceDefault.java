@@ -38,6 +38,11 @@ public class CouponServiceDefault implements CouponService {
 	}
 	
 	@Override
+	public Coupon create(Coupon coupon) {
+		return couponRepository.create(coupon);
+	}
+	
+	@Override
 	public Coupon update(Coupon coupon) {
 		return couponRepository.update(coupon);
 	}

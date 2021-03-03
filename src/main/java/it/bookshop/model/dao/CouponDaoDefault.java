@@ -46,6 +46,13 @@ public class CouponDaoDefault extends DefaultDao implements CouponDao {
 		this.getSession().save(c);
 		return c;
 	}
+	
+	@Override
+	public Coupon create(Coupon coupon) {
+		coupon.setUsageCounter(0);
+		this.getSession().save(coupon);
+		return coupon;
+	}
 
 	@Override
 	public Coupon update(Coupon coupon) {

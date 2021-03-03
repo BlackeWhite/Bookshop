@@ -10,6 +10,7 @@ public interface CouponService {
 	Coupon findByCode(String code);
 	List <Coupon> findAll();
 	Coupon create(String code, int discount, Date expireDate);
+	Coupon create(Coupon coupon);
 	Coupon update(Coupon coupon);
 	void delete(Long couponID);
 	void delete(Coupon coupon);
