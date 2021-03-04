@@ -3,7 +3,10 @@ package it.bookshop.model.entity;
 import java.io.Serializable;
 import java.sql.Date;
 import java.text.NumberFormat;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -13,6 +16,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Column; 
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -44,6 +51,17 @@ public class Book implements Serializable{
 	private Set<Author> authors = new HashSet<Author>();
 	private Set<Genre> genres = new HashSet<Genre>();
 	private Set<BookOrder> orders = new HashSet<BookOrder>(); //All orders with one ore multiple copies of this book
+	
+	//Mappa dell'IVA per paese
+	private static final Map<String, Double> vats;
+	static {
+		Map<String, Double> vatsT = new HashMap<>();
+		vatsT.put("IT", 0.22);
+		vatsT.put("CH", 0.09);
+		vatsT.put("DE", 0.20);
+		vatsT.put("FR", 0.15);
+		vats = Collections.unmodifiableMap(vatsT);
+	}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -230,10 +248,29 @@ public class Book implements Serializable{
 		this.orders = orders;
 	}
 	
+	//Prezzo con IVA
+	@Transient
+	public double getPriceWithVat() {
+		if(!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
+			CustomUserDetails details = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			return price * (1+vats.get(details.getState()));
+		}
+		else return price * 1.22; //Utente non autenticato -> IVA italiana
+	}
+	
+	//Principalmente per la pagina modifica libro per i venditori
+	//Essendo gli unici a vedere direttamente il prezzo senza IVA
+	@Transient
+	public String getFormattedPriceNoVat() {
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		return formatter.format(price);
+	}
+	
+	//Tutti i metodi successivi fanno uso del prezzo con IVA inclusa
 	@Transient
 	public String getFormattedPrice() {
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
-		return formatter.format(price);
+		return formatter.format(getPriceWithVat());
 	}
 	
 	@Transient
@@ -244,15 +281,14 @@ public class Book implements Serializable{
 	
 	@Transient
 	public double getDiscountedPrice() {
-		return price*(1-discount);
+		return getPriceWithVat()*(1-discount);
 	}
 	
 	@Transient
 	public String getFormattedDiscountedPrice() {
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
-		double pricenew = price*(1-discount);
+		double pricenew = getPriceWithVat()*(1-discount);
 		return formatter.format(pricenew);
-	
 	}
 
 

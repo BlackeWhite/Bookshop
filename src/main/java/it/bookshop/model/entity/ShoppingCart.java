@@ -83,7 +83,7 @@ public class ShoppingCart {
 	
 	@Transient
 	public double getElementSavedMoney() {
-		return (book.getPrice()-book.getDiscountedPrice()) * copies;
+		return (book.getPriceWithVat()-book.getDiscountedPrice()) * copies;
 	}
 	
 	@Transient

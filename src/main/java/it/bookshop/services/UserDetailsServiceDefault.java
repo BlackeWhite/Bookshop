@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.bookshop.model.entity.CustomUserDetails;
 import it.bookshop.model.entity.PaymentCard;
 import it.bookshop.model.entity.PersonalData;
 import it.bookshop.model.entity.Role;
@@ -35,8 +36,9 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 
 		User user = userrepository.findUserByUsername(username);
 		UserBuilder builder = null;
+		/*
 		if (user != null) {
-
+			
 			// qui "mappiamo" uno User della nostra app in uno User di spring
 			builder = org.springframework.security.core.userdetails.User.withUsername(username);
 			builder.disabled(!user.isEnabled());
@@ -56,6 +58,22 @@ public class UserDetailsServiceDefault implements UserService, UserDetailsServic
 		}
 
 		return builder.build();
+		*/
+		//Non utilizziamo il builder perché dobbiamo restituire un CustomUserDetails che
+		//Implementa l'interfaccia UserDetails
+		if (user!=null) {
+			String[] roles = new String[user.getRoles().size()];
+
+			int j = 0;
+			for (Role r : user.getRoles()) {
+				//Va aggiunto il prefisso ROLE_ perché altrimenti nei JSP non funziona hasRole()
+				//Prima builder.roles() aggiungenva il prefisso automaticamente
+				roles[j++] = "ROLE_" + r.getName();
+			}
+			return new CustomUserDetails(user, roles);
+		} else {
+			throw new UsernameNotFoundException("Utente non trovato");
+		}
 	}
 
 	@Override

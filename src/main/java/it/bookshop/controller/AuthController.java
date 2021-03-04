@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.bookshop.model.dao.RoleDao;
+import it.bookshop.model.entity.CustomUserDetails;
 import it.bookshop.model.entity.Genre;
 import it.bookshop.model.entity.PaymentCard;
 import it.bookshop.model.entity.PersonalData;
@@ -179,21 +180,25 @@ public class AuthController {
 
 	}
 
+	//Aggiorna informazioni account
 	@PostMapping(value = "/account_save")
 	public String accountSave(@ModelAttribute("currentUser") @Validated User user, BindingResult br, Model model,
-			final RedirectAttributes redirectAttributes) {
+			Authentication authentication, final RedirectAttributes redirectAttributes) {
 
-		// String principal_name = authentication.getName();
+		CustomUserDetails details = (CustomUserDetails) authentication.getPrincipal();
 
 		if (br.hasErrors()) {
 			accountPageSpecificOps(model, user.getUsername());
 			generalOperations(model);
 			return "account";
 		}
+		
+		if(!details.getState().equals(user.getPersonalData().getState())) {
+			details.setUser(user);
+		}
 
-		// FOR SECURITY AND SIMPLICITY REASONS MANY FIELDS ARE NOT PASSED IN THE HTML
-		// FORM
-		// SO WE MUST OVERWRITE THE EDITED FIELDS IN THE EXISTING USER
+		// Per ragioni di sicurezza e semplicità molti campi non sono passati nel form HTML
+		// Perciò dobbiamo sovrascrivere i campi modificati dell'utente esistente
 		User existingUser = userService.findUserByUsername(user.getUsername());
 		existingUser.setPersonalData(user.getPersonalData());
 		existingUser.setEmail(user.getEmail());
@@ -206,10 +211,10 @@ public class AuthController {
 	// Adds attributes used in almost all requests
 	private void generalOperations(Model model) {
 		List<Genre> allGenres = this.bookService.getAllGenres();
-		countries.put("Italia", "Italia");
-		countries.put("Germania", "Germania");
-		countries.put("Francia", "Francia");
-		countries.put("Svizzera", "Svizzera");
+		countries.put("IT", "Italia");
+		countries.put("DE", "Germania");
+		countries.put("FR", "Francia");
+		countries.put("CH", "Svizzera");
 
 		cardTypes.put("Visa", "Visa");
 		cardTypes.put("MasterCard", "MasterCard");
