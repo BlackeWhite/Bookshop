@@ -53,7 +53,7 @@ public class Book implements Serializable{
 	private Set<BookOrder> orders = new HashSet<BookOrder>(); //All orders with one ore multiple copies of this book
 	
 	//Mappa dell'IVA per paese
-	private static final Map<String, Double> vats;
+	public static final Map<String, Double> vats;
 	static {
 		Map<String, Double> vatsT = new HashMap<>();
 		vatsT.put("IT", 0.22);

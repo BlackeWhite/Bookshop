@@ -203,7 +203,13 @@ public class UserController {
 		if (buyer.getCartTotalItems() == 0 || !copies_check(buyer)) {
 			return "redirect:/cart";
 		}
-
+		
+		//IVA in base al paese dell'utente
+		//Qui viene caricato solo per mostrarlo all'utente nell'HTML e calcolare nel JSP
+		//quanto paga SOLO di IVA, perché è già stato considerato nel prezzo dei libri
+		double vat = Book.vats.get(buyer.getPersonalData().getState());
+		model.addAttribute("vat", vat);
+		
 		model.addAttribute("user", buyer);
 		model.addAttribute("total", buyer.getFormattedCartSubtotalPrice());
 		List<Genre> allGenres = this.bookService.getAllGenres();
