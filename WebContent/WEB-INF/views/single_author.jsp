@@ -30,16 +30,10 @@
 				</div>
 
 				<div class="default-social">
-					<h4 class="share-now">Share:</h4>
-					<ul>
-						<li><a class="facebook" href="#"><i
-								class="fa fa-facebook"></i></a></li>
-						<li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-						<li><a class="youtube" href="#"><i
-								class="fa fa-pinterest-p"></i></a></li>
-						<li><a class="dribbble" href="#"><i
-								class="fa fa-google-plus"></i></a></li>
-					</ul>
+					<h4 class="share-now">Ulteriori informazioni sull'autore:</h4> <br>
+					
+					<em><a href="https://it.wikipedia.org/wiki/${author.name}_${author.surname}" ><i
+								class="fa fa-wikipedia-w"></i>ikipedia - ${author.name} ${author.surname}</a></em>
 				</div>
 			</div>
 		</div>
@@ -65,7 +59,7 @@
 								<a href="<c:url value="/show_book/${authorBook.id}"/>"> <img
 														class="default-img"
 														src="<c:url value="/resources/img/cover_book/${authorBook.cover}"/>"
-														alt="#"> <img class="hover-img"
+														alt="#"> <img class="hover-img" 
 														src="<c:url value="/resources/img/cover_book/${authorBook.cover}"/>" alt="#">
 														<c:if test="${authorBook.discount > 0}">
 														<span class="price-dec">${authorBook.truncatedDiscount}%</span>
