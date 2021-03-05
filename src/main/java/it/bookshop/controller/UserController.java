@@ -206,11 +206,12 @@ public class UserController {
 		
 		//IVA in base al paese dell'utente
 		//Qui viene caricato solo per mostrarlo all'utente nell'HTML e calcolare nel JSP
-		//quanto paga SOLO di IVA, perché è già stato considerato nel prezzo dei libri
+		//quanto paga SOLO di IVA, perchï¿½ ï¿½ giï¿½ stato considerato nel prezzo dei libri
 		double vat = Book.vats.get(buyer.getPersonalData().getState());
-		model.addAttribute("vat", vat);
+		model.addAttribute("vat", vat*100);
 		
 		model.addAttribute("user", buyer);
+		model.addAttribute("vatAmount", buyer.getFormattedVatAmount(vat)); 
 		model.addAttribute("total", buyer.getFormattedCartSubtotalPrice());
 		List<Genre> allGenres = this.bookService.getAllGenres();
 		model.addAttribute("allGenres", allGenres);
@@ -247,6 +248,7 @@ public class UserController {
 
 		String principal_name = authentication.getName();
 		User buyer = userService.findUserByUsername(principal_name);
+		double vat = Book.vats.get(buyer.getPersonalData().getState());
 		Coupon coupon = couponService.findByCode(checkoutReq.getArg3());
 		String result = couponCheck(coupon, buyer);
 		if (!result.equals("available")) {
@@ -254,8 +256,9 @@ public class UserController {
 		} else {
 			double couponSaving = buyer.getCartTotalPrice() * (double) (coupon.getDiscount() / 100.00f);
 			double shipmentCost = 5;
+			double newTotal = buyer.getCartTotalPrice() - couponSaving;
 			return new httpResponseBody(result, currencyFormatter(couponSaving),
-					currencyFormatter(buyer.getCartTotalPrice() + shipmentCost - couponSaving), "");
+					currencyFormatter(newTotal + shipmentCost), currencyFormatter(newTotal * vat));
 		}
 	}
 
@@ -286,7 +289,7 @@ public class UserController {
 
 		// get order date
 		LocalDateTime now = LocalDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 		String date = formatter.format(now);
 		Long buyerID = Long.valueOf(buyer.getUserID());
 		orderService.createFromShoppingCart(buyerID, shipmentAddress, payment, coupon);

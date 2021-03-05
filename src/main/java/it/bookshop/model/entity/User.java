@@ -244,14 +244,23 @@ public class User implements Serializable{
 	}
 	
 	@Transient
-	public String getFormattedCheckoutTotalPrice(/*int coupon*/) {
+	public String getFormattedVatAmount(double vat) {
 		double total = 0;
 		for (ShoppingCart c : shoppingCart) {
 			total += c.getElementTotalPrice(); 
 		}
-		if (total>0) {
-		total += 5;} //costi di spedizione
-		//total = total - (total/100*coupon);
+		System.out.println("iva amount: "+total);
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		return formatter.format(total * vat);
+	}
+	
+	@Transient
+	public String getFormattedCheckoutTotalPrice() {
+		double total = 0;
+		for (ShoppingCart c : shoppingCart) {
+			total += c.getElementTotalPrice(); 
+		}
+		if (total>0) {total += 5;} //costi di spedizione
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
 		return formatter.format(total);  
 	}

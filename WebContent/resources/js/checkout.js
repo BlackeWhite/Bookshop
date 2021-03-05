@@ -94,9 +94,10 @@ $(document).ready(function() {
 						'<div class="row">' +
 							'<div class="col-12">' +
 								'<p style="text-align:center; font-size:40px" > Ordine effettuato con successo </p>' +
-								'<p style="text-align:center; font-size:20px" >' + data["response1"] +
+								'<p style="text-align:center; font-size:20px" >' + 'Indirizzo di spedizione: ' + data["response1"] +
 								'<p style="text-align:center; font-size:20px" >' + 'Metodo di pagamento: ' + data["response2"] +
-								'<p style="text-align:center; font-size:20px" >' + data["response3"] +
+								'<p style="text-align:center; font-size:20px" >' + 'Effettuato in data: ' + data["response3"] +
+								'<p style="text-align:center; font-size:20px" >' + 'Totale: ' + $("#checkout_total").find($("span")).text() +
 							'</div>' +
 						'</div>' +
 					'</div>' +
@@ -131,8 +132,10 @@ $(document).ready(function() {
 				} else {
 					//add discoount field in chechkout 
 					$("#savings").after('<li id="coupon_save">'+  coupon_code + '<span>' + '-' +data["response2"] +'</span></li>');
-					var oldValue = $("#checkout_total span").text().split(" ")[1];
-					$("#checkout_total").replaceWith('<li id="checkout_total" class="last" oldValue=' + oldValue + '>Totale<span>'+ data["response3"] +'</span></li>');
+					var oldTotal = $("#checkout_total span").text().split(" ")[1];
+					var oldVat = $("#vat_amount span").text().split(" ")[1];
+					$("#vat_amount").replaceWith('<li id="vat_amount" vat='+ $("#vat_amount").attr("vat") +' oldVat=' + oldVat + '>Vat('+ $("#vat_amount").attr("vat") +'%)<span>'+ data["response4"] +'</span></li>');
+					$("#checkout_total").replaceWith('<li id="checkout_total" class="last" oldTotal=' + oldTotal + '>Totale<span>'+ data["response3"] +'</span></li>');
 					$("#coupon").replaceWith('<button id="delCoupon" class="btn btn-sm">RIMUOVI</button>');
 					$("#coupon_code_hidden").val($("#coupon_code").val());
 					$("#coupon_code").prop("disabled", true);
@@ -145,7 +148,8 @@ $(document).ready(function() {
 	$(document).on('click', '#delCoupon', function(){
 		//remove coupon
 		$("#coupon_save").remove();
-		$("#checkout_total").html('Totale<span>€ '+ $("#checkout_total").attr("oldValue") +'</span>');
+		$("#vat_amount").html('Vat('+ $("#vat_amount").attr("vat") +'%)<span>€ '+ $("#vat_amount").attr("oldVat") +'</span>');
+		$("#checkout_total").html('Totale<span>€ '+ $("#checkout_total").attr("oldTotal") +'</span>');
 		$("#coupon_code_hidden").val("");
 		$("#coupon_code").val("");
 		$("#coupon_code").prop("disabled", false);
