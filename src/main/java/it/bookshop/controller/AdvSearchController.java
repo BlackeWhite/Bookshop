@@ -169,7 +169,7 @@ public class AdvSearchController {
 		User buyer = userService.findUserByUsername("user1");
 		if (buyer == null) {
 			userService.create("user1", "user1@email.com", "5678", "Roberto", "Rossi", date_birth,
-					"Via ugo bassi", "Ancona", 60121, "Italia", Arrays.asList("USER"));
+					"Via ugo bassi", "Ancona", 60121, "IT", Arrays.asList("USER"));
  
 		}
 		
