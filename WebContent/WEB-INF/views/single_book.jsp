@@ -120,7 +120,7 @@
 						<li><a class="youtube" href="#"><i
 								class="fa fa-pinterest-p"></i></a></li>
 						<li><a class="dribbble" href="#"><i
-								class="fa fa-google-plus"></i></a></li>
+								class="fa fa-instagram"></i></a></li>
 					</ul>
 				</div>
 			</div>
@@ -147,9 +147,9 @@
 						<div class="single-product">
 							<div class="product-img">
 								<a href="<c:url value="/show_book/${bookinterestgenre.id}"/>"> <img
-														class="default-img" style="height: 400px; object-fit: contain"
+														class="default-img" style="height: 300px; object-fit: contain"
 														src="<c:url value="/resources/img/cover_book/${bookinterestgenre.cover}"/>"
-														alt="#"> <img class="hover-img" style="height: 400px; object-fit: contain"
+														alt="#"> <img class="hover-img" style="height: 300px; object-fit: contain"
 														src="<c:url value="/resources/img/cover_book/${bookinterestgenre.cover}"/>" alt="#">
 														<c:if test="${bookinterestgenre.discount > 0}">
 														<span class="price-dec">${bookinterestgenre.truncatedDiscount}%</span>
@@ -214,9 +214,9 @@
 						<div class="single-product">
 							<div class="product-img">
 								<a href="<c:url value="/show_book/${bookinterestaut.id}"/>"> <img
-														class="default-img" style="height: 400px; object-fit: contain"
+														class="default-img" style="height: 300px; object-fit: contain"
 														src="<c:url value="/resources/img/cover_book/${bookinterestaut.cover}"/>"
-														alt="#"> <img class="hover-img" style="height: 400px; object-fit: contain"
+														alt="#"> <img class="hover-img" style="height: 300px; object-fit: contain"
 														src="<c:url value="/resources/img/cover_book/${bookinterestaut.cover}"/>" alt="#">
 														<c:if test="${bookinterestaut.discount > 0}">
 														<span class="price-dec">${bookinterestaut.truncatedDiscount}%</span>

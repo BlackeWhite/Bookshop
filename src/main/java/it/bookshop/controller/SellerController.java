@@ -112,10 +112,11 @@ public class SellerController {
 	// procedura per l'aggiunta di un libro
 	@RequestMapping(value = "/add_book", method = RequestMethod.POST, consumes = { "multipart/form-data" })
 	public String addBook(@ModelAttribute("newBook") @RequestBody @Valid Bookform book,
-			 BindingResult br, Model model,HttpSession session) {
-
-		User seller = userService.create("admin", "admin@email.com", "libreria", "seller", "seller", null,
-				"Via brecce bianche", "Ancona", 60000, "Italia", Arrays.asList("SELLER", "ADMIN"));
+			 BindingResult br, Model model,HttpSession session, Authentication authentication) {
+		
+		String principal_name = authentication.getName();
+		User seller = userService.findUserByUsername(principal_name);
+		
 
 		if (br.hasErrors()) {
 			generalOperations(model);

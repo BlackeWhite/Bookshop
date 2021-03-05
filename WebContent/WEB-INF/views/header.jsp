@@ -115,7 +115,7 @@
 								<a href="#" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
 							</div>
 							 -->
-						<security:authorize access="isAuthenticated()">
+						<security:authorize access="hasRole('USER')">
 							<c:set
 								value="${requestScope['javax.servlet.forward.request_uri']}"
 								var="uri" />
