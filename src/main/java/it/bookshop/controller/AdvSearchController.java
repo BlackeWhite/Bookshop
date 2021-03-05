@@ -121,9 +121,16 @@ public class AdvSearchController {
 		User admin = userService.findUserByUsername("admin");
 		if (admin == null) {
 			userService.create("admin", "admin@email.com", "admin", "admin", "admin", null, "Via brecce bianche",
-					"Ancona", 60000, "Italia", Arrays.asList("USER", "ADMIN"));
+					"Ancona", 60000, "Italia", Arrays.asList("ADMIN"));
 		}
-
+		// venditore 
+		User seller = userService.findUserByUsername("libreria");
+		if (seller == null) {
+			userService.create("libreria", "seller@email.com", "1234", "libreria", "ragni", null,
+					"Via ugo bassi", "Ancona", 60000, "Italia", Arrays.asList("SELLER"));
+ 
+		}
+		
 		DateFormat date = new SimpleDateFormat("dd-MM-yyyy");
 		java.util.Date date1 = null;
 		java.util.Date date2 = null;
@@ -131,6 +138,7 @@ public class AdvSearchController {
 		java.util.Date date4 = null;
 		java.util.Date date5 = null;
 		java.util.Date date6 = null;
+		java.util.Date date7 = null;
 		java.util.Date datec1 = null;
 		java.util.Date datec2 = null;
 		try {
@@ -140,6 +148,7 @@ public class AdvSearchController {
 			date4 = date.parse("01-01-2012");
 			date5 = date.parse("15-08-2014");
 			date6 = date.parse("21-01-2018");
+			date7 = date.parse("21-01-1995");
 			datec1 = date.parse("21-04-2021");
 			datec2 = date.parse("31-12-2021");
 		} catch (ParseException e) {
@@ -152,8 +161,19 @@ public class AdvSearchController {
 		Date publish_date4 = new Date(date4.getTime());
 		Date publish_date5 = new Date(date5.getTime());
 		Date publish_date6 = new Date(date6.getTime());
+		Date date_birth = new Date(date7.getTime());
 		Date dateC1 = new Date(datec1.getTime());
 		Date dateC2 = new Date(datec2.getTime());
+		
+		// acquirente 
+		User buyer = userService.findUserByUsername("user1");
+		if (buyer == null) {
+			userService.create("user1", "user1@email.com", "5678", "Roberto", "Rossi", date_birth,
+					"Via ugo bassi", "Ancona", 60121, "Italia", Arrays.asList("USER"));
+ 
+		}
+		
+	
 		
 		bookService.deleteAll();
 
