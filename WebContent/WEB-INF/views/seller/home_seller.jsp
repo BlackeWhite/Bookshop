@@ -37,6 +37,8 @@
 						<li><a href="${addition_book}"> Aggiungi un libro in vendita </a></li>
 						<li><a href=""> Modifica un libro in vendita </a></li>
 						<li><a href=""> Metti in sconto un libro in vendita </a></li>
+						<li><a href="<c:url value="/seller/analysis_book"/>">Analisi delle vendite dai vari libri </a></li>
+						<li><a href=""> Modifica dati personali </a></li>
 					</div>
 					<!--/ End Single Widget -->
 

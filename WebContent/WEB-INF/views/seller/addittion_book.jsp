@@ -11,11 +11,14 @@
 		<div class="row">
 			<div class="col-12">
 				<div class="bread-inner">
-					<ul class="bread-list">
+						<ul class="bread-list">
 						<li><a href="<c:url value="/" />">Home<i
 								class="ti-arrow-right"></i></a></li>
+						<li class="active"><a href="<c:url value="/seller/"/>">Area
+								Personale - Venditore<i class="ti-arrow-right"></i>
+						</a></li>
 						<li class="active"><a
-							href="<c:url value="/advanced_search"/>">Area Personale - Venditore</a></li>
+							href="<c:url value="/seller/addition_book"/>">Aggiunta di un libro</a></li>
 					</ul>
 				</div>
 			</div>
@@ -30,12 +33,14 @@
 		<div class="row">
 			<div class="col-lg-3 col-md-4 col-12">
 				<div class="shop-sidebar">
-					<div class="single-widget range">
+				<div class="single-widget range">
 						<h3 class="title">Menu</h3>
 						<c:url value="/seller/addition_book" var="addition_book"/>
 						<li><a href="${addition_book}"> Aggiungi un libro in vendita </a></li>
 						<li><a href=""> Modifica un libro in vendita </a></li>
 						<li><a href=""> Metti in sconto un libro in vendita </a></li>
+						<li><a href="<c:url value="/seller/analysis_book"/>">Analisi delle vendite dai vari libri </a></li>
+						<li><a href=""> Modifica dati personali </a></li>
 					</div>
 					<!--/ End Single Widget -->
 					

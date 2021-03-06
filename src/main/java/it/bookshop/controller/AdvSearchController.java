@@ -126,7 +126,7 @@ public class AdvSearchController {
 		// venditore 
 		User seller = userService.findUserByUsername("libreria");
 		if (seller == null) {
-			userService.create("libreria", "seller@email.com", "1234", "libreria", "ragni", null,
+			seller  = userService.create("libreria", "seller@email.com", "1234", "libreria", "ragni", null,
 					"Via ugo bassi", "Ancona", 60000, "Italia", Arrays.asList("SELLER"));
  
 		}
@@ -168,7 +168,7 @@ public class AdvSearchController {
 		// acquirente 
 		User buyer = userService.findUserByUsername("user1");
 		if (buyer == null) {
-			userService.create("user1", "user1@email.com", "5678", "Roberto", "Rossi", date_birth,
+			buyer = userService.create("user1", "user1@email.com", "5678", "Roberto", "Rossi", date_birth,
 					"Via ugo bassi", "Ancona", 60121, "Italia", Arrays.asList("USER"));
  
 		}
@@ -178,20 +178,20 @@ public class AdvSearchController {
 		bookService.deleteAll();
 
 		bookService.create("Dante", "Alighieri", "838832989113223", "La Divina Commedia", publish_date1, publish_date1,
-				3, 34, null, 300, "Nel mezzo del cammin...", "6.jpg", Arrays.asList("Poema"), 0.15);
+				3, 34, seller, 300, "Nel mezzo del cammin...", "6.jpg", Arrays.asList("Poema"), 0.15);
 		bookService.create("J.J.R.", "Tolkien", "746382492401", "Il Signore degli Anelli - Le due torri", publish_date2,
-				publish_date2, 4, 40.99, null, 450, "Sauron � tornato a Mordor...", "7.jpg", Arrays.asList("Fantasy"),
+				publish_date2, 4, 40.99, seller, 450, "Sauron � tornato a Mordor...", "7.jpg", Arrays.asList("Fantasy"),
 				0);
 		bookService.create("Alessandro", "Manzoni", "8235234631481401", "I promessi sposi", publish_date3,
-				publish_date3, 10, 25.99, null, 370, "Renzo e Lucia ...", "8.jpg", Arrays.asList("Romanzo"), 0);
+				publish_date3, 10, 25.99, seller, 370, "Renzo e Lucia ...", "8.jpg", Arrays.asList("Romanzo"), 0);
 		bookService.create("H.P.", "Lovecraft", "83883267788997", "Il caso di Charles Dexter Ward", publish_date4,
-				publish_date4, 3, 39, null, 300, "Charles Dexter Ward era il discendente di...", "11.jpg",
+				publish_date4, 3, 39, seller, 300, "Charles Dexter Ward era il discendente di...", "11.jpg",
 				Arrays.asList("Horror", "Fantasy"), 0);
 		bookService.create("J.J.R.", "Tolkien", "344567880909", "Il Signore degli Anelli - La compagnia dell'anello",
-				publish_date5, publish_date5, 7, 42.50, null, 450, "Frodo Baggins stava tornando a casa...", "9.jpg",
+				publish_date5, publish_date5, 7, 42.50, seller, 450, "Frodo Baggins stava tornando a casa...", "9.jpg",
 				Arrays.asList("Fantasy"), 0);
 		bookService.create("J.J.R.", "Tolkien", "9283755352729", "Il Signore degli Anelli - Il ritorno del re",
-				publish_date6, publish_date6, 10, 37.99, null, 390, "Aragorn, dopo un discorso da Oscar ...", "10.jpg",
+				publish_date6, publish_date6, 10, 37.99, seller, 390, "Aragorn, dopo un discorso da Oscar ...", "10.jpg",
 				Arrays.asList("Fantasy"), 0.10);
 		bookService.create("Michael", "Crichton", "198934345798876", "Jurassic Park", publish_date3, publish_date3, 12,
 				18.30, null, 267, "Alan Grant � un paleontologo che ...", "12.jpg",
@@ -208,7 +208,7 @@ public class AdvSearchController {
 				"Percy Jackson e gli dei dell'Olimpo - Il ladro di fulmini", publish_date4, publish_date4, 15, 17, null,
 				500, "Percy era il figlio Poseidone...", "16.jpg", Arrays.asList("Avventura", "Fantasy"), 0);
 		bookService.create("Conan", "Doyle", "111111111111", "Le avventure di Sherlock Holmes", publish_date6,
-				publish_date6, 5, 20.99, null, 256, "Elementare Watson! ...", "17.jpg",
+				publish_date6, 5, 20.99, seller, 256, "Elementare Watson! ...", "17.jpg",
 				Arrays.asList("Giallo", "Romanzo"), 0.25);
 		
 		//coupons generation

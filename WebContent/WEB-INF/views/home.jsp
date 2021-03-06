@@ -22,8 +22,7 @@
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="list-image overlay">
 									<img src="<c:url value="/resources/img/cover_book/${tBSBooks.cover}"/>"
-										alt="#" style="height: 300px; object-fit: contain"> <a href="#" class="buy"><i
-										class="fa fa-shopping-bag"></i></a>
+										alt="#" style="height: 300px; object-fit: contain"><a href="<c:url value="/show_book/${tBSBooks.id}"/>" class="buy"> </a>
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-6 col-12 no-padding">
@@ -54,8 +53,7 @@
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="list-image overlay">
 									<img src="<c:url value="/resources/img/cover_book/${tFNBooks.cover}"/>"
-										alt="#" style="height: 300px; object-fit: contain"> <a href="#" class="buy"><i
-										class="fa fa-shopping-bag"></i></a>
+										alt="#" style="height: 300px; object-fit: contain"><a href="<c:url value="/show_book/${tFNBooks.id}"/>" class="buy"></a>
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-6 col-12 no-padding">

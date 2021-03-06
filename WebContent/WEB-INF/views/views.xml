@@ -76,5 +76,9 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/seller/addittion_book.jsp" />
 	</definition>
+	<definition extends="default" name="analysis_book">
+		<put-attribute name="body"
+			value="/WEB-INF/views/seller/analysis_book.jsp" />
+	</definition>
 	
 </tiles-definitions>
