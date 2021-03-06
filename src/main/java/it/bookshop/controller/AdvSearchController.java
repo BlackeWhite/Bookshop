@@ -121,13 +121,13 @@ public class AdvSearchController {
 		User admin = userService.findUserByUsername("admin");
 		if (admin == null) {
 			userService.create("admin", "admin@email.com", "admin", "admin", "admin", null, "Via brecce bianche",
-					"Ancona", 60000, "IT", Arrays.asList("ADMIN"));
+					"Ancona", 60000, "Italia", Arrays.asList("ADMIN"));
 		}
 		// venditore 
 		User seller = userService.findUserByUsername("libreria");
 		if (seller == null) {
 			userService.create("libreria", "seller@email.com", "1234", "libreria", "ragni", null,
-					"Via ugo bassi", "Ancona", 60000, "IT", Arrays.asList("SELLER"));
+					"Via ugo bassi", "Ancona", 60000, "Italia", Arrays.asList("SELLER"));
  
 		}
 		
@@ -169,7 +169,7 @@ public class AdvSearchController {
 		User buyer = userService.findUserByUsername("user1");
 		if (buyer == null) {
 			userService.create("user1", "user1@email.com", "5678", "Roberto", "Rossi", date_birth,
-					"Via ugo bassi", "Ancona", 60121, "IT", Arrays.asList("USER"));
+					"Via ugo bassi", "Ancona", 60121, "Italia", Arrays.asList("USER"));
  
 		}
 		
