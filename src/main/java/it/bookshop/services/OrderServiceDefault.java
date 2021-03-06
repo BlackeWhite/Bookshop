@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.BookOrder;
 import it.bookshop.model.entity.Coupon;
 import it.bookshop.model.entity.Order;
+import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.ShoppingCart;
 import it.bookshop.model.entity.User;
 
@@ -101,6 +103,8 @@ public class OrderServiceDefault implements OrderService {
 		return after;
 	}
 	
+	
+	
 	@Override
 	public List<Order> findUserOrders(User user) {
 		return orderRepository.findUserOrders(user); 
@@ -118,6 +122,12 @@ public class OrderServiceDefault implements OrderService {
 	public void delete(Order order) {
 		orderRepository.delete(order);
 	}
+	
+	@Override
+	public List<BookOrder> findbyId(long id) {
+		return this.bookOrderRepository.findbyId(id);
+	}
+	
 
 	@Autowired
 	public void setPurchaseRepository(OrderDao orderRepository) {

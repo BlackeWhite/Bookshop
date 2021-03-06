@@ -1,6 +1,8 @@
 package it.bookshop.model.dao;
 
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -42,8 +44,17 @@ public class BookOrderDaoDefault extends DefaultDao implements BookOrderDao {
 	
 	@Override
 	public List<BookOrder> findbyId(long id) {
-		return this.getSession().createQuery("FROM BookOrder bo JOIN bo.book b WHERE b.book_id = :id", BookOrder.class).setParameter("id", id)
-				.getResultList();
+		List<BookOrder> bo  = this.getSession().createQuery("FROM BookOrder bo",BookOrder.class).getResultList();
+		Iterator<BookOrder> boiter = bo.iterator();
+		List<BookOrder> choosebo = new ArrayList<BookOrder>();
+		while(boiter.hasNext()) {
+			BookOrder boelem = boiter.next();
+			if (boelem.getId().getBookId() == id) {
+				choosebo.add(boelem);
+			}
+		
+		}
+		return choosebo;
 	}
 	
 

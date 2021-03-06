@@ -42,5 +42,7 @@ public interface BookService {
 	Genre createGenre(String name);
 	Genre findByName(String name);
 	void deleteGenre(Genre genre);
+	List<Book> findAllBookSoldOfSeller(User seller);
+
 	
 };

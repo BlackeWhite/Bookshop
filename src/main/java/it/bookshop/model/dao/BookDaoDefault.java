@@ -138,6 +138,12 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 		return this.getSession().createNativeQuery("SELECT * FROM books ORDER BY SOLD_COPIES DESC LIMIT 5", Book.class)
 				.getResultList();
 	}
+	
+	@Override
+	public List<Book> findSellerBook(Long id) {
+		return this.getSession().createQuery("SELECT b FROM Book b JOIN b.seller s WHERE s.userID=:id", Book.class)
+				.setParameter("id", id).getResultList();
+	}
 
 	@Override
 	public List<Book> findMostClick() {

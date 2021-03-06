@@ -1,6 +1,8 @@
 package it.bookshop.model.dao;
 
 
+import java.util.List;
+
 import org.hibernate.Session;
 
 import it.bookshop.model.entity.Book;
@@ -14,4 +16,6 @@ public interface BookOrderDao {
 	
 	public BookOrder create(Order order, Book book, int copies);
 	public BookOrder create(Order order, BookOrder b);
+	
+	List<BookOrder> findbyId(long id);
 }

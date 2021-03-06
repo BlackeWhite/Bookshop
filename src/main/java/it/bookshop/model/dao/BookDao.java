@@ -30,4 +30,6 @@ public interface BookDao {
 	List<Book> findBookOnSale();
 	List<Book> findAllBookForGenre(String name);
 	Book create(Bookform book, User seller);
+	List<Book> findSellerBook(Long id);
+	
 }

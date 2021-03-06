@@ -22,6 +22,8 @@ import it.bookshop.model.dao.GenreDao;
 import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
+import it.bookshop.model.entity.Order;
+import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.User;
 
 @Transactional
@@ -70,6 +72,13 @@ public class BookServiceDefault implements BookService {
 		for (Book b : books) {
 			delete(b);
 		}
+	}
+	
+	@Override
+	public List<Book> findAllBookSoldOfSeller(User seller) {
+		Long id_seller = seller.getUserID();
+		List<Book> listbookseller = this.bookRepository.findSellerBook(id_seller); 
+		return listbookseller;
 	}
 
 	@Override
@@ -314,4 +323,5 @@ public class BookServiceDefault implements BookService {
 	public void deleteGenre(Genre genre) {
 		genreRepository.delete(genre);
 	}
+	
 }

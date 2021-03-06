@@ -358,6 +358,11 @@ public class UserController {
 			this.bookID = bookID;
 			this.arg2 = arg2;
 		}
+		// usato nell'analisi dei libri (sezione venditore)
+		public CartRequestBody(long bookID) {
+			super();
+			this.bookID = bookID;
+		}
 
 		public long getBookID() {
 			return bookID;

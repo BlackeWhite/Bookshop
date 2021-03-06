@@ -54,6 +54,7 @@
 <c:url value="/checkout"  var="checkout"/>
 <c:url value="/admin/delete_user"  var="delete_user"/>
 <c:url value="/admin/delete_genre"  var="delete_genre"/>
+<c:url value="/seller/change_book" var="change_book" />
 <script type="text/javascript">
 var adv_search_url = "${adv_search}";
 var home_url = "${home}";
@@ -67,6 +68,7 @@ var coupon_validation_url = "${coupon_validation}";
 var checkout_url = "${checkout}";
 var delete_user_url = "${delete_user}";
 var delete_genre_url = "${delete_genre}";
+var change_book = "${change_book}";
 </script>
 
 <c:url value="/resources/js/custom.js" var="custom" />
@@ -77,3 +79,6 @@ var delete_genre_url = "${delete_genre}";
 
 <c:url value="/resources/js/checkout.js" var="checkout" />
 <script type="text/javascript" src="${checkout}"></script>
+
+<c:url value="/resources/js/seller.js" var="seller" />
+<script type="text/javascript" src="${seller}"></script>

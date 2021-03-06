@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import it.bookshop.model.entity.Book;
+import it.bookshop.model.entity.BookOrder;
 import it.bookshop.model.entity.Coupon;
 import it.bookshop.model.entity.Order;
 import it.bookshop.model.entity.User;
@@ -27,4 +28,7 @@ public interface OrderService {
 	public List<Order> findUserOrders(User user);
 	public List<Order> findUserOrdersMadeAfter(User user, LocalDateTime date);
 	public void delete(Order order);
+
+	List<BookOrder> findbyId(long id);
+
 }

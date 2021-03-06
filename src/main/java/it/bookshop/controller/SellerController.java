@@ -32,16 +32,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Role;
+import it.bookshop.model.entity.ShoppingCart;
 import it.bookshop.model.entity.User;
+import it.bookshop.controller.UserController.CartRequestBody;
+import it.bookshop.model.Object_form.BookInfoResponse;
 import it.bookshop.model.Object_form.Bookform;
 import it.bookshop.model.entity.Book;
+import it.bookshop.model.entity.BookOrder;
 import it.bookshop.model.entity.Genre;
 import it.bookshop.services.BookService;
+import it.bookshop.services.OrderService;
 import it.bookshop.services.UserService;
 import it.bookshop.services.AuthorService;
 
@@ -59,6 +65,9 @@ public class SellerController {
 
 	@Autowired
 	private BookService bookService;
+	
+	@Autowired
+	private OrderService orderService;
 
 	@Autowired
 	private AuthorService authorService;
@@ -68,7 +77,7 @@ public class SellerController {
 
 		return "home_seller";
 	}
-	
+
 	// form per l'aggiunta di un libro
 	@GetMapping(value = "/addition_book")
 	public String additionBooK(@RequestParam(value = "error", required = false) Locale locale, Model model) {
@@ -109,14 +118,52 @@ public class SellerController {
 		return "addittion_book";
 	}
 
-	// procedura per l'aggiunta di un libro
-	@RequestMapping(value = "/add_book", method = RequestMethod.POST, consumes = { "multipart/form-data" })
-	public String addBook(@ModelAttribute("newBook") @RequestBody @Valid Bookform book,
-			 BindingResult br, Model model,HttpSession session, Authentication authentication) {
-		
+	// analisi di un libro
+	@GetMapping(value = "/analysis_book")
+	public String analysisBook(Model model, Authentication authentication) {
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
 		
+		List<Book> lbooksold = bookService.findAllBookSoldOfSeller(seller);
+		model.addAttribute("listbook", lbooksold);
+		return "analysis_book";
+	}
+	
+	
+	
+	@PostMapping(value = "/change_book")
+	@ResponseBody
+	public BookInfoResponse change_book(@RequestBody CartRequestBody reqBody, Authentication authentication) {
+		
+		BookInfoResponse bresp = new BookInfoResponse();
+		bresp.setBookID(reqBody.getBookID());
+		
+		Book b = this.bookService.findById(reqBody.getBookID());
+		bresp.setTitle(b.getTitle());
+		bresp.setSoldcopies(b.getSoldCopies());
+		
+		List<BookOrder> listsoldbook = this.orderService.findbyId(reqBody.getBookID());
+		Iterator<BookOrder> iterbook = listsoldbook.iterator();
+		
+		//calcolo incasso totale
+		double sum = 0;
+		while(iterbook.hasNext()) {
+			BookOrder bo = iterbook.next();
+			sum = bo.getCopies()*bo.getPrice();
+		}
+	   bresp.setTotearn(sum);
+	   
+	   return bresp;
+	
+	}
+
+	// procedura per l'aggiunta di un libro
+	@RequestMapping(value = "/add_book", method = RequestMethod.POST, consumes = { "multipart/form-data" })
+	public String addBook(@ModelAttribute("newBook") @RequestBody @Valid Bookform book, BindingResult br, Model model,
+			HttpSession session, Authentication authentication) {
+
+		String principal_name = authentication.getName();
+		User seller = userService.findUserByUsername(principal_name);
 
 		if (br.hasErrors()) {
 			generalOperations(model);
@@ -126,33 +173,32 @@ public class SellerController {
 			while (iteGen.hasNext()) {
 				gen.add(iteGen.next().getName());
 			}
-			
+
 			/*
-			List<String> authors = new ArrayList<String>();
-			List<Author> allAuthors = this.authorService.findAll();
-			Iterator<Author> iterAuthor = allAuthors.iterator();
-			while (iterAuthor.hasNext()) {
-				if(iterAuthor.next() == null) break;
-				authors.add(iterAuthor.next().getFullName());
-			}*/
+			 * List<String> authors = new ArrayList<String>(); List<Author> allAuthors =
+			 * this.authorService.findAll(); Iterator<Author> iterAuthor =
+			 * allAuthors.iterator(); while (iterAuthor.hasNext()) { if(iterAuthor.next() ==
+			 * null) break; authors.add(iterAuthor.next().getFullName()); }
+			 */
 
 			model.addAttribute("genre", gen);
 			model.addAttribute("newBook", book);
-			//model.addAttribute("authors", authors);
+			// model.addAttribute("authors", authors);
 			return "addittion_book";
 		} else {
 			try {
 				// memorizza il file appena caricato dalla form (stackoverflow)
-				String path=session.getServletContext().getRealPath("/"); 
-				byte barr[]=book.getCover().getBytes();   
-		        BufferedOutputStream bout=new BufferedOutputStream(new FileOutputStream(path+"resources/img/cover_book/" + book.getCover().getOriginalFilename()));  
-		        bout.write(barr);  
-		        bout.flush();  
-		        bout.close();  
+				String path = session.getServletContext().getRealPath("/");
+				byte barr[] = book.getCover().getBytes();
+				BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(
+						path + "resources/img/cover_book/" + book.getCover().getOriginalFilename()));
+				bout.write(barr);
+				bout.flush();
+				bout.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			this.bookService.create(book, seller); 
+			this.bookService.create(book, seller);
 			String message = "Libro aggiunto correttamente ";
 			model.addAttribute("message", message);
 			return "home_seller";
