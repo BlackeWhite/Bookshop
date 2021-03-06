@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+
 <!-- Breadcrumbs -->
 <div class="breadcrumbs">
 	<div class="container">
@@ -60,7 +61,8 @@
 										<option value="BG">Bulgaria</option>
 										<option value="HR">Croatia</option>
 										<option value="CZ">Czech Republic</option>
-										<option value="DK">Denmark</option><option value="EE">Estonia</option>
+										<option value="DK">Denmark</option>
+										<option value="EE">Estonia</option>
 										<option value="FI">Finland</option>
 										<option value="FR">France</option>
 										<option value="DE">Germany</option>
@@ -172,6 +174,7 @@
 						<div class="content">
 							<ul id="checkout_costs_report">
 								<li>Subtotale<span>${user.formattedCartSubtotalPrice}</span></li>
+								<li id="vat_amount" vat=${vat}>Vat (${vat}%)<span>${vatAmount}</span></li>
 								<li>Costi di spedizione<span>€ 5,00</span></li>
 								<c:choose>
 								<c:when test="${user.savedMoney>0}"> 

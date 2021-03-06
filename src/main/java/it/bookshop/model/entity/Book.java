@@ -39,12 +39,12 @@ public class Book implements Serializable{
 	private String title;
 	private int copies; //  Copie Disponibili
 	private int soldCopies; // Copie vendute
-	private int clicked; // quante volte il libro è stato visitato dagli utenti
+	private int clicked; // quante volte il libro ï¿½ stato visitato dagli utenti
 	private double price;
 	private Date publish; 
 	private Date insertdata;
 	private int pages;
-	private double discount; // se al libro è applicato uno sconto 
+	private double discount; // se al libro ï¿½ applicato uno sconto 
 	private String summary; //short synthesis for book preview
 	private String cover; //file name of cover image
 	private User seller; //Seller of the book
@@ -56,10 +56,10 @@ public class Book implements Serializable{
 	public static final Map<String, Double> vats;
 	static {
 		Map<String, Double> vatsT = new HashMap<>();
-		vatsT.put("IT", 0.22);
-		vatsT.put("CH", 0.09);
-		vatsT.put("DE", 0.20);
-		vatsT.put("FR", 0.15);
+		vatsT.put("Italia", 0.22);
+		vatsT.put("Svizzera", 0.9);
+		vatsT.put("Germania", 0.20);
+		vatsT.put("Francia", 0.15);
 		vats = Collections.unmodifiableMap(vatsT);
 	}
 	
