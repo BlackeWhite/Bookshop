@@ -55,6 +55,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder); // TODO refactor
 	}
+	
+	@Bean
+	public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
+	    return new CustomUrlAuthenticationSuccessHandler();
+	}
 
 	/**
 	 * Configurazione dell'autorizzazione
@@ -75,7 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		antMatchers("/**").permitAll().
 		
 		
-		and().formLogin().loginPage("/login").defaultSuccessUrl("/").failureUrl("/login?error=true").permitAll().
+		and().formLogin().loginPage("/login").loginProcessingUrl("/login").successHandler(myAuthenticationSuccessHandler()).failureUrl("/login?error=true").permitAll().
 		and().logout().deleteCookies("JSESSIONID").logoutSuccessUrl("/").invalidateHttpSession(true).permitAll().
 		and().rememberMe().key("BookShopSecretKey"). //Per la funzione ricordami
 		and().csrf().disable();
