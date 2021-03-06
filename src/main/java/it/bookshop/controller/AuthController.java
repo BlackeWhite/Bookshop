@@ -197,8 +197,8 @@ public class AuthController {
 			details.setUser(user);
 		}
 
-		// Per ragioni di sicurezza e semplicità molti campi non sono passati nel form HTML
-		// Perciò dobbiamo sovrascrivere i campi modificati dell'utente esistente
+		// Per ragioni di sicurezza e semplicitï¿½ molti campi non sono passati nel form HTML
+		// Perciï¿½ dobbiamo sovrascrivere i campi modificati dell'utente esistente
 		User existingUser = userService.findUserByUsername(user.getUsername());
 		existingUser.setPersonalData(user.getPersonalData());
 		existingUser.setEmail(user.getEmail());
@@ -211,10 +211,10 @@ public class AuthController {
 	// Adds attributes used in almost all requests
 	private void generalOperations(Model model) {
 		List<Genre> allGenres = this.bookService.getAllGenres();
-		countries.put("IT", "Italia");
-		countries.put("DE", "Germania");
-		countries.put("FR", "Francia");
-		countries.put("CH", "Svizzera");
+		countries.put("Italia", "Italia");
+		countries.put("Germania", "Germania");
+		countries.put("Francia", "Francia");
+		countries.put("Svizzera", "Svizzera");
 
 		cardTypes.put("Visa", "Visa");
 		cardTypes.put("MasterCard", "MasterCard");
