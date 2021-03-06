@@ -1,6 +1,8 @@
 package it.bookshop.model.dao;
 
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,11 +33,17 @@ public class BookOrderDaoDefault extends DefaultDao implements BookOrderDao {
 	public BookOrder create(Order order, BookOrder b) {
 		BookOrderId id = new BookOrderId(order.getId(), b.getBook().getId());
 		b.getBook().setCopies(b.getBook().getCopies() - b.getCopies()); //aggiornamento copie disponibili
-		b.getBook().setSoldCopies(b.getBook().getCopies() + b.getCopies());
+		b.getBook().setSoldCopies(b.getBook().getSoldCopies() + b.getCopies());
 		b.setId(id);
 		b.setOrder(order);
 		getSession().save(b);
 		return b;
+	}
+	
+	@Override
+	public List<BookOrder> findbyId(long id) {
+		return this.getSession().createQuery("FROM BookOrder bo JOIN bo.book b WHERE b.book_id = :id", BookOrder.class).setParameter("id", id)
+				.getResultList();
 	}
 	
 
