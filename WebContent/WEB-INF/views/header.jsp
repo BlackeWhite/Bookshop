@@ -36,16 +36,17 @@
 								<li><i class="ti-power-off"></i><a
 									href="<c:url value="/login"/>">Login</a></li>
 							</security:authorize>
-							<security:authorize access="isAuthenticated()">
+							<security:authorize access="hasAnyRole('USER','ADMIN')">
 								<li><i class="ti-user"></i> <a
 									href="<c:url value="/account"/>">Il mio account</a></li>
+							</security:authorize>
+							<security:authorize access="hasRole('SELLER')">
+								<li><i class="ti-user"></i> <a
+									href="<c:url value="/seller/"/>">Area Personale</a></li>
 							</security:authorize>
 							<security:authorize access="isAuthenticated()">
 								<li><i class="ti-power-off"></i><a
 									href="<c:url value="/logout"/>">Logout</a></li>
-							</security:authorize>
-							<security:authorize access="isRememberMe()">
-								<li><a href="#">test remember me</a></li>
 							</security:authorize>
 						</ul>
 					</div>

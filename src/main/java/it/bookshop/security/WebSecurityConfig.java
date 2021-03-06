@@ -56,6 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder); // TODO refactor
 	}
 	
+	
 	@Bean
 	public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
 	    return new CustomUrlAuthenticationSuccessHandler();
@@ -72,7 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		antMatchers("/").permitAll().
 		antMatchers("/advanced_search").permitAll().
 		antMatchers("/cart").hasRole("USER").
-		antMatchers("/account").hasRole("USER").
+		antMatchers("/account").authenticated().
 		antMatchers("/checkout").hasRole("USER").
 		antMatchers("/purchase_history").hasRole("USER").
 		antMatchers("/admin/**").hasRole("ADMIN").
