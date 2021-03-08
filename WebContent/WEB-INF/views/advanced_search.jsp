@@ -125,7 +125,7 @@
 											<span class="price-dec">${b.truncatedDiscount}%</span>
 										</c:if>
 									</a>
-									<security:authorize access="isAuthenticated()">
+									<security:authorize access="hasRole('USER')">
 										<div class="button-head">
 											<div class="product-action"></div>
 											<div class="product-action-2">
@@ -137,7 +137,7 @@
 								</div>
 								<div class="product-content">
 									<h3>
-										<a href="product-details.html">${b.title}</a>
+										<a href="<c:url value="/show_book/${b.id}"/>">${b.title}</a>
 									</h3>
 									<div class="product-price">
 										<c:if test="${b.discount > 0}">

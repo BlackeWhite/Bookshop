@@ -100,9 +100,7 @@ public class AdminController {
 			return "add_seller";
 		}
 
-		Role user_role = userService.findRoleByName("USER");
 		Role seller_role = userService.findRoleByName("SELLER");
-		user.addRole(user_role);
 		user.addRole(seller_role);
 		this.userService.create(user);
 
