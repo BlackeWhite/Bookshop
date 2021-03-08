@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import it.bookshop.model.dao.RoleDao;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Coupon;
 import it.bookshop.model.entity.Genre;
@@ -216,6 +214,7 @@ public class AdminController {
 		return "ok";
 	}
 	
+	@SuppressWarnings("serial")
 	private class NotEmptyGenreException extends Exception {
 		
 	}

@@ -4,48 +4,30 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.text.ParseException;
-import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.HttpMediaTypeNotAcceptableException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.security.core.Authentication;
 
 import it.bookshop.model.entity.User;
-import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
-import it.bookshop.model.entity.BookOrder;
-import it.bookshop.model.entity.BookOrderId;
 import it.bookshop.model.entity.Coupon;
 import it.bookshop.model.entity.Genre;
 import it.bookshop.model.entity.Order;
-import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.ShoppingCart;
-import it.bookshop.model.entity.ShoppingCartId;
 
-import it.bookshop.model.dao.ShoppingCartDao;
 import it.bookshop.services.BookService;
 import it.bookshop.services.CouponService;
 import it.bookshop.services.UserService;
@@ -332,14 +314,17 @@ public class UserController {
 		return "purchase_history";
 	}
 
+	@SuppressWarnings("serial")
 	public class MinCopiesException extends Exception {
 
 	}
 
+	@SuppressWarnings("serial")
 	public class MaxCopiesException extends Exception {
 
 	}
 
+	@SuppressWarnings("serial")
 	public class NoAvailableCopies extends Exception {
 
 	}

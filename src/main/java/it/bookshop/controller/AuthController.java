@@ -5,8 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
@@ -26,16 +24,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import it.bookshop.model.dao.RoleDao;
 import it.bookshop.model.entity.CustomUserDetails;
 import it.bookshop.model.entity.Genre;
 import it.bookshop.model.entity.PaymentCard;
-import it.bookshop.model.entity.PersonalData;
 import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.ShoppingCart;
 import it.bookshop.model.entity.User;
 import it.bookshop.services.BookService;
-import it.bookshop.services.UserDetailsServiceDefault;
 import it.bookshop.services.UserService;
 
 @Controller

@@ -168,7 +168,7 @@
 
 										</div>
 										<div class="product-content">
-											<a href="<c:url value="/show_book/${bookinterestgenre.id}"/>"><h4>${bookinterestgenre.title}</h4></a>
+											<h4><a href="<c:url value="/show_book/${bookinterestgenre.id}"/>">${bookinterestgenre.title}</a></h4>
 											<div class="product-price">
 												<c:if test="${bookinterestgenre.discount > 0}">
 													<span class="old">${bookinterestgenre.formattedPrice}</span>
@@ -237,7 +237,7 @@
 
 										</div>
 										<div class="product-content">
-											<a href="<c:url value="/show_book/${bookinterestaut.id}"/>"><h4>${bookinterestaut.title}</h4></a>
+											<h4><a href="<c:url value="/show_book/${bookinterestaut.id}"/>">${bookinterestaut.title}</a></h4>
 											<div class="product-price">
 												<c:if test="${bookinterestaut.discount > 0}">
 													<span class="old">${bookinterestaut.formattedPrice}</span>
