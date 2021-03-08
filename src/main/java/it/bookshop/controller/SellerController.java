@@ -93,8 +93,8 @@ public class SellerController {
 		model.addAttribute("maxPages", pagedListHolder.getPageCount());
 		model.addAttribute("page", page);
 		
-	
-		
+		List<Genre> allGenres = bookService.getAllGenres();
+		model.addAttribute("allGenres", allGenres);
 		model.addAttribute("sellerBooks", sellerBooks);
 		return "home_seller";
 	}
@@ -126,7 +126,8 @@ public class SellerController {
 		model.addAttribute("authorsSurname", authors_surname);
 		model.addAttribute("mode", mode);
 		model.addAttribute("i", i); // utilizzata come contatore nella vista
-
+		model.addAttribute("allGenres", allGenres);
+		
 		generalOperations(model);
 		return "add_book";
 	}
@@ -242,6 +243,7 @@ public class SellerController {
 			authors.add(iterAuthors.next().getFullName());
 		}
 
+		model.addAttribute("allGenres", allGenres);
 		model.addAttribute("genre", gen);
 		model.addAttribute("authors", authors);
 		model.addAttribute("i", i); // utilizzata come contatore nella vista
