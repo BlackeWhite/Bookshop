@@ -1,30 +1,16 @@
 $(document).ready(function() { 
 	
 	//Inserimento nuovo indirizzo
-	$("#newAddress").click(function() {
-		$(".shipmentForm").html(
-			'<form class=" shipmentForm form" method="post">' +
-				'<div class="row">' +
-					'<div class="col-lg-6 col-md-6 col-12">' +
-						'<div class="form-group">' +
-							'<label>Città <span>*</span></label>' +
-							'<input id="shipCity" type="text" placeholder="Città" >' +
-						'</div>' +
-					'</div>' +
-					'<div class="col-lg-6 col-md-6 col-12">' +
-						'<div class="form-group">' +
-							'<label>Indirizzo di spedizione <span>*</span></label>' +
-							'<input id="shipAddr" type="text" placeholder="Via/Piazza/Frazione ...">' +
-						'</div>' +
-					'</div>' +
-					'<div class="col-lg-6 col-md-6 col-12">' +
-						'<div class="form-group">' +
-							'<label>Codice postale<span>*</span> </label>' +
-							'<input id="shipCAP" type="text" placeholder="CAP" >' +
-						'</div>' +
-					'</div>' +
-				'</div>' +
-			'</form>');
+	$("#newAddress").click(function(e) {
+		e.preventDefault();
+		$("#shipCity").attr("value","");
+		$("#shipCity").prop("disabled", false);
+		$("#shipAddr").attr("placeholder", "Via/Piazza/Frazione");
+		$("#shipAddr").removeAttr("value","");
+		$("#shipAddr").prop("disabled", false);
+		$("#shipCAP").removeAttr("value","");
+		$("#shipCAP").prop("disabled", false);
+		$(this).remove();
 	});
 
 	//Gestione metodo di pagamento con comparsa e scomparsa 

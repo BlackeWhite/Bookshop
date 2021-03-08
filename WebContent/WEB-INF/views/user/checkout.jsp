@@ -49,118 +49,48 @@
 									<input type="email" name="email" placeholder="${user.email}" disabled>
 								</div>
 							</div>
-							<div class="col-lg-6 col-md-6 col-12">
-								<div class="form-group">
-									<label>Stato<span>*</span></label>
-									<select name="country_name" id="country" disabled>
-										<option value="AL">Albania</option>
-										<option value="AT">Austria</option>
-										<option value="BY">Belarus</option>
-										<option value="BE">Belgium</option>
-										<option value="BA">Bosnia and Herzegovina</option>
-										<option value="BG">Bulgaria</option>
-										<option value="HR">Croatia</option>
-										<option value="CZ">Czech Republic</option>
-										<option value="DK">Denmark</option>
-										<option value="EE">Estonia</option>
-										<option value="FI">Finland</option>
-										<option value="FR">France</option>
-										<option value="DE">Germany</option>
-										<option value="GR">Greece</option>
-										<option value="GL">Greenland</option>
-										<option value="GD">Grenada</option>
-										<option value="HU">Hungary</option>
-										<option value="IS">Iceland</option>
-										<option value="IQ">Iraq</option>
-										<option value="IE">Ireland</option>
-										<option selected="selected" value="IT">Italy</option>
-										<option value="LI">Liechtenstein</option>
-										<option value="LT">Lithuania</option>
-										<option value="LU">Luxembourg</option>
-										<option value="MT">Malta</option>
-										<option value="MC">Monaco</option>
-										<option value="ME">Montenegro</option>
-										<option value="NL">Netherlands</option>
-										<option value="AN">Netherlands Antilles</option>
-										<option value="NO">Norway</option>
-										<option value="PE">Peru</option>
-										<option value="PL">Poland</option>
-										<option value="PT">Portugal</option>
-										<option value="RO">Romania</option>
-										<option value="SM">San Marino</option>
-										<option value="RS">Serbia</option>
-										<option value="SK">Slovakia</option>
-										<option value="SI">Slovenia</option>
-										<option value="ES">Spain</option>
-										<option value="SE">Sweden</option>
-										<option value="CH">Switzerland</option>
-										<option value="UA">Ukraine</option>
-										<option value="VA">Vatican City</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-lg-6 col-md-6 col-12">
-								<div class="form-group">
-									<label>Regione<span>*</span></label>
-									<select name="state-province" id="state-province"> 
-										<option selected="selected" value="0">Abruzzo</option>
-							            <option value="1">Basilicata</option>
-							            <option value="2">Calabria</option>
-				                        <option value="3">Campania</option>
-				                        <option value="4">Emilia-Romagna</option>
-				                        <option value="5">Friuli-Venezia Giulia</option>
-				                        <option value="6">Lazio</option>
-				                        <option value="7">Liguria</option>
-				                        <option value="8">Lombardia</option>
-				                        <option value="9">Marche</option>
-				                        <option value="10">Molise</option>
-				                        <option value="11">Piemonte</option>
-				                        <option value="12">Puglia</option>
-				                        <option value="13">Sardegna</option>
-				                        <option value="14">Sicilia</option>
-				                        <option value="15">Toscana</option>
-				                        <option value="16">Trentino-Alto Adige</option>
-				                        <option value="17">Umbria</option>
-				                        <option value="18">Valle d'Aosta</option>
-				                        <option value="19">Veneto</option>
-									</select>
-								</div>
-							</div>
 						</div>
 					</form>
 					<br>
 					<h2>Spedizione</h2>
 					<br>
-					<form class="shipmentForm form" method="post">
+					<form class="shipmentForm form">
 						<div class="row">
-								<div class="col-lg-6 col-md-6 col-12">
-									<div class="form-group">
-										<label>Città <span>*</span></label>
-										<input id="shipCity" type="text" placeholder="${user.personalData.city}" value="${user.personalData.city}" disabled>
-									</div>
+							<div class="col-lg-6 col-md-6 col-12">
+								<div class="form-group">
+									<label>Stato<span>*</span></label>
+									<input id="shipState" type="text" value="${user.personalData.state}" disabled>
+									<small class="form-text text-muted">Modificare il seguente lo Stato nella sezione Il mio account .</small>
 								</div>
-								<div class="col-lg-6 col-md-6 col-12">
-									<div class="form-group">
-										<label>Indirizzo di spedizione <span>*</span></label>
-										<input id="shipAddr" type="text" placeholder="${user.personalData.street}" value="${user.personalData.street}" disabled>
-									</div>
+							</div>
+							<div class="col-lg-6 col-md-6 col-12">
+								<div class="form-group">
+									<label>Città <span>*</span></label>
+									<input id="shipCity" type="text" value="${user.personalData.city}" disabled>
 								</div>
-								<div class="col-lg-6 col-md-6 col-12">
-									<div class="form-group">
-										<label>Codice postale<span>*</span></label>
-										<input id="shipCAP" type="text" placeholder="${user.personalData.cap}" value="${user.personalData.cap}" disabled>
-									</div>
+							</div>
+							<div class="col-lg-6 col-md-6 col-12">
+								<div class="form-group">
+									<label>Indirizzo di spedizione <span>*</span></label>
+									<input id="shipAddr" type="text" value="${user.personalData.street}" disabled>
 								</div>
-								<div class="col-12">
-									<div class="form-group ">
-										<button id="newAddress" class="btn btn-sm" >
-											<span >
-												Inserisci un nuovo indirizzo
-											</span>
-										</button>
-										<%-- <label>Vuoi inserire un nuovo indirizzo?</label> --%>
-									</div>
+							</div>
+							<div class="col-lg-6 col-md-6 col-12">
+								<div class="form-group">
+									<label>Codice postale<span>*</span></label>
+									<input id="shipCAP" type="text" value="${user.personalData.cap}" disabled>
 								</div>
+							</div>
+							<div class="col-12">
+								<div class="form-group ">
+									<button id="newAddress" class="btn btn-sm" >
+										<span >
+											Inserisci un nuovo indirizzo
+										</span>
+									</button>
+									<%-- <label>Vuoi inserire un nuovo indirizzo?</label> --%>
+								</div>
+							</div>
 						</div>
 					</form>
 					<!--/ End Form -->
