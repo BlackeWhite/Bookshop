@@ -394,6 +394,9 @@ Version:1.0
 }
 .header.shop .right-content{
 	float:right;
+	top: 20px;
+	position: relative;
+	margin-right: 40px;
 }
 .header.shop .list-main li {
 	display: inline-block;

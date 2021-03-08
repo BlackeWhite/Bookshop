@@ -7,55 +7,6 @@
 <c:url value="logo.png" var="logoimg" />
 
 <header class="header shop">
-	<!-- Topbar -->
-	<div class="topbar">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-4 col-md-12 col-12">
-					<!-- Top Left -->
-					<div class="top-left">
-						<ul class="list-main">
-							<li><i class="ti-headphone-alt"></i> +39 06 5826478</li>
-							<li><i class="ti-email"></i> support@bookshop.com</li>
-						</ul>
-					</div>
-					<!--/ End Top Left -->
-				</div>
-				<div class="col-lg-8 col-md-12 col-12">
-					<!-- Top Right -->
-					<div class="right-content">
-						<ul class="list-main">
-							<li><i class="ti-location-pin"></i>Chi siamo</li>
-							<security:authorize access="isAnonymous()">
-								<li><i class="ti-alarm-clock"></i><a
-									href="<c:url value="/register"/>">Registrati</a></li>
-							</security:authorize>
-							<!--  da mostrare solo agli utenti registrati  
-								<li><i class="ti-user"></i> <a href="#">Account</a></li>  -->
-							<security:authorize access="isAnonymous()">
-								<li><i class="ti-power-off"></i><a
-									href="<c:url value="/login"/>">Login</a></li>
-							</security:authorize>
-							<security:authorize access="hasAnyRole('USER', 'ADMIN', 'SELLER')">
-								<li><i class="ti-user"></i> <a
-									href="<c:url value="/account"/>">Il mio account</a></li>
-							</security:authorize>
-							<security:authorize access="hasRole('SELLER')">
-								<li><i class="ti-user"></i> <a
-									href="<c:url value="/seller/"/>">Area Personale</a></li>
-							</security:authorize>
-							<security:authorize access="isAuthenticated()">
-								<li><i class="ti-power-off"></i><a
-									href="<c:url value="/logout"/>">Logout</a></li>
-							</security:authorize>
-						</ul>
-					</div>
-					<!-- End Top Right -->
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- End Topbar -->
 	<div class="middle-inner">
 		<div class="container">
 			<div class="row">
@@ -88,7 +39,7 @@
 					<!--/ End Search Form -->
 					<div class="mobile-nav"></div>
 				</div>
-				<div class="col-lg-7 col-md-7 col-12">
+				<div class="col">
 					<div class="search-bar-top">
 						<div class="search-bar">
 							<c:url value="/advanced_search" var="search_action" />
@@ -106,7 +57,8 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-2 col-md-3 col-12">
+				
+				<div class="col">
 					<div class="right-bar">
 						<!-- loghi inutili 
 							<div class="sinlge-bar">
@@ -116,10 +68,10 @@
 								<a href="#" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
 							</div>
 							 -->
-						<security:authorize access="hasRole('USER')">
-							<c:set
+						<c:set
 								value="${requestScope['javax.servlet.forward.request_uri']}"
 								var="uri" />
+						<security:authorize access="hasRole('USER')">
 							<c:url value="/cart" var="carturl" />
 							<c:url value="/checkout" var="checkouturl" />
 							<c:if test="${uri != carturl && uri != checkouturl}">
@@ -175,6 +127,35 @@
 							</c:if>
 						</security:authorize>
 					</div>
+				
+				<!-- Top Right -->
+					<div class="right-content">
+						<ul class="list-main">
+							<security:authorize access="isAnonymous()">
+								<li><i class="ti-alarm-clock"></i><a
+									href="<c:url value="/register"/>">Registrati</a></li>
+							</security:authorize>
+							<!--  da mostrare solo agli utenti registrati  
+								<li><i class="ti-user"></i> <a href="#">Account</a></li>  -->
+							<security:authorize access="isAnonymous()">
+								<li><i class="ti-power-off"></i><a
+									href="<c:url value="/login"/>">Login</a></li>
+							</security:authorize>
+							<security:authorize access="hasAnyRole('USER', 'ADMIN', 'SELLER')">
+								<li><i class="ti-user"></i> <a
+									href="<c:url value="/account"/>">Il mio account</a></li>
+							</security:authorize>
+							<security:authorize access="hasRole('SELLER')">
+								<li><i class="ti-user"></i> <a
+									href="<c:url value="/seller/"/>">Area Personale</a></li>
+							</security:authorize>
+							<security:authorize access="isAuthenticated()">
+								<li><i class="ti-power-off"></i><a
+									href="<c:url value="/logout"/>">Logout</a></li>
+							</security:authorize>
+						</ul>
+					</div>
+				<!-- End Top Right -->
 				</div>
 			</div>
 		</div>
@@ -210,11 +191,14 @@
 															href="<c:url value="/show_genre/${genres.name}"/>">${genres.name}</a></li>
 													</c:forEach>
 												</ul></li>
-											<li><a href="<c:url value="/sales"/>">Sconti<span
-													class="new">Sale</span></a></li>
+												<c:url value="/sales" var="salesUrl" />
+												<c:if test="${uri == salesUrl}">
+												<c:set value="active" var="active5" />
+											</c:if>
+											<li class="${active5}"><a  href="<c:url value="/sales"/>">Sconti</a></li>
+											
 											<c:url value="/purchase_history" var="purchhisturl" />
-											<c:if
-												test="${uri == carturl || uri == checkouturl || uri == purchhisturl}">
+											<c:if test="${uri == carturl || uri == checkouturl || uri == purchhisturl}">
 												<c:set value="active" var="active4" />
 											</c:if>
 											<li class="${active4}"><a href="#">Acquisti<i
