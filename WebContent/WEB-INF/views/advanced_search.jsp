@@ -129,8 +129,15 @@
 										<div class="button-head">
 											<div class="product-action"></div>
 											<div class="product-action-2">
-												<input type="hidden" value="1" id="amount_${b.id}">
-												<button class="add_to_cart" data-book="${b.id}">Aggiungi al carrello</button>
+												<c:choose>
+												<c:when test="${b.copies > 0}">
+													<input type="hidden" value="1" id="amount_${b.id}">
+													<button class="add_to_cart" data-book="${b.id}">Aggiungi al carrello</button>
+												</c:when>
+												<c:otherwise>
+													<button >Non disponibile</button>
+												</c:otherwise>
+												</c:choose>
 											</div>
 										</div>
 									</security:authorize>

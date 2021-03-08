@@ -67,6 +67,13 @@
 						<a href="<c:url value="/login"/>" class="btn add_to_cart">Login</a>
 					</div>
 				</security:authorize>
+				
+				<security:authorize access="!hasRole('USER')">
+					<div class="quantity">
+						<b style="font-size: 15pt;"> Non hai i permessi per acquistare un libro, crea un account standard </b>
+						<div class="input-group"></div>
+					</div>
+				</security:authorize>
 
 				<security:authorize access="hasRole('USER')">
 					<c:if test="${book.copies > 0}">
@@ -159,7 +166,7 @@
 																class="btn add_to_cart">Aggiungi al carrello</a>
 														</c:if>
 														<c:if test="${bookinterestgenre.copies <= 0 }">
-															<a class="btn add_to_cart">Non disponibile</a>
+															<a>Non disponibile</a>
 														</c:if>
 													</div>
 
@@ -228,7 +235,7 @@
 																class="btn add_to_cart">Aggiungi al carrello</a>
 														</c:if>
 														<c:if test="${bookinterestaut.copies <= 0 }">
-															<a class="btn add_to_cart">Non disponibile</a>
+															<a>Non disponibile</a>
 														</c:if>
 													</div>
 

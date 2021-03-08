@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="security"
+	uri="http://www.springframework.org/security/tags"%>
 
 <div id="contact-us" class="contact-us section">
 	<div class="container">
@@ -98,53 +100,55 @@
 						</form:form>
 					</div>
 				</div>
-				<div id="payment-column" class="col">
-					<div id="payment-box" class="col-md-12">
-						<c:url value="/add_payment_card" var="action2" />
-						<form:form id="payment-form" action="${action2}"
-							modelAttribute="newCard" class="form" method="post">
-							<div class="title">
-								<h3>Gestisci carte di pagamento</h3>
-							</div>
-							<div class="form-group">
-								<label for="temp">Tipo:</label> <input type="hidden" id="temp"></input>
-								<br>
-								<form:select required="required" path="type"
-									items="${cardTypes}" />
-								<br>
-								<br>
-							</div>
-							<div class="form-group">
-								<form:label path="number">Numero:</form:label>
-								<br>
-								<form:input required="required" minlength="16" maxlength="16" type="text"
-									path="number" id="number" />
-							</div>
-							<div class="form-group">
-								<form:label path="expirationDate">Scadenza:</form:label>
-								<br>
-								<form:input required="required" type="date" class="date"
-									path="expirationDate" id="expdate" />
-							</div>
-							<div class="form-group button">
-								<button type="submit" name="submit" class="btn">Aggiungi</button>
-							</div>
-						</form:form>
-						<hr>
-						<h4 class="title" style="margin-bottom: 15px;">Le tue carte</h4>
-						<c:forEach items="${userCards}" var="card">
-						<div id="card_${card.id}">
-							<div class="card-container">
-								<span>Carta </span><p>${card.type}</p><br>
-								<span>Che termina con: </span><p>${card.hiddenNumber}</p>
-								<button data-card="${card.id}" class="remove-card"><i class="fa fa-remove"></i></button><br>
-								<span>Scadenza: </span><p >${card.shortExpirationDate}</p><br>
-							</div>
+				<security:authorize access="hasRole('USER')">
+					<div id="payment-column" class="col">
+						<div id="payment-box" class="col-md-12">
+							<c:url value="/add_payment_card" var="action2" />
+							<form:form id="payment-form" action="${action2}"
+								modelAttribute="newCard" class="form" method="post">
+								<div class="title">
+									<h3>Gestisci carte di pagamento</h3>
+								</div>
+								<div class="form-group">
+									<label for="temp">Tipo:</label> <input type="hidden" id="temp"></input>
+									<br>
+									<form:select required="required" path="type"
+										items="${cardTypes}" />
+									<br>
+									<br>
+								</div>
+								<div class="form-group">
+									<form:label path="number">Numero:</form:label>
+									<br>
+									<form:input required="required" minlength="16" maxlength="16" type="text"
+										path="number" id="number" />
+								</div>
+								<div class="form-group">
+									<form:label path="expirationDate">Scadenza:</form:label>
+									<br>
+									<form:input required="required" type="date" class="date"
+										path="expirationDate" id="expdate" />
+								</div>
+								<div class="form-group button">
+									<button type="submit" name="submit" class="btn">Aggiungi</button>
+								</div>
+							</form:form>
 							<hr>
+							<h4 class="title" style="margin-bottom: 15px;">Le tue carte</h4>
+							<c:forEach items="${userCards}" var="card">
+							<div id="card_${card.id}">
+								<div class="card-container">
+									<span>Carta </span><p>${card.type}</p><br>
+									<span>Che termina con: </span><p>${card.hiddenNumber}</p>
+									<button data-card="${card.id}" class="remove-card"><i class="fa fa-remove"></i></button><br>
+									<span>Scadenza: </span><p >${card.shortExpirationDate}</p><br>
+								</div>
+								<hr>
+							</div>
+							</c:forEach>
 						</div>
-						</c:forEach>
 					</div>
-				</div>
+				</security:authorize>
 			</div>
 		</div>
 	</div>

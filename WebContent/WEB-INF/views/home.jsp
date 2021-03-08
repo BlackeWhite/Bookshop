@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="security"
+	uri="http://www.springframework.org/security/tags"%>
 
 <!-- Start Shop Home List  -->
 <section class="shop-home-list section">
@@ -22,7 +24,8 @@
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="list-image overlay">
 									<img src="<c:url value="/resources/img/cover_book/${tBSBooks.cover}"/>"
-										alt="#" style="height: 300px; object-fit: contain"><a href="<c:url value="/show_book/${tBSBooks.id}"/>" class="buy"> </a>
+										alt="#" style="height: 300px; object-fit: contain"><a href="<c:url value="/show_book/${tBSBooks.id}"/>" class="buy"> 
+										<i class="fa fa-eye"></i></a>
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-6 col-12 no-padding">
@@ -53,7 +56,8 @@
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="list-image overlay">
 									<img src="<c:url value="/resources/img/cover_book/${tFNBooks.cover}"/>"
-										alt="#" style="height: 300px; object-fit: contain"><a href="<c:url value="/show_book/${tFNBooks.id}"/>" class="buy"></a>
+										alt="#" style="height: 300px; object-fit: contain"><a href="<c:url value="/show_book/${tFNBooks.id}"/>" class="buy">
+										<i class="fa fa-eye"></i></a>
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-6 col-12 no-padding">
@@ -86,7 +90,7 @@
 									<img src="<c:url value="/resources/img/cover_book/${tsAuthor.photo}"/>"
 										alt="author_photo" style="height: 300px; object-fit: contain"> <a
 										href="<c:url value="/show_author/${tsAuthor.id}"/>"
-										class="buy"></a>
+										class="buy"><i class="fa fa-eye"></i></a>
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-6 col-12 no-padding">
@@ -138,12 +142,22 @@
 														<span class="price-dec">${tMCB.truncatedDiscount}%</span>
 														</c:if>
 													</a>
+													<security:authorize access="hasRole('USER')">
 													<div class="button-head">
 														<div class="product-action"></div>
 														<div class="product-action-2">
-															<a title="Add to cart" href="#">Aggiungi al carrello</a>
+															<c:choose>
+															<c:when test="${tMCB.copies > 0}">
+																<input type="hidden" value="1" id="amount_${tMCB.id}">
+																<button class="add_to_cart" data-book="${tMCB.id}">Aggiungi al carrello</button>
+															</c:when>
+															<c:otherwise>
+																<button >Non disponibile</button>
+															</c:otherwise>
+															</c:choose>
 														</div>
 													</div>
+													</security:authorize>
 												</div>
 
 												<div class="product-content">
