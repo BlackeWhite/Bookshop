@@ -1,5 +1,6 @@
 package it.bookshop.model.entity;
 
+import java.sql.Date;
 import java.text.NumberFormat;
 
 import javax.persistence.CascadeType;
@@ -22,6 +23,7 @@ public class BookOrder {
 	private Order order;
 	private Book book;
 	private int copies;
+	private Date purchasedate;
 	private double price; //Price at checkout
 	
 	@EmbeddedId
@@ -76,6 +78,12 @@ public class BookOrder {
 	public String getFormattedPrice() {
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
 		return formatter.format(price);
+	}
+	public Date getPurchasedate() {
+		return purchasedate;
+	}
+	public void setPurchasedate(Date purchasedate) {
+		this.purchasedate = purchasedate;
 	}
 	
 }
