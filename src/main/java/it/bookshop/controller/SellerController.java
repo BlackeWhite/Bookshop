@@ -6,9 +6,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -150,7 +153,7 @@ public class SellerController {
 		
 		BookInfoResponse bresp = new BookInfoResponse();
 		bresp.setBookID(reqBody.getBookID());
-		
+	
 		Book b = this.bookService.findById(reqBody.getBookID());
 		bresp.setTitle(b.getTitle());
 		bresp.setSoldcopies(b.getSoldCopies());
@@ -162,7 +165,7 @@ public class SellerController {
 		double sum = 0;
 		while(iterbook.hasNext()) {
 			BookOrder bo = iterbook.next();
-			sum += bo.getCopies()*bo.getPrice();
+			sum += bo.getCopies()*(bo.getPrice()*0.88); // va sistemata con le diverse iva (ho messo l'italiana)
 		}
 		
 	   double sumapprox = Math.round(sum * 100.0) / 100.0;
