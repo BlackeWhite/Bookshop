@@ -42,19 +42,12 @@ public class BookOrderDaoDefault extends DefaultDao implements BookOrderDao {
 		return b;
 	}
 	
+	
 	@Override
 	public List<BookOrder> findbyId(long id) {
-		List<BookOrder> bo  = this.getSession().createQuery("FROM BookOrder bo",BookOrder.class).getResultList();
-		Iterator<BookOrder> boiter = bo.iterator();
-		List<BookOrder> choosebo = new ArrayList<BookOrder>();
-		while(boiter.hasNext()) {
-			BookOrder boelem = boiter.next();
-			if (boelem.getId().getBookId() == id) {
-				choosebo.add(boelem);
-			}
-		
-		}
-		return choosebo;
+		// cerca per bookid nella lista dei libri acquistati 
+		List<BookOrder> bo  = this.getSession().createQuery("select bo FROM BookOrder bo where bo.id.bookId=:id",BookOrder.class).setParameter("id", id).getResultList();
+		return bo;
 	}
 	
 
