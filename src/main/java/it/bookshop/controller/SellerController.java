@@ -140,9 +140,9 @@ public class SellerController {
 		
 		List<Book> lbooksold = bookService.findAllBookSoldOfSeller(seller);
 		model.addAttribute("listbook", lbooksold);
+		generalOperations(model);
 		return "analysis_book";
 	}
-	
 	
 	@PostMapping(value = "/change_book")
 	@ResponseBody
@@ -162,9 +162,11 @@ public class SellerController {
 		double sum = 0;
 		while(iterbook.hasNext()) {
 			BookOrder bo = iterbook.next();
-			sum = bo.getCopies()*bo.getPrice();
+			sum += bo.getCopies()*bo.getPrice();
 		}
-	   bresp.setTotearn(sum);
+		
+	   double sumapprox = Math.round(sum * 100.0) / 100.0;
+	   bresp.setTotearn(sumapprox);
 	   
 	   return bresp;
 	
