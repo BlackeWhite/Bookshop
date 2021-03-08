@@ -13,8 +13,10 @@ $(document).ready(function() {
 			contentType: 'application/json',
 			dataType: "json", //The type of data that you're expecting back from the server
 			success: function(data) {
-				var title = data["title"] // da finire 
-				alert(title);
+				$('#title_book').text("Titolo del libro: " + data["title"]);
+				$('#copie_sold_book').text("Copie vendute: " + data["soldcopies"]);
+				$('#total_earn').text("Incasso totale libro: " + data["totearn"]);
+				
 			},
 			error: function(e) {
 				popupMessage(e);

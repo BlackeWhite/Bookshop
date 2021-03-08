@@ -58,9 +58,12 @@
 							<option value="${listbook.id}">${listbook.title}</option>
 						</c:forEach>
 					</select>
-					<p id="description"> </p>
+					
 				</div>
-
+				<br>
+				<b id="title_book"></b> <br>
+				<b id="copie_sold_book"></b><br>
+				<b id="total_earn"></b><br>
 			</div>
 		</div>
 	</div>
