@@ -72,13 +72,17 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/seller/home_seller.jsp" />
 	</definition>
-	<definition extends="default" name="addittion_book">
+	<definition extends="default" name="add_book">
 		<put-attribute name="body"
-			value="/WEB-INF/views/seller/addittion_book.jsp" />
+			value="/WEB-INF/views/seller/add_book.jsp" />
 	</definition>
 	<definition extends="default" name="analysis_book">
 		<put-attribute name="body"
 			value="/WEB-INF/views/seller/analysis_book.jsp" />
+	</definition>
+	<definition extends="default" name="edit_book">
+		<put-attribute name="body"
+			value="/WEB-INF/views/seller/edit_book.jsp" />
 	</definition>
 	
 </tiles-definitions>

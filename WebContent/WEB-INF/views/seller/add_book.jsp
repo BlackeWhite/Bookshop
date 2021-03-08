@@ -37,9 +37,8 @@
 						<h3 class="title">Menu</h3>
 						<c:url value="/seller/addition_book" var="addition_book"/>
 						<li><a href="${addition_book}"> Aggiungi un libro in vendita </a></li>
-						<li><a href=""> Modifica un libro in vendita </a></li>
 						<li><a href=""> Metti in sconto un libro in vendita </a></li>
-						<li><a href="<c:url value="/seller/analysis_book"/>">Analisi delle vendite dai vari libri </a></li>
+						<li><a href=""<c:url value="/seller/analysis_book"/>">Analisi delle vendite dai vari libri </a></li>
 						<li><a href=""> Modifica dati personali </a></li>
 					</div>
 					<!--/ End Single Widget -->
@@ -49,7 +48,6 @@
 			<div class="col-lg-9 col-md-8 col-12">
 				<div class="row">
 					<div class="col-12">
-					
 					</div>
 				</div>
 				<div class="row">
@@ -59,6 +57,7 @@
 				   <c:url value="/seller/modify_book" var="book_action"/>
 				   </c:if>
 					<form:form id="register-form" action="${book_action}" modelAttribute="newBook" class="form" method="post" enctype="multipart/form-data">
+			
 					<script type="text/javascript">
 					    function removerows (tablebody) {
 					      var rows = tablebody.getElementsByTagName("tr");
@@ -101,7 +100,7 @@
 						      }
 					    }
 					
-					    function change () {
+					    function change_select () {
 					      var select = document.getElementById("numrows");
 					      var index = select.selectedIndex
 					      var n = parseInt(select.value);
@@ -110,11 +109,12 @@
 					      addrows(tablebody, n);
 					    }
 					 </script>
+					 
 					 <legend>Autore/i del libro</legend>
 					 	<br>
 						<label path="title"><b>Numero di autori</b></label>
 						<fieldset>
-						  <select id="numrows" name="numrows" onchange="change()">
+						  <select id="numrows" name="numrows" onchange="change_select()">
 						    <option value="1">1</option>
 						    <option value="2">2</option>
 						    <option value="3">3</option>
@@ -130,21 +130,6 @@
 						      </tr>
 						    </tbody>
 						  </table>
-						<!--
-						<fieldset>
-							<legend>Autore del libro</legend>
-								
-								<c:forEach items="${authors}" var="author"> 
-							     <p hidden>${i=i+1}</p> 
-										<form:checkbox id="${author}" name="${author}" path="authors" value="${author}" label="${author}" />
-										 &thinsp; &nbsp;
-									    <form:errors path="authors" cssClass="validation-error"/>
-									<c:if test="${i%6 == 0 }"> <br></c:if>	 
-								</c:forEach>
-							
-						</fieldset>
-						!-->
-						
 						<fieldset>
 						<legend> Informazioni Libro  </legend>
 								<br>
@@ -202,30 +187,17 @@
 									    <form:errors path="genre" cssClass="validation-error"/>
 									<c:if test="${i%8 == 0 }"> <br></c:if>
 								</c:forEach>
-							
 						</fieldset>
-						
 						<br>
 						<fieldset>
 						<legend>Sconto sul libro</legend>
 							<br>
 							<form:label path="title"><b>Sconto</b></form:label>
-							
 							<form:input type="number" min="0" step="1" max="100"
 								path="discount" id="discount" /> <span>&#37;</span>
 							<form:errors path="discount" cssClass="validation-error" />
-
 						</fieldset>
-							
-							<br>
-						<!-- 
-							<fieldset>
-							
-						<legend>Autore  </legend>
-								<form:label path="title">Nome autore</form:label> <br>
-								<form:input required="required" type="text" path="title" id="title" />
-								<form:errors path="title" cssClass="validation-error" />
-							</fieldset>  -->
+						<br>
 						<br>
 					 <c:if test="${mode == 'add'}">
 				 <button type="submit" name="submit" class="btn with-pass-conf">Inserisci Libro </button>
@@ -233,14 +205,11 @@
 				  <c:if test="${mode == 'modify'}">
 				   <button type="submit" name="submit" class="btn with-pass-conf">Modifca Libro </button>
 				   </c:if>
-              	
 					</form:form>
-				
 				</div>
-				
 			</div>
 		</div>
 	</div>
 </section>
-<!--/ End Product Style 1  -->			<!-- Single Widget -->
+
 		

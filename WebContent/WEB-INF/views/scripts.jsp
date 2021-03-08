@@ -53,6 +53,7 @@
 <c:url value="/coupon_validation"  var="coupon_validation"/>
 <c:url value="/checkout"  var="checkout"/>
 <c:url value="/admin/delete_user"  var="delete_user"/>
+<c:url value="/admin/delete_book"  var="delete_book"/>
 <c:url value="/admin/delete_genre"  var="delete_genre"/>
 <c:url value="/seller/change_book" var="change_book" />
 <script type="text/javascript">
@@ -67,6 +68,7 @@ var copies_check_url = "${copies_check}";
 var coupon_validation_url = "${coupon_validation}";
 var checkout_url = "${checkout}";
 var delete_user_url = "${delete_user}";
+var delete_book_url = "${delete_book}";
 var delete_genre_url = "${delete_genre}";
 var change_book = "${change_book}";
 </script>

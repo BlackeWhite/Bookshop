@@ -43,6 +43,7 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 	public Author create(String name, String surname, Date date, String nationality, String biography, String photo) {
 		Author a = new Author();
 		a.setName(name);
+		
 		if(surname.isEmpty()) {
 			a.setSurname("#SURNAME_PLACEHOLDER");
 			}

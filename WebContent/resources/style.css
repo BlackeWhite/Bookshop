@@ -5086,6 +5086,11 @@ Version:1.0
 	background:#F7941D;
 	transition: 0.5s;
 }
+
+.remove-book:hover {
+	background:#F7941D;
+	transition: 0.5s;
+}
 /*=============================
 	End Seller list CSS
 ===============================*/

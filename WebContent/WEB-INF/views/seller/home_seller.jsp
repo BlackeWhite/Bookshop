@@ -14,9 +14,8 @@
 					<ul class="bread-list">
 						<li><a href="<c:url value="/" />">Home<i
 								class="ti-arrow-right"></i></a></li>
-						<li class="active"><a
-							href="<c:url value="/seller/"/>">Area Personale -
-								Venditore</a></li>
+						<li class="active"><a href="<c:url value="/seller/"/>">Area
+								Personale - Venditore</a></li>
 					</ul>
 				</div>
 			</div>
@@ -33,26 +32,108 @@
 				<div class="shop-sidebar">
 					<div class="single-widget range">
 						<h3 class="title">Menu</h3>
-						<c:url value="/seller/addition_book" var="addition_book"/>
-						<li><a href="${addition_book}"> Aggiungi un libro in vendita </a></li>
-						<li><a href=""> Modifica un libro in vendita </a></li>
+						<c:url value="/seller/addition_book" var="addition_book" />
+						<li><a href="${addition_book}"> Aggiungi un libro in
+								vendita </a></li>
 						<li><a href=""> Metti in sconto un libro in vendita </a></li>
-						<li><a href="<c:url value="/seller/analysis_book"/>">Analisi delle vendite dai vari libri </a></li>
+						<li><a href="<c:url value="/seller/analysis_book"/>">Analisi
+								delle vendite dai vari libri </a></li>
 						<li><a href=""> Modifica dati personali </a></li>
 					</div>
 					<!--/ End Single Widget -->
-
 				</div>
 			</div>
 			<div class="col-lg-9 col-md-8 col-12">
-				<div class="row">
-					<div class="col-12"></div>
-				</div>
-				<div class="row">
-					<b>${message}</b>
-				</div>
+					<div class="container justify-content-center align-items-center users-list">
+						<div class="col-12">
+							<div class="purchase-history">
+							<h3>${message}</h3>
+								<c:choose>
+									<c:when test="${fn:length(sellerBooks) > 0 }">
+										<div class="title">I miei libri in vendita</div>
+										<c:forEach items="${sellerBooks}" var="sellerBooks">
+											<div class="order" id="book_${sellerBooks.id}">
+												<div class="info">
+													<div class="row">
+														<div class="col-3 field">Prodotto inserito il:</div>
+														<div class="col field"><a href="<c:url value="/seller/editBook/${sellerBooks.id}"/>"><i class="fa fa-remove">MODIFICA</i></a></div>
+														<div class="col field">
+															<button bookId="${sellerBooks.id}" class="remove-book">
+																<a href="<c:url value="/seller/delete_book/${sellerBooks.id}"/>"><i class="fa fa-remove"> ELIMINA </i></a>
+															</button>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-3 value">${sellerBooks.insertdata}</div>
 
+													</div>
+												</div>
+												<div class="books">
+													<div class="single-book">
+														<div class="row">
+															<div class="col-10">
+																<img
+																	src="<c:url value="/resources/img/cover_book/${sellerBooks.cover}"/>" />
+																<h4>
+																	<a href="<c:url value="/show_book/${sellerBooks.id}"/>">${sellerBooks.title}</a>
+																</h4>
+																<span class="field">Autori: </span> <span> <c:forEach
+																		items="${sellerBooks.authors}" var="author">
+												- ${author.fullName} 
+												</c:forEach>
+																</span> <br> <span class="field">Data di
+																	pubblicazione: </span> <span>${sellerBooks.publish}</span>
+															</div>
+															<div class="col price-data">
+																<span class="field">Copie:</span> <span>
+																	${sellerBooks.copies}</span> <br> <span class="field">Prezzo:</span>
+																<span>${sellerBooks.formattedPrice}</span>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											
+										</c:forEach>
+										<div class="pagination" style="margin: auto">
+											<div class="center" style="margin: auto">
+												<ul class="pagination pagination-lg pagination-list">
+													<c:if test="${page == 1}">
+														<c:set value="disabled" var="disabledBegin" />
+													</c:if>
+													<li class="page-item ${disabledBegin}"><a
+														class="page-link" data-page="${page-1}">&laquo;</a></li>
+													<c:forEach begin="1" end="${maxPages}" step="1"
+														varStatus="i">
+														<c:choose>
+															<c:when test="${i.index == page}">
+																<c:set value="active" var="active" />
+															</c:when>
+															<c:otherwise>
+																<c:set value="" var="active" />
+															</c:otherwise>
+														</c:choose>
+														<li class="page-item ${active}"><a class="page-link"
+															data-page="${i.index}">${i.index}</a></li>
+													</c:forEach>
+													<c:if test="${page == maxPages}">
+														<c:set value="disabled" var="disabledEnd" />
+													</c:if>
+													<li class="page-item ${disabledEnd}"><a
+														class="page-link" data-page="${page+1}">&raquo;</a></li>
+												</ul>
+											</div>
+										</div>
+									</c:when>
+									<c:otherwise>
+										<div class="title">Non hai nessun libro in vendita</div>
+									</c:otherwise>
+								</c:choose>
+							</div>
+						</div>
+					</div>
 			</div>
+
 		</div>
 	</div>
 </section>

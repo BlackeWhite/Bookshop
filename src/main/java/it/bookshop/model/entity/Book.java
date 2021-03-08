@@ -130,10 +130,10 @@ public class Book implements Serializable{
 	}
 	
 	@Column(name = "INSERTDATA")
-	public Date getInsertData() {
+	public Date getInsertdata() {
 		return this.insertdata;
 	}
-	public void setInsertData(Date insertdata) {
+	public void setInsertdata(Date insertdata) {
 		this.insertdata = insertdata;
 	}
 	

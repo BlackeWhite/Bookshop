@@ -86,7 +86,7 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 		b.setSummary(summary);
 		b.setCover(cover);
 		if(b.getCover().isEmpty()) b.setCover("bookcover-placeholder.png");
-		b.setInsertData(insert_date);
+		b.setInsertdata(insert_date);
 		b.setClicked(0);
 		b.setSoldCopies(0);
 		b.setDiscount(discount);
@@ -109,7 +109,7 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 		if(b.getCover().isEmpty()) b.setCover("bookcover-placeholder.png");
 		Date date = new Date(Calendar.getInstance().getTime().getTime()); // si prende la data odierna per l'inserimento
 																			// del libro
-		b.setInsertData(date);
+		b.setInsertdata(date);
 		b.setClicked(0);
 		b.setSoldCopies(0);
 		b.setDiscount(((double)book.getDiscount())/100);
@@ -141,7 +141,7 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 	
 	@Override
 	public List<Book> findSellerBook(Long id) {
-		return this.getSession().createQuery("SELECT b FROM Book b JOIN b.seller s WHERE s.userID=:id", Book.class)
+		return this.getSession().createQuery("SELECT b FROM Book b JOIN b.seller s WHERE s.userID=:id ORDER BY INSERTDATA DESC", Book.class)
 				.setParameter("id", id).getResultList();
 	}
 

@@ -136,7 +136,7 @@ $(document).ready(function() {
 	//Funzione per rimuovere un utente dalla lista di venditori o utenti standard
 	$(".remove-user").click(function() {
 		var username = $(this).attr("data-user");
-		if (confirm("Sei sicuro di voler eliminare questo utente?")) {
+		if (confirm("Sei sicuro di voler eliminare questo ?")) {
 			$.ajax({
 				type: 'POST',
 				url: delete_user_url,
@@ -151,6 +151,25 @@ $(document).ready(function() {
 			});
 		}
 	});
+	/*
+	//Funzione per rimuovere un libro di un venditore
+	$(".remove-book").click(function() {
+		var bookId = $(this).attr("bookId");
+		if (confirm("Sei sicuro di voler eliminare questo prodotto?")) {
+			$.ajax({
+				type: 'POST',
+				url: delete_book_url,
+				data: Long,
+				contentType: 'text/plain',
+				dataType: "text", //The type of data that you're expecting back from the server
+				success: function(data) {
+					$("#book_" + bookId).remove();
+					popupMessage("Libro: "+bookId+" eliminato");
+				},
+				processData: false
+			});
+		}
+	});*/
 	
 	//Funzione per rimuovere un genere dalla lista dei generi
 	$(".remove-genre").click(function() {

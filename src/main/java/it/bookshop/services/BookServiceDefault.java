@@ -215,23 +215,8 @@ public class BookServiceDefault implements BookService {
 	@Override
 	public Book create(Bookform book, User seller) {
 		Book b1 = bookRepository.create(book,seller);
-		/*
-		Iterator <String> iterAuthors = book.getAuthors().iterator();
-		while(iterAuthors.hasNext()) { // associa il libro ai diversi autori ad esso associato
-			String[] parts = iterAuthors.next().split(" ");
-			try {	
-				Author a1 = authorRepository.findByNameAndSurname(parts[0], parts[1]);
-				a1.addBooks(b1);
-			} catch(Exception e) {
-				authorRepository.create(parts[0], parts[1]);
-				Author a1 = authorRepository.findByNameAndSurname(parts[0], parts[1]);
-				a1.addBooks(b1);
-			}
-		}*/
 		Iterator <String> iterAuthorsName = book.getAuthorsName().iterator();
-		//Iterator <String> iterAuthorsSurname = book.getAuthorsSurname().iterator();//PRENDI DIRETTAMENTE LA LISTA DEI COGNOMI
 		List<String> authorsSurnameList = book.getAuthorsSurname();
-		//String[] authorsSurnameList = (String[]) book.getAuthorsSurname().toArray();
 		int i = 0;
 		while(iterAuthorsName.hasNext()) { // associa il libro ai diversi autori ad esso associato
 			String name = iterAuthorsName.next();

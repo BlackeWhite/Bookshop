@@ -17,6 +17,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -46,6 +47,7 @@ import it.bookshop.model.Object_form.Bookform;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.BookOrder;
 import it.bookshop.model.entity.Genre;
+import it.bookshop.model.entity.Order;
 import it.bookshop.services.BookService;
 import it.bookshop.services.OrderService;
 import it.bookshop.services.UserService;
@@ -73,38 +75,49 @@ public class SellerController {
 	private AuthorService authorService;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
+	public String home(@RequestParam(required = false) Integer page, Locale locale, Model model, Authentication authentication) {
+		String principal_name = authentication.getName();
+		User seller = userService.findUserByUsername(principal_name);
 
+		// PAGINAZIONE ORDINI
+		List<Book> sellerBooks = this.bookService.findAllBookSoldOfSeller(seller);
+		PagedListHolder<Book> pagedListHolder = new PagedListHolder<>(sellerBooks);
+		pagedListHolder.setPageSize(10);
+
+		if (page == null || page < 1 || page > pagedListHolder.getPageCount())
+			page = 1;
+
+		pagedListHolder.setPage(page - 1);
+
+		model.addAttribute("orders", pagedListHolder.getPageList());
+		model.addAttribute("maxPages", pagedListHolder.getPageCount());
+		model.addAttribute("page", page);
+		
+	
+		
+		model.addAttribute("sellerBooks", sellerBooks);
 		return "home_seller";
 	}
 
-	// form per l'aggiunta di un libro
+	// procedura (get) per l'aggiunta di un libro
 	@GetMapping(value = "/addition_book")
 	public String additionBooK(@RequestParam(value = "error", required = false) Locale locale, Model model) {
 
 		String errorMessage = null;
 		int i = 0;
-		String mode = "add"; // paramtero utilizzato nella vista per adattare la form in base a cosa si sta
-								// facendo
-
+		String mode = "add"; // paramtero utilizzato nella vista per adattare la form in base a cosa si sta facendo
+							// facendo
 		Bookform bf = new Bookform();
 
 		List<String> gen = new ArrayList<String>();
 		List<String> authors_name = new ArrayList<String>();
 		List<String> authors_surname = new ArrayList<String>();
-		
 		List<Genre> allGenres = this.bookService.getAllGenres();
 		Iterator<Genre> iteGen = allGenres.iterator();
 
 		while (iteGen.hasNext()) {
 			gen.add(iteGen.next().getName());
 		}
-		/*
-		List<Author> allAuthors = this.authorService.findAll();
-		Iterator<Author> iterAuthors = allAuthors.iterator();
-		while (iterAuthors.hasNext()) {
-			authors.add(iterAuthors.next().getFullName());
-		}*/
 
 		model.addAttribute("errorMessage", errorMessage);
 		model.addAttribute("newBook", bf);
@@ -115,7 +128,7 @@ public class SellerController {
 		model.addAttribute("i", i); // utilizzata come contatore nella vista
 
 		generalOperations(model);
-		return "addittion_book";
+		return "add_book";
 	}
 
 	// analisi di un libro
@@ -128,7 +141,6 @@ public class SellerController {
 		model.addAttribute("listbook", lbooksold);
 		return "analysis_book";
 	}
-	
 	
 	
 	@PostMapping(value = "/change_book")
@@ -157,7 +169,7 @@ public class SellerController {
 	
 	}
 
-	// procedura per l'aggiunta di un libro
+	// procedura (post) per l'aggiunta di un libro
 	@RequestMapping(value = "/add_book", method = RequestMethod.POST, consumes = { "multipart/form-data" })
 	public String addBook(@ModelAttribute("newBook") @RequestBody @Valid Bookform book, BindingResult br, Model model,
 			HttpSession session, Authentication authentication) {
@@ -173,17 +185,8 @@ public class SellerController {
 			while (iteGen.hasNext()) {
 				gen.add(iteGen.next().getName());
 			}
-
-			/*
-			 * List<String> authors = new ArrayList<String>(); List<Author> allAuthors =
-			 * this.authorService.findAll(); Iterator<Author> iterAuthor =
-			 * allAuthors.iterator(); while (iterAuthor.hasNext()) { if(iterAuthor.next() ==
-			 * null) break; authors.add(iterAuthor.next().getFullName()); }
-			 */
-
 			model.addAttribute("genre", gen);
 			model.addAttribute("newBook", book);
-			// model.addAttribute("authors", authors);
 			return "addittion_book";
 		} else {
 			try {
@@ -198,19 +201,25 @@ public class SellerController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			this.bookService.create(book, seller);
-			String message = "Libro aggiunto correttamente ";
+			Book bookCreated = this.bookService.create(book, seller);
+			// Dati per la vista del libro appena creato
+			Set<Author> authorSet = bookCreated.getAuthors();
+			List<Author> authorsList = this.authorService.getAuthorsListFromSet(authorSet);
+			String message = "Libro " + bookCreated.getTitle() + " aggiunto correttamente ";
+			
 			model.addAttribute("message", message);
-			return "home_seller";
+			model.addAttribute("book",bookCreated);
+			model.addAttribute("authorsList", authorsList);
+			return "single_book";
 		}
 	}
 
 	// mostra la form per la modifica di un libro
-	@GetMapping(value = "/mod_book/{book_id}")
-	public String modifyBook(@PathVariable("book_id") Long book_id, Model model) {
-
-		String mode = "modify"; // paramtero utilizzato nella vista per adattare la form in base a cosa si sta
-								// facendo
+	@PostMapping(value = "/editBook/{book_id}")
+	public String editBook(@PathVariable("book_id") Long book_id, Model model) {
+		// TODO -> PASSARE SEMPRE AL MODEL I GENERI
+		// 		   AGGIUNGERE "IVA ESCLUSA" IN FASE DI INSERIMENTO DEL PRODOTTO
+		// 		   TERMINARE LA PARTE DI MODIFICA	
 		Book b_temp = this.bookService.findById(book_id);
 		Bookform bf = new Bookform();
 
@@ -237,12 +246,27 @@ public class SellerController {
 		model.addAttribute("authors", authors);
 		model.addAttribute("i", i); // utilizzata come contatore nella vista
 		model.addAttribute("newBook", bf);
-		model.addAttribute("mode", mode);
 		generalOperations(model);
-		return "addittion_book";
+		return "edit_book";
 
 	}
 
+	@GetMapping(value = "/delete_book/{book_id}")
+	public String deleteBook(@PathVariable("book_id") Long book_id, Model model) {
+		// TODO -> sostiuire delete con remove, creare un nuovo campo per l'entità book che indica se il libro
+		//		   è nel listino o meno. In questo modo si può mantenere la cronologia degli ordini.
+		Book deletedBook = this.bookService.findById(book_id);
+		try {
+			this.bookService.delete(book_id);
+			String message = "Libro " + deletedBook.getTitle() + " rimosso correttamente ";
+			model.addAttribute("message", message);
+		} catch (Exception e) {
+			String message = "Qualcosa è andato storto. Il libro " + deletedBook.getTitle() + " non è stato rimosso correttamente ";
+			model.addAttribute("message", message);
+		}
+		return "home_seller";
+	}
+	
 	// Adds attributes used in almost all requests
 	private void generalOperations(Model model) {
 		List<Genre> allGenres = this.bookService.getAllGenres();
