@@ -183,34 +183,34 @@
 										</div>
 									</c:forEach>
 								</div>
-												<div class="pagination" style="margin: auto">
-					<div class="center" style="margin: auto">
-						<ul class="pagination pagination-lg pagination-list">
-							<c:if test="${page == 1}">
-								<c:set value="disabled" var="disabledBegin" />
-							</c:if>
-							<li class="page-item ${disabledBegin}"><a class="page-link-home"
-								data-page="${page-1}">&laquo;</a></li>
-							<c:forEach begin="1" end="${maxPages}" step="1" varStatus="i">
-								<c:choose>
-									<c:when test="${i.index == page}">
-										<c:set value="active" var="active" />
-									</c:when>
-									<c:otherwise>
-										<c:set value="" var="active" />
-									</c:otherwise>
-								</c:choose>
-								<li class="page-item ${active}"><a class="page-link-home"
-									data-page="${i.index}">${i.index}</a></li>
-							</c:forEach>
-							<c:if test="${page == maxPages}">
-								<c:set value="disabled" var="disabledEnd" />
-							</c:if>
-							<li class="page-item ${disabledEnd}"><a class="page-link-home"
-								data-page="${page+1}">&raquo;</a></li>
-						</ul>
-					</div>
-				</div>
+								<div class="pagination" style="margin: auto">
+									<div class="center" style="margin: auto">
+										<ul class="pagination pagination-lg pagination-list">
+											<c:if test="${page == 1}">
+												<c:set value="disabled" var="disabledBegin" />
+											</c:if>
+											<li class="page-item ${disabledBegin}"><a class="page-link-home"
+												data-page="${page-1}">&laquo;</a></li>
+											<c:forEach begin="1" end="${maxPages}" step="1" varStatus="i">
+												<c:choose>
+													<c:when test="${i.index == page}">
+														<c:set value="active" var="active" />
+													</c:when>
+													<c:otherwise>
+														<c:set value="" var="active" />
+													</c:otherwise>
+												</c:choose>
+												<li class="page-item ${active}"><a class="page-link-home"
+													data-page="${i.index}">${i.index}</a></li>
+											</c:forEach>
+											<c:if test="${page == maxPages}">
+												<c:set value="disabled" var="disabledEnd" />
+											</c:if>
+											<li class="page-item ${disabledEnd}"><a class="page-link-home"
+												data-page="${page+1}">&raquo;</a></li>
+										</ul>
+									</div>
+								</div>
 							</div>
 						</div>
 						<!--/ End Single Tab -->

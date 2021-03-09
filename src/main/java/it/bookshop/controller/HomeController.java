@@ -63,7 +63,7 @@ public class HomeController {
 		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook();
 		List<Book> topMostClickBook = this.bookService.findMostClickBook();
 		
-		// Pagination per I piï¿½ visualizzati
+		// Pagination per I più visualizzati
 		PagedListHolder<Book> pagedListHolder = new PagedListHolder<>(topMostClickBook);
 		pagedListHolder.setPageSize(books_per_page);
 

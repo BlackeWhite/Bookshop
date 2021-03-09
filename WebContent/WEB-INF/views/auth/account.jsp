@@ -5,7 +5,29 @@
 <%@ taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 
-
+<!-- Breadcrumbs -->
+<div class="breadcrumbs">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="bread-inner">
+						<ul class="bread-list">
+						<li>
+							<a href="<c:url value="/" />">Home<i class="ti-arrow-right"></i></a>
+						</li>
+							<security:authorize access="hasRole('SELLER')">
+								<li class="active"><a href="<c:url value="/seller/"/>">Area Personale - Venditore<i class="ti-arrow-right"></i>
+							</security:authorize>
+						<li class="active">
+							<a href="<c:url value="/account"/>">Account</a></li>
+						</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Breadcrumbs -->
 <div id="contact-us" class="contact-us section">
 	<div class="container">
 		<div class="form-main">
