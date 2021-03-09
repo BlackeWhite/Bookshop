@@ -18,7 +18,7 @@
 								Personale - Venditore<i class="ti-arrow-right"></i>
 						</a></li>
 						<li class="active"><a
-							href="<c:url value="/seller/addition_book"/>">Aggiunta di un libro</a></li>
+							href="<c:url value="/seller/addition_book"/>">Aggiungi libro</a></li>
 					</ul>
 				</div>
 			</div>
@@ -39,7 +39,7 @@
 						<li><a href="${addition_book}"> Aggiungi un libro in
 								vendita </a></li>
 						<li><a href="<c:url value="/seller/analysis_book"/>">Analisi
-								delle vendite dai vari libri </a></li>
+								delle vendite</a></li>
 						<li><a href="<c:url value="/account"/>"> Modifica dati personali </a></li>
 					</div>
 					<!--/ End Single Widget -->

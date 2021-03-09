@@ -151,6 +151,8 @@ $(document).ready(function() {
 			});
 		}
 	});
+	
+
 	/*
 	//Funzione per rimuovere un libro di un venditore
 	$(".remove-book").click(function() {

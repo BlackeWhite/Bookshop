@@ -96,8 +96,13 @@
 							<div class="col-lg-6 col-md-6 col-12 no-padding">
 								<div class="content">
 									<h5 class="title">
+									<c:if test = "${tsAuthor.surname != '#SURNAME_PLACEHOLDER'}">
 										<a href="<c:url value="/show_author/${tsAuthor.id}"/>">${tsAuthor.name}
 											${tsAuthor.surname}</a>
+									</c:if>
+									<c:if test = "${tsAuthor.surname == '#SURNAME_PLACEHOLDER'}">
+										<a href="<c:url value="/show_author/${tsAuthor.id}"/>">${tsAuthor.name}</a>
+									</c:if>
 									</h5>
 								</div>
 							</div>

@@ -36,7 +36,7 @@
 						<li><a href="${addition_book}"> Aggiungi un libro in
 								vendita </a></li>
 						<li><a href="<c:url value="/seller/analysis_book"/>">Analisi
-								delle vendite dai vari libri </a></li>
+								delle vendite</a></li>
 						<li><a href="<c:url value="/account"/>"> Modifica dati personali </a></li>
 					</div>
 					<!--/ End Single Widget -->
@@ -45,7 +45,7 @@
 			<div class="col-lg-9 col-md-8 col-12">
 					<div class="container justify-content-center align-items-center users-list">
 						<div class="col-12">
-							<div class="purchase-history">
+							<div class="home-seller">
 							<h3>${message}</h3>
 								<c:choose>
 									<c:when test="${fn:length(sellerBooks) > 0 }">
@@ -55,10 +55,15 @@
 												<div class="info">
 													<div class="row">
 														<div class="col-3 field">Prodotto inserito il:</div>
-														<div class="col field"><a href="<c:url value="/seller/editBook/${sellerBooks.id}"/>"><i class="fa fa-remove">MODIFICA</i></a></div>
 														<div class="col field">
+														<!-- Div utile per avere modifica ed elimina nell'ultima colonna -->
+															</div>
+														<div class="col-3 field">
 															<button bookId="${sellerBooks.id}" class="remove-book">
 																<a href="<c:url value="/seller/delete_book/${sellerBooks.id}"/>"><i class="fa fa-remove"> ELIMINA </i></a>
+															</button>
+															<button bookId="${sellerBooks.id}" class="remove-book">
+																<a href="<c:url value="/seller/editBook/${sellerBooks.id}"/>"><i class="fa fa-remove">MODIFICA</i></a>
 															</button>
 														</div>
 													</div>
@@ -78,10 +83,22 @@
 																</h4>
 																<span class="field">Autori: </span> <span> <c:forEach
 																		items="${sellerBooks.authors}" var="author">
-												- ${author.fullName} 
-												</c:forEach>
-																</span> <br> <span class="field">Data di
-																	pubblicazione: </span> <span>${sellerBooks.publish}</span>
+																		<c:if test = "${author.surname != '#SURNAME_PLACEHOLDER'}">
+																			<a href="<c:url value="/show_author/${author.id}"/>"> - ${author.name}
+																			${author.surname}</a>
+																		</c:if>
+																		<c:if test = "${author.surname == '#SURNAME_PLACEHOLDER'}">
+																			<a href="<c:url value="/show_author/${author.id}"/>"> - ${author.name}</a>
+																		</c:if>
+																</c:forEach>
+																</span> 
+																<br> 
+																<span class="field">Data di
+																	pubblicazione: </span> <span>${sellerBooks.publish}
+																</span>
+																<br> 
+																<span class="field">ISBN: </span> <span>${sellerBooks.isbn}
+																</span>
 															</div>
 															<div class="col price-data">
 																<span class="field">Copie:</span> <span>

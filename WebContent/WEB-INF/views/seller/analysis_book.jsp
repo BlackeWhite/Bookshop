@@ -19,7 +19,7 @@
 						</a></li>
 						<li class="active"><a
 							href="<c:url value="/seller/analysis_book"/>">
-								informazioni libri</a></li>
+								Analisi delle vendite</a></li>
 					</ul>
 				</div>
 			</div>
@@ -40,7 +40,7 @@
 						<li><a href="${addition_book}"> Aggiungi un libro in
 								vendita </a></li>
 						<li><a href="<c:url value="/seller/analysis_book"/>">Analisi
-								delle vendite dai vari libri </a></li>
+								delle vendite</a></li>
 						<li><a href="<c:url value="/account"/>"> Modifica dati personali </a></li>
 					</div>
 					<!--/ End Single Widget -->

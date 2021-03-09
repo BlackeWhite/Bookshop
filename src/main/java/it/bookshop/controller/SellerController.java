@@ -85,7 +85,7 @@ public class SellerController {
 		// PAGINAZIONE ORDINI
 		List<Book> sellerBooks = this.bookService.findAllBookSoldOfSeller(seller);
 		PagedListHolder<Book> pagedListHolder = new PagedListHolder<>(sellerBooks);
-		pagedListHolder.setPageSize(10);
+		pagedListHolder.setPageSize(5);
 
 		if (page == null || page < 1 || page > pagedListHolder.getPageCount())
 			page = 1;

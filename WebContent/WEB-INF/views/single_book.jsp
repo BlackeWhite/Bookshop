@@ -16,8 +16,13 @@
 				<h2>${book.title}</h2>
 				<h4>
 					<i> Di <c:forEach items="${authorsList}" var="authorsList">
-							<a href=" <c:url value ="/show_author/${authorsList.id}"/>">${authorsList.name}
+						<c:if test = "${authorsList.surname != '#SURNAME_PLACEHOLDER'}">
+							<a href=" <c:url value ="/show_author/${authorsList.id}"/>"> - ${authorsList.name}
 								${authorsList.surname}</a>
+						</c:if>
+						<c:if test = "${authorsList.surname == '#SURNAME_PLACEHOLDER'}">
+							<a href=" <c:url value ="/show_author/${authorsList.id}"/>"> - ${authorsList.name}</a>
+						</c:if>
 						</c:forEach>
 					</i>
 				</h4>

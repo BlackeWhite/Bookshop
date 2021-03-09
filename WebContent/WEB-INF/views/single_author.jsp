@@ -9,7 +9,12 @@
 		</div>
 		<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
 			<div class="quickview-content">
-				<h2>${author.name} ${author.surname}</h2>
+			<c:if test = "${author.surname != '#SURNAME_PLACEHOLDER'}">
+				<h2 >${author.name} ${author.surname}</h2>
+			</c:if>
+			<c:if test = "${author.surname == '#SURNAME_PLACEHOLDER'}">
+				<h2 >${author.name}</h2>
+			</c:if>
 				<div class="quickview-ratting-review">
 					<div class="quickview-ratting-wrap">
 						<div class="quickview-ratting">
@@ -31,9 +36,14 @@
 
 				<div class="default-social">
 					<h4 class="share-now">Ulteriori informazioni sull'autore:</h4> <br>
-					
-					<em><a href="https://it.wikipedia.org/wiki/${author.name}_${author.surname}" ><i
+					<c:if test = "${author.surname != '#SURNAME_PLACEHOLDER'}">
+						<em><a href="https://it.wikipedia.org/wiki/${author.name}_${author.surname}" target="_blank" ><i
 								class="fa fa-wikipedia-w"></i>ikipedia - ${author.name} ${author.surname}</a></em>
+					</c:if>
+					<c:if test = "${author.surname == '#SURNAME_PLACEHOLDER'}">
+						<em><a href="https://it.wikipedia.org/wiki/${author.name}" target="_blank" ><i
+								class="fa fa-wikipedia-w"></i>ikipedia - ${author.name}</a></em>
+					</c:if>
 				</div>
 			</div>
 		</div>

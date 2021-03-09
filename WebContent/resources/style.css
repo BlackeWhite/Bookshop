@@ -5159,6 +5159,67 @@ Version:1.0
 	End Purchase history CSS
 ===============================*/
 /*=============================
+	Start Home Seller CSS
+===============================*/
+.home-seller{
+	margin-top: -50px;
+}
+
+.home-seller .title{
+	margin-bottom: 30px;
+	font-size: 30px;
+	font-weight: 600;
+}
+
+.home-seller .order{
+	border: 1px solid #e6e2f5;
+	border-radius: 5px;
+	margin-bottom: 20px;
+}
+
+.home-seller .order .info{
+	background: #f6f7fb;
+	padding: 12px;
+	border-radius: 5px 5px 0px 0px;
+	font-size: 13px;
+}
+
+.home-seller .order .field{
+	color: #F7941D;
+	font-weight: 400;
+}
+
+.home-seller .order .info .value{
+}
+
+.home-seller .order .books .single-book{
+	border-top: 1px solid #e6e2f5;
+	padding: 12px;
+}
+
+.home-seller .order .books .single-book img{
+	max-width: 130px;
+	object-fit: contain;
+	float:left;
+	margin-right: 30px;
+}
+
+.home-seller .order .books .single-book h4 a{
+	font-weight: 600;
+	transition: 0.4s;
+}
+
+.home-seller .order .books .single-book h4 a:hover{
+	color: #F7941D;
+}
+
+.home-seller .order .books .single-book .price-data {
+	margin-top: 28px;
+}
+/*=============================
+	End Home Seller CSS
+===============================*/
+/*=============================
 	Start Popup message CSS
 ===============================*/
 .bookshop-popup {
