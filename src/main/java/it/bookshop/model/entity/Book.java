@@ -285,6 +285,11 @@ public class Book implements Serializable{
 	}
 	
 	@Transient
+	public double getDiscountedPriceNoVat() {
+		return getPrice()*(1-discount);
+	}
+	
+	@Transient
 	public String getFormattedDiscountedPrice() {
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
 		double pricenew = getPriceWithVat()*(1-discount);

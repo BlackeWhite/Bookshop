@@ -25,6 +25,7 @@ public class BookOrder {
 	private int copies;
 	private Date purchasedate;
 	private double price; //Price at checkout
+	private double pricenovat; //Price at checkout without vat
 	
 	@EmbeddedId
 	public BookOrderId getId() {
@@ -73,17 +74,28 @@ public class BookOrder {
 	public void setPrice(double price) {
 		this.price = price;
 	}
+	@Column(name="PRICE_NO_VAT")
+	public double getPricenovat() {
+		return pricenovat;
+	}
+	public void setPricenovat(double pricenovat) {
+		this.pricenovat = pricenovat;
+	}
 	
 	@Transient
 	public String getFormattedPrice() {
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
 		return formatter.format(price);
 	}
+	
+	@Column(name="PURCHASE_DATE")
 	public Date getPurchasedate() {
 		return purchasedate;
 	}
 	public void setPurchasedate(Date purchasedate) {
 		this.purchasedate = purchasedate;
 	}
+	
+	
 	
 }
