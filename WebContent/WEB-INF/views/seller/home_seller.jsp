@@ -48,7 +48,7 @@
 					class="container justify-content-center align-items-center users-list">
 					<div class="col-12">
 						<div class="home-seller">
-							<h3>${message}</h3>
+							<h4 class="title" style="color: ${msgColor}; text-size: 13px;">${message}</h4>
 							<c:choose>
 								<c:when test="${fn:length(sellerBooks) > 0 }">
 									<div class="title">I miei libri in vendita</div>
@@ -62,8 +62,8 @@
 													</div>
 													<div class="col-3 field">
 														<button bookId="${sellerBooks.id}" class="remove-book">
-															<a href="<c:url value="/seller/delete_book/${sellerBooks.id}"/>"><i
-																class="fa fa-remove"> ELIMINA </i></a>
+															<a href="<c:url value="/seller/remove_book/${sellerBooks.id}"/>"><i
+																class="fa fa-remove"> RIMUOVI </i></a>
 														</button>
 														<button bookId="${sellerBooks.id}" class="remove-book">
 															<a href="<c:url value="/seller/editBook/${sellerBooks.id}"/>"><i

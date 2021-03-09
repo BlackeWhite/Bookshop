@@ -31,5 +31,6 @@ public interface BookDao {
 	List<Book> findAllBookForGenre(String name);
 	Book create(Bookform book, User seller);
 	List<Book> findSellerBook(Long id);
+	void removeBook(Book book);
 	
 }

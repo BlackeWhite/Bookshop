@@ -43,6 +43,9 @@ public interface BookService {
 	Genre findByName(String name);
 	void deleteGenre(Genre genre);
 	List<Book> findAllBookSoldOfSeller(User seller);
+	void removeBook(Book book);
+	void removeAllBook();
+	void removeBook(Long bookId);
 
 	
 };

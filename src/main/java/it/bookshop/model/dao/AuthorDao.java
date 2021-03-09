@@ -21,5 +21,5 @@ public interface AuthorDao {
 	void delete(Author author);
 	//List<Author> findMostSelledAuthor();
 	List<Book> findBookForAuthor(Author author);
-	
+	List<Book> findBookRemovedForAuthor(Author author);
 }

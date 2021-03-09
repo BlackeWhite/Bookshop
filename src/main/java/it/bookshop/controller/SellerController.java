@@ -70,7 +70,7 @@ public class SellerController {
 
 	@Autowired
 	private BookService bookService;
-	
+
 	@Autowired
 	private OrderService orderService;
 
@@ -78,7 +78,8 @@ public class SellerController {
 	private AuthorService authorService;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(@RequestParam(required = false) Integer page, Locale locale, Model model, Authentication authentication) {
+	public String home(@RequestParam(required = false) Integer page, Locale locale, Model model,
+			Authentication authentication) {
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
 
@@ -95,7 +96,7 @@ public class SellerController {
 		model.addAttribute("sellerBooks", pagedListHolder.getPageList());
 		model.addAttribute("maxPages", pagedListHolder.getPageCount());
 		model.addAttribute("page", page);
-		
+
 		List<Genre> allGenres = bookService.getAllGenres();
 		model.addAttribute("allGenres", allGenres);
 		return "home_seller";
@@ -107,8 +108,9 @@ public class SellerController {
 
 		String errorMessage = null;
 		int i = 0;
-		String mode = "add"; // paramtero utilizzato nella vista per adattare la form in base a cosa si sta facendo
-							// facendo
+		String mode = "add"; // paramtero utilizzato nella vista per adattare la form in base a cosa si sta
+								// facendo
+								// facendo
 		Bookform bf = new Bookform();
 
 		List<String> gen = new ArrayList<String>();
@@ -129,7 +131,7 @@ public class SellerController {
 		model.addAttribute("mode", mode);
 		model.addAttribute("i", i); // utilizzata come contatore nella vista
 		model.addAttribute("allGenres", allGenres);
-		
+
 		generalOperations(model);
 		return "add_book";
 	}
@@ -139,64 +141,64 @@ public class SellerController {
 	public String analysisBook(Model model, Authentication authentication) {
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
-		
+
 		List<Book> lbooksold = bookService.findAllBookSoldOfSeller(seller);
-		Iterator <Book> boit = lbooksold.iterator();
+		Iterator<Book> boit = lbooksold.iterator();
 		int copies = 0;
 		while (boit.hasNext()) {
 			copies += boit.next().getSoldCopies();
 		}
-		double totearn =Math.round(this.orderService.TotalEarn(lbooksold) * 100.0) / 100.0; ;
+		double totearn = Math.round(this.orderService.TotalEarn(lbooksold) * 100.0) / 100.0;
+		;
 		model.addAttribute("listbook", lbooksold);
 		model.addAttribute("totearn", totearn);
 		model.addAttribute("totcopies", copies);
 		generalOperations(model);
 		return "analysis_book";
 	}
-	
+
 	@PostMapping(value = "/change_book")
 	@ResponseBody
 	public BookInfoResponse change_book(@RequestBody CartRequestBody reqBody, Authentication authentication) {
-		
+
 		BookInfoResponse bresp = new BookInfoResponse();
 		bresp.setBookID(reqBody.getBookID());
-	
+
 		Book b = this.bookService.findById(reqBody.getBookID());
 		bresp.setTitle(b.getTitle());
 		bresp.setSoldcopies(b.getSoldCopies());
-		
+
 		List<BookOrder> listsoldbook = this.orderService.findbyId(reqBody.getBookID());
 		Iterator<BookOrder> iterbook = listsoldbook.iterator();
-		
-		//calcolo incasso totale
+
+		// calcolo incasso totale
 		double sum = this.orderService.TotalEarnforBook(reqBody.getBookID());
-		
-	   double sumapprox = Math.round(sum * 100.0) / 100.0;
-	   bresp.setTotearn(sumapprox);
-	   
-	   return bresp;
-	
+
+		double sumapprox = Math.round(sum * 100.0) / 100.0;
+		bresp.setTotearn(sumapprox);
+
+		return bresp;
+
 	}
-	
+
 	@PostMapping(value = "/range_data")
 	@ResponseBody
 	public BookInfoResponse range_data(@RequestBody CartRequestBody reqBody, Authentication authentication) {
-		
+
 		BookInfoResponse bresp = new BookInfoResponse();
 		String data_da = reqBody.getArg2();
 		String data_a = reqBody.getArg3();
-	
-       
+
 		bresp = this.orderService.findbyDate(data_da, data_a);
-		
-	   return bresp;
-	
+
+		return bresp;
+
 	}
 
 	// procedura (post) per l'aggiunta di un libro
 	@RequestMapping(value = "/add_book", method = RequestMethod.POST, consumes = { "multipart/form-data" })
 	public String addBook(@ModelAttribute("newBook") @RequestBody @Valid Bookform book, BindingResult br, Model model,
-			HttpSession session, Authentication authentication) {
+			HttpSession session, Authentication authentication, final RedirectAttributes redirectAttributes) {
 
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
@@ -228,13 +230,17 @@ public class SellerController {
 			Book bookCreated = this.bookService.create(book, seller);
 			// Dati per la vista del libro appena creato
 			Set<Author> authorSet = bookCreated.getAuthors();
-			List<Author> authorsList = this.authorService.getAuthorsListFromSet(authorSet);
-			String message = "Libro " + bookCreated.getTitle() + " aggiunto correttamente ";
+			//List<Author> authorsList = this.authorService.getAuthorsListFromSet(authorSet);
+			String message = "\"" + bookCreated.getTitle() + "\" aggiunto correttamente ";
+			//model.addAttribute("message", message);
+			//model.addAttribute("book", bookCreated);
+			//model.addAttribute("authorsList", authorsList);
+			//return "single_book";
 			
-			model.addAttribute("message", message);
-			model.addAttribute("book",bookCreated);
-			model.addAttribute("authorsList", authorsList);
-			return "single_book";
+			redirectAttributes.addFlashAttribute("message", message);
+			redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
+			return "redirect:/seller/";
+			
 		}
 	}
 
@@ -242,8 +248,8 @@ public class SellerController {
 	@PostMapping(value = "/editBook/{book_id}")
 	public String editBook(@PathVariable("book_id") Long book_id, Model model) {
 		// TODO -> PASSARE SEMPRE AL MODEL I GENERI
-		// 		   AGGIUNGERE "IVA ESCLUSA" IN FASE DI INSERIMENTO DEL PRODOTTO
-		// 		   TERMINARE LA PARTE DI MODIFICA	
+		// AGGIUNGERE "IVA ESCLUSA" IN FASE DI INSERIMENTO DEL PRODOTTO
+		// TERMINARE LA PARTE DI MODIFICA
 		Book b_temp = this.bookService.findById(book_id);
 		Bookform bf = new Bookform();
 
@@ -275,23 +281,25 @@ public class SellerController {
 		return "edit_book";
 
 	}
-
-	@GetMapping(value = "/delete_book/{book_id}")
-	public String deleteBook(@PathVariable("book_id") Long book_id, Model model) {
-		// TODO -> sostiuire delete con remove, creare un nuovo campo per l'entità book che indica se il libro
-		//		   è nel listino o meno. In questo modo si può mantenere la cronologia degli ordini.
-		Book deletedBook = this.bookService.findById(book_id);
-		try {
-			this.bookService.delete(book_id);
-			String message = "Libro " + deletedBook.getTitle() + " rimosso correttamente ";
-			model.addAttribute("message", message);
-		} catch (Exception e) {
-			String message = "Qualcosa è andato storto. Il libro " + deletedBook.getTitle() + " non è stato rimosso correttamente ";
-			model.addAttribute("message", message);
-		}
-		return "home_seller";
-	}
 	
+	// TODO -> verificare che il filtro del prezzo nella ricerca avanzata funzioni correttamente
+	@GetMapping(value = "/remove_book/{book_id}")
+	public String removeBook(@PathVariable("book_id") Long book_id, Model model, final RedirectAttributes redirectAttributes) {
+		Book removedBook = this.bookService.findById(book_id);
+		try {
+			this.bookService.removeBook(book_id);
+			String message = "\"" + removedBook.getTitle() + "\" rimosso correttamente";
+			redirectAttributes.addFlashAttribute("message", message);
+		} catch (Exception e) {
+			String message = "Qualcosa è andato storto. Il libro \"" + removedBook.getTitle()
+					+ "\" non è stato rimosso correttamente ";
+			redirectAttributes.addFlashAttribute("message", message);
+		}
+		
+		redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
+		return "redirect:/seller/";
+	}
+
 	// Adds attributes used in almost all requests
 	private void generalOperations(Model model) {
 		List<Genre> allGenres = this.bookService.getAllGenres();

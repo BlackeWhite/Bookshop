@@ -19,7 +19,7 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 
 	@Override
 	public List<Book> findAll() {
-		return this.getSession().createQuery("FROM Book b", Book.class).getResultList();
+		return this.getSession().createQuery("FROM Book b WHERE b.removed = 0", Book.class).getResultList();
 	}
 
 	@Override
@@ -30,14 +30,16 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 		String order_str = "ORDER BY b." + params[0] + " " + params[1];
 
 		return this.getSession()
-				.createQuery("FROM Book b WHERE b.price>:priceMin AND b.price<:priceMax " + order_str, Book.class)
+				.createQuery(
+						"FROM Book b WHERE b.price>:priceMin AND b.price<:priceMax " + "AND b.removed = 0 " + order_str,
+						Book.class)
 				.setParameter("priceMin", price_min).setParameter("priceMax", price_max).getResultList();
 	}
 
 	@Override
 	public Book findById(Long bookId) {
-		return this.getSession().createQuery("FROM Book b WHERE b.id = :id", Book.class).setParameter("id", bookId)
-				.getSingleResult();
+		return this.getSession().createQuery("FROM Book b WHERE b.id = :id AND b.removed=0", Book.class)
+				.setParameter("id", bookId).getSingleResult();
 	}
 
 	@Override
@@ -52,7 +54,7 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 
 		return this.getSession()
 				.createQuery("FROM Book b WHERE LOWER(" + search_str + ") LIKE LOWER(CONCAT('%', :term, '%')) "
-						+ "AND b.price>:min AND b.price<:max " + order_str, Book.class)
+						+ "AND b.price>:min AND b.price<:max " + "AND b.removed = 0 " + order_str, Book.class)
 				.setParameter("term", term).setParameter("min", price_min).setParameter("max", price_max)
 				.getResultList();
 	}
@@ -67,7 +69,7 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 
 		return this.getSession().createQuery(
 				"SELECT b FROM Book b JOIN b.authors a WHERE LOWER(a.name || ' ' || a.surname) LIKE LOWER(CONCAT('%', :term, '%')) "
-						+ "AND b.price>:min AND b.price<:max " + order_str,
+						+ "AND b.price>:min AND b.price<:max " + "AND b.removed = 0 " + order_str,
 				Book.class).setParameter("term", term).setParameter("min", price_min).setParameter("max", price_max)
 				.getResultList();
 	}
@@ -85,11 +87,13 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 		b.setPages(pages);
 		b.setSummary(summary);
 		b.setCover(cover);
-		if(b.getCover().isEmpty()) b.setCover("bookcover-placeholder.png");
+		if (b.getCover().isEmpty())
+			b.setCover("bookcover-placeholder.png");
 		b.setInsertdata(insert_date);
 		b.setClicked(0);
 		b.setSoldCopies(0);
 		b.setDiscount(discount);
+		b.setRemoved(0);
 		getSession().save(b);
 		return b;
 	}
@@ -106,13 +110,14 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 		b.setPages(book.getPages());
 		b.setSummary(book.getSummary());
 		b.setCover(book.getCover().getOriginalFilename());
-		if(b.getCover().isEmpty()) b.setCover("bookcover-placeholder.png");
-		Date date = new Date(Calendar.getInstance().getTime().getTime()); // si prende la data odierna per l'inserimento
-																			// del libro
+		if (b.getCover().isEmpty())
+			b.setCover("bookcover-placeholder.png");
+		Date date = new Date(Calendar.getInstance().getTime().getTime());
 		b.setInsertdata(date);
 		b.setClicked(0);
 		b.setSoldCopies(0);
-		b.setDiscount(((double)book.getDiscount())/100);
+		b.setDiscount(((double) book.getDiscount()) / 100);
+		b.setRemoved(0);
 		getSession().save(b);
 		return b;
 	}
@@ -129,37 +134,48 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 
 	@Override
 	public List<Book> findFiveMostRecentBook() {
-		return this.getSession().createNativeQuery("SELECT * FROM books ORDER BY INSERTDATA DESC LIMIT 5", Book.class)
+		return this.getSession()
+				.createNativeQuery("SELECT * FROM books WHERE removed=0 ORDER BY INSERTDATA DESC LIMIT 5", Book.class)
 				.getResultList();
 	}
 
 	@Override
 	public List<Book> findFiveBestSellingBook() {
-		return this.getSession().createNativeQuery("SELECT * FROM books ORDER BY SOLD_COPIES DESC LIMIT 5", Book.class)
+		return this.getSession()
+				.createNativeQuery("SELECT * FROM books WHERE removed=0 ORDER BY SOLD_COPIES DESC LIMIT 5", Book.class)
 				.getResultList();
 	}
-	
+
 	@Override
 	public List<Book> findSellerBook(Long id) {
-		return this.getSession().createQuery("SELECT b FROM Book b JOIN b.seller s WHERE s.userID=:id ORDER BY INSERTDATA DESC", Book.class)
-				.setParameter("id", id).getResultList();
+		return this.getSession().createQuery(
+				"SELECT b FROM Book b JOIN b.seller s WHERE s.userID=:id AND b.removed=0 ORDER BY INSERTDATA DESC",
+				Book.class).setParameter("id", id).getResultList();
 	}
 
 	@Override
 	public List<Book> findMostClick() {
-		return this.getSession().createNativeQuery("SELECT * FROM books ORDER BY CLICK_BOOK DESC", Book.class)
+		return this.getSession()
+				.createNativeQuery("SELECT * FROM books  WHERE removed=0 ORDER BY CLICK_BOOK DESC", Book.class)
 				.getResultList();
 	}
-	
+
 	@Override
 	public List<Book> findAllBookForGenre(String name) {
-		return this.getSession().createQuery("SELECT b FROM Book b JOIN b.genres g WHERE g.name=:name", Book.class)
+		return this.getSession()
+				.createQuery("SELECT b FROM Book b JOIN b.genres g WHERE g.name=:name AND b.removed=0", Book.class)
 				.setParameter("name", name).getResultList();
 	}
 
 	@Override
 	public List<Book> findBookOnSale() {
-		return this.getSession().createQuery("FROM Book b WHERE b.discount > 0 ", Book.class).getResultList();
+		return this.getSession().createQuery("FROM Book b WHERE b.discount > 0 AND b.removed=0", Book.class)
+				.getResultList();
+	}
+	
+	@Override
+	public void removeBook(Book book) {
+		book.setRemoved(1);
 	}
 
 }

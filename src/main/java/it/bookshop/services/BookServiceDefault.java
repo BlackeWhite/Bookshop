@@ -65,6 +65,11 @@ public class BookServiceDefault implements BookService {
 	public void delete(Book book) {
 		bookRepository.delete(book);
 	}
+	
+	@Override
+	public void removeBook(Book book) {
+		bookRepository.removeBook(book);
+	}
 
 	@Override
 	public void deleteAll() {
@@ -72,6 +77,20 @@ public class BookServiceDefault implements BookService {
 		for (Book b : books) {
 			delete(b);
 		}
+	}
+	
+	@Override
+	public void removeAllBook() {
+		List<Book> books = findAll();
+		for (Book b : books) {
+			removeBook(b);
+		}
+	}
+	
+	@Override
+	public void removeBook(Long bookId) {
+		Book b = bookRepository.findById(bookId);
+		bookRepository.removeBook(b);
 	}
 	
 	@Override

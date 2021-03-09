@@ -36,7 +36,7 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 	@Override
 	public List <Book> findBookForAuthor(Author author){
 		// restituisce una lista di tutti i libri di un particolare autore
-		return this.getSession().createQuery("select b from Book b join b.authors a WHERE a.id = :author",Book.class).setParameter("author", author.getId()).getResultList();
+		return this.getSession().createQuery("select b from Book b join b.authors a WHERE a.id = :author AND b.removed = 0",Book.class).setParameter("author", author.getId()).getResultList();
 	}
 	
 	@Override
@@ -98,6 +98,9 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 		}
 	}
 
-
+	public List <Book> findBookRemovedForAuthor(Author author){
+		// restituisce una lista di tutti i libri fuori catalogo di un particolare autore
+		return this.getSession().createQuery("select b from Book b join b.authors a WHERE a.id = :author AND b.removed = 1",Book.class).setParameter("author", author.getId()).getResultList();
+	}
 	
 }
