@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mysql.cj.util.StringUtils;
+
 import it.bookshop.model.entity.CustomUserDetails;
 import it.bookshop.model.entity.Genre;
 import it.bookshop.model.entity.PaymentCard;
@@ -33,6 +35,7 @@ import it.bookshop.model.entity.ShoppingCart;
 import it.bookshop.model.entity.User;
 import it.bookshop.services.BookService;
 import it.bookshop.services.UserService;
+import it.bookshop.validator.CustomUtils;
 
 @Controller
 public class AuthController {
@@ -52,7 +55,7 @@ public class AuthController {
 	@Autowired
 	@Qualifier("registrationValidator")
 	private Validator userValidator;
-	
+
 	@Autowired
 	@Qualifier("cardValidator")
 	private Validator cardValidator;
@@ -72,7 +75,7 @@ public class AuthController {
 	@GetMapping(value = "/login")
 	public String loginPage(@RequestParam(value = "error", required = false) String error, Model model) {
 		String errorMessage = null;
-		
+
 		if (error != null) {
 			errorMessage = "Username o Password errati !!";
 		}
@@ -100,7 +103,7 @@ public class AuthController {
 	@PostMapping(value = "/register")
 	public String register(@ModelAttribute("newUser") @Validated User user, BindingResult br, Model model) {
 
-		//Se ci sono errori dovuti alla validazione
+		// Se ci sono errori dovuti alla validazione
 		if (br.hasErrors()) {
 			generalOperations(model);
 			return "register";
@@ -131,20 +134,20 @@ public class AuthController {
 	}
 
 	@PostMapping(value = "/add_payment_card")
-	public String addPaymentCard(@ModelAttribute("newCard") @Validated PaymentCard newCard, BindingResult br, Model model,
-			Authentication authentication) {
+	public String addPaymentCard(@ModelAttribute("newCard") @Validated PaymentCard newCard, BindingResult br,
+			Model model, Authentication authentication) {
 
 		String principal_name = authentication.getName();
 		User currentUser = userService.findUserByUsername(principal_name);
-		
-		//Se ci sono errori dovuti alla validazione
+
+		// Se ci sono errori dovuti alla validazione
 		if (br.hasErrors()) {
 			accountPageSpecificOps(model, currentUser);
 			generalOperations(model);
 			model.addAttribute("currentUser", currentUser);
 			return "account";
 		}
-		
+
 		userService.createPaymentCard(newCard, currentUser);
 
 		return "redirect:/account";
@@ -181,6 +184,13 @@ public class AuthController {
 		User currentUser = userService.findUserByUsername(principal_name);
 
 		if (passwordEncoder.matches(old_password, currentUser.getPassword())) {
+			// Controlla la validità della password
+			if (!CustomUtils.isValidPassword(password)) {
+				redirectAttributes.addFlashAttribute("message3",
+				"La password deve contenere dagli 8 ai 20 caratteri, almeno una maiuscola e una minuscola e almeno uno dei seguenti caratteri @#$%.");
+				return "redirect:/account";
+			}
+
 			currentUser.setPassword(passwordEncoder.encode(password));
 			userService.update(currentUser);
 			redirectAttributes.addFlashAttribute("message", "Password modificata correttamente!");
@@ -194,7 +204,7 @@ public class AuthController {
 
 	}
 
-	//Aggiorna informazioni account
+	// Aggiorna informazioni account
 	@PostMapping(value = "/account_save")
 	public String accountSave(@ModelAttribute("currentUser") @Validated User user, BindingResult br, Model model,
 			Authentication authentication, final RedirectAttributes redirectAttributes) {
@@ -203,19 +213,20 @@ public class AuthController {
 		String principal_name = authentication.getName();
 		User currentUser = userService.findUserByUsername(principal_name);
 
-		//Se ci sono errori dovuti alla validazione
+		// Se ci sono errori dovuti alla validazione
 		if (br.hasErrors()) {
 			accountPageSpecificOps(model, currentUser);
 			generalOperations(model);
 			model.addAttribute("newCard", new PaymentCard());
 			return "account";
 		}
-		
-		if(!details.getState().equals(user.getPersonalData().getState())) {
+
+		if (!details.getState().equals(user.getPersonalData().getState())) {
 			details.setUser(user);
 		}
 
-		// Per ragioni di sicurezza e semplicitï¿½ molti campi non sono passati nel form HTML
+		// Per ragioni di sicurezza e semplicitï¿½ molti campi non sono passati nel form
+		// HTML
 		// Perciï¿½ dobbiamo sovrascrivere i campi modificati dell'utente esistente
 		User existingUser = userService.findUserByUsername(user.getUsername());
 		existingUser.setPersonalData(user.getPersonalData());
@@ -248,9 +259,9 @@ public class AuthController {
 	// Agggiunge gli attributi per la pagina di account
 	// E' una funzione perché è usata più volte
 	private void accountPageSpecificOps(Model model, User currentUser) {
-		
+
 		model.addAttribute("userCards", currentUser.getPaymentCards());
-		
+
 		Date today = new Date(System.currentTimeMillis());
 		model.addAttribute("today", today);
 

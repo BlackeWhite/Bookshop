@@ -5,18 +5,31 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.bookshop.model.Object_form.Bookform;
 import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
+import it.bookshop.model.entity.CustomUserDetails;
 import it.bookshop.model.entity.User;
 
 @Transactional
 @Repository("bookDao")
 public class BookDaoDefault extends DefaultDao implements BookDao {
 
+	
+	private double getVatFactor() {
+		if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
+			CustomUserDetails details = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication()
+					.getPrincipal();
+			return (double) (1 + Book.vats.get(details.getState()));
+		} else
+			return 1.22; // Utente non autenticato -> IVA italiana
+	}
+	
 	@Override
 	public List<Book> findAll() {
 		return this.getSession().createQuery("FROM Book b WHERE b.removed = 0", Book.class).getResultList();
@@ -31,9 +44,10 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 
 		return this.getSession()
 				.createQuery(
-						"FROM Book b WHERE b.price>:priceMin AND b.price<:priceMax " + "AND b.removed = 0 " + order_str,
+						"FROM Book b WHERE (b.price*:vat)>:priceMin AND (b.price*:vat)<:priceMax " + "AND b.removed = 0 " + order_str,
 						Book.class)
-				.setParameter("priceMin", price_min).setParameter("priceMax", price_max).getResultList();
+				.setParameter("priceMin", price_min).setParameter("priceMax", price_max)
+				.setParameter("vat", getVatFactor()).getResultList();
 	}
 
 	@Override
@@ -54,9 +68,9 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 
 		return this.getSession()
 				.createQuery("FROM Book b WHERE LOWER(" + search_str + ") LIKE LOWER(CONCAT('%', :term, '%')) "
-						+ "AND b.price>:min AND b.price<:max " + "AND b.removed = 0 " + order_str, Book.class)
+						+ "AND (b.price*:vat)>:min AND (b.price*:vat)<:max " + "AND b.removed = 0 " + order_str, Book.class)
 				.setParameter("term", term).setParameter("min", price_min).setParameter("max", price_max)
-				.getResultList();
+				.setParameter("vat", getVatFactor()).getResultList();
 	}
 
 	@Override
@@ -69,9 +83,9 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 
 		return this.getSession().createQuery(
 				"SELECT b FROM Book b JOIN b.authors a WHERE LOWER(a.name || ' ' || a.surname) LIKE LOWER(CONCAT('%', :term, '%')) "
-						+ "AND b.price>:min AND b.price<:max " + "AND b.removed = 0 " + order_str,
+						+ "AND (b.price*:vat)>:min AND (b.price*:vat)<:max " + "AND b.removed = 0 " + order_str,
 				Book.class).setParameter("term", term).setParameter("min", price_min).setParameter("max", price_max)
-				.getResultList();
+				.setParameter("vat", getVatFactor()).getResultList();
 	}
 
 	@Override

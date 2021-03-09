@@ -114,6 +114,7 @@
 								<div class="form-group">
 									<label for="password">Nuova Password:</label> <span>*</span> <br>
 									<input type="password" name="password" id="password"/>
+									<span class="validation-error">${message3}</span>
 								</div>
 								<div class="form-group">
 									<label for="password-confirm">Conferma Password:</label> <span>*</span>
