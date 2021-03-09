@@ -178,6 +178,21 @@ public class SellerController {
 	   return bresp;
 	
 	}
+	
+	@PostMapping(value = "/range_data")
+	@ResponseBody
+	public BookInfoResponse range_data(@RequestBody CartRequestBody reqBody, Authentication authentication) {
+		
+		BookInfoResponse bresp = new BookInfoResponse();
+		String data_da = reqBody.getArg2();
+		String data_a = reqBody.getArg3();
+	
+       
+		bresp = this.orderService.findbyDate(data_da, data_a);
+		
+	   return bresp;
+	
+	}
 
 	// procedura (post) per l'aggiunta di un libro
 	@RequestMapping(value = "/add_book", method = RequestMethod.POST, consumes = { "multipart/form-data" })

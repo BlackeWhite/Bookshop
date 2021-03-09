@@ -1,6 +1,7 @@
 package it.bookshop.services;
 
 import java.sql.Date;
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.bookshop.model.Object_form.BookInfoResponse;
 import it.bookshop.model.dao.BookOrderDao;
 import it.bookshop.model.dao.OrderDao;
 import it.bookshop.model.dao.ShoppingCartDao;
@@ -149,7 +151,34 @@ public class OrderServiceDefault implements OrderService {
 		return this.bookOrderRepository.sumPrice(id);
 	}
 	
-	
+	public BookInfoResponse findbyDate(String data_da, String data_a) {
+		// calcolo l'incasso totale e le copie vendute per un intervallo temporale
+		
+		BookInfoResponse bresp = new BookInfoResponse();
+		List<BookOrder> lo = new ArrayList<BookOrder>();
+		try {
+			lo = this.bookOrderRepository.findbyDate(data_da, data_a);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Iterator <BookOrder> itlo = lo.iterator();
+		int copies = 0;
+		double earn = 0;
+		
+		while(itlo.hasNext()) {
+			BookOrder bo = itlo.next();
+			earn += bo.getPricenovat();
+			copies += bo.getCopies();
+		}
+		
+		bresp.setSoldcopies(copies);
+		double sumapprox = Math.round(earn * 100.0) / 100.0;
+		bresp.setTotearn(sumapprox);
+		
+		return bresp;
+		
+	}
 
 	@Autowired
 	public void setPurchaseRepository(OrderDao orderRepository) {

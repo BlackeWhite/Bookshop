@@ -1,6 +1,7 @@
 package it.bookshop.model.dao;
 
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -19,5 +20,6 @@ public interface BookOrderDao {
 	
 	List<BookOrder> findbyId(long id);
 	double sumPrice(long id);
+	List<BookOrder> findbyDate(String data_da, String data_a) throws ParseException;
 	
 }

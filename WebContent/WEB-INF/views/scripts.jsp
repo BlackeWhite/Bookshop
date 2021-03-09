@@ -56,6 +56,7 @@
 <c:url value="/admin/delete_book"  var="delete_book"/>
 <c:url value="/admin/delete_genre"  var="delete_genre"/>
 <c:url value="/seller/change_book" var="change_book" />
+<c:url value="/seller/range_data" var="range_data" />
 <script type="text/javascript">
 var adv_search_url = "${adv_search}";
 var home_url = "${home}";
@@ -71,6 +72,7 @@ var delete_user_url = "${delete_user}";
 var delete_book_url = "${delete_book}";
 var delete_genre_url = "${delete_genre}";
 var change_book = "${change_book}";
+var range_data = "${range_data}";
 </script>
 
 <c:url value="/resources/js/custom.js" var="custom" />

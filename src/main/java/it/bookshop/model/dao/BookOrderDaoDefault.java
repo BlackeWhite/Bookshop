@@ -2,6 +2,8 @@ package it.bookshop.model.dao;
 
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -53,6 +55,18 @@ public class BookOrderDaoDefault extends DefaultDao implements BookOrderDao {
 	public List<BookOrder> findbyId(long id) {
 		// cerca per bookid nella lista dei libri acquistati 
 		List<BookOrder> bo  = this.getSession().createQuery("select bo FROM BookOrder bo where bo.id.bookId=:id",BookOrder.class).setParameter("id", id).getResultList();
+		return bo;
+	}
+	
+	@Override
+	public List<BookOrder> findbyDate(String data_da, String data_a) throws ParseException {
+		// cerca per bookid nella lista dei libri acquistati 
+		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+		java.util.Date parseda = format.parse(data_da);
+        Date sql_data_da = new Date(parseda.getTime());
+        java.util.Date parsea = format.parse(data_a);
+        Date sql_data_a = new Date(parsea.getTime());
+		List<BookOrder> bo  = this.getSession().createQuery("select bo FROM BookOrder bo where bo.purchasedate BETWEEN :startDate AND :endDate",BookOrder.class).setParameter("startDate", sql_data_da).setParameter("endDate", sql_data_a).getResultList();
 		return bo;
 	}
 	

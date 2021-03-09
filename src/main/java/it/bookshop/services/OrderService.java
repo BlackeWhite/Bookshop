@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import it.bookshop.model.Object_form.BookInfoResponse;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.BookOrder;
 import it.bookshop.model.entity.Coupon;
@@ -33,5 +34,7 @@ public interface OrderService {
  
 	double TotalEarnforBook(long id);
 	double TotalEarn(List<Book> lb);
+	
+	BookInfoResponse findbyDate(String data_da, String data_a);
 
 }

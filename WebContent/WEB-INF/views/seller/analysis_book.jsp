@@ -67,11 +67,26 @@
 				<b id="copie_sold_book"></b><br>
 				<b id="total_earn"></b><br>
 				 <hr>
-             <h3>Informazioni Generali </h3>
+             <h3>Informazioni Generali sulle vendite dei libri </h3>
              <br>
             
              <b>Incasso Totale: &euro;${totearn } </b> <br>
-             <b>Totale copie vendute: ${totcopies } </b>
+             <b>Totale copie vendute: ${totcopies } </b> <br>
+             <hr>
+             
+              <h3>Analisi delle vendite per data: </h3>
+             <br> 
+             <label for="dateda">Da: </label> 
+             <input type="date" id="dateda" required />
+               <label for="datea">A: </label>
+             <input type="date" id="datea" required />
+             
+				<button type="submit" id="submit_data" class="btn with-pass-conf">Calcola</button>
+  <br> <br>
+				<b id="total_earn_data"></b> <br>
+             <b id="copie_sold_book_data"> </b> <br>
+             <hr>
+             
             
 			</div>
 		</div>
