@@ -104,7 +104,7 @@
 						<div class="content">
 							<ul id="checkout_costs_report">
 								<li>Subtotale<span>${user.formattedCartSubtotalPrice}</span></li>
-								<li id="vat_amount" vat=${vat}>Vat (${vat}%)<span>${vatAmount}</span></li>
+								<li id="vat_amount" vat=${vat}>di cui Vat: (${vat}%)<span>${vatAmount}</span></li>
 								<li>Costi di spedizione<span>€ 5,00</span></li>
 								<c:choose>
 								<c:when test="${user.savedMoney>0}"> 

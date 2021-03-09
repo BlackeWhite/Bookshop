@@ -32,11 +32,13 @@
 			<div class="col-lg-3 col-md-4 col-12">
 				<div class="shop-sidebar">
 				<div class="single-widget range">
-						<h3 class="title">Menu</h3>
-						<li><a href="/seller/_book"> Aggiungi un libro in vendita </a></li>
-						<li><a href=""> Metti in sconto un libro in vendita </a></li>
-						<li><a href="<c:url value="/seller/analysis_book"/>">Analisi delle vendite dai vari libri </a></li>
-						<li><a href=""> Modifica dati personali </a></li>
+						<a href="<c:url value="/seller/"/>"><h3 class="title">Menu</h3></a>
+						<c:url value="/seller/addition_book" var="addition_book" />
+						<li><a href="${addition_book}"> Aggiungi un libro in
+								vendita </a></li>
+						<li><a href="<c:url value="/seller/analysis_book"/>">Analisi
+								delle vendite dai vari libri </a></li>
+						<li><a href="<c:url value="/account"/>"> Modifica dati personali </a></li>
 					</div>
 					<!--/ End Single Widget -->
 					

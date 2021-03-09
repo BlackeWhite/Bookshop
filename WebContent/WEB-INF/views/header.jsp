@@ -141,7 +141,7 @@
 								<li><i class="ti-power-off"></i><a
 									href="<c:url value="/login"/>">Login</a></li>
 							</security:authorize>
-							<security:authorize access="hasAnyRole('USER', 'ADMIN', 'SELLER')">
+							<security:authorize access="hasAnyRole('USER', 'ADMIN')">
 								<li><i class="ti-user"></i> <a
 									href="<c:url value="/account"/>">Il mio account</a></li>
 							</security:authorize>
