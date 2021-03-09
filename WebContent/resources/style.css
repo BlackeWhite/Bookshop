@@ -4798,6 +4798,12 @@ Version:1.0
 	color: #F7941D;
 }
 
+.card-container .expired {
+	font-weight: 500;
+	color: red;
+	float: right;
+}
+
 .remove-card {
 	width: 20px;
 	height: 20px;

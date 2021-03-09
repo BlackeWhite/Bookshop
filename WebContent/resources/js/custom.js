@@ -127,6 +127,10 @@ $(document).ready(function() {
 				dataType: "text", //The type of data that you're expecting back from the server
 				success: function(data) {
 					$("#card_" + id).remove();
+					popupMessage("Carta eliminata con successo!");
+				},
+				error: function(data) {
+					popupMessage("C'è stato un problema nella richiesta! Riaggiorna.'");
 				},
 				processData: false
 			});

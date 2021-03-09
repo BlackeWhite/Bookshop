@@ -1,5 +1,6 @@
 package it.bookshop.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -51,11 +52,17 @@ public class AuthController {
 	@Autowired
 	@Qualifier("registrationValidator")
 	private Validator userValidator;
+	
+	@Autowired
+	@Qualifier("cardValidator")
+	private Validator cardValidator;
 
 	@InitBinder
 	private void initUserBinder(WebDataBinder binder) {
 		if (binder.getTarget() != null && User.class.equals(binder.getTarget().getClass())) {
 			binder.setValidator(userValidator);
+		} else if (binder.getTarget() != null && PaymentCard.class.equals(binder.getTarget().getClass())) {
+			binder.setValidator(cardValidator);
 		}
 	}
 
@@ -65,6 +72,7 @@ public class AuthController {
 	@GetMapping(value = "/login")
 	public String loginPage(@RequestParam(value = "error", required = false) String error, Model model) {
 		String errorMessage = null;
+		
 		if (error != null) {
 			errorMessage = "Username o Password errati !!";
 		}
@@ -92,6 +100,7 @@ public class AuthController {
 	@PostMapping(value = "/register")
 	public String register(@ModelAttribute("newUser") @Validated User user, BindingResult br, Model model) {
 
+		//Se ci sono errori dovuti alla validazione
 		if (br.hasErrors()) {
 			generalOperations(model);
 			return "register";
@@ -113,19 +122,29 @@ public class AuthController {
 		User currentUser = userService.findUserByUsername(principal_name);
 
 		model.addAttribute("currentUser", currentUser);
+		model.addAttribute("newCard", new PaymentCard());
 
-		accountPageSpecificOps(model, principal_name);
+		accountPageSpecificOps(model, currentUser);
 		generalOperations(model);
 
 		return "account";
 	}
 
 	@PostMapping(value = "/add_payment_card")
-	public String addPaymentCard(@ModelAttribute("newCard") PaymentCard newCard, BindingResult br,
+	public String addPaymentCard(@ModelAttribute("newCard") @Validated PaymentCard newCard, BindingResult br, Model model,
 			Authentication authentication) {
 
 		String principal_name = authentication.getName();
 		User currentUser = userService.findUserByUsername(principal_name);
+		
+		//Se ci sono errori dovuti alla validazione
+		if (br.hasErrors()) {
+			accountPageSpecificOps(model, currentUser);
+			generalOperations(model);
+			model.addAttribute("currentUser", currentUser);
+			return "account";
+		}
+		
 		userService.createPaymentCard(newCard, currentUser);
 
 		return "redirect:/account";
@@ -181,10 +200,14 @@ public class AuthController {
 			Authentication authentication, final RedirectAttributes redirectAttributes) {
 
 		CustomUserDetails details = (CustomUserDetails) authentication.getPrincipal();
+		String principal_name = authentication.getName();
+		User currentUser = userService.findUserByUsername(principal_name);
 
+		//Se ci sono errori dovuti alla validazione
 		if (br.hasErrors()) {
-			accountPageSpecificOps(model, user.getUsername());
+			accountPageSpecificOps(model, currentUser);
 			generalOperations(model);
+			model.addAttribute("newCard", new PaymentCard());
 			return "account";
 		}
 		
@@ -203,7 +226,7 @@ public class AuthController {
 		return "redirect:/account";
 	}
 
-	// Adds attributes used in almost all requests
+	// Aggiunge attributi usati in quasi tutte le route
 	private void generalOperations(Model model) {
 		List<Genre> allGenres = this.bookService.getAllGenres();
 		countries.put("Italia", "Italia");
@@ -222,14 +245,14 @@ public class AuthController {
 		model.addAttribute("cardTypes", cardTypes);
 	}
 
-	// Adds attributes for the account page
-	// It'sa function because it's used in two different routes
-	private void accountPageSpecificOps(Model model, String username) {
-		User currentUser = userService.findUserByUsername(username);
-		PaymentCard newCard = new PaymentCard();
-
+	// Agggiunge gli attributi per la pagina di account
+	// E' una funzione perché è usata più volte
+	private void accountPageSpecificOps(Model model, User currentUser) {
+		
 		model.addAttribute("userCards", currentUser.getPaymentCards());
-		model.addAttribute("newCard", newCard);
+		
+		Date today = new Date(System.currentTimeMillis());
+		model.addAttribute("today", today);
 
 		// Mini carrello
 		List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(currentUser.getShoppingCart());

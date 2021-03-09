@@ -12,30 +12,6 @@
 			<div id="account-row" class="row">
 				<div id="account-column" class="col-md-7">
 					<div id="account-box" class="col-md-12">
-						<c:url value="/change_password" var="action3" />
-						<form id="password-form" action="${action3}" class="form" method="post">
-						<h4 class="title" style="color: ${msgColor}; text-size: 13px;">${message}</h4>
-							<div class="title">
-								<h3>Modifica password</h3>
-							</div>
-							<div class="form-group">
-								<label for="old_password">Vecchia Password:</label> <span>*</span> <br>
-								<input type="password" name="old_password" id="old_password"/>
-							</div>
-							<div class="form-group">
-								<label for="password">Nuova Password:</label> <span>*</span> <br>
-								<input type="password" name="password" id="password"/>
-							</div>
-							<div class="form-group">
-								<label for="password-confirm">Conferma Password:</label> <span>*</span>
-								<br> 
-								<input type="password" name="password-confirm" id="password-confirm">
-							</div>
-							<div class="form-group button">
-								<button type="submit" name="submit" class="btn with-pass-conf">Cambia</button>
-							</div>
-						</form>
-						<hr>
 						<c:url value="/account_save" var="action" />
 						<form:form id="account-form" action="${action}"
 							modelAttribute="currentUser" class="form" method="post">
@@ -101,9 +77,33 @@
 						</form:form>
 					</div>
 				</div>
-				<security:authorize access="hasRole('USER')">
 					<div id="payment-column" class="col">
 						<div id="payment-box" class="col-md-12">
+							<c:url value="/change_password" var="action3" />
+							<form id="password-form" action="${action3}" class="form" method="post">
+							<h4 class="title" style="color: ${msgColor}; text-size: 13px;">${message}</h4>
+								<div class="title">
+									<h3>Modifica password</h3>
+								</div>
+								<div class="form-group">
+									<label for="old_password">Vecchia Password:</label> <span>*</span> <br>
+									<input type="password" name="old_password" id="old_password"/>
+								</div>
+								<div class="form-group">
+									<label for="password">Nuova Password:</label> <span>*</span> <br>
+									<input type="password" name="password" id="password"/>
+								</div>
+								<div class="form-group">
+									<label for="password-confirm">Conferma Password:</label> <span>*</span>
+									<br> 
+									<input type="password" name="password-confirm" id="password-confirm">
+								</div>
+								<div class="form-group button">
+									<button type="submit" name="submit" class="btn with-pass-conf">Cambia</button>
+								</div>
+							</form>
+							<hr>
+							<security:authorize access="hasRole('USER')">
 							<c:url value="/add_payment_card" var="action2" />
 							<form:form id="payment-form" action="${action2}"
 								modelAttribute="newCard" class="form" method="post">
@@ -123,12 +123,14 @@
 									<br>
 									<form:input required="required" minlength="16" maxlength="16" type="text"
 										path="number" id="number" />
+									<form:errors path="number" cssClass="validation-error"/>
 								</div>
 								<div class="form-group">
 									<form:label path="expirationDate">Scadenza:</form:label>
 									<br>
 									<form:input required="required" type="date" class="date"
 										path="expirationDate" id="expdate" />
+									<form:errors path="expirationDate" cssClass="validation-error"/>
 								</div>
 								<div class="form-group button">
 									<button type="submit" name="submit" class="btn">Aggiungi</button>
@@ -142,14 +144,18 @@
 									<span>Carta </span><p>${card.type}</p><br>
 									<span>Che termina con: </span><p>${card.hiddenNumber}</p>
 									<button data-card="${card.id}" class="remove-card"><i class="fa fa-remove"></i></button><br>
-									<span>Scadenza: </span><p >${card.shortExpirationDate}</p><br>
+									<span>Scadenza: </span><p >${card.shortExpirationDate}</p>
+									<c:if test="${today gt card.expirationDate}">
+									<span class="expired">Carta scaduta</span>
+									</c:if>
+									<br>
 								</div>
 								<hr>
 							</div>
 							</c:forEach>
+						</security:authorize>
 						</div>
 					</div>
-				</security:authorize>
 			</div>
 		</div>
 	</div>

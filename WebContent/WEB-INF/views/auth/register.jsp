@@ -43,6 +43,7 @@
 							<div class="form-group">
 								<form:label path="password">Password:</form:label> <span>*</span> <br>
 								<form:password required="required" path="password" id="password"/>
+								<form:errors path="password" cssClass="validation-error"/>
 							</div>
 							<div class="form-group">
 								<label for="password-confirm">Conferma Password:</label> <span>*</span>
