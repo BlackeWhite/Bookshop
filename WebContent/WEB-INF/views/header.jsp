@@ -197,6 +197,7 @@
 											</c:if>
 											<li class="${active5}"><a  href="<c:url value="/sales"/>">Sconti</a></li>
 											
+											<security:authorize access="hasRole('USER')">
 											<c:url value="/purchase_history" var="purchhisturl" />
 											<c:if test="${uri == carturl || uri == checkouturl || uri == purchhisturl}">
 												<c:set value="active" var="active4" />
@@ -210,7 +211,8 @@
 													</c:if>
 													<li><a href="${purchhisturl}">Cronologia acquisti</a></li>
 												</ul></li>
-											<li><a href="contact.html">Contattaci</a></li>
+											</security:authorize>
+											<li><a href="contact.html">Chi siamo</a></li>
 											<security:authorize access="hasRole('ADMIN')">
 												<c:url value="/admin/add_seller" var="addSeller" />
 												<c:url value="/admin/sellers_list" var="sellersList" />
