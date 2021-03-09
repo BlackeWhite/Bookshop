@@ -99,7 +99,7 @@
 
 					<div class="add-to-cart">
 
-						<a data-book="${book.id}" class="btn add_to_cart">Aggiungi al
+						<a data-book="${book.id}" class="btn add_to_cart pointer">Aggiungi al
 							carrello</a>
 					</div>
 					</c:if>

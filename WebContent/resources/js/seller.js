@@ -13,10 +13,9 @@ $(document).ready(function() {
 			contentType: 'application/json',
 			dataType: "json", //The type of data that you're expecting back from the server
 			success: function(data) {
-				$('#title_book').text("Titolo del libro: " + data["title"]);
-				$('#copie_sold_book').text("Copie vendute: " + data["soldcopies"]);
-				$('#total_earn').text("Incasso totale libro: " + data["totearn"]);
-				
+				$('#title_book').html("Titolo del libro: " + data["title"]);
+				$('#copie_sold_book').html("Copie vendute: " + data["soldcopies"]);
+				$('#total_earn').html("Incasso totale libro: &euro;" + data["totearn"]);
 			},
 			error: function(e) {
 				popupMessage(e);

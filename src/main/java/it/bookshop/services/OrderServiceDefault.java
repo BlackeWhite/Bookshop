@@ -3,6 +3,7 @@ package it.bookshop.services;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -23,6 +24,7 @@ import it.bookshop.model.entity.Order;
 import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.ShoppingCart;
 import it.bookshop.model.entity.User;
+import sun.util.logging.resources.logging;
 
 @Transactional
 @Service("orderService")
@@ -63,6 +65,7 @@ public class OrderServiceDefault implements OrderService {
 		LocalDateTime date = LocalDateTime.now();
 		User user = userService.findUserById(userId);
 		List<ShoppingCart> cart = shoppingCartService.findUserShoppingCart(user);
+		Date data_buy = new Date(Calendar.getInstance().getTime().getTime());
 		
 		Set<BookOrder> books = new HashSet<BookOrder>();
 		for(ShoppingCart c : cart) {
@@ -70,6 +73,8 @@ public class OrderServiceDefault implements OrderService {
 			b.setBook(c.getBook());
 			b.setCopies(c.getCopies()); 
 			b.setPrice(c.getBook().getDiscountedPrice());
+			b.setPricenovat(c.getBook().getDiscountedPriceNoVat());
+			b.setPurchasedate(data_buy);
 			books.add(b);
 			}
 		
@@ -127,6 +132,23 @@ public class OrderServiceDefault implements OrderService {
 	public List<BookOrder> findbyId(long id) {
 		return this.bookOrderRepository.findbyId(id);
 	}
+	
+	@Override
+	public double TotalEarn(List<Book> lb) {
+		// calcolo l'incasso totale per un venditore dalla lista dei suoi libri
+		Iterator<Book> itbo = lb.iterator();
+		double sum = 0;
+		while (itbo.hasNext()) {
+			sum += this.TotalEarnforBook(itbo.next().getId());
+		}
+		return sum;
+	}
+
+	public double TotalEarnforBook(long id) {
+		// calcolo l'incasso totale per un libro
+		return this.bookOrderRepository.sumPrice(id);
+	}
+	
 	
 
 	@Autowired

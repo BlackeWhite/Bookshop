@@ -18,4 +18,6 @@ public interface BookOrderDao {
 	public BookOrder create(Order order, BookOrder b);
 	
 	List<BookOrder> findbyId(long id);
+	double sumPrice(long id);
+	
 }

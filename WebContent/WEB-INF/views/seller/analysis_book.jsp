@@ -18,7 +18,7 @@
 								Personale - Venditore<i class="ti-arrow-right"></i>
 						</a></li>
 						<li class="active"><a
-							href="<c:url value="/seller/analysis_book"/>">Analisi
+							href="<c:url value="/seller/analysis_book"/>">
 								informazioni libri</a></li>
 					</ul>
 				</div>
@@ -35,13 +35,13 @@
 			<div class="col-lg-3 col-md-4 col-12">
 				<div class="shop-sidebar">
 					<div class="single-widget range">
-						<h3 class="title">Menu</h3>
-						<c:url value="/seller/addition_book" var="addition_book"/>
-						<li><a href="${addition_book}"> Aggiungi un libro in vendita </a></li>
-						<li><a href=""> Modifica un libro in vendita </a></li>
-						<li><a href=""> Metti in sconto un libro in vendita </a></li>
-						<li><a href="<c:url value="/seller/analysis_book"/>">Analisi delle vendite dai vari libri </a></li>
-						<li><a href=""> Modifica dati personali </a></li>
+						<a href="<c:url value="/seller/"/>"><h3 class="title">Menu</h3></a>
+						<c:url value="/seller/addition_book" var="addition_book" />
+						<li><a href="${addition_book}"> Aggiungi un libro in
+								vendita </a></li>
+						<li><a href="<c:url value="/seller/analysis_book"/>">Analisi
+								delle vendite dai vari libri </a></li>
+						<li><a href="<c:url value="/account"/>"> Modifica dati personali </a></li>
 					</div>
 					<!--/ End Single Widget -->
 
@@ -49,9 +49,11 @@
 			</div>
 			<div class="col-lg-9 col-md-8 col-12">
 				<div class="row">
-					<div class="col-12"></div>
+					<div class="col-12"><h3>Informazioni singolo libro</h3> <br></div>
 				</div>
-				<div class="row">
+				
+				<div class="row col-12">
+				
 					<label for="books">Seleziona un libro:</label><br> 
 					<select name="books" id="books">
 						<c:forEach items="${listbook}" var="listbook">
@@ -64,6 +66,13 @@
 				<b id="title_book"></b> <br>
 				<b id="copie_sold_book"></b><br>
 				<b id="total_earn"></b><br>
+				 <hr>
+             <h3>Informazioni Generali </h3>
+             <br>
+            
+             <b>Incasso Totale: &euro;${totearn } </b> <br>
+             <b>Totale copie vendute: ${totcopies } </b>
+            
 			</div>
 		</div>
 	</div>

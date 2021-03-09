@@ -30,5 +30,8 @@ public interface OrderService {
 	public void delete(Order order);
 
 	List<BookOrder> findbyId(long id);
+ 
+	double TotalEarnforBook(long id);
+	double TotalEarn(List<Book> lb);
 
 }

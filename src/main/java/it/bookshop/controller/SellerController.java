@@ -142,7 +142,15 @@ public class SellerController {
 		User seller = userService.findUserByUsername(principal_name);
 		
 		List<Book> lbooksold = bookService.findAllBookSoldOfSeller(seller);
+		Iterator <Book> boit = lbooksold.iterator();
+		int copies = 0;
+		while (boit.hasNext()) {
+			copies += boit.next().getSoldCopies();
+		}
+		double totearn =Math.round(this.orderService.TotalEarn(lbooksold) * 100.0) / 100.0; ;
 		model.addAttribute("listbook", lbooksold);
+		model.addAttribute("totearn", totearn);
+		model.addAttribute("totcopies", copies);
 		generalOperations(model);
 		return "analysis_book";
 	}
@@ -162,11 +170,7 @@ public class SellerController {
 		Iterator<BookOrder> iterbook = listsoldbook.iterator();
 		
 		//calcolo incasso totale
-		double sum = 0;
-		while(iterbook.hasNext()) {
-			BookOrder bo = iterbook.next();
-			sum += bo.getCopies()*(bo.getPrice()*0.88); // va sistemata con le diverse iva (ho messo l'italiana)
-		}
+		double sum = this.orderService.TotalEarnforBook(reqBody.getBookID());
 		
 	   double sumapprox = Math.round(sum * 100.0) / 100.0;
 	   bresp.setTotearn(sumapprox);
