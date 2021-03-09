@@ -82,7 +82,7 @@ public class SellerController {
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
 
-		// PAGINAZIONE ORDINI
+		// PAGINAZIONE
 		List<Book> sellerBooks = this.bookService.findAllBookSoldOfSeller(seller);
 		PagedListHolder<Book> pagedListHolder = new PagedListHolder<>(sellerBooks);
 		pagedListHolder.setPageSize(5);
@@ -92,13 +92,12 @@ public class SellerController {
 
 		pagedListHolder.setPage(page - 1);
 
-		model.addAttribute("orders", pagedListHolder.getPageList());
+		model.addAttribute("sellerBooks", pagedListHolder.getPageList());
 		model.addAttribute("maxPages", pagedListHolder.getPageCount());
 		model.addAttribute("page", page);
 		
 		List<Genre> allGenres = bookService.getAllGenres();
 		model.addAttribute("allGenres", allGenres);
-		model.addAttribute("sellerBooks", sellerBooks);
 		return "home_seller";
 	}
 
