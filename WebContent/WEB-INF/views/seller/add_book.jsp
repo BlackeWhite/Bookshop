@@ -52,12 +52,8 @@
 					</div>
 				</div>
 				<div class="row">
-				  <c:if test="${mode == 'add'}">
-				  <c:url value="/seller/add_book" var="book_action"/> </c:if>
-				  <c:if test="${mode == 'modify'}">
-				   <c:url value="/seller/modify_book" var="book_action"/>
-				   </c:if>
-					<form:form id="register-form" action="${book_action}" modelAttribute="newBook" class="form" method="post" enctype="multipart/form-data">
+				 <c:url value="/seller/add_book" var="book_action"/>
+				 	<form:form id="register-form" action="${book_action}" modelAttribute="newBook" class="form" method="post" enctype="multipart/form-data">
 					<script type="text/javascript">
 					    function removerows (tablebody) {
 					      var rows = tablebody.getElementsByTagName("tr");
@@ -164,11 +160,9 @@
 								<form:errors path="publish" cssClass="validation-error" />	
 								<br>
 								<br> 
-								<c:if test="${mode == 'add'}">
-							    <form:label path="cover"><b>Carica la copertina del libro</b></form:label></td>
+								<form:label path="cover"><b>Carica la copertina del libro</b></form:label></td>
                                 <form:input type="file" name="cover" path="cover" class = "inputview"/>
 								<form:errors path="cover" cssClass="validation-error" />
-								</c:if>
 								<br>
 								<br>
 							    <form:label path="title"><b>Descrizione del Libro</b></form:label> <br>
@@ -199,12 +193,7 @@
 						</fieldset>
 						<br>
 						<br>
-					 <c:if test="${mode == 'add'}">
 				 <button type="submit" name="submit" class="btn with-pass-conf">Inserisci Libro </button>
-				 </c:if>
-				  <c:if test="${mode == 'modify'}">
-				   <button type="submit" name="submit" class="btn with-pass-conf">Modifca Libro </button>
-				   </c:if>
 					</form:form>
 				</div>
 			</div>

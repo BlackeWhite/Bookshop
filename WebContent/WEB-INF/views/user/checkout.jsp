@@ -158,17 +158,17 @@
 								<ul>
 									<li>
 										<label ><input id="card_payment" class="card_payment" type="radio" name="payment" checked> Card
-										<img src="images/payment-method.png">
-										<img src="images/payment-method.png">
-										<img src="images/payment-method.png"></label>
+										<i class="fa fa-credit-card" aria-hidden="true"></i>
+										<i class="fa fa-cc-mastercard" aria-hidden="true"></i>
+										<i class="fa fa-cc-visa" aria-hidden="true"></i>
+										</label>
 									</li> 
 									<li>
 										<label><input id="cash_payment" class="no_card_payment" type="radio" name="payment"> Cash On Delivery</label>
-										<img src="images/payment-method.png" alt="#">
 									</li>
 									<li>
 										<label><input id="paypal_payment" class="no_card_payment" type="radio" name="payment"> PayPal</label>
-										<img src="images/payment-method.png" alt="#">
+										<i class="fa fa-paypal" aria-hidden="true"></i>
 									</li>
 								</ul>
 							</div>
@@ -178,7 +178,7 @@
 					<!-- Payment Method Widget -->
 					<div class="single-widget payement">
 						<div class="content">
-							<img src="images/payment-method.png" alt="#">
+							
 						</div>
 					</div>
 					<!--/ End Payment Method Widget -->

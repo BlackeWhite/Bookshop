@@ -92,9 +92,6 @@ public class SellerController {
 
 		String errorMessage = null;
 		int i = 0;
-		String mode = "add"; // paramtero utilizzato nella vista per adattare la form in base a cosa si sta
-								// facendo
-								// facendo
 		Bookform bf = new Bookform();
 
 		List<String> gen = new ArrayList<String>();
@@ -112,8 +109,7 @@ public class SellerController {
 		model.addAttribute("genre", gen);
 		model.addAttribute("authorsName", authors_name);
 		model.addAttribute("authorsSurname", authors_surname);
-		model.addAttribute("mode", mode);
-		model.addAttribute("i", i); // utilizzata come contatore nella vista
+		model.addAttribute("i", i); // utilizzata come contatore nella vista per i generi
 		model.addAttribute("allGenres", allGenres);
 
 		generalOperations(model);
@@ -145,12 +141,12 @@ public class SellerController {
 	@ResponseBody
 	public BookInfoResponse change_book(@RequestBody CartRequestBody reqBody, Authentication authentication) {
 
-		BookInfoResponse bresp = new BookInfoResponse();
+		BookInfoResponse bresp = new BookInfoResponse(); 
 		bresp.setBookID(reqBody.getBookID());
 
 		Book b = this.bookService.findById(reqBody.getBookID());
 		bresp.setTitle(b.getTitle());
-		bresp.setSoldcopies(b.getSoldCopies());
+		bresp.setSoldcopies(b.getSoldCopies()); //copie vendute per quel libro
 
 		List<BookOrder> listsoldbook = this.orderService.findbyId(reqBody.getBookID());
 		Iterator<BookOrder> iterbook = listsoldbook.iterator();
@@ -173,7 +169,7 @@ public class SellerController {
 		String data_da = reqBody.getArg2();
 		String data_a = reqBody.getArg3();
 
-		bresp = this.orderService.findbyDate(data_da, data_a);
+		bresp = this.orderService.findbyDate(data_da, data_a); // calcolo dell'incasso totale in quql intervallo di tempo e delle copie vendute
 
 		return bresp;
 
