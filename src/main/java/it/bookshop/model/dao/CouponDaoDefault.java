@@ -6,9 +6,6 @@ import java.util.List;
 import javax.persistence.NoResultException;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
-import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Coupon;
 
 

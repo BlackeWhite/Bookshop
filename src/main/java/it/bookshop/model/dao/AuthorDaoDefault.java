@@ -5,13 +5,11 @@ import java.util.List;
 
 import javax.persistence.NoResultException;
 
-import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
-import it.bookshop.model.entity.Genre;
 
 @Transactional
 @Repository("authorDao") //@Repository  is a specialization of @Component

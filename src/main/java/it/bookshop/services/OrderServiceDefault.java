@@ -1,7 +1,6 @@
 package it.bookshop.services;
 
 import java.sql.Date;
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,15 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 import it.bookshop.model.Object_form.BookInfoResponse;
 import it.bookshop.model.dao.BookOrderDao;
 import it.bookshop.model.dao.OrderDao;
-import it.bookshop.model.dao.ShoppingCartDao;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.BookOrder;
 import it.bookshop.model.entity.Coupon;
 import it.bookshop.model.entity.Order;
-import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.ShoppingCart;
 import it.bookshop.model.entity.User;
-import sun.util.logging.resources.logging;
 
 @Transactional
 @Service("orderService")
@@ -156,12 +152,7 @@ public class OrderServiceDefault implements OrderService {
 		
 		BookInfoResponse bresp = new BookInfoResponse();
 		List<BookOrder> lo = new ArrayList<BookOrder>();
-		try {
-			lo = this.bookOrderRepository.findbyDate(data_da, data_a);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		lo = this.bookOrderRepository.findbyDate(data_da, data_a);
 		Iterator <BookOrder> itlo = lo.iterator();
 		int copies = 0;
 		double earn = 0;

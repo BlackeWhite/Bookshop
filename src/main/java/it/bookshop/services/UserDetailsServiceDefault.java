@@ -17,7 +17,6 @@ import it.bookshop.model.entity.PaymentCard;
 import it.bookshop.model.entity.PersonalData;
 import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.User;
-import it.bookshop.model.dao.AuthorDao;
 import it.bookshop.model.dao.PaymentCardDao;
 import it.bookshop.model.dao.RoleDao;
 import it.bookshop.model.dao.UserDetailsDao;

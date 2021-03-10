@@ -25,8 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.mysql.cj.util.StringUtils;
-
 import it.bookshop.model.entity.CustomUserDetails;
 import it.bookshop.model.entity.Genre;
 import it.bookshop.model.entity.PaymentCard;

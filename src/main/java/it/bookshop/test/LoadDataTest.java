@@ -1,13 +1,6 @@
 package it.bookshop.test;
 
 import java.sql.Date;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -20,13 +13,9 @@ import it.bookshop.model.dao.RoleDao;
 import it.bookshop.model.dao.OrderDao;
 import it.bookshop.model.dao.UserDetailsDao;
 import it.bookshop.model.entity.Author;
-import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
-import it.bookshop.model.entity.Order;
-import it.bookshop.model.entity.ShoppingCart;
 import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.User;
-import it.bookshop.services.BookService;
 
 
 

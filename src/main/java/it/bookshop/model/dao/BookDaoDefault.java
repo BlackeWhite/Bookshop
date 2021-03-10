@@ -3,15 +3,12 @@ package it.bookshop.model.dao;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Set;
-
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.bookshop.model.Object_form.Bookform;
-import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.CustomUserDetails;
 import it.bookshop.model.entity.User;

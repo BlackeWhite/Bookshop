@@ -1,6 +1,5 @@
 package it.bookshop.model.entity;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import it.bookshop.model.entity.User;
 import java.io.Serializable;
 
 @Entity

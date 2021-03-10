@@ -2,8 +2,6 @@ package it.bookshop.services;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,8 +21,6 @@ import it.bookshop.model.dao.GenreDao;
 import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
-import it.bookshop.model.entity.Order;
-import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.User;
 
 @Transactional

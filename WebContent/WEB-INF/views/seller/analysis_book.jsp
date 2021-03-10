@@ -54,7 +54,7 @@
 				
 				<div class="row col-12">
 				
-					<label for="books">Seleziona un libro:</label><br> 
+					<label for="books">Seleziona un libro:</label> 
 					<select name="books" id="books">
 						<c:forEach items="${listbook}" var="listbook">
 							<option value="${listbook.id}">${listbook.title}</option>

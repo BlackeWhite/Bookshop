@@ -1,16 +1,8 @@
 package it.bookshop.model.dao;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
-
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
-import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
 
 

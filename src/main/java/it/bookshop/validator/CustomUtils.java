@@ -4,11 +4,6 @@ import java.sql.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import it.bookshop.model.entity.User;
-import it.bookshop.services.UserService;
-
 /**
  * Classe custom con metodi statici utili per la validazione
  */

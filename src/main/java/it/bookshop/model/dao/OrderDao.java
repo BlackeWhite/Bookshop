@@ -1,6 +1,5 @@
 package it.bookshop.model.dao;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -8,7 +7,6 @@ import java.util.Set;
 import org.hibernate.Session;
 
 import it.bookshop.model.entity.BookOrder;
-import it.bookshop.model.entity.Coupon;
 import it.bookshop.model.entity.Order;
 import it.bookshop.model.entity.User;
 

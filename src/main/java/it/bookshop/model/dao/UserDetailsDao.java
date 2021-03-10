@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.hibernate.Session;
 import it.bookshop.model.entity.User;
-import it.bookshop.model.entity.PersonalData;
 
 public interface UserDetailsDao {
 	Session getSession();

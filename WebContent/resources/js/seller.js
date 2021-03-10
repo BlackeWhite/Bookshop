@@ -24,6 +24,7 @@ $(document).ready(function() {
 		});
 	});
 
+    // per l'analisi dei dati in un intervallo di tempo 
 	$("#submit_data").on('click', function() {
 		var date_da = new Date($('#dateda').val());
 		var day = date_da.getDate();
@@ -36,7 +37,7 @@ $(document).ready(function() {
 		var month = date_a.getMonth() + 1;
 		var year = date_a.getFullYear();
 		var datea_format = year + "/" + month + "/" + day; // for sql format 
-
+		if (date_a >= date_da) { // verifico che l'intervallo inserito sia corretto'
 		$.ajax({
 			type: 'POST',
 			url: range_data,
@@ -51,7 +52,12 @@ $(document).ready(function() {
 				popupMessage(e);
 			},
 			processData: false
-		});
+		});}
+		else {
+			alert("Inserisci un intervallo di data corretto")
+			$('#dateda').val('') 
+			$('#datea').val('')
+		}
 	});
 	
 

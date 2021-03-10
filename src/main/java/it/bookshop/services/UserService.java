@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.util.List;
 
 import it.bookshop.model.entity.PaymentCard;
-import it.bookshop.model.entity.PersonalData;
 import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.User;
 

@@ -5,7 +5,6 @@ import javax.persistence.NoResultException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.bookshop.model.entity.Genre;
 import it.bookshop.model.entity.Role;
 
 @Transactional
