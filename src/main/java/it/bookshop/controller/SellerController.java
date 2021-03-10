@@ -282,7 +282,6 @@ public class SellerController {
 
 	}
 	
-	// TODO -> verificare che il filtro del prezzo nella ricerca avanzata funzioni correttamente
 	@GetMapping(value = "/remove_book/{book_id}")
 	public String removeBook(@PathVariable("book_id") Long book_id, Model model, final RedirectAttributes redirectAttributes) {
 		Book removedBook = this.bookService.findById(book_id);

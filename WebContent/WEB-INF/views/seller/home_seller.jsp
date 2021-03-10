@@ -61,7 +61,7 @@
 														<!-- Div utile per avere modifica ed elimina nell'ultima colonna -->
 													</div>
 													<div class="col-3 field">
-														<button bookId="${sellerBooks.id}" class="remove-book">
+														<button bookId="${sellerBooks.id}" class="remove-book" onclick="return confirm('Sicuro di voler rimuovere ${sellerBooks.title} ?')">
 															<a href="<c:url value="/seller/remove_book/${sellerBooks.id}"/>"><i
 																class="fa fa-remove"> RIMUOVI </i></a>
 														</button>

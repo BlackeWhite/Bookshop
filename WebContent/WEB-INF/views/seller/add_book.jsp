@@ -58,7 +58,6 @@
 				   <c:url value="/seller/modify_book" var="book_action"/>
 				   </c:if>
 					<form:form id="register-form" action="${book_action}" modelAttribute="newBook" class="form" method="post" enctype="multipart/form-data">
-			
 					<script type="text/javascript">
 					    function removerows (tablebody) {
 					      var rows = tablebody.getElementsByTagName("tr");
@@ -110,11 +109,12 @@
 					      addrows(tablebody, n);
 					    }
 					 </script>
-					 
+
 					 <legend>Autore/i del libro</legend>
 					 	<br>
 						<label path="title"><b>Numero di autori</b></label>
 						<fieldset>
+						<!-- onchange="change_select()" -->
 						  <select id="numrows" name="numrows" onchange="change_select()">
 						    <option value="1">1</option>
 						    <option value="2">2</option>
@@ -169,7 +169,6 @@
                                 <form:input type="file" name="cover" path="cover" class = "inputview"/>
 								<form:errors path="cover" cssClass="validation-error" />
 								</c:if>
-								<!-- TO-DO manca upload quando si modifca un libro  -->
 								<br>
 								<br>
 							    <form:label path="title"><b>Descrizione del Libro</b></form:label> <br>
