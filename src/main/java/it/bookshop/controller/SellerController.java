@@ -245,7 +245,7 @@ public class SellerController {
 	}
 
 	// mostra la form per la modifica di un libro
-	@PostMapping(value = "/editBook/{book_id}")
+	@GetMapping(value = "/editBook/{book_id}")
 	public String editBook(@PathVariable("book_id") Long book_id, Model model, Authentication authentication) {
 		// TODO -> PASSARE SEMPRE AL MODEL I GENERI
 		// AGGIUNGERE "IVA ESCLUSA" IN FASE DI INSERIMENTO DEL PRODOTTO
