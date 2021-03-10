@@ -212,7 +212,7 @@
 													<li><a href="${purchhisturl}">Cronologia acquisti</a></li>
 												</ul></li>
 											</security:authorize>
-											<li><a href="contact.html">Chi siamo</a></li>
+											<li><a href="<c:url value='/about_us'/>">Chi siamo</a></li>
 											<security:authorize access="hasRole('ADMIN')">
 												<c:url value="/admin/add_seller" var="addSeller" />
 												<c:url value="/admin/sellers_list" var="sellersList" />

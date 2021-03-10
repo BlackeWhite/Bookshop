@@ -190,8 +190,7 @@ Version:1.0
 	-webkit-animation-delay: -0.8s;
 }
 
-@
-keyframes preloader-fx { 0% {
+@keyframes preloader-fx { 0% {
 	transform: scale(0, 0);
 	opacity: 0.5;
 }
@@ -210,8 +209,7 @@ opacity
 0;
 }
 }
-@
--webkit-keyframes preloader-fx { 0% {
+@-webkit-keyframes preloader-fx { 0% {
 	-webkit-transform: scale(0, 0);
 	opacity: 0.5;
 }
@@ -6243,3 +6241,6 @@ opacity
 .pointer {
 	cursor: pointer;
 }
+/*=============================
+	End Manage Genres/Coupons CSS
+===============================*/
