@@ -1,7 +1,5 @@
 package it.bookshop.controller;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.text.NumberFormat;
@@ -9,6 +7,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
@@ -26,6 +25,7 @@ import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Coupon;
 import it.bookshop.model.entity.Genre;
 import it.bookshop.model.entity.Order;
+import it.bookshop.model.entity.PaymentCard;
 import it.bookshop.model.entity.ShoppingCart;
 
 import it.bookshop.services.BookService;
@@ -197,6 +197,16 @@ public class UserController {
 		model.addAttribute("total", buyer.getFormattedCartSubtotalPrice());
 		List<Genre> allGenres = this.bookService.getAllGenres();
 		model.addAttribute("allGenres", allGenres);
+		
+		//Rimozione delle carte scadute
+		Set<PaymentCard> temp = buyer.getPaymentCards();
+		List<PaymentCard> nonExpiredCards = new ArrayList<>();
+		Date today = new Date(System.currentTimeMillis());
+		for(PaymentCard c : temp) {
+			if(c.getExpirationDate().after(today)) nonExpiredCards.add(c);
+		}
+		model.addAttribute("paymentCards", nonExpiredCards);
+		
 		return "checkout";
 
 	}

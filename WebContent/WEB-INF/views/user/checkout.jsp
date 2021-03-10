@@ -138,38 +138,40 @@
 					<div class="single-widget">
 						<h2>Metodo di pagamento</h2>
 						<div class="content">
-						<ul>
-							<li>
-								<div class="card_selection">
-									<p style="text-align:center;">Seleziona una carta</p>
-									<br>
-									<select id="credit_card_select" id="credit_card">
-										<option selected>Nessuna carta selezionata</option>
-									<c:forEach items="${user.paymentCards}" var="card">
-										<option id="" value="${card.type} ${card.hiddenNumber} ${card.shortExpirationDate}" style="margin:auto; font-size:2px">
-											${card.type} | ${card.hiddenNumber.toLowerCase()} | ${card.shortExpirationDate}
-										</option>
-									</c:forEach>
-									</select>
-								</div>
-							</li>
+							<ul>
+								<li>
+									<div class="card_selection">
+										<p style="text-align:center;">Seleziona una carta</p>
+										<br>
+										<select id="credit_card_select" id="credit_card">
+											<option selected>Nessuna carta selezionata</option>
+										<c:forEach items="${paymentCards}" var="card">
+											<option id="" value="${card.type} ${card.hiddenNumber} ${card.shortExpirationDate}" style="margin:auto; font-size:2px">
+												${card.type} | ${card.hiddenNumber.toLowerCase()} | ${card.shortExpirationDate}
+											</option>
+										</c:forEach>
+										</select>
+									</div>
+								</li>
+							</ul>
 							<div id="paymentMethods" class="radio">
-								<li>
-									<label ><input id="card_payment" class="card_payment" type="radio" name="payment" checked> Card
-									<img src="images/payment-method.png">
-									<img src="images/payment-method.png">
-									<img src="images/payment-method.png"></label>
-								</li> 
-								<li>
-									<label><input id="cash_payment" class="no_card_payment" type="radio" name="payment"> Cash On Delivery</label>
-									<img src="images/payment-method.png" alt="#"></label>
-								</li>
-								<li>
-									<label><input id="paypal_payment" class="no_card_payment" type="radio" name="payment"> PayPal</label>
-									<img src="images/payment-method.png" alt="#"></label>
-								</li>
+								<ul>
+									<li>
+										<label ><input id="card_payment" class="card_payment" type="radio" name="payment" checked> Card
+										<img src="images/payment-method.png">
+										<img src="images/payment-method.png">
+										<img src="images/payment-method.png"></label>
+									</li> 
+									<li>
+										<label><input id="cash_payment" class="no_card_payment" type="radio" name="payment"> Cash On Delivery</label>
+										<img src="images/payment-method.png" alt="#">
+									</li>
+									<li>
+										<label><input id="paypal_payment" class="no_card_payment" type="radio" name="payment"> PayPal</label>
+										<img src="images/payment-method.png" alt="#">
+									</li>
+								</ul>
 							</div>
-						</ul>
 						</div>
 					</div>
 					<!--/ End Order Widget -->
