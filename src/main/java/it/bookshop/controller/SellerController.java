@@ -246,11 +246,15 @@ public class SellerController {
 
 	// mostra la form per la modifica di un libro
 	@PostMapping(value = "/editBook/{book_id}")
-	public String editBook(@PathVariable("book_id") Long book_id, Model model) {
+	public String editBook(@PathVariable("book_id") Long book_id, Model model, Authentication authentication) {
 		// TODO -> PASSARE SEMPRE AL MODEL I GENERI
 		// AGGIUNGERE "IVA ESCLUSA" IN FASE DI INSERIMENTO DEL PRODOTTO
 		// TERMINARE LA PARTE DI MODIFICA
 		Book b_temp = this.bookService.findById(book_id);
+		String principal_name = authentication.getName();
+		User seller = userService.findUserByUsername(principal_name);
+		if (seller.getUserID() == b_temp.getSeller().getUserID()) { // controllo se è un suo libro, altrimenti non può modificarlo
+				
 		Bookform bf = new Bookform();
 
 		bf.populate(b_temp);
@@ -279,6 +283,10 @@ public class SellerController {
 		model.addAttribute("newBook", bf);
 		generalOperations(model);
 		return "edit_book";
+		}
+		else {
+			return "redirect:/seller/";
+		}
 
 	}
 	
