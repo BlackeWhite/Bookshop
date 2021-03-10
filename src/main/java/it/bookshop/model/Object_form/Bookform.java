@@ -2,15 +2,20 @@ package it.bookshop.model.Object_form;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
+import it.bookshop.model.entity.User;
+import it.bookshop.services.AuthorService;
 
 public class Bookform {
 
@@ -36,7 +41,9 @@ public class Bookform {
 	private MultipartFile cover; // file name of cover image
 	private String cover_name;
 	
-
+	@Autowired
+	private AuthorService authorService;
+	
 	public long getId() {
 		return id;
 	}
@@ -187,6 +194,45 @@ public class Bookform {
 		
 		this.authors = autlist;
 
+	}
+	
+	public Book bookformToBook(Bookform book, User seller) {
+		Book b = new Book();
+		b.setId(book.getId());
+		b.setIsbn(book.getIsbn());
+		b.setTitle(book.getTitle());
+		b.setPublish(book.getPublish());
+		b.setCopies(book.getCopies());
+		b.setPrice(book.getPrice());
+		b.setSeller(seller);
+		b.setPages(book.getPages());
+		b.setSummary(book.getSummary());
+		b.setCover(book.getCover().getOriginalFilename());
+		if (b.getCover().isEmpty())
+			b.setCover("bookcover-placeholder.png");
+		Date date = new Date(Calendar.getInstance().getTime().getTime());
+		b.setInsertdata(date);
+		//b.setClicked();
+		//b.setSoldCopies(0);
+		b.setDiscount(((double) book.getDiscount()) / 100);
+		b.setRemoved(0);
+		
+		List<Genre> genreList  = new ArrayList<Genre>();
+		Set<Author> authorsList  = new HashSet<Author>();
+		List<String> authorsNameList = book.getAuthorsName();
+		List<String> authorsSurnameList = book.getAuthorsSurname();
+		
+		int count = 0;
+		Iterator<String> iterName = authorsNameList.iterator();
+		while(iterName.hasNext()) {
+			authorsList.add(authorService.findByNameAndSurname(iterName.next(), authorsSurnameList.get(count)));
+			count++;
+		}
+		
+		b.setAuthors(authorsList);
+		//Iterator<Author> iterAuthors = book.;
+		
+		return b;
 	}
 
 }

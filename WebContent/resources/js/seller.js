@@ -53,7 +53,7 @@ $(document).ready(function() {
 			processData: false
 		});
 	});
-
+	
 
 	function removerows(tablebody) {
 		var rows = tablebody.getElementsByTagName("tr");
@@ -95,13 +95,12 @@ $(document).ready(function() {
 		}
 	}
 
-	function change_select() {
-		var select = document.getElementById("numrows");
-		var index = select.selectedIndex
-		var n = parseInt(select.value);
-		var tablebody = document.getElementById("maintablebody");
-		removerows(tablebody);
-		addrows(tablebody, n);
-	}
-
+    function change_select () {
+	      var select = document.getElementById("numrows");
+	      var index = select.selectedIndex
+	      var n = parseInt(select.value);
+	      var tablebody = document.getElementById("maintablebody");
+	      removerows(tablebody);
+	      addrows(tablebody, n);
+	    }
 });

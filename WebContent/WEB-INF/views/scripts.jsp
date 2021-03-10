@@ -40,6 +40,7 @@
 <script type="text/javascript" src="${easing}"></script>
 <c:url value="/resources/js/active.js" var="active" />
 <script type="text/javascript" src="${active}"></script>
+<c:url value="/resources/js/seller.js" var="seller-change-select" />
 
 <!-- Url global variables -->
 <c:url value="/advanced_search" var="adv_search" />
