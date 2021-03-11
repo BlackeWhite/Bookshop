@@ -206,7 +206,7 @@ public class Bookform {
 	}
 
 	public Book bookformToBook(Bookform book, User seller, Set<Author> authorsList, Set<Genre> genreList,
-			Long book_id) {
+			Long book_id, Book bookNotUpdated) {
 		Book b = new Book();
 		b.setId(book_id);
 		b.setIsbn(book.getIsbn());
@@ -217,19 +217,19 @@ public class Bookform {
 		b.setSeller(seller);
 		b.setPages(book.getPages());
 		b.setSummary(book.getSummary());
-		// b.setCover(book.getCover().getOriginalFilename());
-		// if (b.getCover().isEmpty())
-		// b.setCover("bookcover-placeholder.png");
-		// Date date = new Date(Calendar.getInstance().getTime().getTime());
-		// b.setInsertdata(date);
-		// b.setClicked();
-		// b.setSoldCopies(0);
+		b.setCover(book.getCover().getOriginalFilename());
+		if (b.getCover().isEmpty())
+		 b.setCover("bookcover-placeholder.png");
 		b.setDiscount(((double) book.getDiscount()) / 100);
 		b.setRemoved(0);
 
 		b.setAuthors(authorsList);
 		b.setGenres(genreList);
 
+		b.setInsertdata(bookNotUpdated.getInsertdata());
+		b.setClicked(bookNotUpdated.getClicked());
+		b.setSoldCopies(bookNotUpdated.getSoldCopies());
+		
 		return b;
 	}
 

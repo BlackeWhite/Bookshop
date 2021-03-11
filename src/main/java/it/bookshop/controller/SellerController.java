@@ -212,14 +212,7 @@ public class SellerController {
 			Book bookCreated = this.bookService.create(book, seller);
 			// Dati per la vista del libro appena creato
 			Set<Author> authorSet = bookCreated.getAuthors();
-			// List<Author> authorsList =
-			// this.authorService.getAuthorsListFromSet(authorSet);
 			String message = "\"" + bookCreated.getTitle() + "\" aggiunto correttamente ";
-			// model.addAttribute("message", message);
-			// model.addAttribute("book", bookCreated);
-			// model.addAttribute("authorsList", authorsList);
-			// return "single_book";
-
 			redirectAttributes.addFlashAttribute("message", message);
 			redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
 			return "redirect:/seller/";
@@ -265,15 +258,14 @@ public class SellerController {
 	public String saveChangesBook(@ModelAttribute("bookToUpdate") @RequestBody @Valid Bookform bookChanged,
 			@PathVariable("book_id") Long book_id, Model model, final RedirectAttributes redirectAttributes,
 			Authentication authentication) {
-		// model.addAttribute("bookToUpdate",book);
-		// bookService.update(book);
+
 		Bookform bf = new Bookform();
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
-		
+		Book bookNotUpdated = bookService.findById(book_id);
 		Set<Author> authorsList = getListAuthors(bookChanged);
 		Set<Genre> genreList = getListGenres(bookChanged);
-		Book bookToUpdate = bf.bookformToBook(bookChanged, seller, authorsList, genreList, book_id);
+		Book bookToUpdate = bf.bookformToBook(bookChanged, seller, authorsList, genreList, book_id, bookNotUpdated);
 		
 		try{
 			bookService.update(bookToUpdate);
@@ -285,7 +277,10 @@ public class SellerController {
 		redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
 		return "redirect:/seller/";
 	}
-
+	
+	/*TODO->Aggiustare la vista della modifica, reindirizzamento pagine errore, modifica autore
+	 * 
+	 */
 	@GetMapping(value = "/remove_book/{book_id}")
 	public String removeBook(@PathVariable("book_id") Long book_id, Model model,
 			final RedirectAttributes redirectAttributes) {
@@ -327,6 +322,7 @@ public class SellerController {
 			String surname;
 			try {
 				surname = authorsSurnameList.get(count);
+				if(surname.isEmpty()) surname = "#SURNAME_PLACEHOLDER";
 			} catch(Exception e) {
 				surname = "#SURNAME_PLACEHOLDER";
 			}
