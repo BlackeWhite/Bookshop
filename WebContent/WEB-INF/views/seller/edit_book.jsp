@@ -17,7 +17,7 @@
 						<li class="active"><a href="<c:url value="/seller/"/>">Area
 								Personale - Venditore<i class="ti-arrow-right"></i>
 								<li class="active"><a
-									href="<c:url value="/seller/edit_book"/>">Modifica libro</a></li>
+									href="<c:url value="/seller/edit_book/${bookToUpdate.id}"/>">Modifica libro</a></li>
 						</a></li>
 					</ul>
 				</div>
@@ -52,9 +52,9 @@
 					<div class="col-12"></div>
 				</div>
 				<div class="row">
-					<c:url value="/seller/addition_book" var="book_action" />
+					<c:url value="/seller/save_changes/${bookToUpdate.id}" var="book_action" />
 					<form:form id="register-form" action="${book_action}"
-						modelAttribute="newBook" class="form" method="post"
+						modelAttribute="bookToUpdate" class="form" method="post"
 						enctype="multipart/form-data">
 						<script type="text/javascript">
 							function removerows(tablebody) {
@@ -224,9 +224,7 @@
 									<br>
 								</c:if>
 							</c:forEach>
-
 						</fieldset>
-
 						<br>
 						<fieldset>
 							<legend>Sconto sul libro</legend>

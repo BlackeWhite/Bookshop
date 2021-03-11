@@ -3,6 +3,7 @@ package it.bookshop.controller;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -45,7 +46,7 @@ import org.springframework.security.core.Authentication;
 @Controller
 @RequestMapping("/seller")
 public class SellerController {
-
+	
 	@Autowired
 	String appName;
 
@@ -141,12 +142,12 @@ public class SellerController {
 	@ResponseBody
 	public BookInfoResponse change_book(@RequestBody CartRequestBody reqBody, Authentication authentication) {
 
-		BookInfoResponse bresp = new BookInfoResponse(); 
+		BookInfoResponse bresp = new BookInfoResponse();
 		bresp.setBookID(reqBody.getBookID());
 
 		Book b = this.bookService.findById(reqBody.getBookID());
 		bresp.setTitle(b.getTitle());
-		bresp.setSoldcopies(b.getSoldCopies()); //copie vendute per quel libro
+		bresp.setSoldcopies(b.getSoldCopies()); // copie vendute per quel libro
 
 		List<BookOrder> listsoldbook = this.orderService.findbyId(reqBody.getBookID());
 		Iterator<BookOrder> iterbook = listsoldbook.iterator();
@@ -169,7 +170,8 @@ public class SellerController {
 		String data_da = reqBody.getArg2();
 		String data_a = reqBody.getArg3();
 
-		bresp = this.orderService.findbyDate(data_da, data_a); // calcolo dell'incasso totale in quql intervallo di tempo e delle copie vendute
+		bresp = this.orderService.findbyDate(data_da, data_a); // calcolo dell'incasso totale in quql intervallo di
+																// tempo e delle copie vendute
 
 		return bresp;
 
@@ -210,70 +212,23 @@ public class SellerController {
 			Book bookCreated = this.bookService.create(book, seller);
 			// Dati per la vista del libro appena creato
 			Set<Author> authorSet = bookCreated.getAuthors();
-			//List<Author> authorsList = this.authorService.getAuthorsListFromSet(authorSet);
+			// List<Author> authorsList =
+			// this.authorService.getAuthorsListFromSet(authorSet);
 			String message = "\"" + bookCreated.getTitle() + "\" aggiunto correttamente ";
-			//model.addAttribute("message", message);
-			//model.addAttribute("book", bookCreated);
-			//model.addAttribute("authorsList", authorsList);
-			//return "single_book";
-			
+			// model.addAttribute("message", message);
+			// model.addAttribute("book", bookCreated);
+			// model.addAttribute("authorsList", authorsList);
+			// return "single_book";
+
 			redirectAttributes.addFlashAttribute("message", message);
 			redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
 			return "redirect:/seller/";
-			
+
 		}
 	}
-/*
-	// mostra la form per la modifica di un libro
-	@GetMapping(value = "/editBook/{book_id}")
-	public String editBook(@PathVariable("book_id") Long book_id, Model model, Authentication authentication) {
-		// TODO -> PASSARE SEMPRE AL MODEL I GENERI
-		// AGGIUNGERE "IVA ESCLUSA" IN FASE DI INSERIMENTO DEL PRODOTTO
-		// TERMINARE LA PARTE DI MODIFICA
-		Book b_temp = this.bookService.findById(book_id);
-		String principal_name = authentication.getName();
-		User seller = userService.findUserByUsername(principal_name);
-		if (seller.getUserID() == b_temp.getSeller().getUserID()) { // controllo se è un suo libro, altrimenti non può modificarlo
-				
-		Bookform bf = new Bookform();
-
-		bf.populate(b_temp);
-
-		int i = 0;
-		List<String> gen = new ArrayList<String>();
-		List<String> authors = new ArrayList<String>();
-
-		List<Genre> allGenres = this.bookService.getAllGenres();
-		Iterator<Genre> iteGen = allGenres.iterator();
-
-		while (iteGen.hasNext()) {
-			gen.add(iteGen.next().getName());
-		}
-
-		List<Author> allAuthors = this.authorService.findAll();
-		Iterator<Author> iterAuthors = allAuthors.iterator();
-		while (iterAuthors.hasNext()) {
-			authors.add(iterAuthors.next().getFullName());
-		}
-
-		model.addAttribute("allGenres", allGenres);
-		model.addAttribute("genre", gen);
-		model.addAttribute("authors", authors);
-		model.addAttribute("i", i); // utilizzata come contatore nella vista
-		model.addAttribute("newBook", bf);
-		generalOperations(model);
-		return "edit_book";
-		}
-		else {
-			return "redirect:/seller/";
-		}
-
-	}
-	*/
-	
 
 	@GetMapping(value = "/edit_book/{book_id}")
-	public String editBookPage(@PathVariable("book_id") Long book_id, Model model) {
+	public String editBookPage(@PathVariable("book_id") Long book_id, Model model, Locale locale) {
 		Book b_temp = this.bookService.findById(book_id);
 		Bookform bf = new Bookform();
 
@@ -302,24 +257,38 @@ public class SellerController {
 		model.addAttribute("i", i); // utilizzata come contatore nella vista
 		model.addAttribute("bookToUpdate", bf);
 		generalOperations(model);
-		
-		return "edit_book/{book_id}";
+
+		return "edit_book";
 	}
-	
-	@PostMapping(value="/save_changes/{book_id}")
-	public String saveChangesBook(@ModelAttribute("bookToUpdate") @RequestBody @Valid Bookform bookChanged,@PathVariable("book_id") Long book_id, Model model, final RedirectAttributes redirectAttributes, Authentication authentication) {
-		//model.addAttribute("bookToUpdate",book);
-		//bookService.update(book);
+
+	@PostMapping(value = "/save_changes/{book_id}")
+	public String saveChangesBook(@ModelAttribute("bookToUpdate") @RequestBody @Valid Bookform bookChanged,
+			@PathVariable("book_id") Long book_id, Model model, final RedirectAttributes redirectAttributes,
+			Authentication authentication) {
+		// model.addAttribute("bookToUpdate",book);
+		// bookService.update(book);
+		Bookform bf = new Bookform();
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
-		//Book bookToUpdate = bookService.findById(bookChanged, seller);
 		
-		redirectAttributes.addFlashAttribute("message2", "Dati modificati correttamente!");
+		Set<Author> authorsList = getListAuthors(bookChanged);
+		Set<Genre> genreList = getListGenres(bookChanged);
+		Book bookToUpdate = bf.bookformToBook(bookChanged, seller, authorsList, genreList, book_id);
+		
+		try{
+			bookService.update(bookToUpdate);
+			redirectAttributes.addFlashAttribute("message", "Dati modificati correttamente!");
+		} catch(Exception e) {
+			redirectAttributes.addFlashAttribute("message", "Mi dispiace, qualcosa è andato storto!");
+		}
+		
 		redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
-		return "redirect:/seller/edit_book/{book_id}";
+		return "redirect:/seller/";
 	}
+
 	@GetMapping(value = "/remove_book/{book_id}")
-	public String removeBook(@PathVariable("book_id") Long book_id, Model model, final RedirectAttributes redirectAttributes) {
+	public String removeBook(@PathVariable("book_id") Long book_id, Model model,
+			final RedirectAttributes redirectAttributes) {
 		Book removedBook = this.bookService.findById(book_id);
 		try {
 			this.bookService.removeBook(book_id);
@@ -330,7 +299,7 @@ public class SellerController {
 					+ "\" non è stato rimosso correttamente ";
 			redirectAttributes.addFlashAttribute("message", message);
 		}
-		
+
 		redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
 		return "redirect:/seller/";
 	}
@@ -342,6 +311,49 @@ public class SellerController {
 		model.addAttribute("allGenres", allGenres);
 		model.addAttribute("appName", appName);
 
+	}
+	
+	private Set<Author> getListAuthors(Bookform book) {
+		
+		Set<Author> authorsList = new HashSet<Author>();
+		
+		List<String> authorsNameList = book.getAuthorsName();
+		List<String> authorsSurnameList = book.getAuthorsSurname();
+
+		int count = 0;
+		Iterator<String> iterName = authorsNameList.iterator();
+		while (iterName.hasNext()) {
+			String name = iterName.next();
+			String surname;
+			try {
+				surname = authorsSurnameList.get(count);
+			} catch(Exception e) {
+				surname = "#SURNAME_PLACEHOLDER";
+			}
+			try {
+				Author author = authorService.findByNameAndSurname(name, surname);
+				if(author == null) {
+					authorService.create(name, surname);
+					author = authorService.findByNameAndSurname(name, surname);
+				}
+				authorsList.add(author);
+			} catch (Exception e) {
+				authorService.create(name, surname);
+				Author author = authorService.findByNameAndSurname(name, surname);
+				authorsList.add(author);
+			}
+			count++;
+		}
+		
+		return authorsList;
+		
+	}
+	
+	private Set<Genre> getListGenres(Bookform book){
+		List<String> genreBookFormList = book.getGenre();
+		List<Genre> genreList = bookService.findGenresFromNamesArray(genreBookFormList);
+		Set<Genre> genreSet = new HashSet<>(genreList);
+		return genreSet;
 	}
 
 }

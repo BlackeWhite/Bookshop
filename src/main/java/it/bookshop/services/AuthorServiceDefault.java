@@ -46,7 +46,7 @@ public class AuthorServiceDefault implements AuthorService {
     // vedere se serve 
 	@Override
 	public Author create(String name, String surname) {
-		return authorRepository.create(name, surname, null, null, null, null);
+		return authorRepository.create(name, surname);
 	}
 
 	@Override

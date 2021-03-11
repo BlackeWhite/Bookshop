@@ -66,7 +66,7 @@
 																class="fa fa-remove"> RIMUOVI </i></a>
 														</button>
 														<button bookId="${sellerBooks.id}" class="remove-book">
-															<a href="<c:url value="/seller/editBook/${sellerBooks.id}"/>"><i
+															<a href="<c:url value="/seller/edit_book/${sellerBooks.id}"/>"><i
 																class="fa fa-remove">MODIFICA</i></a>
 														</button>
 													</div>
