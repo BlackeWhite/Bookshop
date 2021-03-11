@@ -38,12 +38,6 @@ public class OrderServiceDefault implements OrderService {
 		return orderRepository.findById(id);
 	}
 
-	@Override
-	public Order create(User buyer, String shipmentAddress, String payment) {
-		double shipmentCost = 5;
-		LocalDateTime date = LocalDateTime.now();
-		return orderRepository.create(buyer, date, shipmentAddress, payment, shipmentCost);
-	}
 	
 	//check usage 
 	/*

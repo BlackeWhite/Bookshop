@@ -14,11 +14,6 @@ public interface OrderService {
 	
 	public Order findById(Long id);
 	
-	public Order create(User buyer, String shipmentAddress, String payment);
-	
-	//If user purchases directly from the book page/mini page
-	//TODO delete some unused create functions
-	//public Order createFromDirectPurchase(User buyer, Book book, int copies);
 	//If user buys from shopping cart page
 	public Order createFromShoppingCart(Long userId, String shipmentAdress, String payment, Coupon coupon);
 	

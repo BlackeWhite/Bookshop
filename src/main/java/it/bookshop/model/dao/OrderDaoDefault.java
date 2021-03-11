@@ -25,17 +25,6 @@ public class OrderDaoDefault extends DefaultDao implements OrderDao {
 		return getSession().find(Order.class, id);
 	}
 
-	@Override
-	public Order create(User buyer, LocalDateTime date, String shipmentAddress, String payment, double shipmentCost) {
-		Order p = new Order();
-		p.setBuyer(buyer);
-		p.setDate(date);
-		p.setShipmentAddress(shipmentAddress);
-		p.setPayment(payment);
-		p.setTotalExpense(buyer.getCartTotalPrice() + shipmentCost);
-		getSession().save(p);
-		return p;
-	}
 
 	@Override
 	public Order create(User buyer, LocalDateTime date, Set<BookOrder> books, String shipmentAddress, String payment, double shipmentCost) {
