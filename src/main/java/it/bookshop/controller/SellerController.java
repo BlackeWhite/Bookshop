@@ -384,6 +384,11 @@ public class SellerController {
 	/*----------------------End Seller Author List----------------------*/
 	
 	
+	/*----------------------Edit Author----------------------*/
+	
+	/*----------------------End Edit Author----------------------*/
+	
+	
 	/*----------------------Utilities----------------------*/
 	private void generalOperations(Model model) {
 		/*
