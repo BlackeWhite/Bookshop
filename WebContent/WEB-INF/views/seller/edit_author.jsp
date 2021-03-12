@@ -63,10 +63,10 @@
 						<legend> Modifica Autore  </legend>
 								<br>
 								<form:label path="title"><b>Nome dell'autore</b></form:label>
-								<form:input required="required" placeholder="Nome" type="text" path="authorsName" id="authorsName" class = "inputview"/>
+								<form:input required="required" placeholder="Nome" type="text" path="name" id="authorsName" class = "inputview"/>
 								<br>
 								<form:label path="title"><b>Cognome dell'autore</b></form:label>
-						        <form:input placeholder="Cognome" type="text" path="authorsSurname" id="authorsSurname" class = "inputview"/>
+						        <form:input placeholder="Cognome" type="text" path="surname" id="surname" class = "inputview"/>
 						        <br>
 						        <br>
 						        <form:label path="title"><b>Data di nascita dell'autore</b></form:label>
@@ -79,13 +79,13 @@
 						        <br>
 						        <br>
 							    <form:label path="title"><b>Breve biografia dell'autore</b></form:label> <br>
-								<form:textarea placeholder="Breve descrizione del libro" path="summary" id="summary" maxlength="250" rows="4" cols="50" />
-								<form:errors path="summary" cssClass="validation-error" />
+								<form:textarea placeholder="Biografia dell'autore" path="biography" id="biography" maxlength="250" rows="4" cols="50" />
+								<form:errors path="biography" cssClass="validation-error" />
 								<br>
 								<br>
 								<form:label path="cover"><b>Carica la foto dell'autore</b></form:label></td>
-                                <form:input type="file" name="cover" path="cover" class = "inputview"/>
-								<form:errors path="cover" cssClass="validation-error" />
+                                <form:input type="file" name="photo" path="photo" class = "inputview"/>
+								<form:errors path="photo" cssClass="validation-error" />
 								<br>
 							</fieldset>
 						<br>
