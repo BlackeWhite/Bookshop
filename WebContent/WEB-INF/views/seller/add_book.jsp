@@ -194,6 +194,7 @@
 						<br>
 						<br>
 				 <button type="submit" name="submit" class="btn with-pass-conf">Inserisci Libro </button>
+				 <a href="<c:url value="/seller/"/>" >Annulla </a>
 					</form:form>
 				</div>
 			</div>

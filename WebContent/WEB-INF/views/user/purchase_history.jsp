@@ -59,9 +59,17 @@
 												<h4>
 													<a href="<c:url value="/show_book/${bookOrder.book.id}"/>">${bookOrder.book.title}</a>
 												</h4>
-												<span class="field">Autori: </span> <span> <c:forEach
-														items="${bookOrder.book.authors}" var="author">
-												- ${author.fullName} 
+												<span class="field">Autori: </span> <span> 
+												<c:forEach items="${bookOrder.book.authors}" var="author">  
+												
+												<c:if test="${author.surname != '#SURNAME_PLACEHOLDER'}">
+														<a href="<c:url value="/show_author/${author.id}"/>">
+																			- ${author.name} ${author.surname}</a>
+												</c:if>
+												<c:if test="${author.surname == '#SURNAME_PLACEHOLDER'}">
+														<a href="<c:url value="/show_author/${author.id}"/>">
+																			- ${author.name}</a>
+												</c:if>
 												</c:forEach>
 												</span> <br> <span class="field">Data di pubblicazione:
 												</span> <span>${bookOrder.book.publish}</span>
