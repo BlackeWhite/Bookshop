@@ -66,6 +66,10 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 		else {
 			a.setSurname(surname);
 		}
+		try {
+			if (this.getSession().createQuery("FROM Author a WHERE a.name = :name and a.surname = :surname", Author.class).setParameter("name", name).setParameter("surname", surname).getSingleResult() != null) {
+			throw new RuntimeException("Already added author"); }
+		} catch (NoResultException e){};
 		a.setPhoto("profile-placeholder.png");
 		getSession().save(a);
 		return a;

@@ -1,6 +1,9 @@
 package it.bookshop.model.Object_form;
 
 public class BookInfoResponse {
+	/*
+	 * classe utilizzata nelle richieste ajax della sezione di analisi delle vendite del venditore	 
+	 */
 
 		private String operation;
 		private long bookID;

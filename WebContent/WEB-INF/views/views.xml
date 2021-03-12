@@ -92,5 +92,8 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/info_pages/faq.jsp" />
 	</definition>
-	
+	<definition extends="default" name="authors_seller">
+		<put-attribute name="body"
+			value="/WEB-INF/views/seller/authors_seller.jsp"/>
+	</definition>
 </tiles-definitions>

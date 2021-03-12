@@ -35,7 +35,6 @@
 						<c:url value="/seller/addition_book" var="addition_book" />
 						<li><a href="${addition_book}"> Aggiungi un libro in
 								vendita </a></li>
-						<li><a href="<c:url value="/seller/authors_seller"/>"> Modifica i dati di un autore </a></li>
 						<li><a href="<c:url value="/seller/analysis_book"/>">Analisi
 								delle vendite</a></li>
 						<li><a href="<c:url value="/account"/>"> Modifica dati
@@ -147,7 +146,7 @@
 								</c:when>
 								<c:otherwise>
 									<div class="title">
-										<h1>Non hai nessun libro in vendita</h1>
+										<h1>Nessun autore legato al tuo account</h1>
 										<c:url value="/seller/addition_book" var="addition_book" />
 										<a href="${addition_book}">
 											<h2>Aggiungi un libro in vendita</h2>
