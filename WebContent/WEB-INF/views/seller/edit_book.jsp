@@ -88,6 +88,7 @@
 									input.setAttribute("placeholder", "Nome");
 									input.setAttribute("type", "text");
 									input.setAttribute("required", "required");
+
 									;
 									//input.setAttribute("class", "inputview");
 
@@ -109,6 +110,7 @@
 							}
 
 							function change_select() {
+								var numAuthorse = $("#numAuthor").data("numAuthor");
 								var select = document.getElementById("numrows");
 								var index = select.selectedIndex
 								var n = parseInt(select.value);
@@ -118,6 +120,8 @@
 								addrows(tablebody, n);
 							}
 						</script>
+						<input id="numAuthor" type="hidden" data-numAuthor="${numAuthor}"/>
+
 
 						<legend>Autore/i del libro</legend>
 						<br>
@@ -133,15 +137,25 @@
 						<table id="maintable">
 							<tbody id="maintablebody">
 								<tr>
+								<c:forEach items = "${authorsName}" var = "name">
 									<td><form:label path="title">
-											<b>Autore 1</b>
+											<b>Autore </b>
 										</form:label></td>
 									<td><form:input required="required" placeholder="Nome"
 											type="text" path="authorsName" id="authorsName"
-											class="inputview" /></td>
-									<td><form:input placeholder="Cognome" type="text"
-											path="authorsSurname" id="authorsSurname" class="inputview" /></td>
+											class="inputview" value = "${name}"/></td>
+									<td> 
+									<c:if test="${authorsSurname.get(numAuthor) != '#SURNAME_PLACEHOLDER'}">
+										<form:input placeholder="Cognome" type="text"
+											path="authorsSurname" id="authorsSurname" class="inputview" value = "${authorsSurname.get(numAuthor)}"/></td>
+									</c:if>
+									<c:if test="${authorsSurname.get(numAuthor) == '#SURNAME_PLACEHOLDER'}">
+										<form:input placeholder="Cognome" type="text"
+											path="authorsSurname" id="authorsSurname" class="inputview" value ="" /></td>
+									</c:if>
 								</tr>
+								<p hidden>${numAuthor = numAuthor+1}</p>
+								</c:forEach>
 							</tbody>
 						</table>
 						<fieldset>
@@ -170,7 +184,7 @@
 							<form:errors path="copies" cssClass="validation-error" />
 							<br> <br>
 							<form:label path="title">
-								<b>Prezzo del libro</b>
+								<b>Prezzo del libro (senza IVA)</b>
 							</form:label>
 							<span>&euro;</span>
 							<form:input type="number" min="0.01" step="0.01" max="2500"
@@ -191,12 +205,34 @@
 								id="publish" class="inputview" />
 							<form:errors path="publish" cssClass="validation-error" />
 							<br> <br>
+							<!-- 
+							<style>
+								img {
+								  border: 1px solid #ddd; /* Gray border */
+								  border-radius: 4px;  /* Rounded border */
+								  padding: 5px; /* Some padding */
+								  width: 150px; /* Set a small width */
+								}
+								
+								/* Add a hover effect (blue shadow) */
+								img:hover {
+								  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+							}
+							</style>
+							<form:label path="cover">
+								<b>Vecchia copertina</b>
+							</form:label>
+							<a>
+							  <img src="<c:url value="/resources/img/cover_book/${bookToUpdate.cover}"/>"  alt="Cover-preview">
+							</a>
+							<br> <br>
+							 -->
 							<form:label path="cover">
 								<b>Cambia la copertina del libro</b>
 							</form:label>
 							</td>
 							<form:input type="file" name="cover" path="cover"
-								class="inputview" />
+								class="inputview"/>
 							<form:errors path="cover" cssClass="validation-error" />
 							<!-- TO-DO manca upload quando si modifca un libro  -->
 							<br> <br>

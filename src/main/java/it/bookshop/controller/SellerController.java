@@ -229,7 +229,6 @@ public class SellerController {
 
 		int i = 0;
 		List<String> gen = new ArrayList<String>();
-		List<String> authors = new ArrayList<String>();
 
 		List<Genre> allGenres = this.bookService.getAllGenres();
 		Iterator<Genre> iteGen = allGenres.iterator();
@@ -237,20 +236,48 @@ public class SellerController {
 		while (iteGen.hasNext()) {
 			gen.add(iteGen.next().getName());
 		}
-
-		List<Author> allAuthors = this.authorService.findAll();
-		Iterator<Author> iterAuthors = allAuthors.iterator();
-		while (iterAuthors.hasNext()) {
-			authors.add(iterAuthors.next().getFullName());
-		}
-
+		
+		Book book_prova = bookService.findById(book_id);
+		List<Author> authors = new ArrayList<Author>(book_prova.getAuthors());
+		Iterator<Author> autIter = authors.iterator();
+		List<String> authorsName = new ArrayList<>();
+		List<String> authorsSurname = new ArrayList<>();
+		String name;
+		String surname;
+		int n = authors.size(); 
+		for(int j=0; j<n; j++) {
+			name = authors.get(j).getName();
+			try {
+				surname = authors.get(j).getSurname();
+			} catch (Exception e) {
+				surname = "#SURNAME_PLACEHOLDER";
+			}
+			authorsName.add(name);
+			authorsSurname.add(surname);
+			
+		}/*
+		while(autIter.hasNext()) {
+			name = autIter.next().getName();
+			try {
+				surname = autIter.next().getSurname();
+			} catch (Exception e) {
+				surname = "#SURNAME_PLACEHOLDER";
+			}
+			authorsName.add(name);
+			authorsSurname.add(surname);
+		}*/
+		
+		int numAuthor = 0;
 		model.addAttribute("allGenres", allGenres);
 		model.addAttribute("genre", gen);
+		model.addAttribute("authorsName", authorsName);
 		model.addAttribute("authors", authors);
+		model.addAttribute("authorsSurname", authorsSurname);
+		model.addAttribute("prova", authorsName.get(0));
+		model.addAttribute("numAuthor", numAuthor);
 		model.addAttribute("i", i); // utilizzata come contatore nella vista
 		model.addAttribute("bookToUpdate", bf);
 		generalOperations(model);
-
 		return "edit_book";
 	}
 
@@ -266,7 +293,6 @@ public class SellerController {
 		Set<Author> authorsList = getListAuthors(bookChanged);
 		Set<Genre> genreList = getListGenres(bookChanged);
 		Book bookToUpdate = bf.bookformToBook(bookChanged, seller, authorsList, genreList, book_id, bookNotUpdated);
-		
 		try{
 			bookService.update(bookToUpdate);
 			redirectAttributes.addFlashAttribute("message", "Dati modificati correttamente!");

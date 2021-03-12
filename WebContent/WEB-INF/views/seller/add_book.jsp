@@ -145,7 +145,7 @@
 								<form:errors path="copies" cssClass="validation-error" />
 								<br>
 								<br>
-						    	<form:label path="title"><b>Prezzo del libro</b></form:label>
+						    	<form:label path="title"><b>Prezzo del libro (senza IVA)</b></form:label>
 								<span>&euro;</span><form:input type="number" min="0.01" step="0.01" max="2500" required="required" path="price" id="price" class = "inputview" />
 								<form:errors path="price" cssClass="validation-error" />
 								<br>

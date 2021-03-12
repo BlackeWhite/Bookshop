@@ -207,8 +207,8 @@ public class Book implements Serializable {
 		this.seller = seller;
 	}
 
-	// author
-	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH,
+	// author , CascadeType.MERGE <-- dava problemi in fase di modifica del libro lasciando lo stesso autore
+	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.REFRESH,
 			CascadeType.PERSIST }, fetch = FetchType.EAGER)
 	@JoinTable(name = "BOOK_AUTHORS", joinColumns = @JoinColumn(name = "BOOK", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "AUTHOR", referencedColumnName = "ID"))
 	public Set<Author> getAuthors() {

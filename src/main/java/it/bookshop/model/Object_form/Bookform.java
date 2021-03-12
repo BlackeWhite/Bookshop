@@ -217,7 +217,8 @@ public class Bookform {
 		b.setSeller(seller);
 		b.setPages(book.getPages());
 		b.setSummary(book.getSummary());
-		b.setCover(book.getCover().getOriginalFilename());
+		if(book.getCover().getOriginalFilename().isEmpty()) 
+			b.setCover(bookNotUpdated.getCover());
 		if (b.getCover().isEmpty())
 		 b.setCover("bookcover-placeholder.png");
 		b.setDiscount(((double) book.getDiscount()) / 100);

@@ -105,7 +105,7 @@
 														</div>
 														<div class="col price-data">
 															<span class="field">Copie:</span> <span>
-																${sellerBooks.copies}</span> <br> <span class="field">Prezzo:</span>
+																${sellerBooks.copies}</span> <br> <span class="field">Prezzo (con IVA):</span>
 															<span>${sellerBooks.formattedPrice}</span>
 														</div>
 													</div>
