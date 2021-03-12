@@ -88,5 +88,8 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/info_pages/about_us.jsp" />
 	</definition>
-	
+	<definition extends="default" name="authors_seller">
+		<put-attribute name="body"
+			value="/WEB-INF/views/seller/authors_seller.jsp"/>
+	</definition>
 </tiles-definitions>

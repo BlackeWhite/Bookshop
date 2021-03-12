@@ -8,7 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -86,7 +87,33 @@ public class SellerController {
 		model.addAttribute("allGenres", allGenres);
 		return "home_seller";
 	}
+	
+	@RequestMapping(value = "/authors_seller", method = RequestMethod.GET)
+	public String authorsPerSeller(@RequestParam(required = false) Integer page, Locale locale, Model model,
+			Authentication authentication) {
+		
+		String principal_name = authentication.getName();
+		User seller = userService.findUserByUsername(principal_name);
 
+		// PAGINAZIONE
+		List<Author> authorsPerSeller = findAuthorPerSeller(seller);
+		PagedListHolder<Author> pagedListHolder = new PagedListHolder<>(authorsPerSeller);
+		pagedListHolder.setPageSize(5);
+
+		if (page == null || page < 1 || page > pagedListHolder.getPageCount())
+			page = 1;
+
+		pagedListHolder.setPage(page - 1);
+
+		model.addAttribute("authorsPerSeller", pagedListHolder.getPageList());
+		model.addAttribute("maxPages", pagedListHolder.getPageCount());
+		model.addAttribute("page", page);
+
+		List<Genre> allGenres = bookService.getAllGenres();
+		model.addAttribute("allGenres", allGenres);
+		return "authors_seller";
+	}
+	
 	// procedura (get) per l'aggiunta di un libro
 	@GetMapping(value = "/addition_book")
 	public String additionBooK(@RequestParam(value = "error", required = false) Locale locale, Model model) {
@@ -261,17 +288,7 @@ public class SellerController {
 			authorsName.add(name);
 			authorsSurname.add(surname);
 			
-		}/*
-		while(autIter.hasNext()) {
-			name = autIter.next().getName();
-			try {
-				surname = autIter.next().getSurname();
-			} catch (Exception e) {
-				surname = "#SURNAME_PLACEHOLDER";
-			}
-			authorsName.add(name);
-			authorsSurname.add(surname);
-		}*/
+		}
 		
 		int numAuthor = 0;
 		model.addAttribute("allGenres", allGenres);
@@ -402,6 +419,19 @@ public class SellerController {
 		List<Genre> genreList = bookService.findGenresFromNamesArray(genreBookFormList);
 		Set<Genre> genreSet = new HashSet<>(genreList);
 		return genreSet;
+	}
+	
+	public List<Author> findAuthorPerSeller(User seller){
+		List <Book> sellerBooks = bookService.findAllBookSoldOfSeller(seller);
+		Set<Author> authorSet = new HashSet<>();
+		
+		Iterator<Book> iterBook = sellerBooks.iterator();
+		while(iterBook.hasNext()) {
+			Set<Author> currAuthors = iterBook.next().getAuthors();
+			authorSet.addAll(currAuthors);
+		}
+		List<Author> authorList = new ArrayList<>(authorSet);
+		return authorList;
 	}
 
 }
