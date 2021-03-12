@@ -88,5 +88,9 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/info_pages/about_us.jsp" />
 	</definition>
+	<definition extends="default" name="faq">
+		<put-attribute name="body"
+			value="/WEB-INF/views/info_pages/faq.jsp" />
+	</definition>
 	
 </tiles-definitions>

@@ -1,4 +1,5 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- Start Footer Area -->
 	<footer class="footer">
 		<!-- Footer Top -->
@@ -15,12 +16,11 @@
 					<div class="col-lg-2 col-md-6 col-12">
 						<!-- Single Widget -->
 						<div class="single-footer links">
-							<h4>Information</h4>
+							<h4>Informationi</h4>
 							<ul>
-								<li><a href="#">About Us</a></li>
-								<li><a href="#">Faq</a></li>
-								<li><a href="#">Terms & Conditions</a></li>
-								<li><a href="#">Contact Us</a></li>
+								<li><a href="<c:url value='/about_us'/>">Chi siamo</a></li>
+								<li><a href="<c:url value='/faq'/>">Faq</a></li>
+								<li><a href="#">Termini & Conditizioni</a></li>
 								<li><a href="#">Help</a></li>
 							</ul>
 						</div>
@@ -29,11 +29,11 @@
 					<div class="col-lg-2 col-md-6 col-12">
 						<!-- Single Widget -->
 						<div class="single-footer links">
-							<h4>Customer Service</h4>
+							<h4>Servizio clienti</h4>
 							<ul>
-								<li><a href="#">Payment Methods</a></li>
-								<li><a href="#">Money-back</a></li>
-								<li><a href="#">Shipping</a></li>
+								<li><a href="#">Metodi di pagamento</a></li>
+								<li><a href="#">Rimborsi</a></li>
+								<li><a href="#">Spedizioni</a></li>
 							</ul>
 						</div>
 						<!-- End Single Widget -->

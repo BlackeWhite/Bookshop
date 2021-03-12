@@ -244,4 +244,22 @@ public class HomeController {
 		}
 		return "about_us";
 	}
+	
+	@GetMapping(value = "/faq")
+	public String faq(Model model, Authentication authentication) {
+		
+		List<Genre> allGenres = bookService.getAllGenres();
+		model.addAttribute("allGenres", allGenres); //Da qui sono presi anche i generi della navbar
+		
+		//Mini carrello
+		if(authentication != null) {
+			String principal_name = authentication.getName();
+			User user = userService.findUserByUsername(principal_name);
+			List<ShoppingCart> user_cart = new ArrayList<ShoppingCart>(user.getShoppingCart());
+			model.addAttribute("user_cart", user_cart);
+			model.addAttribute("cartTotalPrice", user.getFormattedCartSubtotalPrice());
+			model.addAttribute("cartTotalItems", user.getCartTotalItems());
+		}
+		return "faq";
+	}
 }
