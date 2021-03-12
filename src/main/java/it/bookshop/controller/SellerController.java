@@ -124,13 +124,14 @@ public class SellerController {
 		User seller = userService.findUserByUsername(principal_name);
 
 		List<Book> lbooksold = bookService.findAllBookSoldOfSeller(seller);
+		// analisi totale di tutti i libri venduti
 		Iterator<Book> boit = lbooksold.iterator();
 		int copies = 0;
 		while (boit.hasNext()) {
-			copies += boit.next().getSoldCopies();
+			copies += boit.next().getSoldCopies();  // calcolo di tutte le copie vendute per ogni libro
 		}
-		double totearn = Math.round(this.orderService.TotalEarn(lbooksold) * 100.0) / 100.0;
-		;
+		double totearn = Math.round(this.orderService.TotalEarn(lbooksold) * 100.0) / 100.0; // incasso totale di tutti i libri venduti 
+		
 		model.addAttribute("listbook", lbooksold);
 		model.addAttribute("totearn", totearn);
 		model.addAttribute("totcopies", copies);
@@ -138,7 +139,7 @@ public class SellerController {
 		return "analysis_book";
 	}
 
-	@PostMapping(value = "/change_book")
+	@PostMapping(value = "/change_book") // informazioni su incasso e copie vednute di un partciolare libro(ajax)
 	@ResponseBody
 	public BookInfoResponse change_book(@RequestBody CartRequestBody reqBody, Authentication authentication) {
 
@@ -162,7 +163,7 @@ public class SellerController {
 
 	}
 
-	@PostMapping(value = "/range_data")
+	@PostMapping(value = "/range_data")  // informazioni su incasso e copie vednute in un intervallo di tempo(ajax)
 	@ResponseBody
 	public BookInfoResponse range_data(@RequestBody CartRequestBody reqBody, Authentication authentication) {
 
@@ -170,9 +171,8 @@ public class SellerController {
 		String data_da = reqBody.getArg2();
 		String data_a = reqBody.getArg3();
 
-		bresp = this.orderService.findbyDate(data_da, data_a); // calcolo dell'incasso totale in quql intervallo di
+		bresp = this.orderService.findbyDate(data_da, data_a); // calcolo dell'incasso totale in quel intervallo di
 																// tempo e delle copie vendute
-
 		return bresp;
 
 	}

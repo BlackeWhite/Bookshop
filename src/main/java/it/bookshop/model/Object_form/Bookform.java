@@ -2,8 +2,6 @@ package it.bookshop.model.Object_form;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -39,8 +37,8 @@ public class Bookform {
 	private Date insertdata;
 	private int pages;
 	private int discount; // se al libro è applicato uno sconto
-	private String summary; // short synthesis for book preview
-	private MultipartFile cover; // file name of cover image
+	private String summary; // descrizione del libro
+	private MultipartFile cover; // immagine contenente la copertina del libro
 	private String cover_name;
 
 	@Autowired

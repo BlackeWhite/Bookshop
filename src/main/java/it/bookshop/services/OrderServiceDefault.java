@@ -142,7 +142,7 @@ public class OrderServiceDefault implements OrderService {
 	}
 	
 	public BookInfoResponse findbyDate(String data_da, String data_a) {
-		// calcolo l'incasso totale e le copie vendute per un intervallo temporale
+		// calcolo l'incasso totale e le copie vendute per un intervallo di tempo
 		
 		BookInfoResponse bresp = new BookInfoResponse();
 		List<BookOrder> lo = new ArrayList<BookOrder>();
