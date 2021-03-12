@@ -57,7 +57,12 @@
 												<img
 													src="<c:url value="/resources/img/cover_book/${bookOrder.book.cover}"/>" />
 												<h4>
+												<c:if test="${bookOrder.book.removed != 1}"> 
 													<a href="<c:url value="/show_book/${bookOrder.book.id}"/>">${bookOrder.book.title}</a>
+												</c:if>
+												<c:if test="${bookOrder.book.removed == 1}"> 
+													<a href="">${bookOrder.book.title} (Non più disponibile)</a>
+												</c:if>
 												</h4>
 												<span class="field">Autori: </span> <span> 
 												<c:forEach items="${bookOrder.book.authors}" var="author">  
