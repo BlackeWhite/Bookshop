@@ -221,8 +221,14 @@ public class SellerController {
 	}
 
 	@GetMapping(value = "/edit_book/{book_id}")
-	public String editBookPage(@PathVariable("book_id") Long book_id, Model model, Locale locale) {
+	public String editBookPage(@PathVariable("book_id") Long book_id, Model model, Locale locale,Authentication authentication) {
 		Book b_temp = this.bookService.findById(book_id);
+		String principal_name = authentication.getName();
+		User seller = userService.findUserByUsername(principal_name);
+		
+		try {
+			if (seller.getUserID() == b_temp.getSeller().getUserID()) { // verifico che il ibro che si sta modificando sia di proprietà di quel venditore
+			
 		Bookform bf = new Bookform();
 
 		bf.populate(b_temp);
@@ -279,6 +285,13 @@ public class SellerController {
 		model.addAttribute("bookToUpdate", bf);
 		generalOperations(model);
 		return "edit_book";
+			}
+			else { // se non è così non gli permetto la modifica e lo reindirizzo alla sua home
+			return "redirect:/seller/";
+			}
+		} catch(Exception e) {
+			return "redirect:/seller/";
+		}
 	}
 
 	@PostMapping(value = "/save_changes/{book_id}")
@@ -308,9 +321,15 @@ public class SellerController {
 	 * 
 	 */
 	@GetMapping(value = "/remove_book/{book_id}")
-	public String removeBook(@PathVariable("book_id") Long book_id, Model model,
+	public String removeBook(@PathVariable("book_id") Long book_id, Model model,Authentication authentication,
 			final RedirectAttributes redirectAttributes) {
+		
 		Book removedBook = this.bookService.findById(book_id);
+		String principal_name = authentication.getName();
+		User seller = userService.findUserByUsername(principal_name);
+		try {
+			if (seller.getUserID() == removedBook.getSeller().getUserID()) { // verifico che il ibro che si sta eliminando sia di proprietà di quel venditore
+	
 		try {
 			this.bookService.removeBook(book_id);
 			String message = "\"" + removedBook.getTitle() + "\" rimosso correttamente";
@@ -323,6 +342,13 @@ public class SellerController {
 
 		redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
 		return "redirect:/seller/";
+		}
+			else { // se non è così non gli permetto la cancellazione e lo reindirizzo alla sua home
+				return "redirect:/seller/";
+				}
+			} catch(Exception e) {
+					return "redirect:/seller/";
+				}
 	}
 
 	// Adds attributes used in almost all requests
