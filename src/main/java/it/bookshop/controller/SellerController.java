@@ -62,7 +62,9 @@ public class SellerController {
 
 	@Autowired
 	private AuthorService authorService;
-
+	
+	
+	/*----------------------Seller Home----------------------*/
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(@RequestParam(required = false) Integer page, Locale locale, Model model,
 			Authentication authentication) {
@@ -87,33 +89,10 @@ public class SellerController {
 		model.addAttribute("allGenres", allGenres);
 		return "home_seller";
 	}
+	/*----------------------End Seller Home----------------------*/
 	
-	@RequestMapping(value = "/authors_seller", method = RequestMethod.GET)
-	public String authorsPerSeller(@RequestParam(required = false) Integer page, Locale locale, Model model,
-			Authentication authentication) {
-		
-		String principal_name = authentication.getName();
-		User seller = userService.findUserByUsername(principal_name);
 
-		// PAGINAZIONE
-		List<Author> authorsPerSeller = findAuthorPerSeller(seller);
-		PagedListHolder<Author> pagedListHolder = new PagedListHolder<>(authorsPerSeller);
-		pagedListHolder.setPageSize(5);
-
-		if (page == null || page < 1 || page > pagedListHolder.getPageCount())
-			page = 1;
-
-		pagedListHolder.setPage(page - 1);
-
-		model.addAttribute("authorsPerSeller", pagedListHolder.getPageList());
-		model.addAttribute("maxPages", pagedListHolder.getPageCount());
-		model.addAttribute("page", page);
-
-		List<Genre> allGenres = bookService.getAllGenres();
-		model.addAttribute("allGenres", allGenres);
-		return "authors_seller";
-	}
-	
+	/*----------------------Add New Book----------------------*/
 	// procedura (get) per l'aggiunta di un libro
 	@GetMapping(value = "/addition_book")
 	public String additionBooK(@RequestParam(value = "error", required = false) Locale locale, Model model) {
@@ -143,67 +122,7 @@ public class SellerController {
 		generalOperations(model);
 		return "add_book";
 	}
-
-	// analisi di un libro
-	@GetMapping(value = "/analysis_book")
-	public String analysisBook(Model model, Authentication authentication) {
-		String principal_name = authentication.getName();
-		User seller = userService.findUserByUsername(principal_name);
-
-		List<Book> lbooksold = bookService.findAllBookSoldOfSeller(seller);
-		// analisi totale di tutti i libri venduti
-		Iterator<Book> boit = lbooksold.iterator();
-		int copies = 0;
-		while (boit.hasNext()) {
-			copies += boit.next().getSoldCopies();  // calcolo di tutte le copie vendute per ogni libro
-		}
-		double totearn = Math.round(this.orderService.TotalEarn(lbooksold) * 100.0) / 100.0; // incasso totale di tutti i libri venduti 
-		
-		model.addAttribute("listbook", lbooksold);
-		model.addAttribute("totearn", totearn);
-		model.addAttribute("totcopies", copies);
-		generalOperations(model);
-		return "analysis_book";
-	}
-
-	@PostMapping(value = "/change_book") // informazioni su incasso e copie vednute di un partciolare libro(ajax)
-	@ResponseBody
-	public BookInfoResponse change_book(@RequestBody CartRequestBody reqBody, Authentication authentication) {
-
-		BookInfoResponse bresp = new BookInfoResponse();
-		bresp.setBookID(reqBody.getBookID());
-
-		Book b = this.bookService.findById(reqBody.getBookID());
-		bresp.setTitle(b.getTitle());
-		bresp.setSoldcopies(b.getSoldCopies()); // copie vendute per quel libro
-
-		List<BookOrder> listsoldbook = this.orderService.findbyId(reqBody.getBookID());
-		Iterator<BookOrder> iterbook = listsoldbook.iterator();
-
-		// calcolo incasso totale
-		double sum = this.orderService.TotalEarnforBook(reqBody.getBookID());
-
-		double sumapprox = Math.round(sum * 100.0) / 100.0;
-		bresp.setTotearn(sumapprox);
-
-		return bresp;
-
-	}
-
-	@PostMapping(value = "/range_data")  // informazioni su incasso e copie vednute in un intervallo di tempo(ajax)
-	@ResponseBody
-	public BookInfoResponse range_data(@RequestBody CartRequestBody reqBody, Authentication authentication) {
-
-		BookInfoResponse bresp = new BookInfoResponse();
-		String data_da = reqBody.getArg2();
-		String data_a = reqBody.getArg3();
-
-		bresp = this.orderService.findbyDate(data_da, data_a); // calcolo dell'incasso totale in quel intervallo di
-																// tempo e delle copie vendute
-		return bresp;
-
-	}
-
+	
 	// procedura (post) per l'aggiunta di un libro
 	@RequestMapping(value = "/add_book", method = RequestMethod.POST, consumes = { "multipart/form-data" })
 	public String addBook(@ModelAttribute("newBook") @RequestBody @Valid Bookform book, BindingResult br, Model model,
@@ -246,7 +165,10 @@ public class SellerController {
 
 		}
 	}
-
+	/*----------------------End Add New Book----------------------*/
+	
+	
+	/*----------------------Edit Book----------------------*/
 	@GetMapping(value = "/edit_book/{book_id}")
 	public String editBookPage(@PathVariable("book_id") Long book_id, Model model, Locale locale,Authentication authentication) {
 		Book b_temp = this.bookService.findById(book_id);
@@ -333,10 +255,10 @@ public class SellerController {
 		redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
 		return "redirect:/seller/";
 	}
+	/*----------------------End Edit Book----------------------*/
+
 	
-	/*TODO->Aggiustare la vista della modifica, reindirizzamento pagine errore, modifica autore
-	 * 
-	 */
+	/*----------------------Remove Book----------------------*/
 	@GetMapping(value = "/remove_book/{book_id}")
 	public String removeBook(@PathVariable("book_id") Long book_id, Model model,Authentication authentication,
 			final RedirectAttributes redirectAttributes) {
@@ -367,9 +289,106 @@ public class SellerController {
 					return "redirect:/seller/";
 				}
 	}
+	/*----------------------End Remove Book----------------------*/
+	
+	
+	/*----------------------Analysis----------------------*/
+	// analisi di un libro
+	@GetMapping(value = "/analysis_book")
+	public String analysisBook(Model model, Authentication authentication) {
+		String principal_name = authentication.getName();
+		User seller = userService.findUserByUsername(principal_name);
 
-	// Adds attributes used in almost all requests
+		List<Book> lbooksold = bookService.findAllBookSoldOfSeller(seller);
+		// analisi totale di tutti i libri venduti
+		Iterator<Book> boit = lbooksold.iterator();
+		int copies = 0;
+		while (boit.hasNext()) {
+			copies += boit.next().getSoldCopies();  // calcolo di tutte le copie vendute per ogni libro
+		}
+		double totearn = Math.round(this.orderService.TotalEarn(lbooksold) * 100.0) / 100.0; // incasso totale di tutti i libri venduti 
+		
+		model.addAttribute("listbook", lbooksold);
+		model.addAttribute("totearn", totearn);
+		model.addAttribute("totcopies", copies);
+		generalOperations(model);
+		return "analysis_book";
+	}
+
+	@PostMapping(value = "/change_book") // informazioni su incasso e copie vednute di un partciolare libro(ajax)
+	@ResponseBody
+	public BookInfoResponse change_book(@RequestBody CartRequestBody reqBody, Authentication authentication) {
+
+		BookInfoResponse bresp = new BookInfoResponse();
+		bresp.setBookID(reqBody.getBookID());
+
+		Book b = this.bookService.findById(reqBody.getBookID());
+		bresp.setTitle(b.getTitle());
+		bresp.setSoldcopies(b.getSoldCopies()); // copie vendute per quel libro
+
+		List<BookOrder> listsoldbook = this.orderService.findbyId(reqBody.getBookID());
+		Iterator<BookOrder> iterbook = listsoldbook.iterator();
+
+		// calcolo incasso totale
+		double sum = this.orderService.TotalEarnforBook(reqBody.getBookID());
+
+		double sumapprox = Math.round(sum * 100.0) / 100.0;
+		bresp.setTotearn(sumapprox);
+
+		return bresp;
+	}
+	
+	@PostMapping(value = "/range_data")  // informazioni su incasso e copie vednute in un intervallo di tempo(ajax)
+	@ResponseBody
+	public BookInfoResponse range_data(@RequestBody CartRequestBody reqBody, Authentication authentication) {
+
+		BookInfoResponse bresp = new BookInfoResponse();
+		String data_da = reqBody.getArg2();
+		String data_a = reqBody.getArg3();
+
+		bresp = this.orderService.findbyDate(data_da, data_a); // calcolo dell'incasso totale in quel intervallo di
+																// tempo e delle copie vendute
+		return bresp;
+	}
+	/*----------------------End Analysis----------------------*/
+	
+	
+	/*----------------------Seller Author List----------------------*/
+	@RequestMapping(value = "/authors_seller", method = RequestMethod.GET)
+	public String authorsPerSeller(@RequestParam(required = false) Integer page, Locale locale, Model model,
+			Authentication authentication) {
+		/* 
+		* Controllore che si occupa della pagina dedicata agli autori legati al venditore 
+		*/
+		String principal_name = authentication.getName();
+		User seller = userService.findUserByUsername(principal_name);
+
+		// PAGINAZIONE
+		List<Author> authorsPerSeller = findAuthorPerSeller(seller);
+		PagedListHolder<Author> pagedListHolder = new PagedListHolder<>(authorsPerSeller);
+		pagedListHolder.setPageSize(5);
+
+		if (page == null || page < 1 || page > pagedListHolder.getPageCount())
+			page = 1;
+
+		pagedListHolder.setPage(page - 1);
+
+		model.addAttribute("authorsPerSeller", pagedListHolder.getPageList());
+		model.addAttribute("maxPages", pagedListHolder.getPageCount());
+		model.addAttribute("page", page);
+
+		List<Genre> allGenres = bookService.getAllGenres();
+		model.addAttribute("allGenres", allGenres);
+		return "authors_seller";
+	}
+	/*----------------------End Seller Author List----------------------*/
+	
+	
+	/*----------------------Utilities----------------------*/
 	private void generalOperations(Model model) {
+		/*
+		 * Adds attributes used in almost all requests
+		 */
 		List<Genre> allGenres = this.bookService.getAllGenres();
 
 		model.addAttribute("allGenres", allGenres);
@@ -378,9 +397,11 @@ public class SellerController {
 	}
 	
 	private Set<Author> getListAuthors(Bookform book) {
-		
+		/* 
+		* A partire dagli autori contenuti nell'istanza di Bookform (stringhe)
+		* restituisce una lista di authori (Author, non stringhe)
+		*/
 		Set<Author> authorsList = new HashSet<Author>();
-		
 		List<String> authorsNameList = book.getAuthorsName();
 		List<String> authorsSurnameList = book.getAuthorsSurname();
 
@@ -411,10 +432,13 @@ public class SellerController {
 		}
 		
 		return authorsList;
-		
 	}
 	
 	private Set<Genre> getListGenres(Bookform book){
+		/* 
+		* A partire dai generi contenuti nell'istanza di Bookform (stringhe)
+		* restituisce una lista di generi (Genre, non stringhe)
+		*/
 		List<String> genreBookFormList = book.getGenre();
 		List<Genre> genreList = bookService.findGenresFromNamesArray(genreBookFormList);
 		Set<Genre> genreSet = new HashSet<>(genreList);
@@ -422,6 +446,9 @@ public class SellerController {
 	}
 	
 	public List<Author> findAuthorPerSeller(User seller){
+		/* 
+		* Restituisce una lista di autori legati ai libri venduti dal venditore considerato
+		*/
 		List <Book> sellerBooks = bookService.findAllBookSoldOfSeller(seller);
 		Set<Author> authorSet = new HashSet<>();
 		
@@ -433,5 +460,5 @@ public class SellerController {
 		List<Author> authorList = new ArrayList<>(authorSet);
 		return authorList;
 	}
-
+	/*----------------------End Utilities----------------------*/
 }

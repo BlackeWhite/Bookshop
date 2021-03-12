@@ -96,4 +96,8 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/seller/authors_seller.jsp"/>
 	</definition>
+		<definition extends="default" name="edit_author">
+		<put-attribute name="body"
+			value="/WEB-INF/views/seller/edit_author.jsp"/>
+	</definition>
 </tiles-definitions>
