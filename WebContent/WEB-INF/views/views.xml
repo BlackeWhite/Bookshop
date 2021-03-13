@@ -100,4 +100,8 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/seller/edit_author.jsp"/>
 	</definition>
+	<definition extends="default" name="privacy_terms">
+		<put-attribute name="body"
+			value="/WEB-INF/views/info_pages/privacy_terms.jsp" />
+	</definition>
 </tiles-definitions>
