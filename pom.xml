@@ -204,11 +204,14 @@
         <groupId>org.apache.tomcat.maven</groupId>
         <artifactId>tomcat7-maven-plugin</artifactId>
         <version>2.2</version>
-        <configuration>
-          <url>http://localhost:8080/manager/text</url>
-          <server>TomcatServer</server>
-          <path>/spring-mvc-singers</path>
-        </configuration>
+ 	    <configuration>
+            <url>http://localhost:8080/manager/text</url>
+            <server>localhost</server>     <!--  verificare che il nome del server sia lo stesso -->
+            <path>/bookshop</path>
+             <!--  modificare in base alle proprie credenziali di tomcat -->
+            <username>tomcat</username>
+            <password>tomcat</password>
+  	    </configuration>
       </plugin>
     </plugins>
     <finalName>${project.artifactId}</finalName>

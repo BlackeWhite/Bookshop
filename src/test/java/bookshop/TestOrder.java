@@ -20,7 +20,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import it.bookshop.app.DataServiceConfig;
+
 import it.bookshop.model.dao.BookDao;
 import it.bookshop.model.dao.BookOrderDao;
 import it.bookshop.model.dao.OrderDao;
@@ -29,6 +29,7 @@ import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.BookOrder;
 import it.bookshop.model.entity.Order;
 import it.bookshop.model.entity.User;
+import it.bookshop.test.DataServiceConfigTest;
 
 public class TestOrder {
 
@@ -38,7 +39,7 @@ public class TestOrder {
 	
 	@BeforeEach
 	void openContext() {
-		ctx = new AnnotationConfigApplicationContext(DataServiceConfig.class);
+		ctx = new AnnotationConfigApplicationContext(DataServiceConfigTest.class);
 		orderDao = ctx.getBean(OrderDao.class);
 		sf = ctx.getBean("sessionFactory", SessionFactory.class);
 	}
@@ -104,7 +105,7 @@ public class TestOrder {
 
 			
 	}
+	}
 	
 	
 	
-}
