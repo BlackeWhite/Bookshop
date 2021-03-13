@@ -104,4 +104,8 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/info_pages/privacy_terms.jsp" />
 	</definition>
+	<definition extends="default" name="help">
+		<put-attribute name="body"
+			value="/WEB-INF/views/info_pages/help.jsp" />
+	</definition>
 </tiles-definitions>

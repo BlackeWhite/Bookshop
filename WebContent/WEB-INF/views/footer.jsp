@@ -20,7 +20,7 @@
 							<ul>
 								<li><a href="<c:url value='/about_us'/>">Chi siamo</a></li>
 								<li><a href="<c:url value='/faq'/>">Faq</a></li>
-								<li><a href="<c:url value='/privacy&terms'/>">Privacy & Condizioni di vendita</a></li>
+								<li><a href="<c:url value='/privacy&terms'/>">Privacy & Condizioni</a></li>
 								<li><a href="<c:url value='/help'/>">Help</a></li>
 							</ul>
 						</div>
