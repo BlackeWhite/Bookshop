@@ -41,15 +41,6 @@ public class Bookform {
 	private MultipartFile cover; // immagine contenente la copertina del libro
 	private String cover_name;
 
-	@Autowired
-	private AuthorService authorService;
-
-	@Autowired
-	private GenreDao genreDao;
-
-	@Autowired
-	private AuthorDao authorDao;
-
 	public long getId() {
 		return id;
 	}
@@ -215,10 +206,15 @@ public class Bookform {
 		b.setSeller(seller);
 		b.setPages(book.getPages());
 		b.setSummary(book.getSummary());
-		if(book.getCover().getOriginalFilename().isEmpty()) 
+		String bookCover = book.getCover().getOriginalFilename();
+		if(bookCover.isEmpty()) {
 			b.setCover(bookNotUpdated.getCover());
-		if (b.getCover().isEmpty())
-		 b.setCover("bookcover-placeholder.png");
+			if (b.getCover().isEmpty()) {
+				b.setCover("bookcover-placeholder.png");
+			}
+		} else {
+			b.setCover(bookCover);
+		}
 		b.setDiscount(((double) book.getDiscount()) / 100);
 		b.setRemoved(0);
 
