@@ -57,33 +57,33 @@
 					</div>
 				</div>
 				<div class="row">
-				 <c:url value="/seller/edit_author" var="book_action"/>
-				 	<form:form id="register-form" action="${book_action}" modelAttribute="author" class="form" method="post" enctype="multipart/form-data">
+				 <c:url value="/seller/author_edited/${author.id}" var="author_edit_action"/>
+				 	<form:form id="register-form" action="${author_edit_action}" modelAttribute="author" class="form" method="post" enctype="multipart/form-data">
 						<fieldset>
 						<legend> Modifica Autore  </legend>
 								<br>
-								<form:label path="title"><b>Nome dell'autore</b></form:label>
+								<form:label path="name"><b>Nome dell'autore</b></form:label>
 								<form:input required="required" placeholder="Nome" type="text" path="name" id="authorsName" class = "inputview"/>
 								<br>
-								<form:label path="title"><b>Cognome dell'autore</b></form:label>
+								<form:label path="surname"><b>Cognome dell'autore</b></form:label>
 						        <form:input placeholder="Cognome" type="text" path="surname" id="surname" class = "inputview"/>
 						        <br>
 						        <br>
-						        <form:label path="title"><b>Data di nascita dell'autore</b></form:label>
+						        <form:label path="birthdate"><b>Data di nascita dell'autore</b></form:label>
 								<form:input type="date" path="birthdate" id="birthdate" class = "inputview"/>
 								<form:errors path="birthdate" cssClass="validation-error" />	
 								<br>
 								<br>
-								<form:label path="title"><b>Nazionalità dell'autore</b></form:label>
+								<form:label path="nationality"><b>Nazionalità dell'autore</b></form:label>
 						        <form:input placeholder="Nazionalità" type="text" path="nationality" id="nationality" class = "inputview"/>
 						        <br>
 						        <br>
-							    <form:label path="title"><b>Breve biografia dell'autore</b></form:label> <br>
+							    <form:label path="biography"><b>Breve biografia dell'autore</b></form:label> <br>
 								<form:textarea placeholder="Biografia dell'autore" path="biography" id="biography" maxlength="250" rows="4" cols="50" />
 								<form:errors path="biography" cssClass="validation-error" />
 								<br>
 								<br>
-								<form:label path="cover"><b>Carica la foto dell'autore</b></form:label></td>
+								<form:label path="photo"><b>Carica la foto dell'autore</b></form:label></td>
                                 <form:input type="file" name="photo" path="photo" class = "inputview"/>
 								<form:errors path="photo" cssClass="validation-error" />
 								<br>

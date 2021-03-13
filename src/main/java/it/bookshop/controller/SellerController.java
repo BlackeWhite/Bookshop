@@ -125,8 +125,9 @@ public class SellerController {
 	
 	// procedura (post) per l'aggiunta di un libro
 	@RequestMapping(value = "/add_book", method = RequestMethod.POST, consumes = { "multipart/form-data" })
-	public String addBook(@ModelAttribute("newBook") @RequestBody @Valid Bookform book, BindingResult br, Model model,
-			HttpSession session, Authentication authentication, final RedirectAttributes redirectAttributes) {
+	public String addBook(@ModelAttribute("newBook") @RequestBody @Valid Bookform book, BindingResult br, 
+			Model model, HttpSession session, Authentication authentication, 
+			final RedirectAttributes redirectAttributes) {
 
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
@@ -170,7 +171,8 @@ public class SellerController {
 	
 	/*----------------------Edit Book----------------------*/
 	@GetMapping(value = "/edit_book/{book_id}")
-	public String editBookPage(@PathVariable("book_id") Long book_id, Model model, Locale locale,Authentication authentication) {
+	public String editBookPage(@PathVariable("book_id") Long book_id, Model model, 
+			Locale locale, Authentication authentication) {
 		Book b_temp = this.bookService.findById(book_id);
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
@@ -355,10 +357,10 @@ public class SellerController {
 	
 	/*----------------------Seller Author List----------------------*/
 	@RequestMapping(value = "/authors_seller", method = RequestMethod.GET)
-	public String authorsPerSeller(@RequestParam(required = false) Integer page, Locale locale, Model model,
-			Authentication authentication) {
+	public String authorsPerSeller(@RequestParam(required = false) Integer page, Locale locale, 
+			Model model, Authentication authentication) {
 		/* 
-		* Controllore che si occupa della pagina dedicata agli autori legati al venditore 
+		* Si occupa della pagina dedicata agli autori legati al venditore considerato
 		*/
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
@@ -385,7 +387,88 @@ public class SellerController {
 	
 	
 	/*----------------------Edit Author----------------------*/
+	@GetMapping(value = "/edit_author/{authorId}")
+	public String editAuthor(@PathVariable("authorId") Long authorId, Model model, Locale locale, 
+			final RedirectAttributes redirectAttributes, Authentication authentication) {
+		/*
+		 * Metodo GET per la modifica di un autore legato al venditore considerato
+		 */
+		String principal_name = authentication.getName();
+		User seller = userService.findUserByUsername(principal_name);
+		List<Author> sellerAuthors = findAuthorPerSeller(seller);
+		Author authorToEdit = authorService.findById(authorId);
+		Iterator<Author> iterSellerAuthors = sellerAuthors.iterator();
+		boolean valid = false;
+		while(iterSellerAuthors.hasNext()) {
+			Long curr = iterSellerAuthors.next().getId();
+			if(curr.equals(authorToEdit.getId())) {
+				valid = true;
+			}
+		}
+		if(valid) {
+			/*
+			 * Controlla se l'autore da modificare è effettivamente un autore 
+			 * legato al venditore considerato. Se lo è, procede con il caricamento
+			 * della form dedicata alla modifica.
+			 */
+			model.addAttribute("author", authorToEdit);
+			return "edit_author";
+			
+		} else {
+			/*
+			 * Se l'azione non è consentita, rimanda alla home del venditore
+			 * con un messaggio d'errore.
+			 */
+			String message = "Mi dispiace, qualcosa è andato storto.";
+			redirectAttributes.addFlashAttribute("message", message);
+			redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
+			return "redirect:/seller/authors_seller";
+		}
+		
+	}
 	
+	@PostMapping(value = "/author_edited/{authorId}", consumes = { "multipart/form-data" })
+	public String saveAuthorChanges(@ModelAttribute("author") @RequestBody @Valid Author author, 
+			@PathVariable("authorId") Long authorId, Model model, Locale locale, Authentication authentication, 
+			final RedirectAttributes redirectAttributes, BindingResult br) {
+		/*
+		 * Metodo POST per la modifica di un autore legato al venditore considerato
+		 */
+		if(author.getSurname().isEmpty()) {
+			/*
+			 * Se il campo "surname" è vuoto, inserisce il placeholder
+			 */
+			author.setSurname("#SURNAME_PLACEHOLDER");
+		}
+		try{
+			authorService.update(author);
+			redirectAttributes.addFlashAttribute("message", "Dati modificati correttamente!");
+		} catch(Exception e) {
+			redirectAttributes.addFlashAttribute("message", "Mi dispiace, qualcosa è andato storto.");
+		}
+		
+		
+		if (br.hasErrors()) {
+			model.addAttribute("author", author);
+			return "redirect:/seller/edit_author/{authorId}";
+		} else {
+			try {
+				// memorizza il file appena caricato dalla form (stackoverflow)
+				String path = session.getServletContext().getRealPath("/");
+				byte barr[] = book.getCover().getBytes();
+				BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(
+						path + "resources/img/cover_book/" + author.getPhoto().getOriginalFilename()));
+				bout.write(barr);
+				bout.flush();
+				bout.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+		
+		redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
+		return "redirect:/seller/authors_seller";
+	}
 	/*----------------------End Edit Author----------------------*/
 	
 	
@@ -463,6 +546,7 @@ public class SellerController {
 			authorSet.addAll(currAuthors);
 		}
 		List<Author> authorList = new ArrayList<>(authorSet);
+		// TODO -> Ordinare lista di autori
 		return authorList;
 	}
 	/*----------------------End Utilities----------------------*/
