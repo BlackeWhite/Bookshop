@@ -37,7 +37,7 @@ $(document).ready(function() {
 			}
 		});
 		
-		fullAddress = $("#shipAddr").val() +", "+ $("#shipCity").val() +", "+ $("#shipCAP").val();
+		fullAddress = $("#shipAddr").val() +", "+ $("#shipCity").val() +", "+ $("#shipState").val()+ ", "+ $("#shipCAP").val();
 			
 		//payment method management
 		$("#paymentMethods input").each(function() {
