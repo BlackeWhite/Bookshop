@@ -133,7 +133,7 @@ public class SellerController {
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
 
-		if (br.hasErrors()) {
+		if (br.hasErrors()) { // se ci sono errori nella form, ritorna la pagina della form con i campi sbagliati
 			generalOperations(model);
 			List<String> gen = new ArrayList<String>();
 			List<Genre> allGenres = this.bookService.getAllGenres();
@@ -144,7 +144,7 @@ public class SellerController {
 			model.addAttribute("genre", gen);
 			model.addAttribute("newBook", book);
 			return "addittion_book";
-		} else {
+		} else { // se non ci sono errori nella form, procede al caricamento dei dati del libro nel db
 			try {
 				// memorizza il file appena caricato dalla form (stackoverflow)
 				String path = session.getServletContext().getRealPath("/");
@@ -159,7 +159,6 @@ public class SellerController {
 			}
 			Book bookCreated = this.bookService.create(book, seller);
 			// Dati per la vista del libro appena creato
-			Set<Author> authorSet = bookCreated.getAuthors();
 			String message = "\"" + bookCreated.getTitle() + "\" aggiunto correttamente ";
 			redirectAttributes.addFlashAttribute("message", message);
 			redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
@@ -241,7 +240,7 @@ public class SellerController {
 			@PathVariable("book_id") Long book_id, Model model, final RedirectAttributes redirectAttributes,
 			Authentication authentication, BindingResult br, HttpSession session) {
 		
-		if (br.hasErrors()) {
+		if (br.hasErrors()) { // se ci sono errori nella form, ritorna la pagina della form con i campi sbagliati
 			generalOperations(model);
 			List<String> gen = new ArrayList<String>();
 			List<Genre> allGenres = this.bookService.getAllGenres();
@@ -265,8 +264,8 @@ public class SellerController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
 		
+		//procede all'update del libro con i nuovi dati
 		Bookform bf = new Bookform();
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
@@ -283,6 +282,7 @@ public class SellerController {
 		
 		redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
 		return "redirect:/seller/";
+		}
 	}
 	/*----------------------End Edit Book----------------------*/
 
@@ -481,7 +481,7 @@ public class SellerController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
+		
 		
 		if(author.getSurname().isEmpty()) {
 			/*
@@ -500,6 +500,7 @@ public class SellerController {
 
 		redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
 		return "redirect:/seller/authors_seller";
+		}
 	}
 	/*----------------------End Edit Author----------------------*/
 	
