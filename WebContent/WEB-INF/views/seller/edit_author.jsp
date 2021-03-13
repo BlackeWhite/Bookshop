@@ -77,7 +77,7 @@
 								<br>
 								<br> 
 								<form:label path="nationality"><b>Nazionalità dell'autore</b></form:label>
-						        <form:input required="required" placeholder="Nazionalità" type="text" path="nationality" id="nationality" class = "inputview"/>
+						        <form:input placeholder="Nazionalità" type="text" path="nationality" id="nationality" class = "inputview"/>
 						        <form:errors path="nationality" cssClass="validation-error" />
 						        <br>
 						        <br>
