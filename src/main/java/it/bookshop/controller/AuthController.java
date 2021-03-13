@@ -50,6 +50,7 @@ public class AuthController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	//Validatori per i vari form di inserimento dati
 	@Autowired
 	@Qualifier("registrationValidator")
 	private Validator userValidator;
@@ -58,6 +59,7 @@ public class AuthController {
 	@Qualifier("cardValidator")
 	private Validator cardValidator;
 
+	//Imposta i validatori a seconda del modelAttribute richiesto
 	@InitBinder
 	private void initUserBinder(WebDataBinder binder) {
 		if (binder.getTarget() != null && User.class.equals(binder.getTarget().getClass())) {
@@ -67,9 +69,11 @@ public class AuthController {
 		}
 	}
 
+	//Mappe da passare ai select del taglib "<form:..>" di spring
 	private Map<String, String> countries = new LinkedHashMap<String, String>();
 	private Map<String, String> cardTypes = new LinkedHashMap<String, String>();
 
+	
 	@GetMapping(value = "/login")
 	public String loginPage(@RequestParam(value = "error", required = false) String error, Model model) {
 		String errorMessage = null;
@@ -115,6 +119,7 @@ public class AuthController {
 
 	}
 
+	//Pagina di modifica informazioni dell'account, cambio password e aggiunta di carte di credito
 	@GetMapping(value = "/account")
 	public String accountPage(@RequestParam(value = "error", required = false) String error, Model model,
 			Authentication authentication) {
@@ -131,6 +136,7 @@ public class AuthController {
 		return "account";
 	}
 
+	//Post request per aggiungere una carta
 	@PostMapping(value = "/add_payment_card")
 	public String addPaymentCard(@ModelAttribute("newCard") @Validated PaymentCard newCard, BindingResult br,
 			Model model, Authentication authentication) {
@@ -151,6 +157,7 @@ public class AuthController {
 		return "redirect:/account";
 	}
 
+	//Classe custom per la richiesta ajax per eliminare una carta di pagamento
 	public static class CardRequest {
 		private long cardId;
 
@@ -223,9 +230,9 @@ public class AuthController {
 			details.setUser(user);
 		}
 
-		// Per ragioni di sicurezza e semplicitï¿½ molti campi non sono passati nel form
+		// Per ragioni di sicurezza e semplicità molti campi non sono passati nel form
 		// HTML
-		// Perciï¿½ dobbiamo sovrascrivere i campi modificati dell'utente esistente
+		// Perciò dobbiamo sovrascrivere i campi modificati dell'utente esistente
 		User existingUser = userService.findUserByUsername(user.getUsername());
 		existingUser.setPersonalData(user.getPersonalData());
 		existingUser.setEmail(user.getEmail());
@@ -252,6 +259,17 @@ public class AuthController {
 		model.addAttribute("appName", appName);
 		model.addAttribute("countries", countries);
 		model.addAttribute("cardTypes", cardTypes);
+	}
+	
+	//Eliminazione dell'account
+	@PostMapping(value = "/delete_account")
+	public String deleteAccount(Authentication authentication) {
+		
+		String principal_name = authentication.getName();
+		userService.deleteByUsername(principal_name);
+		
+		//Reindirizzazione al logout
+		return "redirect:/logout";
 	}
 
 	// Agggiunge gli attributi per la pagina di account

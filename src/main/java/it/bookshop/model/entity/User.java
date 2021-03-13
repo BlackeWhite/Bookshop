@@ -130,8 +130,7 @@ public class User implements Serializable{
 	@OneToMany(cascade = { CascadeType.DETACH,
 				CascadeType.MERGE,
 				CascadeType.REFRESH,
-				CascadeType.PERSIST,
-				CascadeType.REMOVE},
+				CascadeType.PERSIST},
 				mappedBy="seller")
 	public Set<Book> getBooksForSale() {
 		return booksForSale;

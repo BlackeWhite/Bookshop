@@ -97,6 +97,10 @@
 								<button type="submit" name="submit" class="btn">Salva</button>
 							</div>
 						</form:form>
+						<c:url value="/delete_account" var="delacc" />
+						<form action="${delacc}" method="post" onsubmit="return confirm('Sei sicuro di voler eliminare il tuo account?');">
+							<button type="submit" class="btn delacc">ELIMINA  ACCOUNT</button>
+						</form>
 					</div>
 				</div>
 					<div id="payment-column" class="col">

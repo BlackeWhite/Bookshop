@@ -55,8 +55,8 @@
 							<i class="fa fa-envelope-open"></i>
 							<h4 class="title">Email:</h4>
 							<ul>
-								<li><a href="mailto:info@yourwebsite.com">info@bookshop.it</a></li>
-								<li><a href="mailto:info@yourwebsite.com">support@bookshop.it</a></li>
+								<li><a href="mailto:info@bookshop.com">info@bookshop.it</a></li>
+								<li><a href="mailto:support@bookshop.com">support@bookshop.it</a></li>
 							</ul>
 						</div>
 						<div class="single-info">

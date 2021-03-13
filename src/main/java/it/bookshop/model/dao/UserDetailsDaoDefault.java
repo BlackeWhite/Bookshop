@@ -10,7 +10,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.bookshop.model.entity.Book;
+import it.bookshop.model.entity.Order;
 import it.bookshop.model.entity.PersonalData;
+import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.User;
 
 @Transactional
@@ -97,6 +100,19 @@ public class UserDetailsDaoDefault extends DefaultDao implements UserDetailsDao 
 
 	@Override
 	public void delete(User user) {
+		for(Role r: user.getRoles()) {
+			if(r.getName().equals("USER")) {
+				for(Order o : user.getOrders()) {
+					o.setBuyer(null);
+				}
+			}
+			if(r.getName().equals("SELLER")) {
+				for(Book b : user.getBooksForSale()) {
+					b.setSeller(null);
+				}
+			}
+		}
+		//user = (User) this.getSession().merge(user);
 		this.getSession().delete(user);
 	}
 

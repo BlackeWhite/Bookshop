@@ -12,7 +12,7 @@
 					<ul class="bread-list">
 						<li><a href="<c:url value="/" />">Home<i
 								class="ti-arrow-right"></i></a></li>
-						<li class="active"><a href="<c:url value="/faq" />">Faq</a></li>
+						<li class="active"><a href="<c:url value="/faq" />">FAQ</a></li>
 					</ul>
 				</div>
 			</div>
@@ -25,11 +25,19 @@
 	<div class="container">
 		<div class="contact-head">
 			<div class="row">
-				<div class="col-lg-8 col-12">
+				<div class="col-12">
 					<div class="form-main">
 						<div class="title">
-							<h4>Chi siamo</h4>
-							<p>Noi di <b>Bookshop S.r.l.</b> siamo il primo esempio di libreria online in Italia. Da più di 15 anni offriamo libri di ogni genere e garantiamo un servizio di alta qualità per far si che i tuoi acquisti arrivino il prima possibile. Offriamo un supporto continuo e attento alle esigeneze di ogni cliente e offriamo la possibilità di vendita dalle piccole librerie alle grandi case editrici. I libri in catalogo possono essere spediti in tutti i paesi della comunità europea con possibilità gratuita di reso.</p>
+							<h4 class="question">Sono un venditore, come posso iscrivermi?</h4>
+							<p>Se sei un venditore contattaci all'indirizzo email support@bookshop.com. Verificata la tua eligibilità provvederemo a crearti l'account.</p>
+							<h4 class="question">Ho dimenticato la password, come posso recuperarla?</h4>
+							<p>Contattaci all'indirizzo email support@bookshop.com, ti provvederemo una password temporanea di recupero.</p>
+							<h4 class="question">Non riesco ad aggiungere libri al carrello o effettuare ricerche con i filtri, a cosa è dovuto?</h4>
+							<p>Assicurati che Javascript sia attivato nel tuo browser, il sito non può funzionare correttamente senza.</p>
+							<h4 class="question">Come posso otteneri buoni sconto?</h4>
+							<p>Iscriviti alla nostra newsletter per ricevere notizie sui buoni sconto.</p>
+							<h4 class="question">I buoni sconto possono essere applicati su libri già scontati?</h4>
+							<p>Certo! Il buono sconto viene applicato in fase di checkout a tutto il carrello al di là degli sconti dei singoli libri.</p>
 						</div>	
 					</div>
 				</div>
