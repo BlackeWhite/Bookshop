@@ -52,15 +52,13 @@ public class AdvSearchController {
 	public String advSearch(@RequestParam(defaultValue = "title") String search_by,
 			@RequestParam(defaultValue = "") String term, @RequestParam(required = false) List<String> genres,
 			@RequestParam(defaultValue = "title_ASC") String order_by, @RequestParam(required = false) Long authorId,
-			@RequestParam(defaultValue = "0") Double price_min, @RequestParam(defaultValue = "50") Double price_max,
+			@RequestParam(defaultValue = "0") Double price_min, @RequestParam(defaultValue = "10000") Double price_max,
 			@RequestParam(required = false) Integer page, @RequestParam(defaultValue = "6") Integer books_per_page,
 			Authentication authentication, Locale locale, Model model) {
 
 		System.out.println("Advanced search Page Requested,  locale = " + locale);
 
 		List<Genre> allGenres = this.bookService.getAllGenres();
-		List<Author> topFiveAuthor = this.authorService.findBestSellingAuthor();
-		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook();
 
 		List<Book> books;
 		books = bookService.searchBooksByParams(search_by, term, price_min, price_max, order_by);
@@ -86,13 +84,11 @@ public class AdvSearchController {
 		model.addAttribute("page", page);
 
 		model.addAttribute("appName", appName);
-		model.addAttribute("best_sellers", topFiveBestSellersBooks);
-		model.addAttribute("top_authors", topFiveAuthor);
 		model.addAttribute("allGenres", allGenres);
 		model.addAttribute("books_for_genre", books_for_genre);
 		model.addAttribute("term", term);
 		model.addAttribute("priceMin", price_min);
-		model.addAttribute("priceMax", price_max);
+		model.addAttribute("priceMax", (price_max==10000) ? 70: price_max);
 
 		// Mini carrello
 		if (authentication != null) {
@@ -103,6 +99,7 @@ public class AdvSearchController {
 			model.addAttribute("cartTotalPrice", user.getFormattedCartSubtotalPrice());
 			model.addAttribute("cartTotalItems", user.getCartTotalItems());
 		}
+		System.out.println(books.size());
 		return "advanced_search";
 	}
 
