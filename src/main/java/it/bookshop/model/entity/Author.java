@@ -35,8 +35,6 @@ public class Author implements Serializable{
 	private String biography;
 	private Set<Book> books = new HashSet<Book>();
 	
-	private int version;
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
@@ -98,16 +96,6 @@ public class Author implements Serializable{
 	}
 	public void setBiography(String biography) {
 		this.biography = biography;
-	}
-	
-
-	@Version
-	@Column(name = "VERSION")
-	public int getVersion() {
-		return version;
-	}
-	public void setVersion(int version) {
-		this.version = version;
 	}
 	
 	@ManyToMany(fetch = FetchType.EAGER,         cascade =

@@ -70,9 +70,9 @@
 						        <br>
 						        <br>
 						        <form:label path="birthdate"><b>Data di nascita dell'autore</b></form:label>
-								<form:input type="date" path="birthdate" id="birthdate" class = "inputview"/>	
+								<form:input required="required" type="date" path="birthdate" id="birthdate" class = "inputview"/>	
 								<br>
-								<br>
+								<br> 
 								<form:label path="nationality"><b>Nazionalità dell'autore</b></form:label>
 						        <form:input placeholder="Nazionalità" type="text" path="nationality" id="nationality" class = "inputview"/>
 						        <br>
