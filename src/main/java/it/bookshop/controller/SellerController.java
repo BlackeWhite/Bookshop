@@ -14,11 +14,15 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +42,7 @@ import it.bookshop.model.Object_form.Authorform;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.BookOrder;
 import it.bookshop.model.entity.Genre;
+import it.bookshop.model.entity.PaymentCard;
 import it.bookshop.services.BookService;
 import it.bookshop.services.OrderService;
 import it.bookshop.services.UserService;
@@ -63,6 +68,26 @@ public class SellerController {
 
 	@Autowired
 	private AuthorService authorService;
+	
+	//Validatori per i vari form di inserimento dati
+	@Autowired
+	@Qualifier("authorValidator")
+	private Validator authorValidator;
+	
+
+	@Autowired
+	@Qualifier("bookValidator")
+	private Validator bookValidator;
+	
+	//Imposta i validatori a seconda del modelAttribute richiesto
+	@InitBinder
+	private void initBinder(WebDataBinder binder) {
+		if (binder.getTarget() != null && Authorform.class.equals(binder.getTarget().getClass())) {
+			binder.setValidator(authorValidator);
+		} else if (binder.getTarget() != null && Bookform.class.equals(binder.getTarget().getClass())) {
+			binder.setValidator(bookValidator);
+		}
+	}
 	
 	
 	/*----------------------Seller Home----------------------*/
@@ -415,11 +440,16 @@ public class SellerController {
 	
 	/*----------------------Edit Author----------------------*/
 	@GetMapping(value = "/edit_author/{authorId}")
-	public String editAuthor(@PathVariable("authorId") Long authorId, Model model, Locale locale, 
+	public String editAuthor(@PathVariable("authorId") Long authorId, @RequestParam(value = "error", required = false) String error, Model model, Locale locale, 
 			final RedirectAttributes redirectAttributes, Authentication authentication) {
 		/*
 		 * Metodo GET per la modifica di un autore legato al venditore considerato
 		 */
+		String errorMessage = null;
+
+		model.addAttribute("errorMessage", errorMessage);
+		
+		
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
 		List<Author> sellerAuthors = findAuthorPerSeller(seller);

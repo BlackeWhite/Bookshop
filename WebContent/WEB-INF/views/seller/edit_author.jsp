@@ -64,25 +64,30 @@
 								<br>
 								<form:label path="name"><b>Nome dell'autore</b></form:label>
 								<form:input required="required" placeholder="Nome" type="text" path="name" id="authorsName" class = "inputview"/>
+								<form:errors path="name" cssClass="validation-error" />
 								<br>
 								<form:label path="surname"><b>Cognome dell'autore</b></form:label>
 						        <form:input placeholder="Cognome" type="text" path="surname" id="surname" class = "inputview"/>
+						        <form:errors path="surname" cssClass="validation-error" />
 						        <br>
 						        <br>
 						        <form:label path="birthdate"><b>Data di nascita dell'autore</b></form:label>
 								<form:input required="required" type="date" path="birthdate" id="birthdate" class = "inputview"/>	
+								<form:errors path="birthdate" cssClass="validation-error" />
 								<br>
 								<br> 
 								<form:label path="nationality"><b>Nazionalità dell'autore</b></form:label>
 						        <form:input required="required" placeholder="Nazionalità" type="text" path="nationality" id="nationality" class = "inputview"/>
+						        <form:errors path="nationality" cssClass="validation-error" />
 						        <br>
 						        <br>
 							    <form:label path="biography"><b>Breve biografia dell'autore</b></form:label> <br>
-								<form:textarea required="required" placeholder="Biografia dell'autore" path="biography" id="biography" maxlength="250" rows="4" cols="50" />
+								<form:textarea  placeholder="Biografia dell'autore" path="biography" id="biography" maxlength="250" rows="4" cols="50" />
+								<form:errors path="biography" cssClass="validation-error" />
 								<br>
 								<br>
 								<form:label path="photoFile"><b>Carica la foto dell'autore</b></form:label></td>
-                                <form:input required="required" type="file" name="photoFile" path="photoFile" class = "inputview"/>
+                                <form:input type="file" name="photoFile" path="photoFile" class = "inputview"/>
 								<form:errors path="photoFile" cssClass="validation-error" />
 								<br>
 							</fieldset>
