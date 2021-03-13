@@ -38,6 +38,7 @@
 						<c:url value="/seller/addition_book" var="addition_book" />
 						<li><a href="${addition_book}"> Aggiungi un libro in
 								vendita </a></li>
+						<li><a href="<c:url value="/seller/authors_seller"/>"> Lista Autori</a></li>
 						<li><a href="<c:url value="/seller/analysis_book"/>">Analisi
 								delle vendite</a></li>
 						<li><a href="<c:url value="/account"/>"> Modifica dati
@@ -97,11 +98,10 @@
 																</c:if>
 															</h4>
 															
-															</span> <br> <span class="field">Data di
+															</span> <span class="field">Data di
 																nascita: </span> <span>${authorsPerSeller.birthdate} </span> <br>
 															<span class="field">Nazionalità: </span> <span>${authorsPerSeller.nationality}
-															</span><br> <span class="field">Data di
-																nascita: </span> <span><a>${authorsPerSeller.biography}</a> </span> <br>
+															</span><br>
 															<span class="field">Breve biografia: </span> <span>${authorsPerSeller.biography}
 															</span>
 														</div>

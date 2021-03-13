@@ -34,6 +34,7 @@ import it.bookshop.model.entity.User;
 import it.bookshop.controller.UserController.CartRequestBody;
 import it.bookshop.model.Object_form.BookInfoResponse;
 import it.bookshop.model.Object_form.Bookform;
+import it.bookshop.model.Object_form.Authorform;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.BookOrder;
 import it.bookshop.model.entity.Genre;
@@ -235,11 +236,37 @@ public class SellerController {
 		}
 	}
 
-	@PostMapping(value = "/save_changes/{book_id}")
+	@RequestMapping(value = "/save_changes/{book_id}", method = RequestMethod.POST, consumes = { "multipart/form-data" })
 	public String saveChangesBook(@ModelAttribute("bookToUpdate") @RequestBody @Valid Bookform bookChanged,
 			@PathVariable("book_id") Long book_id, Model model, final RedirectAttributes redirectAttributes,
-			Authentication authentication) {
-
+			Authentication authentication, BindingResult br, HttpSession session) {
+		
+		if (br.hasErrors()) {
+			generalOperations(model);
+			List<String> gen = new ArrayList<String>();
+			List<Genre> allGenres = this.bookService.getAllGenres();
+			Iterator<Genre> iteGen = allGenres.iterator();
+			while (iteGen.hasNext()) {
+				gen.add(iteGen.next().getName());
+			}
+			model.addAttribute("genre", gen);
+			model.addAttribute("newBook", bookChanged);
+			return "addittion_book";
+		} else {
+			try {
+				// memorizza il file appena caricato dalla form (stackoverflow)
+				String path = session.getServletContext().getRealPath("/");
+				byte barr[] = bookChanged.getCover().getBytes();
+				BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(
+						path + "resources/img/cover_book/" + bookChanged.getCover().getOriginalFilename()));
+				bout.write(barr);
+				bout.flush();
+				bout.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 		Bookform bf = new Bookform();
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
@@ -398,6 +425,10 @@ public class SellerController {
 		List<Author> sellerAuthors = findAuthorPerSeller(seller);
 		Author authorToEdit = authorService.findById(authorId);
 		Iterator<Author> iterSellerAuthors = sellerAuthors.iterator();
+		
+		Authorform authorForm = new Authorform();
+		authorForm.populate(authorToEdit);
+		
 		boolean valid = false;
 		while(iterSellerAuthors.hasNext()) {
 			Long curr = iterSellerAuthors.next().getId();
@@ -411,7 +442,7 @@ public class SellerController {
 			 * legato al venditore considerato. Se lo è, procede con il caricamento
 			 * della form dedicata alla modifica.
 			 */
-			model.addAttribute("author", authorToEdit);
+			model.addAttribute("author", authorForm);
 			return "edit_author";
 			
 		} else {
@@ -426,28 +457,14 @@ public class SellerController {
 		}
 		
 	}
-	
-	@PostMapping(value = "/author_edited/{authorId}", consumes = { "multipart/form-data" })
-	public String saveAuthorChanges(@ModelAttribute("author") @RequestBody @Valid Author author, 
+
+	@RequestMapping(value = "/author_edited/{authorId}", method = RequestMethod.POST, consumes = { "multipart/form-data" })
+	public String saveAuthorChanges(@ModelAttribute("author") @RequestBody @Valid Authorform author, 
 			@PathVariable("authorId") Long authorId, Model model, Locale locale, Authentication authentication, 
-			final RedirectAttributes redirectAttributes, BindingResult br) {
+			final RedirectAttributes redirectAttributes, BindingResult br, HttpSession session) {
 		/*
 		 * Metodo POST per la modifica di un autore legato al venditore considerato
 		 */
-		if(author.getSurname().isEmpty()) {
-			/*
-			 * Se il campo "surname" è vuoto, inserisce il placeholder
-			 */
-			author.setSurname("#SURNAME_PLACEHOLDER");
-		}
-		try{
-			authorService.update(author);
-			redirectAttributes.addFlashAttribute("message", "Dati modificati correttamente!");
-		} catch(Exception e) {
-			redirectAttributes.addFlashAttribute("message", "Mi dispiace, qualcosa è andato storto.");
-		}
-		
-		
 		if (br.hasErrors()) {
 			model.addAttribute("author", author);
 			return "redirect:/seller/edit_author/{authorId}";
@@ -455,17 +472,32 @@ public class SellerController {
 			try {
 				// memorizza il file appena caricato dalla form (stackoverflow)
 				String path = session.getServletContext().getRealPath("/");
-				byte barr[] = book.getCover().getBytes();
+				byte barr[] = author.getPhotoFile().getBytes();
 				BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(
-						path + "resources/img/cover_book/" + author.getPhoto().getOriginalFilename()));
+						path + "resources/img/cover_book/" + author.getPhotoFile().getOriginalFilename()));
 				bout.write(barr);
 				bout.flush();
 				bout.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
 		
-		
+		if(author.getSurname().isEmpty()) {
+			/*
+			 * Se il campo "surname" è vuoto, inserisce il placeholder
+			 */
+			author.setSurname("#SURNAME_PLACEHOLDER");
+		}
+		try{
+			Author authorNotUpdated = authorService.findById(authorId);
+			Author authorToUpdate = author.authorformToAuthor(author, authorId, authorNotUpdated);
+			authorService.update(authorToUpdate);
+			redirectAttributes.addFlashAttribute("message", "Dati modificati correttamente!");
+		} catch(Exception e) {
+			redirectAttributes.addFlashAttribute("message", "Mi dispiace, qualcosa è andato storto.");
+		}
+
 		redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
 		return "redirect:/seller/authors_seller";
 	}

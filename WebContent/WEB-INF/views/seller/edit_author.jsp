@@ -70,8 +70,7 @@
 						        <br>
 						        <br>
 						        <form:label path="birthdate"><b>Data di nascita dell'autore</b></form:label>
-								<form:input type="date" path="birthdate" id="birthdate" class = "inputview"/>
-								<form:errors path="birthdate" cssClass="validation-error" />	
+								<form:input type="date" path="birthdate" id="birthdate" class = "inputview"/>	
 								<br>
 								<br>
 								<form:label path="nationality"><b>Nazionalità dell'autore</b></form:label>
@@ -80,12 +79,11 @@
 						        <br>
 							    <form:label path="biography"><b>Breve biografia dell'autore</b></form:label> <br>
 								<form:textarea placeholder="Biografia dell'autore" path="biography" id="biography" maxlength="250" rows="4" cols="50" />
-								<form:errors path="biography" cssClass="validation-error" />
 								<br>
 								<br>
-								<form:label path="photo"><b>Carica la foto dell'autore</b></form:label></td>
-                                <form:input type="file" name="photo" path="photo" class = "inputview"/>
-								<form:errors path="photo" cssClass="validation-error" />
+								<form:label path="photoFile"><b>Carica la foto dell'autore</b></form:label></td>
+                                <form:input type="file" name="photoFile" path="photoFile" class = "inputview"/>
+								<form:errors path="photoFile" cssClass="validation-error" />
 								<br>
 							</fieldset>
 						<br>

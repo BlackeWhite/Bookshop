@@ -37,7 +37,7 @@ public class Authorform {
 		this.name = name;
 	}
 
-	public String getSurame() {
+	public String getSurname() {
 		return surname;
 	}
 
@@ -45,11 +45,11 @@ public class Authorform {
 		this.surname = surname;
 	}
 	
-	public Date getBirthday() {
+	public Date getBirthdate() {
 		return birthdate;
 	}
 
-	public void setBirthday(Date birthdate) {
+	public void setBirthdate(Date birthdate) {
 		this.birthdate = birthdate;
 	}
 	
@@ -110,8 +110,9 @@ public class Authorform {
 		Author author = new Author();
 		author.setId(author_id);
 		author.setName(authorForm.getName());
-		author.setSurname(authorForm.getSurame());
-		author.setBirthdate(authorForm.getBirthday());
+		author.setSurname(authorForm.getSurname());
+		author.setNationality(authorForm.getNationality());
+		author.setBirthdate(authorForm.getBirthdate());
 		author.setBiography(authorForm.getBiography());
 		String authorPhoto = authorForm.getPhotoFile().getOriginalFilename();
 		if(authorPhoto.isEmpty()) {
