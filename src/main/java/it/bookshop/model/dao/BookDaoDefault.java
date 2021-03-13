@@ -3,6 +3,8 @@ package it.bookshop.model.dao;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.bookshop.model.Object_form.Bookform;
 import it.bookshop.model.entity.Book;
+import it.bookshop.model.entity.BookOrder;
 import it.bookshop.model.entity.CustomUserDetails;
 import it.bookshop.model.entity.User;
 
@@ -17,6 +20,8 @@ import it.bookshop.model.entity.User;
 @Repository("bookDao")
 public class BookDaoDefault extends DefaultDao implements BookDao {
 
+	@Autowired
+	BookOrderDao bookOrderRepository;
 	
 	private double getVatFactor() {
 		if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
@@ -140,6 +145,9 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 
 	@Override
 	public void delete(Book book) {
+		
+		bookOrderRepository.deleteBookBookOrders(book);
+		
 		this.getSession().delete(book);
 	}
 

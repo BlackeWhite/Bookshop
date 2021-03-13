@@ -17,8 +17,11 @@ public interface BookOrderDao {
 	public BookOrder create(Order order, Book book, int copies);
 	public BookOrder create(Order order, BookOrder b);
 	
-	List<BookOrder> findbyId(long id);
+	public List<BookOrder> findbyId(long id);
 	double sumPrice(long id);
-	List<BookOrder> findbyDate(String data_da, String data_a);
+	public List<BookOrder> findbyDate(String data_da, String data_a);
+	public void delete(BookOrder b);
+	public void deleteOrderBookOrders(Order o);
+	public void deleteBookBookOrders(Book b);
 	
 }

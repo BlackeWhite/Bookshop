@@ -252,7 +252,7 @@ public class Book implements Serializable {
 	}
 
 	// orders
-	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH,
+	@OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH,
 			CascadeType.PERSIST }, mappedBy = "book")
 	public Set<BookOrder> getOrders() {
 		return this.orders;

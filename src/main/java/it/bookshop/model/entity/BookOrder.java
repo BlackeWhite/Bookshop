@@ -3,7 +3,6 @@ package it.bookshop.model.entity;
 import java.sql.Date;
 import java.text.NumberFormat;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -12,6 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 
 //Entity that implements the relationship between Order and Book
@@ -35,11 +37,7 @@ public class BookOrder {
 		this.id = id;
 	}
 	
-	@ManyToOne(cascade = { CascadeType.DETACH,
-			CascadeType.MERGE,
-			CascadeType.REFRESH,
-			CascadeType.PERSIST,
-			CascadeType.REMOVE})
+	@ManyToOne
 	@JoinColumn(name="ORDER_ID", referencedColumnName="ID")
 	@MapsId("orderId")
 	public Order getOrder() {

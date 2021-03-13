@@ -16,6 +16,7 @@ public interface OrderDao {
 	public void setSession(Session session);
 	
 	public Order findById(Long id);
+	public Order createTest();
 	public Order create(User buyer, LocalDateTime date, Set<BookOrder> books, String shipmentAddress, String payment, double shipmentCost);
 	public Order create(User buyer, LocalDateTime date, Set<BookOrder> books, String shipmentAddress, String payment, double shipmentCost, int coupon_discount);
 	public Order update(Order order);

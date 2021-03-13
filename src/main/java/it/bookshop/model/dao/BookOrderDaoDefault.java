@@ -16,7 +16,6 @@ import it.bookshop.model.entity.BookOrder;
 import it.bookshop.model.entity.BookOrderId;
 import it.bookshop.model.entity.Order;
 
-@Transactional
 @Repository("bookOrderDao")
 public class BookOrderDaoDefault extends DefaultDao implements BookOrderDao {
 
@@ -37,6 +36,7 @@ public class BookOrderDaoDefault extends DefaultDao implements BookOrderDao {
 		getSession().save(b);
 		return b;
 	}
+
 
 	@Override
 	public BookOrder create(Order order, BookOrder b) {
@@ -91,6 +91,23 @@ public class BookOrderDaoDefault extends DefaultDao implements BookOrderDao {
 			sum += bo.getCopies()*(bo.getPricenovat()); 
 		}
 		return sum;
+	}
+
+	@Override
+	public void delete(BookOrder b) {
+		getSession().delete(b);
+	}
+
+	@Override
+	public void deleteOrderBookOrders(Order o) {
+		getSession().createQuery("DELETE FROM BookOrder o WHERE o.order = :order").setParameter("order", o)
+		.executeUpdate();
+	}
+
+	@Override
+	public void deleteBookBookOrders(Book b) {
+		getSession().createQuery("DELETE FROM BookOrder o WHERE o.book = :book").setParameter("book", b)
+		.executeUpdate();
 	}
 	
 

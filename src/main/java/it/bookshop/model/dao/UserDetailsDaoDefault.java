@@ -80,6 +80,8 @@ public class UserDetailsDaoDefault extends DefaultDao implements UserDetailsDao 
 		personalData.setCap(cap);
 		personalData.setCity(city);
 		personalData.setState(state);
+		
+		user.setPersonalData(personalData);
 
 		this.getSession().save(user);
 		return user;

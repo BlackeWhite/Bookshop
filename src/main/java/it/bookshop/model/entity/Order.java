@@ -7,7 +7,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,6 +18,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "ORDERS")
@@ -84,12 +86,11 @@ public class Order {
 	}
 	
 	@OneToMany(fetch = FetchType.EAGER,
-			cascade = { CascadeType.DETACH,
+			mappedBy="order")
+	@Cascade(value = {CascadeType.DETACH,
 			CascadeType.MERGE,
 			CascadeType.REFRESH,
-			CascadeType.PERSIST,
-			CascadeType.REMOVE},
-			mappedBy="order")
+			CascadeType.REMOVE})
 	public Set<BookOrder> getBooks() {
 		return books;
 	}
