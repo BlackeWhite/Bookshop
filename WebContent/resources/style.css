@@ -6052,6 +6052,11 @@ opacity
 	background: #F7941D;
 	transition: 0.5s;
 }
+
+.generic-button:hover{
+	background: #F7941D;
+	transition: 0.5s;
+}
 /*=============================
 	End Seller list CSS
 ===============================*/

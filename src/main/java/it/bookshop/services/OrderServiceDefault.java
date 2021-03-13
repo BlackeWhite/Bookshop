@@ -153,7 +153,7 @@ public class OrderServiceDefault implements OrderService {
 		
 		while(itlo.hasNext()) {
 			BookOrder bo = itlo.next();
-			earn += bo.getPricenovat();
+			earn += bo.getCopies()*bo.getPricenovat();
 			copies += bo.getCopies();
 		}
 		
