@@ -74,15 +74,15 @@
 								<br>
 								<br> 
 								<form:label path="nationality"><b>Nazionalità dell'autore</b></form:label>
-						        <form:input placeholder="Nazionalità" type="text" path="nationality" id="nationality" class = "inputview"/>
+						        <form:input required="required" placeholder="Nazionalità" type="text" path="nationality" id="nationality" class = "inputview"/>
 						        <br>
 						        <br>
 							    <form:label path="biography"><b>Breve biografia dell'autore</b></form:label> <br>
-								<form:textarea placeholder="Biografia dell'autore" path="biography" id="biography" maxlength="250" rows="4" cols="50" />
+								<form:textarea required="required" placeholder="Biografia dell'autore" path="biography" id="biography" maxlength="250" rows="4" cols="50" />
 								<br>
 								<br>
 								<form:label path="photoFile"><b>Carica la foto dell'autore</b></form:label></td>
-                                <form:input type="file" name="photoFile" path="photoFile" class = "inputview"/>
+                                <form:input required="required" type="file" name="photoFile" path="photoFile" class = "inputview"/>
 								<form:errors path="photoFile" cssClass="validation-error" />
 								<br>
 							</fieldset>
