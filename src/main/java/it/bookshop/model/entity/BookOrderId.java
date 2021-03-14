@@ -22,7 +22,7 @@ public class BookOrderId implements Serializable {
 		this.bookId = bookId;
 	}
 
-	@Column(name = "ORDER_ID")
+	@Column(name = "ORDER_ID", insertable = false, updatable = false)
 	public Long getOrderId() {
 		return orderId;
 	}
@@ -30,7 +30,7 @@ public class BookOrderId implements Serializable {
 		this.orderId = orderId;
 	}
 
-	@Column(name = "BOOK_ID")
+	@Column(name = "BOOK_ID", insertable = false, updatable = false)
 	public Long getBookId() {
 		return bookId;
 	}

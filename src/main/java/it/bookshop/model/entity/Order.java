@@ -90,7 +90,8 @@ public class Order {
 	@Cascade(value = {CascadeType.DETACH,
 			CascadeType.MERGE,
 			CascadeType.REFRESH,
-			CascadeType.REMOVE})
+			CascadeType.REMOVE,
+			CascadeType.SAVE_UPDATE})
 	public Set<BookOrder> getBooks() {
 		return books;
 	}

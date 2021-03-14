@@ -60,8 +60,11 @@ public class TestOrder {
 
 		a = bookDao.create("AAAA", "Book1", null, null, 1, 20, null, 10, "summary1", "image1", 0.20);
 		b = bookDao.create("BBBB", "Book2", null, null, 1, 30, null, 20, "summary2", "image2", 0.30);
-		u = userDao.create("user", "email", "pass", "test", "surname", new Date(System.currentTimeMillis()),
+		u = userDao.findUserByUsername("unitTesting");
+		if(u == null) {
+		u = userDao.create("unitTesting", "email", "pass", "test", "surname", new Date(System.currentTimeMillis()),
 				"test", "test", 3333, "test");
+		}
 		
 		s.getTransaction().commit();
 		ctx.close();
@@ -87,7 +90,6 @@ public class TestOrder {
 		
 		bookDao.delete(a);
 		bookDao.delete(b);
-		userDao.delete(u);
 		
 		s.getTransaction().commit();
 		ctx.close();
@@ -144,6 +146,7 @@ public class TestOrder {
 		
 		
 		Order o = orderDao.create(u, null, books, "Address", "Payment", 5);
+		u.getOrders().add(o);
 		Long id = o.getId();
 
 		Order o2 = orderDao.findById(id);
@@ -152,9 +155,6 @@ public class TestOrder {
 		assertEquals(o, o2);
 		assertEquals(books, o2.getBooks());
 		assertEquals(2, o2.getBooks().size());
-		
-		
-		orderDao.delete(o);
 		s.getTransaction().commit();
 	}
 	

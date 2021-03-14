@@ -42,6 +42,9 @@ public class OrderDaoDefault extends DefaultDao implements OrderDao {
 		o.setShipmentCost(shipmentCost); 
 		o.setTotalExpense(buyer.getCartTotalPrice() + shipmentCost);
 		o.setBooks(books);
+		for(BookOrder b : books) {
+			b.setOrder(o);
+		}
 		getSession().save(o);
 
 		return o;
@@ -58,6 +61,9 @@ public class OrderDaoDefault extends DefaultDao implements OrderDao {
 		o.setTotalExpense(buyer.getCartTotalPrice() + shipmentCost - coupon_saving);
 		o.setShipmentCost(shipmentCost);
 		o.setBooks(books);
+		for(BookOrder b : books) {
+			b.setOrder(o);
+		}
 		getSession().save(o);
 		
 		return o;

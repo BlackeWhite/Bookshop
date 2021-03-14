@@ -21,7 +21,7 @@ import org.hibernate.annotations.CascadeType;
 @Table(name="BOOK_ORDERS")
 public class BookOrder {
 	
-	private BookOrderId id;
+	private BookOrderId id = new BookOrderId();
 	private Order order;
 	private Book book;
 	private int copies;
