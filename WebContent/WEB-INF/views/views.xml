@@ -108,4 +108,8 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/info_pages/help.jsp" />
 	</definition>
+	<definition extends="default" name="addition_book">
+		<put-attribute name="body"
+			value="/WEB-INF/views/seller/add_book.jsp" />
+	</definition>
 </tiles-definitions>

@@ -69,12 +69,12 @@ public class SellerController {
 	@Autowired
 	private AuthorService authorService;
 	
-	//Validatori per i vari form di inserimento dati
+	//Validatori per i vari form di inserimento dati dell'autore
 	@Autowired
 	@Qualifier("authorValidator")
 	private Validator authorValidator;
 	
-
+	// Validatori per le form di inserimento e modifica dei libri
 	@Autowired
 	@Qualifier("bookValidator")
 	private Validator bookValidator;
@@ -168,7 +168,7 @@ public class SellerController {
 			}
 			model.addAttribute("genre", gen);
 			model.addAttribute("newBook", book);
-			return "addittion_book";
+			return "addition_book";
 		} else { // se non ci sono errori nella form, procede al caricamento dei dati del libro nel db
 			try {
 				// memorizza il file appena caricato dalla form (stackoverflow)
@@ -262,8 +262,8 @@ public class SellerController {
 
 	@RequestMapping(value = "/save_changes/{book_id}", method = RequestMethod.POST, consumes = { "multipart/form-data" })
 	public String saveChangesBook(@ModelAttribute("bookToUpdate") @RequestBody @Valid Bookform bookChanged,
-			@PathVariable("book_id") Long book_id, Model model, final RedirectAttributes redirectAttributes,
-			Authentication authentication, BindingResult br, HttpSession session) {
+			BindingResult br, @PathVariable("book_id") Long book_id, Model model, final RedirectAttributes redirectAttributes,
+			Authentication authentication, HttpSession session) {
 		
 		if (br.hasErrors()) { // se ci sono errori nella form, ritorna la pagina della form con i campi sbagliati
 			generalOperations(model);
@@ -275,7 +275,7 @@ public class SellerController {
 			}
 			model.addAttribute("genre", gen);
 			model.addAttribute("newBook", bookChanged);
-			return "addittion_book";
+			return "edit_book";
 		} else {
 			try {
 				// memorizza il file appena caricato dalla form (stackoverflow)
@@ -490,8 +490,8 @@ public class SellerController {
 
 	@RequestMapping(value = "/author_edited/{authorId}", method = RequestMethod.POST, consumes = { "multipart/form-data" })
 	public String saveAuthorChanges(@ModelAttribute("author") @RequestBody @Valid Authorform author, 
-			@PathVariable("authorId") Long authorId, Model model, Locale locale, Authentication authentication, 
-			final RedirectAttributes redirectAttributes, BindingResult br, HttpSession session) {
+			BindingResult br, @PathVariable("authorId") Long authorId, Model model, Locale locale, Authentication authentication, 
+			final RedirectAttributes redirectAttributes, HttpSession session) {
 		/*
 		 * Metodo POST per la modifica di un autore legato al venditore considerato
 		 */

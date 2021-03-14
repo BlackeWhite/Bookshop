@@ -3,6 +3,8 @@ package it.bookshop.validator;
 import java.sql.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import com.mysql.cj.util.StringUtils;
+
 
 /**
  * Classe custom con metodi statici utili per la validazione
@@ -39,6 +41,32 @@ public class CustomUtils {
 	public static boolean isValidPassword(String password) {
 		Matcher matcher = VALID_PASSWORD_REGEX.matcher(password);
 		return matcher.matches();		
+	}
+	
+	
+	public static boolean isValidIsbn(String isbn) {
+		/*
+		 * Controlla se l'isbn è composto da 13 cifre
+		 */
+	     // Regex to check string 
+	  // contains only digits 
+		String regex = "\\d{13}"; 
+	  
+	        // Compile the ReGex 
+		Pattern p = Pattern.compile(regex); 
+	  
+	        // If the string is empty 
+	        // return false 
+	    if (isbn == null) { 
+	        return false; 
+	    }
+	    if (StringUtils.isEmptyOrWhitespaceOnly(isbn) ){
+	        return false;
+	    }
+	    Matcher m = p.matcher(isbn); 
+	    
+	    return m.matches();     
+
 	}
 	
 }

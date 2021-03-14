@@ -14,7 +14,7 @@ import it.bookshop.services.BookService;
 import it.bookshop.model.Object_form.Bookform;
 
 @Component("bookValidator")
-public class bookValidator implements Validator {
+public class BookValidator implements Validator {
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -41,14 +41,22 @@ public class bookValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "summary", "summary.required",
 				"Inserisci una breve descrizione del libro.");
 
-		if(!CustomUtils.isFutureDate(book.getPublish())) {
+		if(CustomUtils.isFutureDate(book.getPublish())) {
+			/*
+			 * Controlla che la data non sia posteriore a quella odierna
+			 */
 			errors.rejectValue("publish", "invalidPublish",
 					new Object[] { "'publish'" }, "Data invalida, inserire una data antecedente a quella odierna.");
 		}
-
-		// TODO-> validator sul numero di caratteri dell'isbn, solo numeri e 13 cifre
 		
 
+		if(!CustomUtils.isValidIsbn(book.getIsbn())) {
+			/*
+			 * Controlla la validità dell'ISBN
+			 */
+					errors.rejectValue("isbn", "invalidIsbn",
+							new Object[] { "'isbn'" }, "Il codice ISBN deve essere composto da 13 cifre.");
+				}
 	}
 
 }
