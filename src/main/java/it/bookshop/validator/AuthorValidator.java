@@ -28,7 +28,7 @@ public class AuthorValidator implements Validator {
 		ValidationUtils.rejectIfEmpty(errors, "name", "name.required",
 				"Inserisci il nome dell'autore.");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "birthdate", "birthdate.required",
-				"Inserisci il Data di nascita dell'autore");
+				"Inserisci la Data di nascita dell'autore");
 		
 	
 

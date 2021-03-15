@@ -440,15 +440,11 @@ public class SellerController {
 	
 	/*----------------------Edit Author----------------------*/
 	@GetMapping(value = "/edit_author/{authorId}")
-	public String editAuthor(@PathVariable("authorId") Long authorId, @RequestParam(value = "error", required = false) String error, Model model, Locale locale, 
+	public String editAuthor(@PathVariable("authorId") Long authorId, Model model, Locale locale, 
 			final RedirectAttributes redirectAttributes, Authentication authentication) {
 		/*
 		 * Metodo GET per la modifica di un autore legato al venditore considerato
 		 */
-		String errorMessage = null;
-
-		model.addAttribute("errorMessage", errorMessage);
-		
 		
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
