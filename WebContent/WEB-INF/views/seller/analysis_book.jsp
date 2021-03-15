@@ -39,7 +39,7 @@
 						<c:url value="/seller/addition_book" var="addition_book" />
 						<li><a href="${addition_book}"> Aggiungi un libro in
 								vendita </a></li>
-						<li><a href="<c:url value="/seller/authors_seller"/>"> Lista Autori</a></li>
+						<li><a href="<c:url value="/seller/authors_seller"/>"> Lista di autori</a></li>
 						<li><a href="<c:url value="/seller/analysis_book"/>">Analisi
 								delle vendite</a></li>
 						<li><a href="<c:url value="/account"/>"> Modifica dati
