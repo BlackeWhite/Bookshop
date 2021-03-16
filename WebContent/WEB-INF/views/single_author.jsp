@@ -18,7 +18,7 @@
 				<div class="quickview-ratting-review">
 					<div class="quickview-ratting-wrap">
 						<div class="quickview-ratting">
-							<i> Nato il ${author.birthdate}, nazionalità ${author.nationality} </i>
+							<i><b> Nato il ${author.birthdate}, nazionalità ${author.nationality} </b></i>
 						</div>
 
 					</div>
