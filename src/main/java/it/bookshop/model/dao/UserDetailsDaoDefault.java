@@ -111,7 +111,7 @@ public class UserDetailsDaoDefault extends DefaultDao implements UserDetailsDao 
 			if(r.getName().equals("SELLER")) {
 				for(Book b : user.getBooksForSale()) {
 					b.setSeller(null);
-					b.setRemoved(0);
+					b.setRemoved(1);
 				}
 			}
 		}
