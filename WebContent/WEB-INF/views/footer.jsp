@@ -6,13 +6,6 @@
 		<div class="footer-top section">
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-5 col-md-6 col-12">
-						<!-- Single Widget -->
-						<div class="single-footer about">
-							
-						</div>
-						<!-- End Single Widget -->
-					</div>
 					<div class="col-lg-2 col-md-6 col-12">
 						<!-- Single Widget -->
 						<div class="single-footer links">
@@ -26,31 +19,11 @@
 						</div>
 						<!-- End Single Widget -->
 					</div>
-					<div class="col-lg-2 col-md-6 col-12">
-						<!-- Single Widget -->
-						<div class="single-footer links">
-							<h4>Servizio clienti</h4>
-							<ul>
-								<li><a href="#">Metodi di pagamento</a></li>
-								<li><a href="#">Rimborsi</a></li>
-								<li><a href="#">Spedizioni</a></li>
-							</ul>
-						</div>
-						<!-- End Single Widget -->
-					</div>
 					<div class="col-lg-3 col-md-6 col-12">
 						<!-- Single Widget -->
 						<div class="single-footer social">
 							<h4>Get In Tuch</h4>
 							<!-- Single Widget -->
-							<div class="contact">
-								<ul>
-									<li>NO. 342 - London Oxford Street.</li>
-									<li>012 United Kingdom.</li>
-									<li>info@eshop.com</li>
-									<li>+032 3456 7890</li>
-								</ul>
-							</div>
 							<!-- End Single Widget -->
 							<ul>
 								<li><a href="#"><i class="ti-facebook"></i></a></li>
