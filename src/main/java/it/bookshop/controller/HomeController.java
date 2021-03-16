@@ -206,6 +206,8 @@ public class HomeController {
 		long long_id = Long.parseLong(id);
 		Author author = this.authorService.findById(long_id);
 		
+		List<Genre> allGenres = this.bookService.getAllGenres();
+		
 		List<Book> authorBooks = this.bookService.findBooksAuthor(author);
 		Boolean checkAuthorBooks = authorBooks.isEmpty();
 		
@@ -213,6 +215,7 @@ public class HomeController {
 		model.addAttribute("author", author);
 		model.addAttribute("authorBooks", authorBooks);
 		model.addAttribute("checkAuthorBooks",checkAuthorBooks);
+		model.addAttribute("allGenres", allGenres); // per la navbar
 		
 		//Mini carrello
 		if(authentication != null) {
