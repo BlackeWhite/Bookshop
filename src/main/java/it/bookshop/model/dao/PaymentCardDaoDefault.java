@@ -3,6 +3,8 @@ package it.bookshop.model.dao;
 import java.sql.Date;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.springframework.stereotype.Repository;
 
 import it.bookshop.model.entity.PaymentCard;
@@ -18,8 +20,12 @@ public class PaymentCardDaoDefault extends DefaultDao implements PaymentCardDao 
 
 	@Override
 	public PaymentCard findById(Long id) {
-		return this.getSession().createQuery("FROM PaymentCard c WHERE c.id = :id", PaymentCard.class).
-				setParameter("id", id).getSingleResult();
+		try {
+			return this.getSession().createQuery("FROM PaymentCard c WHERE c.id = :id", PaymentCard.class).
+					setParameter("id", id).getSingleResult();
+		} catch(NoResultException e) {
+			return null;
+		}
 	}
 
 	@Override

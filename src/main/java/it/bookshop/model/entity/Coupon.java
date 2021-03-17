@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -12,15 +13,15 @@ import javax.persistence.Column;
 
 
 @Entity
-@Table(name = "COUPON")
-
+@Table(name = "COUPON", uniqueConstraints= {@UniqueConstraint(columnNames= {"CODE"})})
 public class Coupon implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	private long couponID;
 	private String code;
 	private int discount;
-	private Date expireDate;
-	private long usageCounter;
-	//private Set<User> beneficiaries = new HashSet<User>(); //utenti che hanno utilizzato il coupon
+	private Date expireDate; //Data di scadenza
+	private long usageCounter; //Numero di utilizzi, visualizzato solo dall'admin
 	
 	
 	@Id

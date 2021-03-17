@@ -16,9 +16,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="PAYMENT_CARDS")
+@Table(name="PAYMENT_CARDS", uniqueConstraints= {@UniqueConstraint(columnNames= {"NUMBER", "USER_ID"})})
 public class PaymentCard implements Serializable{
 	
 	private static final long serialVersionUID = 1L;

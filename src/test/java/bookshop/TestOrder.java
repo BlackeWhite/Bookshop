@@ -7,13 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -30,7 +28,6 @@ import it.bookshop.model.dao.OrderDao;
 import it.bookshop.model.dao.UserDetailsDao;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.BookOrder;
-import it.bookshop.model.entity.BookOrderId;
 import it.bookshop.model.entity.Order;
 import it.bookshop.model.entity.User;
 import it.bookshop.test.DataServiceConfigTest;
