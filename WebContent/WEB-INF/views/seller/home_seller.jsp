@@ -106,8 +106,8 @@
 														</div>
 														<div class="col price-data">
 															<span class="field">Copie disponibili:</span> <span>
-																${sellerBooks.copies}</span> <br> <span class="field">Prezzo (con IVA):</span>
-															<span>${sellerBooks.formattedPrice}</span>
+																${sellerBooks.copies}</span> <br> <span class="field">Prezzo (senza IVA):</span>
+															<span>${sellerBooks.formattedPriceNoVat}</span>
 														</div>
 													</div>
 												</div>

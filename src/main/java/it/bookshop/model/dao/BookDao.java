@@ -11,10 +11,8 @@ import it.bookshop.model.entity.User;
 public interface BookDao {
 	Session getSession();
 	public void setSession(Session session);
-	
 	List<Book> findAll();
 	List<Book> findAll(Double price_min, Double price_max, String order_by);
-	
 	Book findById(Long bookId);
 	List<Book> searchBooksByParams(String search_by, String term, Double price_min, Double price_max, String order_by);
 	List<Book> searchBooksByParamsAndAuthor(String term, Double price_min, Double price_max, String order_by);
@@ -28,6 +26,5 @@ public interface BookDao {
 	List<Book> findAllBookForGenre(String name);
 	Book create(Bookform book, User seller);
 	List<Book> findSellerBook(Long id);
-	void removeBook(Book book);
-	
+	void removeBook(Book book);	
 }

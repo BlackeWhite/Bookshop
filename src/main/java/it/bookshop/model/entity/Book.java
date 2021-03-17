@@ -39,14 +39,14 @@ public class Book implements Serializable {
 	private String title;
 	private int copies; // Copie Disponibili
 	private int soldCopies; // Copie vendute
-	private int clicked; // quante volte il libro � stato visitato dagli utenti
+	private int clicked; // quante volte il libro viene visitato dagli utenti
 	private double price;
 	private Date publish;
 	private Date insertdata;
 	private int pages;
-	private double discount; // se al libro � applicato uno sconto
+	private double discount; // se al libro viene applicato uno sconto
 	private int removed; // Flag per discriminare i libri rimossi
-	private String summary; // short synthesis for book preview
+	private String summary; // descrizione breve del libro 
 	private String cover; // file name of cover image
 	private User seller; // Seller of the book
 	private Set<Author> authors = new HashSet<Author>();
@@ -221,7 +221,7 @@ public class Book implements Serializable {
 
 	public void addAuthors(Author a) {
 		this.authors.add(a);
-		a.getBooks().add(this); // NB nota che non usiamo l'utility method addInstrument
+		a.getBooks().add(this); 
 	}
 
 	public void removeAuthors(Author a) {
@@ -243,7 +243,7 @@ public class Book implements Serializable {
 
 	public void addGenres(Genre g) {
 		this.genres.add(g);
-		g.getBooks().add(this); // NB nota che non usiamo l'utility method addInstrument
+		g.getBooks().add(this); 
 	}
 
 	public void removeGenres(Genre g) {
@@ -298,7 +298,7 @@ public class Book implements Serializable {
 	public double getDiscountedPrice() {
 		return getPriceWithVat() * (1 - discount);
 	}
-
+    // mostra il prezzo (con eventuale sconto) senza iva
 	@Transient
 	public double getDiscountedPriceNoVat() {
 		return getPrice() * (1 - discount);
