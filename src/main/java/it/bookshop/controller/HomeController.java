@@ -381,11 +381,18 @@ public class HomeController {
 			userService.create("admin", "admin@email.com", "admin", "admin", "admin", null, "Via brecce bianche",
 					"Ancona", 60000, "Italia", Arrays.asList("ADMIN"));
 		}
-		// venditore 
+		// venditori 
 		User seller = userService.findUserByUsername("libreria");
 		if (seller == null) {
 			seller  = userService.create("libreria", "seller@email.com", "1234", "libreria", "ragni", null,
 					"Via ugo bassi", "Ancona", 60000, "Italia", Arrays.asList("SELLER"));
+ 
+		}
+		
+		User seller1 = userService.findUserByUsername("Mondadori");
+		if (seller1 == null) {
+			seller1  = userService.create("Mondadori", "mondadori@email.com", "1234", "Ernesto", "Mauri", null,
+					"Via tiburtina", "Milano", 20010, "Italia", Arrays.asList("SELLER"));
  
 		}
 		
@@ -423,11 +430,18 @@ public class HomeController {
 		java.sql.Date dateC1 = new java.sql.Date(datec1.getTime());
 		java.sql.Date dateC2 = new java.sql.Date(datec2.getTime());
 		
-		// acquirente 
+		// acquirenti
 		User buyer = userService.findUserByUsername("user1");
 		if (buyer == null) {
 			buyer = userService.create("user1", "user1@email.com", "5678", "Roberto", "Rossi", date_birth,
 					"Via ugo bassi", "Ancona", 60121, "Italia", Arrays.asList("USER"));
+ 
+		}
+		
+		User buyer1 = userService.findUserByUsername("user2");
+		if (buyer1 == null) {
+			buyer1 = userService.create("user2", "user2@email.com", "0000", "Franceso", "Pozzo", date_birth,
+					"Via flaminia", "Ancona", 60121, "Italia", Arrays.asList("USER"));
  
 		}
 		
@@ -438,7 +452,7 @@ public class HomeController {
 		bookService.create("Dante", "Alighieri", "838832989113223", "La Divina Commedia", publish_date1, publish_date1,
 				3, 34, seller, 300, "Nel mezzo del cammin...", "6.jpg", Arrays.asList("Poema"), 0.15);
 		bookService.create("J.J.R.", "Tolkien", "746382492401", "Il Signore degli Anelli - Le due torri", publish_date2,
-				publish_date2, 4, 40.99, seller, 450, "Sauron � tornato a Mordor...", "7.jpg", Arrays.asList("Fantasy"),
+				publish_date2, 4, 40.99, seller1, 450, "Sauron � tornato a Mordor...", "7.jpg", Arrays.asList("Fantasy"),
 				0);
 		bookService.create("Alessandro", "Manzoni", "8235234631481401", "I promessi sposi", publish_date3,
 				publish_date3, 10, 25.99, seller, 370, "Renzo e Lucia ...", "8.jpg", Arrays.asList("Romanzo"), 0);
@@ -452,18 +466,18 @@ public class HomeController {
 				publish_date6, publish_date6, 10, 37.99, seller, 390, "Aragorn, dopo un discorso da Oscar ...", "10.jpg",
 				Arrays.asList("Fantasy"), 0.10);
 		bookService.create("Michael", "Crichton", "198934345798876", "Jurassic Park", publish_date3, publish_date3, 12,
-				18.30, null, 267, "Alan Grant � un paleontologo che ...", "12.jpg",
+				18.30, seller1, 267, "Alan Grant � un paleontologo che ...", "12.jpg",
 				Arrays.asList("Fantascienza", "Horror"), 0);
 		bookService.create("Stephen W.", "Hawking", "5667899121887",
-				"Dal Big Bang ai buchi neri - Breve storia del tempo", publish_date4, publish_date4, 18, 23, null, 280,
+				"Dal Big Bang ai buchi neri - Breve storia del tempo", publish_date4, publish_date4, 18, 23, seller1, 280,
 				"Il Big Bang � stato un evento ...", "13.jpg", Arrays.asList("Divulgativo"), 0.20);
 		bookService.create("Primo", "Levi", "23456789045678", "Se questo � un uomo", publish_date1, publish_date1, 15,
-				28.99, null, 220, "Boh non me ricordo ...", "14.jpg", Arrays.asList("Biografia"), 0);
+				28.99, seller1, 220, "Boh non me ricordo ...", "14.jpg", Arrays.asList("Biografia"), 0);
 		bookService.create("Michael", "Ende", "345678899876756", "La storia infinita", publish_date2, publish_date2, 20,
-				15.00, null, 440, "Questa scritta stava sulla porta ...", "15.jpg",
+				15.00, seller1, 440, "Questa scritta stava sulla porta ...", "15.jpg",
 				Arrays.asList("Avventura", "Fantasy"), 0);
 		bookService.create("Rick", "Riordan", "234559878653546",
-				"Percy Jackson e gli dei dell'Olimpo - Il ladro di fulmini", publish_date4, publish_date4, 15, 17, null,
+				"Percy Jackson e gli dei dell'Olimpo - Il ladro di fulmini", publish_date4, publish_date4, 15, 17, seller1,
 				500, "Percy era il figlio Poseidone...", "16.jpg", Arrays.asList("Avventura", "Fantasy"), 0);
 		bookService.create("Conan", "Doyle", "111111111111", "Le avventure di Sherlock Holmes", publish_date6,
 				publish_date6, 5, 20.99, seller, 256, "Elementare Watson! ...", "17.jpg",
