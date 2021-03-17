@@ -7,7 +7,7 @@
 	<div class="row no-gutters">
 		<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
 			<img src="<c:url value="/resources/img/cover_book/${book.cover}"/>"
-				alt="#" class="center_image">
+				alt="#" class="center_image2">
 
 		</div>
 		<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
@@ -16,13 +16,14 @@
 				<h2>${book.title}</h2>
 				<h4>
 					<i> Di <c:forEach items="${authorsList}" var="authorsList">
-						<c:if test = "${authorsList.surname != '#SURNAME_PLACEHOLDER'}">
-							<a href=" <c:url value ="/show_author/${authorsList.id}"/>"> - ${authorsList.name}
-								${authorsList.surname}</a>
-						</c:if>
-						<c:if test = "${authorsList.surname == '#SURNAME_PLACEHOLDER'}">
-							<a href=" <c:url value ="/show_author/${authorsList.id}"/>"> - ${authorsList.name}</a>
-						</c:if>
+							<c:if test="${authorsList.surname != '#SURNAME_PLACEHOLDER'}">
+								<a href=" <c:url value ="/show_author/${authorsList.id}"/>">
+									- ${authorsList.name} ${authorsList.surname}</a>
+							</c:if>
+							<c:if test="${authorsList.surname == '#SURNAME_PLACEHOLDER'}">
+								<a href=" <c:url value ="/show_author/${authorsList.id}"/>">
+									- ${authorsList.name}</a>
+							</c:if>
 						</c:forEach>
 					</i>
 				</h4>
@@ -63,15 +64,15 @@
 					</div>
 				</div>
 
-		<security:authorize access="isAnonymous()">
-			<div class="quantity">
-				<b> Effettua il login per poter acquistare </b>
-				<div class="input-group"></div>
-			</div>
-			<div class="add-to-cart">
-				<a href="<c:url value="/login"/>" class="btn add_to_cart">Login</a>
-			</div>
-		</security:authorize>
+				<security:authorize access="isAnonymous()">
+					<div class="quantity">
+						<b> Effettua il login per poter acquistare </b>
+						<div class="input-group"></div>
+					</div>
+					<div class="add-to-cart">
+						<a href="<c:url value="/login"/>" class="btn add_to_cart">Login</a>
+					</div>
+				</security:authorize>
 
 				<security:authorize access="hasRole('USER')">
 					<div class="quantity">
@@ -104,23 +105,22 @@
 
 					<div class="add-to-cart">
 
-						<a data-book="${book.id}" class="btn add_to_cart pointer">Aggiungi al
-							carrello</a>
+						<a data-book="${book.id}" class="btn add_to_cart pointer">Aggiungi
+							al carrello</a>
 					</div>
 					</c:if>
 				</security:authorize>
 				<security:authorize access="hasAnyRole('SELLER','ADMIN')">
 					<div class="quantity">
-						<b> Non hai i permessi per acquistare un libro, crea un account standard </b>
+						<b> Non hai i permessi per acquistare un libro, crea un
+							account standard </b>
 						<div class="input-group"></div>
 					</div>
 					<div class="add-to-cart">
 						<br>
 					</div>
 
-			</security:authorize>
-
-				</div>
+				</security:authorize>
 				<div class="default-social">
 					<h4 class="share-now">Share:</h4>
 					<ul>
@@ -135,162 +135,157 @@
 				</div>
 			</div>
 
+		</div>
 
-					<!-- Start Most Popular -->
-					<div class="product-area most-popular section">
-						<div class="container">
-							<div class="row">
-								<div class="col-12">
-									<c:if test="${checklistgenre == false }">
-										<div>
-											<h2>Libri dello stesso genere che potrebbero
-												interessarti</h2>
-										</div>
-									</c:if>
-								</div>
+
+		<!-- Start Most Popular -->
+		<div class="product-area most-popular section">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<c:if test="${checklistgenre == false }">
+							<div>
+								<h2>Libri dello stesso genere che potrebbero interessarti</h2>
 							</div>
-							<div class="row">
-								<div class="col-12">
-									<div class="owl-carousel popular-slider">
+						</c:if>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<div class="owl-carousel popular-slider">
 
-										<!-- Start Single Product -->
-										<c:forEach items="${booksimilgenre}" var="bookinterestgenre">
-											<div class="single-product">
-												<div class="product-img">
-													<a
-														href="<c:url value="/show_book/${bookinterestgenre.id}"/>">
-														<img class="default-img"
-														style="height: 300px; object-fit: contain"
-														src="<c:url value="/resources/img/cover_book/${bookinterestgenre.cover}"/>"
-														alt="#"> <img class="hover-img"
-														style="height: 300px; object-fit: contain"
-														src="<c:url value="/resources/img/cover_book/${bookinterestgenre.cover}"/>"
-														alt="#"> <c:if
-															test="${bookinterestgenre.discount > 0}">
-															<span class="price-dec">${bookinterestgenre.truncatedDiscount}%</span>
-														</c:if>
-													</a>
-													<security:authorize access="hasRole('USER')">
+							<!-- Start Single Product -->
+							<c:forEach items="${booksimilgenre}" var="bookinterestgenre">
+								<div class="single-product">
+									<div class="product-img">
+										<a href="<c:url value="/show_book/${bookinterestgenre.id}"/>">
+											<img class="default-img"
+											style="height: 300px; object-fit: contain"
+											src="<c:url value="/resources/img/cover_book/${bookinterestgenre.cover}"/>"
+											alt="#"> <img class="hover-img"
+											style="height: 300px; object-fit: contain"
+											src="<c:url value="/resources/img/cover_book/${bookinterestgenre.cover}"/>"
+											alt="#"> <c:if test="${bookinterestgenre.discount > 0}">
+												<span class="price-dec">${bookinterestgenre.truncatedDiscount}%</span>
+											</c:if>
+										</a>
+										<security:authorize access="hasRole('USER')">
 
-														<div class="button-head">
-															<div class="product-action"></div>
-															<div class="product-action-2">
-																<c:if test="${bookinterestgenre.copies > 0 }">
-																	<input type="hidden" value="1"
-																		id="amount_${bookinterestgenre.id}">
-																	<a data-book="${bookinterestgenre.id}"
-																		class="btn add_to_cart">Aggiungi al carrello</a>
-																</c:if>
-																<c:if test="${bookinterestgenre.copies <= 0 }">
-																	<a>Non disponibile</a>
-																</c:if>
-															</div>
-
-														</div>
-													</security:authorize>
-
+											<div class="button-head">
+												<div class="product-action"></div>
+												<div class="product-action-2">
+													<c:if test="${bookinterestgenre.copies > 0 }">
+														<input type="hidden" value="1"
+															id="amount_${bookinterestgenre.id}">
+														<a data-book="${bookinterestgenre.id}"
+															class="btn add_to_cart">Aggiungi al carrello</a>
+													</c:if>
+													<c:if test="${bookinterestgenre.copies <= 0 }">
+														<a>Non disponibile</a>
+													</c:if>
 												</div>
-												<div class="product-content">
-													<h4>
-														<a
-															href="<c:url value="/show_book/${bookinterestgenre.id}"/>">${bookinterestgenre.title}</a>
-													</h4>
-													<div class="product-price">
-														<c:if test="${bookinterestgenre.discount > 0}">
-															<span class="old">${bookinterestgenre.formattedPrice}</span>
-															<span>${bookinterestgenre.formattedDiscountedPrice}</span>
-														</c:if>
-														<c:if test="${bookinterestgenre.discount == 0}">
-															<span>${bookinterestgenre.formattedPrice}</span>
-														</c:if>
-													</div>
-												</div>
+
 											</div>
-										</c:forEach>
-										<!-- End Single Product -->
+										</security:authorize>
 
 									</div>
-								</div>
-							</div>
-						</div>
-						<br>
-						<div class="container">
-							<div class="row">
-								<div class="col-12">
-									<c:if test="${checklistaut == false }">
-										<div>
-											<h2>Libri dello stesso autore che potrebbero
-												interessarti</h2>
+									<div class="product-content">
+										<h4>
+											<a href="<c:url value="/show_book/${bookinterestgenre.id}"/>">${bookinterestgenre.title}</a>
+										</h4>
+										<div class="product-price">
+											<c:if test="${bookinterestgenre.discount > 0}">
+												<span class="old">${bookinterestgenre.formattedPrice}</span>
+												<span>${bookinterestgenre.formattedDiscountedPrice}</span>
+											</c:if>
+											<c:if test="${bookinterestgenre.discount == 0}">
+												<span>${bookinterestgenre.formattedPrice}</span>
+											</c:if>
 										</div>
-									</c:if>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-12">
-									<div class="owl-carousel popular-slider">
-
-										<!-- Start Single Product -->
-										<c:forEach items="${booksimilaut}" var="bookinterestaut">
-											<div class="single-product">
-												<div class="product-img">
-													<a href="<c:url value="/show_book/${bookinterestaut.id}"/>">
-														<img class="default-img"
-														style="height: 300px; object-fit: contain"
-														src="<c:url value="/resources/img/cover_book/${bookinterestaut.cover}"/>"
-														alt="#"> <img class="hover-img"
-														style="height: 300px; object-fit: contain"
-														src="<c:url value="/resources/img/cover_book/${bookinterestaut.cover}"/>"
-														alt="#"> <c:if
-															test="${bookinterestaut.discount > 0}">
-															<span class="price-dec">${bookinterestaut.truncatedDiscount}%</span>
-														</c:if>
-													</a>
-													<security:authorize access="hasRole('USER')">
-														<div class="button-head">
-															<div class="product-action"></div>
-															<div class="product-action-2">
-																<c:if test="${bookinterestaut.copies > 0 }">
-																	<input type="hidden" value="1"
-																		id="amount_${bookinterestaut.id}">
-																	<a data-book="${bookinterestaut.id}"
-																		class="btn add_to_cart">Aggiungi al carrello</a>
-																</c:if>
-																<c:if test="${bookinterestaut.copies <= 0 }">
-																	<a>Non disponibile</a>
-																</c:if>
-															</div>
-
-														</div>
-													</security:authorize>
-
-												</div>
-												<div class="product-content">
-													<h4>
-														<a
-															href="<c:url value="/show_book/${bookinterestaut.id}"/>">${bookinterestaut.title}</a>
-													</h4>
-													<div class="product-price">
-														<c:if test="${bookinterestaut.discount > 0}">
-															<span class="old">${bookinterestaut.formattedPrice}</span>
-															<span>${bookinterestaut.formattedDiscountedPrice}</span>
-														</c:if>
-														<c:if test="${bookinterestaut.discount == 0}">
-															<span>${bookinterestgenre.formattedPrice}</span>
-														</c:if>
-													</div>
-												</div>
-											</div>
-										</c:forEach>
-										<!-- End Single Product -->
-
 									</div>
 								</div>
-							</div>
+							</c:forEach>
+							<!-- End Single Product -->
+
 						</div>
 					</div>
-
-					<!-- End Most Popular Area -->
-
 				</div>
 			</div>
+			<br>
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<c:if test="${checklistaut == false }">
+							<div>
+								<h2>Libri dello stesso autore che potrebbero interessarti</h2>
+							</div>
+						</c:if>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<div class="owl-carousel popular-slider">
+
+							<!-- Start Single Product -->
+							<c:forEach items="${booksimilaut}" var="bookinterestaut">
+								<div class="single-product">
+									<div class="product-img">
+										<a href="<c:url value="/show_book/${bookinterestaut.id}"/>">
+											<img class="default-img"
+											style="height: 300px; object-fit: contain"
+											src="<c:url value="/resources/img/cover_book/${bookinterestaut.cover}"/>"
+											alt="#"> <img class="hover-img"
+											style="height: 300px; object-fit: contain"
+											src="<c:url value="/resources/img/cover_book/${bookinterestaut.cover}"/>"
+											alt="#"> <c:if test="${bookinterestaut.discount > 0}">
+												<span class="price-dec">${bookinterestaut.truncatedDiscount}%</span>
+											</c:if>
+										</a>
+										<security:authorize access="hasRole('USER')">
+											<div class="button-head">
+												<div class="product-action"></div>
+												<div class="product-action-2">
+													<c:if test="${bookinterestaut.copies > 0 }">
+														<input type="hidden" value="1"
+															id="amount_${bookinterestaut.id}">
+														<a data-book="${bookinterestaut.id}"
+															class="btn add_to_cart">Aggiungi al carrello</a>
+													</c:if>
+													<c:if test="${bookinterestaut.copies <= 0 }">
+														<a>Non disponibile</a>
+													</c:if>
+												</div>
+
+											</div>
+										</security:authorize>
+
+									</div>
+									<div class="product-content">
+										<h4>
+											<a href="<c:url value="/show_book/${bookinterestaut.id}"/>">${bookinterestaut.title}</a>
+										</h4>
+										<div class="product-price">
+											<c:if test="${bookinterestaut.discount > 0}">
+												<span class="old">${bookinterestaut.formattedPrice}</span>
+												<span>${bookinterestaut.formattedDiscountedPrice}</span>
+											</c:if>
+											<c:if test="${bookinterestaut.discount == 0}">
+												<span>${bookinterestgenre.formattedPrice}</span>
+											</c:if>
+										</div>
+									</div>
+								</div>
+							</c:forEach>
+							<!-- End Single Product -->
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- End Most Popular Area -->
+
 	</div>
+</div>
+</div>
