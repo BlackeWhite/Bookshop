@@ -20,17 +20,7 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 	public Author findById(Long id) {
 		return getSession().find(Author.class, id);
 	}
-	 /*
-	@Override
-	public List<Author> findMostSelledAuthor(){
-		return this.getSession().createQuery("SELECT b.author, SUM(b.soldCopies) FROM book b GROUP BY b.author", Author.class).setMaxResults(5).getResultList();
-	}
-	
-	@Override
-	public List<Author> findMostSelledAuthor() { 
-		return this.getSession().createQuery("select b from Book b join b.author a WHERE a.id = b.id", Author.class).getResultList();
-	}
-	*/
+
 	@Override
 	public List <Book> findBookForAuthor(Author author){
 		// restituisce una lista di tutti i libri di un particolare autore
@@ -40,33 +30,44 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 	@Override
 	public Author create(String name, String surname, Date date, String nationality, String biography, String photo) {
 		Author a = new Author();
-		a.setName(name);
+		a.setName(name.trim());
 		
 		if(surname.isEmpty()) {
 			a.setSurname("#SURNAME_PLACEHOLDER");
 			}
 		else {
-			a.setSurname(surname);
+			a.setSurname(surname.trim());
 		}
 		a.setBirthdate(date);
 		a.setNationality(nationality);
 		a.setBiography(biography);
 		a.setPhoto(photo);
 		if(a.getPhoto().isEmpty()) a.setPhoto("profile-placeholder.png");
+		try {
+			/*
+			 * Utilizzato nei test
+			 */
+			if (this.getSession().createQuery("FROM Author a WHERE a.name = :name and a.surname = :surname", Author.class).setParameter("name", name).setParameter("surname", surname).getSingleResult() != null) {
+			throw new RuntimeException("Already added author"); }
+		} catch (NoResultException e){};
 		getSession().save(a);
 		return a;
 	}
+	
 	@Override
 	public Author create(String name, String surname) {
 		Author a = new Author();
-		a.setName(name);
+		a.setName(name.trim());
 		if(surname.isEmpty()) {
 			a.setSurname("#SURNAME_PLACEHOLDER");
 			}
 		else {
-			a.setSurname(surname);
+			a.setSurname(surname.trim());
 		}
 		try {
+			/*
+			 * Utilizzato nei test
+			 */
 			if (this.getSession().createQuery("FROM Author a WHERE a.name = :name and a.surname = :surname", Author.class).setParameter("name", name).setParameter("surname", surname).getSingleResult() != null) {
 			throw new RuntimeException("Already added author"); }
 		} catch (NoResultException e){};
