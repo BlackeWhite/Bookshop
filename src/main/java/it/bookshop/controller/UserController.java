@@ -51,19 +51,10 @@ public class UserController {
 	@Autowired
 	private CouponService couponService;
 
+	//Pagina del carrello
 	@GetMapping(value = "/cart")
 	public String cart(Locale locale, Model model, Authentication authentication) {
 		System.out.println("User Controller Page Requested,  locale = " + locale);
-
-		/*
-		 * DateFormat date = new SimpleDateFormat("dd-MM-yyyy"); java.util.Date date_x =
-		 * null; try { date_x = date.parse("21-01-2005"); } catch (ParseException e) {
-		 * // TODO Auto-generated catch block e.printStackTrace(); } Date birth = new
-		 * Date(date_x.getTime()); long cap = 60135; userService.create( "red_mario65",
-		 * "mariorossi65@gmail.com", "m5r10r0ss1", "Mario", "Rossi", birth,
-		 * "Via Giuseppe Verdi 14", "Ancona", cap, "Italia"); shopCartService.create(
-		 * Long.valueOf(1), //id user Long.valueOf(2), //id book 2); //copie
-		 */
 
 		String principal_name = authentication.getName();
 		User user = userService.findUserByUsername(principal_name);
@@ -173,15 +164,6 @@ public class UserController {
 		String principal_name = authentication.getName();
 		User buyer = userService.findUserByUsername(principal_name);
 
-		/*
-		 * else if (reqBody.getArg2().equals("coupon")) { Coupon coupon =
-		 * couponService.findByCode(reqBody.getArg3()); if (coupon!= null) { if (true)
-		 * //user.checkUsage(coupon) { return new httpResponseBody("already used", "",
-		 * "", ""); } else { //user.addUsedCoupon(coupon); return new
-		 * httpResponseBody("", "", "", ""); } } else { return new httpResponseBody("",
-		 * "", "", ""); } }
-		 */
-
 		if (buyer.getCartTotalItems() == 0 || !copies_check(buyer)) {
 			return "redirect:/cart";
 		}
@@ -290,6 +272,7 @@ public class UserController {
 		return new httpResponseBody(shipmentAddress, payment, date, "");
 	}
 
+	//Cronologia degli acquisti
 	@GetMapping(value = "/purchase_history")
 	public String purchaseHistory(@RequestParam(required = false) Integer page, Locale locale, Model model,
 			Authentication authentication) {
@@ -297,7 +280,7 @@ public class UserController {
 		String principal_name = authentication.getName();
 		User user = userService.findUserByUsername(principal_name);
 
-		// PAGINAZIONE ORDINI
+		// PAGINAZIONE ACQUISTI
 		List<Order> orders = orderService.findUserOrders(user);
 		PagedListHolder<Order> pagedListHolder = new PagedListHolder<>(orders);
 		pagedListHolder.setPageSize(10);
@@ -339,6 +322,7 @@ public class UserController {
 
 	}
 
+	//Classe per la richiesta ajax per aumentare, diminuire o eliminare libri dalla pagina del carrello
 	public static class CartRequestBody {
 
 		private long bookID;
@@ -385,6 +369,7 @@ public class UserController {
 
 	}
 
+	//Classe generica utilizzata per diversi response di richieste Ajax
 	public static class httpResponseBody {
 
 		private String response1;
@@ -433,6 +418,7 @@ public class UserController {
 		}
 	}
 
+	//Classe per la richiesta Ajax del Checkout
 	public static class checkoutRequestBody {
 
 		private String arg1;
@@ -468,6 +454,7 @@ public class UserController {
 		}
 	}
 
+	//Response body della richiesta Ajax per aggiornare il mini carrello
 	public static class addCartResponse {
 		private String operation;
 		private long bookID;

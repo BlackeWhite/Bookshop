@@ -14,7 +14,6 @@ public interface BookOrderDao {
 	public Session getSession();
 	public void setSession(Session session);
 	
-	public BookOrder create(Order order, Book book, int copies);
 	public BookOrder create(Order order, BookOrder b);
 	
 	public List<BookOrder> findbyId(long id);

@@ -1,6 +1,5 @@
 package it.bookshop.services;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import it.bookshop.model.Object_form.BookInfoResponse;
@@ -19,9 +18,7 @@ public interface OrderService {
 	
 	public Order update(Order order);
 	public List<Order> findAll();
-	public List<Order> findAllMadeAfter(LocalDateTime date);
 	public List<Order> findUserOrders(User user);
-	public List<Order> findUserOrdersMadeAfter(User user, LocalDateTime date);
 	public void delete(Order order);
 
 	List<BookOrder> findbyId(long id);

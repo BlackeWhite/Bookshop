@@ -4,12 +4,10 @@ package it.bookshop.model.dao;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.BookOrder;
@@ -18,25 +16,6 @@ import it.bookshop.model.entity.Order;
 
 @Repository("bookOrderDao")
 public class BookOrderDaoDefault extends DefaultDao implements BookOrderDao {
-
-	@Override
-	public BookOrder create(Order order, Book book, int copies) {
-		Date data_buy = new Date(Calendar.getInstance().getTime().getTime());
-		BookOrder b = new BookOrder();
-		BookOrderId id = new BookOrderId(order.getId(), book.getId());
-		b.setId(id);
-		b.setOrder(order);
-		b.setBook(book);
-		book.setCopies(book.getCopies()-copies); //aggiornamento copie disponibili 
-		book.setCopies(book.getSoldCopies()+copies); //aggiornamento copie vendute 
-		b.setCopies(copies);
-		b.setPrice(book.getDiscountedPrice());
-		b.setPurchasedate(data_buy);
-		b.setPricenovat(book.getDiscountedPriceNoVat());
-		getSession().save(b);
-		return b;
-	}
-
 
 	@Override
 	public BookOrder create(Order order, BookOrder b) {
