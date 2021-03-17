@@ -6,72 +6,35 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
+import java.util.Iterator;
+
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
+
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import it.bookshop.app.DataServiceConfig;
-import it.bookshop.model.dao.AuthorDao;
+
 import it.bookshop.model.dao.BookDao;
-import it.bookshop.model.dao.BookOrderDao;
 import it.bookshop.model.dao.GenreDao;
-import it.bookshop.model.dao.OrderDao;
-import it.bookshop.model.dao.RoleDao;
 import it.bookshop.model.dao.UserDetailsDao;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
-import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.User;
-import it.bookshop.services.BookService;
-import it.bookshop.services.UserService;
 import it.bookshop.test.DataServiceConfigTest;
 
 public class TestBook {
-	
+
 	private static SessionFactory sf;
 	private static AnnotationConfigApplicationContext ctx;
+	private static Book b;
+	private static User u;
 
-		
-	@BeforeEach
-	void openContext() {
-		ctx = new AnnotationConfigApplicationContext(DataServiceConfigTest.class);
-		sf = ctx.getBean("sessionFactory", SessionFactory.class);
-	}
-
-	@AfterEach
-	void closeContext() {
-		ctx.close();
-	}
-
-		
-	@Test
-	void testBeginCommitTransaction() {
-	
-			Session s = sf.openSession();
-			BookDao bookdao = ctx.getBean(BookDao.class);
-
-			assertTrue(s.isOpen()); // verifica se comunica con il db
-
-			s.beginTransaction();
-
-			bookdao.setSession(s);
-			assertEquals(s, bookdao.getSession()); // verifica se è la stessa sessione
-			s.getTransaction().commit();
-
-			assertFalse(s.getTransaction().isActive());
-
-	}
-
-	@Test
-	void testCreateofBook() {
+	@BeforeAll
+    public static void setup() {
 		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(
 				DataServiceConfigTest.class)) {
 
@@ -98,25 +61,216 @@ public class TestBook {
 					e.printStackTrace();
 				}
 				Date publish_date1 = new Date(date1.getTime());
-				// creo un genere
-				Genre g1 = genredao.create("Poema");
+				// associo un genere
+				Genre g1 = genredao.findByName("Poema");
+				if (g1 == null) {
+					g1 = genredao.create("Poema");
+				}
 				// venditore
-				User u = userdao.findUserByUsername("unitTesting");
+				u = userdao.findUserByUsername("unitBook");
 				if (u == null) {
-					u = userdao.create("unitTesting", "email", "pass", "test", "surname",
+					u = userdao.create("unitBook", "email", "pass", "test", "surname",
 							new Date(System.currentTimeMillis()), "test", "test", 3333, "test");
 				}
-
-				Book b = bookdao.create("CCCC", "Book2", publish_date1, publish_date1, 1, 30, u, 20, "summary2",
-						"image2", 0.30);
+				// creo il libro
+				b = bookdao.create("CCCC", "Book2", publish_date1, publish_date1, 1, 30, u, 20, "summary2", "image2",
+						0.30);
 				g1.addBooks(b);
-
-				Book b1 = bookdao.findById(b.getId());
+				
 				session.getTransaction().commit();
-				assertEquals(b.getClass().getSimpleName(), "Book");
-				assertEquals(b.getGenres().iterator().next(), g1); // genere del libro uguale al genere creato
-				assertEquals(b, b1); // verifico che il libro è stato creato nel db
+
 			}
+		}
+
+	}
+
+
+	@Test
+	void testCreateofBook() {
+		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(
+				DataServiceConfigTest.class)) {
+
+			SessionFactory sf = ctx.getBean("sessionFactory", SessionFactory.class);
+			BookDao bookdao = ctx.getBean(BookDao.class);
+			UserDetailsDao userdao = ctx.getBean(UserDetailsDao.class);
+			GenreDao genredao = ctx.getBean(GenreDao.class);
+
+			try (Session session = sf.openSession()) {
+				// Start the bean' sessions
+				genredao.setSession(session);
+				bookdao.setSession(session);
+				userdao.setSession(session);
+
+				session.beginTransaction();
+				DateFormat date = new SimpleDateFormat("dd-MM-yyyy");
+				java.util.Date date1 = null;
+
+				try {
+					date1 = date.parse("21-01-2015");
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Date publish_date1 = new Date(date1.getTime());
+	
+				// creo un libro uguale
+				Book b1 = bookdao.create("CCCC", "Book2", publish_date1, publish_date1, 1, 30, u, 20, "summary2", "image2",
+						0.30);
+				session.getTransaction().commit();
+
+				assertEquals(b.getClass().getSimpleName(), "Book");
+				assertEquals(b.getGenres().iterator().next().getName(), "Poema"); // genere del libro uguale al genere creato
+				assertEquals(b.getTitle(), b1.getTitle()); // possono esistere due libri con lo stesso titolo sul db
+
+			}
+		}
+	}
+
+	@Test
+	void testClickedBook() {
+
+		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(
+				DataServiceConfigTest.class)) {
+
+			SessionFactory sf = ctx.getBean("sessionFactory", SessionFactory.class);
+			BookDao bookdao = ctx.getBean(BookDao.class);
+			UserDetailsDao userdao = ctx.getBean(UserDetailsDao.class);
+			GenreDao genredao = ctx.getBean(GenreDao.class);
+
+			try (Session session = sf.openSession()) {
+				// Start the bean' sessions
+				genredao.setSession(session);
+				bookdao.setSession(session);
+				userdao.setSession(session);
+
+				session.beginTransaction();
+
+				// associo un genere
+				Genre g1 = genredao.findByName("Poema");
+
+				// aggiungo un click al libro
+				b.setClicked(1);
+				bookdao.update(b);
+
+				Iterator<Book> itbook = bookdao.findMostClick().iterator();
+
+				while (itbook.hasNext()) {
+					Book book_temp = itbook.next();
+					if (book_temp.equals(b)) {
+						if (book_temp.getClicked() == 1) {
+							assertTrue(true);
+
+						} else
+							assertTrue(false);
+					}
+				}
+				session.getTransaction().commit();
+			}
+
+		}
+
+	}
+
+	@Test
+	void testSaleBook() {
+
+		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(
+				DataServiceConfigTest.class)) {
+
+			SessionFactory sf = ctx.getBean("sessionFactory", SessionFactory.class);
+			BookDao bookdao = ctx.getBean(BookDao.class);
+			UserDetailsDao userdao = ctx.getBean(UserDetailsDao.class);
+			GenreDao genredao = ctx.getBean(GenreDao.class);
+
+			try (Session session = sf.openSession()) {
+				// Start the bean' sessions
+				genredao.setSession(session);
+				bookdao.setSession(session);
+				userdao.setSession(session);
+
+				session.beginTransaction();
+
+				// aggiungo uno sconto al libro
+				b.setDiscount(0.20);
+				bookdao.update(b);
+
+				Iterator<Book> itbook = bookdao.findBookOnSale().iterator();
+
+				while (itbook.hasNext()) {
+					Book book_temp = itbook.next();
+					if (book_temp.equals(b)) {
+						assertTrue(true); // libro in sconto trovato
+					}
+				}
+				session.getTransaction().commit();
+			}
+
+		}
+	}
+
+	@Test
+	void testRecentBook() {
+
+		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(
+				DataServiceConfigTest.class)) {
+
+			SessionFactory sf = ctx.getBean("sessionFactory", SessionFactory.class);
+			BookDao bookdao = ctx.getBean(BookDao.class);
+			UserDetailsDao userdao = ctx.getBean(UserDetailsDao.class);
+			GenreDao genredao = ctx.getBean(GenreDao.class);
+
+			try (Session session = sf.openSession()) {
+				// Start the bean' sessions
+				genredao.setSession(session);
+				bookdao.setSession(session);
+				userdao.setSession(session);
+
+				session.beginTransaction();
+
+				Iterator<Book> itbook = bookdao.findFiveMostRecentBook().iterator();
+
+				while (itbook.hasNext()) {
+					Book book_temp = itbook.next();
+					if (book_temp.equals(b)) {
+						assertTrue(true); // libro aggiunto di recente trovato
+					}
+				}
+				session.getTransaction().commit();
+			}
+
+		}
+	}
+
+	@Test
+	void testGenreBook() {
+
+		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(
+				DataServiceConfigTest.class)) {
+
+			SessionFactory sf = ctx.getBean("sessionFactory", SessionFactory.class);
+			BookDao bookdao = ctx.getBean(BookDao.class);
+			UserDetailsDao userdao = ctx.getBean(UserDetailsDao.class);
+			GenreDao genredao = ctx.getBean(GenreDao.class);
+
+			try (Session session = sf.openSession()) {
+				// Start the bean' sessions
+				genredao.setSession(session);
+				bookdao.setSession(session);
+				userdao.setSession(session);
+
+				session.beginTransaction();
+
+				Iterator<Book> itbook = bookdao.findAllBookForGenre("Poema").iterator();
+
+				while (itbook.hasNext()) {
+					Book book_temp = itbook.next();
+					if (book_temp.equals(b)) {
+						assertTrue(true); // libro di quel genere trovato
+					}
+				}
+				session.getTransaction().commit();
+			}
+
 		}
 	}
 }
