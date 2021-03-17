@@ -44,6 +44,9 @@ public class OrderDaoDefault extends DefaultDao implements OrderDao {
 		o.setBooks(books);
 		for(BookOrder b : books) {
 			b.setOrder(o);
+			b.getBook().setCopies(b.getBook().getCopies() - b.getCopies()); //aggiornamento copie disponibili
+			b.getBook().setSoldCopies(b.getBook().getSoldCopies() + b.getCopies()); //aggiornamento copie vendute 
+			getSession().update(b.getBook());
 		}
 		getSession().save(o);
 
@@ -63,6 +66,9 @@ public class OrderDaoDefault extends DefaultDao implements OrderDao {
 		o.setBooks(books);
 		for(BookOrder b : books) {
 			b.setOrder(o);
+			b.getBook().setCopies(b.getBook().getCopies() - b.getCopies()); //aggiornamento copie disponibili
+			b.getBook().setSoldCopies(b.getBook().getSoldCopies() + b.getCopies()); //aggiornamento copie vendute 
+			getSession().update(b.getBook());
 		}
 		getSession().save(o);
 		
