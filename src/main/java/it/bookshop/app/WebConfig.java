@@ -9,8 +9,6 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.format.datetime.DateFormatter;
 import org.springframework.ui.context.support.ResourceBundleThemeSource;
-//import org.springframework.validation.Validator;
-//import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -50,17 +48,7 @@ public class WebConfig implements WebMvcConfigurer {
 	StandardServletMultipartResolver multipartResolver() {
 		return new StandardServletMultipartResolver();
 	}
-	
-	/* per l'uplaod delle immagini 
-	  @Bean(name = "multipartResolver")
-public CommonsMultipartResolver multipartResolver() {
-    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-    multipartResolver.setMaxUploadSize(100000);
-    return multipartResolver;
-}
-	 * 
-	 */
-	
+		
 	
 	@Bean
 	UrlBasedViewResolver tilesViewResolver() {
@@ -158,19 +146,4 @@ public CommonsMultipartResolver multipartResolver() {
 		configurer.enable();
 	}
 	
-	
-	/*
-// da capire a cosa servono 
-	// <=> <mvc:view-controller .../>
-	@Override
-	public void addViewControllers(ViewControllerRegistry registry) {
-		// mappa la URL /X nella vista "Y" (funziona senza un controller, ma cosi` la vista non riceve un contesto)
-		//registry.addViewController("X").setViewName("Y");
-		// configura delle redirezioni
-//        registry.addViewController("/login").setViewName("login");
-
-//        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
-		registry.addRedirectViewController("/", "/home/");
-		registry.addRedirectViewController("/singers/", "/singers/list/");
-	} */
 }

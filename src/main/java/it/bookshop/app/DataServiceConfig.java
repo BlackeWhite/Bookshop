@@ -18,7 +18,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-//import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -33,7 +32,6 @@ excludeFilters  = {@ComponentScan.Filter(
 		type = FilterType.ASSIGNABLE_TYPE, classes = {DataServiceConfigTest.class})})
 
 @EnableTransactionManagement
-//@EnableScheduling
 @PropertySource("classpath:dbconfig.properties")
 public class DataServiceConfig {
 
@@ -59,14 +57,7 @@ public class DataServiceConfig {
 			ds.setUsername(db_usr);
 			ds.setPassword(db_pw);
 			return ds;
-			/*
-			DriverManagerDataSource ds = new DriverManagerDataSource();
-			ds.setDriverClassName(com.mysql.cj.jdbc.Driver.class.getName());
-			ds.setUrl("jdbc:mysql://localhost:3306/BookshopDB?createDatabaseIfNotExist=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
-			ds.setUsername("root"); //modificare con i propri dati di accesso a Mysql
-			ds.setPassword(""); 
-			return ds;
-            */
+		
 		} catch (Exception e) {
 			logger.error("DataSource bean cannot be created!!", e);
 			
@@ -91,9 +82,6 @@ public class DataServiceConfig {
 		hibernateProp.put("hibernate.max_fetch_depth", 3);
 		hibernateProp.put("hibernate.jdbc.batch_size", 10);
 		hibernateProp.put("hibernate.jdbc.fetch_size", 50);
-//		    hibernateProp.put("hibernate.enable_lazy_load_no_trans", true);
-		// hibernateProp.put("javax.persistence.schema-generation.database.action",
-		// "create"); // importante, altrimenti si aspetta il DB gia` "strutturato"
 		hibernateProp.put("javax.persistence.schema-generation.database.action", "none"); // importante, altrimenti si
 																							// aspetta il DB gia`
 																							// "strutturato"
