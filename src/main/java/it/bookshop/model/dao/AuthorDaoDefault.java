@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
 
-@Transactional
+
 @Repository("authorDao") //@Repository  is a specialization of @Component
 public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 

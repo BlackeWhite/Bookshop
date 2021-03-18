@@ -3,11 +3,10 @@ package it.bookshop.model.dao;
 import javax.persistence.NoResultException;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import it.bookshop.model.entity.Role;
 
-@Transactional
 @Repository("roleDao")
 public class RoleDaoDefault extends DefaultDao implements RoleDao {
 

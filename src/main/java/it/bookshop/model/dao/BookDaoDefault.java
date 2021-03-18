@@ -8,15 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import it.bookshop.model.ObjectForm.Bookform;
 import it.bookshop.model.entity.Book;
-import it.bookshop.model.entity.BookOrder;
 import it.bookshop.model.entity.CustomUserDetails;
 import it.bookshop.model.entity.User;
 
-@Transactional
 @Repository("bookDao")
 public class BookDaoDefault extends DefaultDao implements BookDao {
 

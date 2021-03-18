@@ -5,14 +5,14 @@ import java.util.List;
 
 //import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.ShoppingCart;
 import it.bookshop.model.entity.ShoppingCartId;
 import it.bookshop.model.entity.User;
 
-@Transactional
+
 @Repository("shoppingCartDao") // @Repository is a specialization of @Component
 public class ShoppingCartDaoDefault extends DefaultDao implements ShoppingCartDao {
 
