@@ -83,22 +83,26 @@
 				</div>
 				<!-- Start Single List  -->
 				<c:forEach items="${topFiveAuthor}" var="tsAuthor">
-					<div class="single-list">
+					<div class="single-list" style="background: linear-gradient(#d9d9d9, white);">
 						<div class="row">
 							<div class="col-lg-6 col-md-6 col-12">
-								<div class="list-image overlay">
-									<img src="<c:url value="/resources/img/cover_book/${tsAuthor.photo}"/>"
-										alt="author_photo" style="height: 300px; object-fit: contain"> <a
-										href="<c:url value="/show_author/${tsAuthor.id}"/>"
-										class="buy"><i class="fa fa-eye"></i></a>
+								<div class="list-image overlay" style=" height:300px">
+									<img src="<c:url value="/resources/img/authors/${tsAuthor.photo}"/>"
+										alt="author_photo" style="height:200px; margin-top: 50px; margin-left:20px;"> 
+										<a href="<c:url value="/show_author/${tsAuthor.id}"/>" class="buy" style="margin-left:2px">
+											<i class="fa fa-eye"></i>
+										</a>
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-6 col-12 no-padding">
-								<div class="content">
+								<div class="content" style="margin-top: 70px; text-align: center;">
 									<h5 class="title">
 									<c:if test = "${tsAuthor.surname != '#SURNAME_PLACEHOLDER'}">
-										<a href="<c:url value="/show_author/${tsAuthor.id}"/>">${tsAuthor.name}
-											${tsAuthor.surname}</a>
+										<a href="<c:url value="/show_author/${tsAuthor.id}"/>" style="font-size: large">
+											${tsAuthor.name}
+											<br>
+											${tsAuthor.surname}
+										</a>
 									</c:if>
 									<c:if test = "${tsAuthor.surname == '#SURNAME_PLACEHOLDER'}">
 										<a href="<c:url value="/show_author/${tsAuthor.id}"/>">${tsAuthor.name}</a>
