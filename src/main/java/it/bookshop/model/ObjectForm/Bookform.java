@@ -1,4 +1,4 @@
-package it.bookshop.model.Object_form;
+package it.bookshop.model.ObjectForm;
 
 import java.sql.Date;
 import java.util.ArrayList;

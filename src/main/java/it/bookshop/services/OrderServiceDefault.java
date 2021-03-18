@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.bookshop.model.Object_form.BookInfoResponse;
+import it.bookshop.model.ObjectForm.BookInfoResponse;
 import it.bookshop.model.dao.BookOrderDao;
 import it.bookshop.model.dao.OrderDao;
 import it.bookshop.model.entity.Book;

@@ -11,7 +11,7 @@ import com.mysql.cj.util.StringUtils;
 import it.bookshop.model.entity.User;
 import it.bookshop.services.UserService;
 import it.bookshop.services.BookService;
-import it.bookshop.model.Object_form.Bookform;
+import it.bookshop.model.ObjectForm.Bookform;
 
 @Component("bookValidator")
 public class BookValidator implements Validator {

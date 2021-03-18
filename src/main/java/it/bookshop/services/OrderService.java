@@ -2,7 +2,7 @@ package it.bookshop.services;
 
 import java.util.List;
 
-import it.bookshop.model.Object_form.BookInfoResponse;
+import it.bookshop.model.ObjectForm.BookInfoResponse;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.BookOrder;
 import it.bookshop.model.entity.Coupon;

@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.util.List;
 import org.hibernate.Session;
 
-import it.bookshop.model.Object_form.Bookform;
+import it.bookshop.model.ObjectForm.Bookform;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.User;
 
