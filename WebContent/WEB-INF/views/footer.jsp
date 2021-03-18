@@ -22,7 +22,7 @@
 					<div class="col-lg-3 col-md-6 col-12">
 						<!-- Single Widget -->
 						<div class="single-footer social">
-							<h4>Get In Tuch</h4>
+							<h4>Seguici sui nostri canali social</h4>
 							<!-- Single Widget -->
 							<!-- End Single Widget -->
 							<ul>

@@ -33,11 +33,12 @@
 		<div class="row">
 			<div class="col-lg-3 col-md-4 col-12">
 				<div class="shop-sidebar">
-					<div class="single-widget range">
+			<div class="single-widget range">
 						<a href="<c:url value="/seller/"/>"><h3 class="title">Menu</h3></a>
 						<c:url value="/seller/addition_book" var="addition_book" />
 						<li><a href="${addition_book}"> Aggiungi un libro in
 								vendita </a></li>
+						<li><a href="<c:url value="/seller/authors_seller"/>"> Lista di autori</a></li>
 						<li><a href="<c:url value="/seller/analysis_book"/>">Analisi
 								delle vendite</a></li>
 						<li><a href="<c:url value="/account"/>"> Modifica dati
@@ -278,7 +279,7 @@
 						<br>
 						<button type="submit" name="submit" class="btn with-pass-conf">Modifca
 							Libro</button>
-							<a href="<c:url value="/seller/"/>" >Annulla </a>
+							<button class="btn with-pass-conf"><a href="<c:url value="/seller/"/>" >Annulla</a></button>
 					</form:form>
 
 				</div>

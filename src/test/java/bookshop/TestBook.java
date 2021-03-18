@@ -19,7 +19,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 
 import it.bookshop.model.dao.BookDao;
+import it.bookshop.model.dao.BookOrderDao;
 import it.bookshop.model.dao.GenreDao;
+import it.bookshop.model.dao.OrderDao;
 import it.bookshop.model.dao.UserDetailsDao;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
@@ -67,9 +69,9 @@ public class TestBook {
 					g1 = genredao.create("Poema");
 				}
 				// venditore
-				u = userdao.findUserByUsername("unitBook");
+				u = userdao.findUserByUsername("unitTesting");
 				if (u == null) {
-					u = userdao.create("unitBook", "email", "pass", "test", "surname",
+					u = userdao.create("unitTesting", "email", "pass", "test", "surname",
 							new Date(System.currentTimeMillis()), "test", "test", 3333, "test");
 				}
 				// creo il libro
@@ -82,6 +84,32 @@ public class TestBook {
 			}
 		}
 
+	}
+	
+	@AfterAll
+	static void tearDown() {
+		/*
+		 * Pulizia dell'environment di test
+		 */
+		System.out.println("Pulizia environment suite di test");
+		
+		ctx = new AnnotationConfigApplicationContext(DataServiceConfigTest.class);
+		sf = ctx.getBean("sessionFactory", SessionFactory.class);
+		
+		BookDao bookdao = ctx.getBean(BookDao.class);
+				
+		Session s = sf.openSession();
+		
+		s.beginTransaction();
+		
+		bookdao.setSession(s);
+		
+		b.setRemoved(1);  // lo disabilito 
+		bookdao.update(b);
+		s.getTransaction().commit();
+		
+		
+		ctx.close();
 	}
 
 
@@ -121,6 +149,9 @@ public class TestBook {
 				assertEquals(b.getClass().getSimpleName(), "Book");
 				assertEquals(b.getGenres().iterator().next().getName(), "Poema"); // genere del libro uguale al genere creato
 				assertEquals(b.getTitle(), b1.getTitle()); // possono esistere due libri con lo stesso titolo sul db
+				session.beginTransaction();
+				bookdao.delete(b1);
+				session.getTransaction().commit();
 
 			}
 		}
