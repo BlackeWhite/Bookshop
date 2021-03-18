@@ -79,7 +79,7 @@ $(document).ready(function() {
 					'<div class="container">' +
 						'<div class="row">' +
 							'<div class="col-12">' +
-								'<p style="text-align:center; font-size:40px" > Ordine effettuato con successo </p>' +
+								'<p style="text-align:center; font-size:40px" > Ordine effettuato con successo </p><br>' +
 								'<p style="text-align:center; font-size:20px" >' + 'Indirizzo di spedizione: ' + data["response1"] +
 								'<p style="text-align:center; font-size:20px" >' + 'Metodo di pagamento: ' + data["response2"] +
 								'<p style="text-align:center; font-size:20px" >' + 'Effettuato in data: ' + data["response3"] +

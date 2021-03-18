@@ -7,28 +7,29 @@
 			<div class="col-12">
 				<div class="row">
 					<div class="col-5">
-						<img
-							src="<c:url value="/resources/img/cover_book/${author.photo}"/>"
+						<img 
+							
+							style=" border-radius: 100%; height: auto; width: auto; max-width: 450px; max-height: 450px; margin-left: 200px"
+							src="<c:url value="/resources/img/authors/${author.photo}"/>"
 							alt="#" class="center_image">
 					</div>
 					<div class="col">
-						<div style="margin-left: 20%;" class="quickview-content">
+						<div style="margin-left: 15%; margin-top: 15%;" class="quickview-content" >
 							<c:if test="${author.surname != '#SURNAME_PLACEHOLDER'}">
-								<h2>${author.name}${author.surname}</h2>
+								<h2 style="font-size: 40px;"> ${author.name} ${author.surname}</h2>
 							</c:if>
 							<c:if test="${author.surname == '#SURNAME_PLACEHOLDER'}">
-								<h2>${author.name}</h2>
+								<h2 style="font-size: 40px;">${author.name}</h2>
 							</c:if>
 							<div class="quickview-ratting-review">
 								<div class="quickview-ratting-wrap">
-									<div class="quickview-ratting">
-										<i><b> Nato il ${author.birthdate}, nazionalità
-												${author.nationality} </b></i>
-									</div>
-
+									<i><b> Data di nascita: ${author.formattedBirthdate}</b>
+									<br>
+									<b>Nazionalità: ${author.nationality}</b></i>
 								</div>
 								<div class="quickview-stock"></div>
 							</div>
+							<br>
 							<div class="quickview-peragraph">
 								<p>${author.biography}</p>
 							</div>
@@ -57,6 +58,7 @@
 						</div>
 					</div>
 				</div>
+				<br>
 				<div class="row" style="margin-top: 30px;">
 					<div class="col">
 						<c:if test="${checkAuthorBooks == false }">

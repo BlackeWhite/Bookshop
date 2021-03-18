@@ -7,7 +7,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 
-import it.bookshop.model.Object_form.Authorform;
+import it.bookshop.model.ObjectForm.Authorform;
 
 
 

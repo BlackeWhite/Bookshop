@@ -1,4 +1,4 @@
-package it.bookshop.model.Object_form;
+package it.bookshop.model.ObjectForm;
 
 public class BookInfoResponse {
 	/*

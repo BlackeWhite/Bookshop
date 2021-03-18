@@ -8,7 +8,6 @@ import javax.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Order;
@@ -16,7 +15,7 @@ import it.bookshop.model.entity.PersonalData;
 import it.bookshop.model.entity.Role;
 import it.bookshop.model.entity.User;
 
-@Transactional
+
 @Repository("userDao")
 public class UserDetailsDaoDefault extends DefaultDao implements UserDetailsDao {
 
