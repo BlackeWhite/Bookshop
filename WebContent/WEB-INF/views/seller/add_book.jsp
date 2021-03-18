@@ -81,13 +81,15 @@
 						        input.setAttribute("name", "authorsName");
 						        input.setAttribute("placeholder", "Nome");
 						        input.setAttribute("type", "text");
+						        input.setAttribute("pattern", "([^\s][A-z0-9À-ž\s]+)");
 						        input.setAttribute("required", "required");;
 						        //input.setAttribute("class", "inputview");
 						        
 						        input_surname.setAttribute("id", "authorsSurname");
 						        input_surname.setAttribute("name", "authorsSurname");
 						        input_surname.setAttribute("placeholder", "Cognome");
-						        input_surname.setAttribute("type", "text");;
+						        input_surname.setAttribute("type", "text");
+						        input_surname.setAttribute("pattern", "([^\s][A-z0-9À-ž\s]+)");;
 						        //input_surname.setAttribute("class", "inputview");
 						        
 						        cell.appendChild(input);
@@ -121,10 +123,10 @@
 						  </fieldset>
 						  <table id="maintable">
 						    <tbody id="maintablebody">
-						      <tr>
+						      <tr>  
 						        <td><form:label path="title"><b>Autore 1</b></form:label></td>
-						        <td><form:input required="required" placeholder="Nome" type="text" path="authorsName" id="authorsName" class = "inputview"/></td>
-						        <td><form:input placeholder="Cognome" type="text" path="authorsSurname" id="authorsSurname" class = "inputview"/></td>
+						        <td><form:input required="required" placeholder="Nome" type="text" path="authorsName" id="authorsName" class = "inputview" pattern = "[a-zA-Z]+[ ][a-zA-Z]+"/></td>
+						        <td><form:input placeholder="Cognome" type="text" path="authorsSurname" id="authorsSurname" class = "inputview" pattern="([^\s][A-z0-9À-ž\s]+)"/></td>
 						      </tr>
 						    </tbody>
 						  </table>
@@ -162,7 +164,7 @@
 								<br>
 								<br> 
 								<form:label path="cover"><b>Carica la copertina del libro</b></form:label></td>
-                                <form:input type="file" name="cover" path="cover" class = "inputview"/>
+                                <form:input required="required" type="file" name="cover" path="cover" class = "inputview"/>
 								<form:errors path="cover" cssClass="validation-error" />
 								<br>
 								<br>
