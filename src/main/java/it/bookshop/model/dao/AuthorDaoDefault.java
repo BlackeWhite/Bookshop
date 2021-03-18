@@ -30,9 +30,15 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 	@Override
 	public Author create(String name, String surname, Date date, String nationality, String biography, String photo) {
 		Author a = new Author();
+		try {
+			/*
+			 * Se non c'è il nome genera un'eccezione
+			 */
+			if (name.isEmpty() || name == null || name == "" || name == " ") {
+			throw new RuntimeException("INVALID NAME: Empty name"); }
+		} catch (NoResultException e){};
 		a.setName(name.trim());
-		
-		if(surname.isEmpty()) {
+		if(surname.isEmpty() || surname == null || surname == "" || surname == " ") {
 			a.setSurname("#SURNAME_PLACEHOLDER");
 			}
 		else {
@@ -57,8 +63,15 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 	@Override
 	public Author create(String name, String surname) {
 		Author a = new Author();
+		try {
+			/*
+			 * Se non c'è il nome genera un'eccezione
+			 */
+			if (name.isEmpty() || name == null || name == "" || name == " ") {
+			throw new RuntimeException("INVALID NAME: Empty name"); }
+		} catch (NoResultException e){};
 		a.setName(name.trim());
-		if(surname.isEmpty()) {
+		if(surname.isEmpty() || surname == null || surname == "" || surname == " ") {
 			a.setSurname("#SURNAME_PLACEHOLDER");
 			}
 		else {
