@@ -2,6 +2,8 @@ package it.bookshop.model.entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -122,4 +124,10 @@ public class Author implements Serializable{
 		b.getAuthors().remove(this);
 	}
 	
+	@Transient 
+	public String getFormattedBirthdate() {
+		DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		String dataStr = sdf.format(this.birthdate);
+		return dataStr;
+	}
 }
