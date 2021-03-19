@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
@@ -51,19 +53,19 @@ public class AdminController {
 
 	@Autowired
 	@Qualifier("registrationValidator")
-	private Validator userValidator;
+	private Validator userValidator; //Validatore per l'aggiunta di un venditore
 	
 	@Autowired
 	@Qualifier("genreValidator")
-	private Validator genreValidator;
+	private Validator genreValidator; //Validatore per l'aggiunta di un genere
 	
 	@Autowired
 	@Qualifier("couponValidator")
-	private Validator couponValidator;
+	private Validator couponValidator; //Validatore per l'aggiunta di un coupon
 
 	@InitBinder
 	private void initUserBinder(WebDataBinder binder) {
-		//Only known working way to use multiple validators
+		//L'unico modo per utilizzare più validatori insieme
 		if (binder.getTarget() != null && User.class.equals(binder.getTarget().getClass())) {
 			binder.setValidator(userValidator);
 		}
@@ -75,8 +77,10 @@ public class AdminController {
 		}
 	}
 
+	//Mappa da passare al select del tag "<form:select>" nel JSP
 	private Map<String, String> countries = new LinkedHashMap<String, String>();
 
+	//Pagina per l'aggiunta di un account per i venditori
 	@GetMapping(value = "/admin/add_seller")
 	public String addSellerPage(Model model, Authentication authentication) {
 
@@ -89,10 +93,12 @@ public class AdminController {
 		return "add_seller";
 	}
 
+	//Gestione della richiesta post per l'aggiunta di un venditore
 	@PostMapping(value = "/admin/add_seller")
 	public String addSeller(@ModelAttribute("newSeller") @Validated User user, BindingResult br, Model model,
 			final RedirectAttributes redirectAttributes, Authentication authentication) {
 
+		//Se ci sono errori nella validazione
 		if (br.hasErrors()) {
 			generalOperations(model, authentication.getName());
 			return "add_seller";
@@ -108,6 +114,7 @@ public class AdminController {
 
 	}
 	
+	//Pagina della lista dei venditori
 	@GetMapping(value = "/admin/sellers_list")
 	public String sellersList(@RequestParam(required = false) String username, Model model, Authentication authentication) {
 		
@@ -122,6 +129,7 @@ public class AdminController {
 		return "sellers_list";
 	}
 	
+	//Pagina della lista dei clienti
 	@GetMapping(value = "/admin/buyers_list")
 	public String buyersList(@RequestParam(required = false) String username, Model model, Authentication authentication) {
 		
@@ -137,6 +145,7 @@ public class AdminController {
 		return "buyers_list";
 	}
 	
+	//Gestione della richiesta AJAX per eliminare un cliente/venditore
 	@PostMapping(value = "/admin/delete_user")
 	@ResponseBody
 	public String deleteUser(@RequestBody String username) {
@@ -144,6 +153,7 @@ public class AdminController {
 		return "ok";
 	}
 	
+	//Pagina per visualizzare i coupon e aggiungerne altri
 	@GetMapping(value = "/admin/manage_coupons")
 	public String manageCouponsPage(Model model, Authentication authentication) {
 		String principal_name = authentication.getName();
@@ -154,6 +164,7 @@ public class AdminController {
 		return "manage_coupons";
 	}
 	
+	//Gestione della richiesta POST dell'aggiunta di un coupon
 	@PostMapping(value = "/admin/manage_coupons")
 	public String addCoupon(@ModelAttribute("newCoupon") @Validated Coupon coupon, BindingResult br, Model model,
 			final RedirectAttributes redirectAttributes, Authentication authentication) {
@@ -166,13 +177,18 @@ public class AdminController {
 		//Codice case insensitive
 		coupon.setCode(coupon.getCode().trim().toUpperCase());
 		
-		couponService.create(coupon);
+		try {
+			couponService.create(coupon);
+		} catch(ConstraintViolationException e) {
+			e.printStackTrace();
+		}
 		
 		redirectAttributes.addFlashAttribute("message", "Coupon aggiunto!");
 		redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
 		return "redirect:/admin/manage_coupons";
 	}
 	
+	//Pagina per visualizzare ed aggiungere generi
 	@GetMapping(value = "/admin/manage_genres")
 	public String manageGenresPage(Model model, Authentication authentication) {
 		
@@ -184,7 +200,7 @@ public class AdminController {
 		return "manage_genres";
 	}
 	
-	
+	//Gestione della richiesta POST per aggiungere un genere
 	@PostMapping(value = "/admin/add_genre")
 	public String addGenre(@ModelAttribute("newGenre") @Validated Genre genre, BindingResult br, Model model,
 			final RedirectAttributes redirectAttributes, Authentication authentication) {
@@ -203,10 +219,13 @@ public class AdminController {
 
 	}
 	
+	//Gestione della richiesta POST per eliminare un genere
 	@PostMapping(value = "/admin/delete_genre")
 	@ResponseBody
 	public String deleteGenre(@RequestBody String name) throws NotEmptyGenreException {
 		Set<Book> books = bookService.getAllBookForGenre(name);
+		
+		//Il genere può essere eliminato solo se non ha libri associati
 		if(books == null || books.size()==0) {
 			Genre genre = bookService.findGenreByName(name);
 			bookService.deleteGenre(genre);
@@ -219,6 +238,7 @@ public class AdminController {
 		
 	}
 
+	//Operazioni generali eseguite prima di ogni return delle richieste GET
 	private void generalOperations(Model model, String username) {
 
 		User currentUser = userService.findUserByUsername(username);

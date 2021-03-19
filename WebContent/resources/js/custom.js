@@ -8,7 +8,8 @@
 
 $(document).ready(function() {
 	
-	//Codice che passa i filtri come parametri dell'url
+	//Codice che passa i filtridella ricerca avanzata come parametri dell'url
+	//Al click del bottone "APPLICA FILTRI"
 	$(".apply_filter").click(function() {
 		var url = adv_search_url;
 		var order = $("#order_by option:selected").val();
@@ -32,17 +33,20 @@ $(document).ready(function() {
 		window.location.href = url;
 	});
 
+	//Azzera i filtri al click del bottone "RIMUOVI FILTRI"
 	$(".reset_filter").click(function() {
 		window.location.href = adv_search_url;
 	});
 
-	//Password confirmation
+	//Codice per la conferma della password
 	$("#password-confirm").focusout(function() {
 		if ($(this).val() != $("#password").val()) {
 			$("#error-pass").remove();
 			$(this).after('<span id="error-pass" class="validation-error">Le password non coincidono.</span>');
 		} else $("#error-pass").remove();
 	});
+	//Stesso check ai bottoni con la seguente classe
+	//Se le password non coincidono non viene effettuato il submit
 	$(".with-pass-conf").click(function(e) {
 		if ($("#password-confirm").val() != $("#password").val()) {
 			$("#error-pass").remove();
@@ -58,14 +62,14 @@ $(document).ready(function() {
 		$.ajax({
 			type: 'POST',
 			url: add_cart_url,
-			data: JSON.stringify({ "bookID": id, "arg2": amount }),
+			data: JSON.stringify({ "bookID": id, "arg2": amount }), //Si passa l'id del libro e la quantità
 			contentType: 'application/json',
 			dataType: "json", //The type of data that you're expecting back from the server
 			success: function(data) {
 				if (data["operation"] == "update") {
 					$("#cart_" + data["bookID"]).children("p")
 						.text("Copie: " + data["copies"] + " - Totale: " + data["elemTotalPrice"]);
-				} else {
+				} else { //Si crea l'html dinamicamente in caso di aggiunta di un nuovo libro
 					$(".shopping-list").append('<li id="cart_' + data["bookID"] + '"><a' +
 						' data-book="' + data["bookID"] + '" class="remove"' +
 						' title="Elimina questo elemento"><i class="fa fa-remove"></i></a>' +
@@ -76,7 +80,7 @@ $(document).ready(function() {
 						data["title"] + '</a></h4><p class="quantity">' +
 						"Copie: " + data["copies"] + " - Totale: " + data["elemTotalPrice"] +
 						'</p></li>');
-				}
+				} //Si aggiornano le informazioni generali quali totale numero e costo dei libri
 				$(".total-amount").text(data["cartTotalPrice"]);
 				$(".total-count").text(data["cartTotalItems"]);
 				$(".total-count-text").text(data["cartTotalItems"] + " ELEMENTI");
@@ -213,6 +217,8 @@ $(document).ready(function() {
 
 
 	// Codice paginazione per la home
+	// Aggiunge in più il tag id per riportare la finestra nella posizione dei libri 
+	// più visualizzati
 	$(".page-link-home").click(function() {
 		searchParams.delete("page");
 		var url = home_url;
@@ -223,7 +229,8 @@ $(document).ready(function() {
 		window.location.href = url;
 	});
 
-	//Codice che imposta i filtri a quelli presenti nell'url (altrimenti vengono resettati graficamente)
+	// Codice che imposta i filtri della ricerca avanzata a quelli presenti nell'url 
+	// (altrimenti vengono resettati graficamente)
 	if (searchParams.has('order_by')) {
 		let op_id = searchParams.get('order_by');
 		let text = $("#" + op_id).text();
