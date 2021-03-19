@@ -19,9 +19,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 
 import it.bookshop.model.dao.BookDao;
-import it.bookshop.model.dao.BookOrderDao;
 import it.bookshop.model.dao.GenreDao;
-import it.bookshop.model.dao.OrderDao;
 import it.bookshop.model.dao.UserDetailsDao;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
@@ -37,52 +35,16 @@ public class TestBook {
 
 	@BeforeAll
     public static void setup() {
-		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(
-				DataServiceConfigTest.class)) {
+		/*
+		 * Preparazione dell'environment di test
+		 */
+		System.out.println("Preparazione environment suite di test");
+		
+		ctx = new AnnotationConfigApplicationContext(DataServiceConfigTest.class);
+		sf = ctx.getBean("sessionFactory", SessionFactory.class);
+		
+		
 
-			SessionFactory sf = ctx.getBean("sessionFactory", SessionFactory.class);
-			BookDao bookdao = ctx.getBean(BookDao.class);
-			UserDetailsDao userdao = ctx.getBean(UserDetailsDao.class);
-			GenreDao genredao = ctx.getBean(GenreDao.class);
-
-			try (Session session = sf.openSession()) {
-				// Start the bean' sessions
-				genredao.setSession(session);
-				bookdao.setSession(session);
-				userdao.setSession(session);
-
-				session.beginTransaction();
-
-				DateFormat date = new SimpleDateFormat("dd-MM-yyyy");
-				java.util.Date date1 = null;
-
-				try {
-					date1 = date.parse("21-01-2015");
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				Date publish_date1 = new Date(date1.getTime());
-				// associo un genere
-				Genre g1 = genredao.findByName("Poema");
-				if (g1 == null) {
-					g1 = genredao.create("Poema");
-				}
-				// venditore
-				u = userdao.findUserByUsername("unitTesting");
-				if (u == null) {
-					u = userdao.create("unitTesting", "email", "pass", "test", "surname",
-							new Date(System.currentTimeMillis()), "test", "test", 3333, "test");
-				}
-				// creo il libro
-				b = bookdao.create("CCCC", "Book2", publish_date1, publish_date1, 1, 30, u, 20, "summary2", "image2",
-						0.30);
-				g1.addBooks(b);
-				
-				session.getTransaction().commit();
-
-			}
-		}
 
 	}
 	
@@ -111,19 +73,15 @@ public class TestBook {
 		
 		ctx.close();
 	}
-
-
+	
 	@Test
 	void testCreateofBook() {
-		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(
-				DataServiceConfigTest.class)) {
-
-			SessionFactory sf = ctx.getBean("sessionFactory", SessionFactory.class);
+		
 			BookDao bookdao = ctx.getBean(BookDao.class);
 			UserDetailsDao userdao = ctx.getBean(UserDetailsDao.class);
 			GenreDao genredao = ctx.getBean(GenreDao.class);
 
-			try (Session session = sf.openSession()) {
+			Session session = sf.openSession();
 				// Start the bean' sessions
 				genredao.setSession(session);
 				bookdao.setSession(session);
@@ -140,23 +98,30 @@ public class TestBook {
 					e.printStackTrace();
 				}
 				Date publish_date1 = new Date(date1.getTime());
+				// genere
+				Genre g1 = genredao.findByName("Poema");
+				if (g1 == null) {
+					g1 = genredao.create("Poema");
+				}
+				// venditore
+				u = userdao.findUserByUsername("unitTesting");
+				if (u == null) {
+					u = userdao.create("unitTesting", "email", "pass", "test", "surname",
+							new Date(System.currentTimeMillis()), "test", "test", 3333, "test");
+				}
 	
-				// creo un libro uguale
-				Book b1 = bookdao.create("CCCC", "Book2", publish_date1, publish_date1, 1, 30, u, 20, "summary2", "image2",
+				// creazione di un libro
+				b = bookdao.create("CCCC", "Book2", publish_date1, publish_date1, 1, 30, u, 20, "summary2", "image2",
 						0.30);
+				g1.addBooks(b);// associo un genere al libro
 				session.getTransaction().commit();
 
-				assertEquals(b.getClass().getSimpleName(), "Book");
+				assertEquals(b.getClass().getSimpleName(), "Book"); 
 				assertEquals(b.getGenres().iterator().next().getName(), "Poema"); // genere del libro uguale al genere creato
-				assertEquals(b.getTitle(), b1.getTitle()); // possono esistere due libri con lo stesso titolo sul db
-				session.beginTransaction();
-				bookdao.delete(b1);
-				session.getTransaction().commit();
-
+				assertEquals(b.getSeller().getUserID(), u.getUserID()); // utente proprietario di quel libro
 			}
-		}
-	}
-
+	
+	
 	@Test
 	void testClickedBook() {
 
@@ -175,9 +140,6 @@ public class TestBook {
 				userdao.setSession(session);
 
 				session.beginTransaction();
-
-				// associo un genere
-				Genre g1 = genredao.findByName("Poema");
 
 				// aggiungo un click al libro
 				b.setClicked(1);
@@ -220,10 +182,6 @@ public class TestBook {
 				userdao.setSession(session);
 
 				session.beginTransaction();
-
-				// aggiungo uno sconto al libro
-				b.setDiscount(0.20);
-				bookdao.update(b);
 
 				Iterator<Book> itbook = bookdao.findBookOnSale().iterator();
 
@@ -297,6 +255,39 @@ public class TestBook {
 					Book book_temp = itbook.next();
 					if (book_temp.equals(b)) {
 						assertTrue(true); // libro di quel genere trovato
+					}
+				}
+				session.getTransaction().commit();
+			}
+
+		}
+	}
+	
+	@Test
+	void testSellerBook() {
+
+		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(
+				DataServiceConfigTest.class)) {
+
+			SessionFactory sf = ctx.getBean("sessionFactory", SessionFactory.class);
+			BookDao bookdao = ctx.getBean(BookDao.class);
+			UserDetailsDao userdao = ctx.getBean(UserDetailsDao.class);
+			GenreDao genredao = ctx.getBean(GenreDao.class);
+
+			try (Session session = sf.openSession()) {
+				// Start the bean' sessions
+				genredao.setSession(session);
+				bookdao.setSession(session);
+				userdao.setSession(session);
+
+				session.beginTransaction();
+
+				Iterator<Book> itbook = bookdao.findSellerBook(u.getUserID()).iterator();
+
+				while (itbook.hasNext()) {
+					Book book_temp = itbook.next();
+					if (book_temp.equals(b)) {
+						assertTrue(true); // libro di questo venditore trovato
 					}
 				}
 				session.getTransaction().commit();
