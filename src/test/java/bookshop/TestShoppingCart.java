@@ -21,6 +21,7 @@ import org.hibernate.SessionFactory;
 
 import it.bookshop.test.DataServiceConfigTest;
 import it.bookshop.model.dao.BookDao;
+import it.bookshop.model.dao.BookOrderDao;
 import it.bookshop.model.dao.ShoppingCartDao;
 import it.bookshop.model.dao.UserDetailsDao;
 import it.bookshop.model.entity.Book;
@@ -37,13 +38,6 @@ public class TestShoppingCart {
 	private static User testUser;
 	private static Book testBook1;
 	private static Book testBook2;
-	
-	/* 
-	 * In genere ad un test è associata una precondizione che rappresenta il contesto in cui il test 
-	 * viene eseguito e deve essere creato prima del test; nel caso in cui parte o l'intero contesto 
-	 * sia comune a tutti i test è possbile inserire le istruzioni che lo creano nel meotodo annoatato
-	 * con @BeforeEach
-	 */
 	
 	@BeforeAll
 	static void setup() {
@@ -63,7 +57,7 @@ public class TestShoppingCart {
 		BookDao bookDao = ctx.getBean(BookDao.class);
 		bookDao.setSession(s);
 		testBook1 = bookDao.create("testISBN1", "testTitle1", null, null, 10, 50, null, 100, "summary1", "cover1", 0);
-		testBook1 = bookDao.create("testISBN2", "testTitle2", null, null, 10, 100, null, 1000, "summary2", "cover2", 0);
+		testBook2 = bookDao.create("testISBN2", "testTitle2", null, null, 10, 100, null, 1000, "summary2", "cover2", 0);
 	
 		s.getTransaction().commit();
 		ctx.close();
@@ -82,9 +76,15 @@ public class TestShoppingCart {
 		UserDetailsDao userDao = ctx.getBean(UserDetailsDao.class);
 		userDao.setSession(s);
 		userDao.delete(testUser);
+		s.getTransaction().commit();
+		
+		// Forza utilizzo sessione corrente per il DAO BookOrder richiamato in fase di eliminazione dei libri
+		BookOrderDao bookOrderDao = ctx.getBean(BookOrderDao.class);
+		bookOrderDao.setSession(s);
 		
 		// Eliminazione dei libri di test creati 
 		BookDao bookDao = ctx.getBean(BookDao.class);
+		s.beginTransaction();
 		bookDao.setSession(s);
 		bookDao.delete(testBook1);
 		bookDao.delete(testBook2);
@@ -112,7 +112,7 @@ public class TestShoppingCart {
 	
 	@Test
 	void testBeginCommitTransaction() {
-
+		
 		Session s = sf.openSession();
 		assertTrue(s.isOpen());
 		
@@ -202,7 +202,9 @@ public class TestShoppingCart {
 		
 		// Verifica sul funzionamento di svuotamento del carrello
 		shoppingCartDao.emptyUserCart(testUser);
-		assertEquals(testList.size(), 0);
+		List<ShoppingCart> newTestList =  shoppingCartDao.findUserShoppingCart(testUser);
+		s.getTransaction().commit();
+		assertEquals(newTestList.size(), 0);
 		
 	}
 	
