@@ -45,10 +45,12 @@ $(document).ready(function() {
 	
 	function availabilityCheck (book_id){
 		var book_cp = $("#cp_"+book_id).attr("data-max");
+		
 		var input = $("#cp_"+book_id).val();
 		if (book_cp >= input ) {
 			$("#cp_"+book_id+"_error").remove();
 		}
+		
 	}
 	
 	$("#pre-checkout").click(function(e) {
@@ -57,6 +59,10 @@ $(document).ready(function() {
 		if (document.querySelectorAll(".copies_error").length) {
 			e.preventDefault();
 			popupMessage("Attenzione! Disponibilità di copie insufficiente");
+		}
+		if (document.querySelectorAll(".removed_error").length) {
+			e.preventDefault();
+			popupMessage("Attenzione! Uno o più libri non più in vendita");
 		}
 	});
 	

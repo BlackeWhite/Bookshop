@@ -98,9 +98,14 @@
 													<i class="ti-plus"></i>
 												</button>
 											</div>
-											<c:if  test="${cart_el.copies > cart_el.book.copies}">
-												<p id="cp_${cart_el.id.bookID}_error" class="copies_error" style="color:red"> Disponibilità non sufficiente </p>
-											</c:if>
+											<c:choose>
+												<c:when  test="${cart_el.copies > cart_el.book.copies && cart_el.book.removed == 0}">
+													<p id="cp_${cart_el.id.bookID}_error" class="copies_error" style="color:red"> Disponibilità non sufficiente </p>
+												</c:when> 
+												<c:when test="${cart_el.book.removed == 1}">
+													<p class="removed_error" style="color:red"> Libro non più in vendita </p>
+												</c:when>
+											</c:choose>
 										</div> 
 										<!--/ End Input Order -->
 									</td>
