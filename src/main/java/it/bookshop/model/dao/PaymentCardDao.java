@@ -18,4 +18,5 @@ public interface PaymentCardDao {
 	PaymentCard create(String type, String number, Date expirationDate, User user);
 	PaymentCard update(PaymentCard card);
 	void delete(PaymentCard card);
+	
 }

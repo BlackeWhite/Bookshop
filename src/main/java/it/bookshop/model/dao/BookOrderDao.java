@@ -15,7 +15,6 @@ public interface BookOrderDao {
 	public void setSession(Session session);
 	
 	public BookOrder create(Order order, BookOrder b);
-	
 	public List<BookOrder> findbyId(long id);
 	double sumPrice(long id);
 	public List<BookOrder> findbyDate(String data_da, String data_a);

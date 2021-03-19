@@ -12,6 +12,7 @@ public interface AuthorDao {
 	
 	public Session getSession();
 	public void setSession(Session session);
+	
 	Author create(String name, String surname);
 	Author findById(Long id);
 	Author findByNameAndSurname(String Name, String Surname);
@@ -22,4 +23,5 @@ public interface AuthorDao {
 	//List<Author> findMostSelledAuthor();
 	List<Book> findBookForAuthor(Author author);
 	List<Book> findBookRemovedForAuthor(Author author);
+	
 }

@@ -9,8 +9,10 @@ import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.User;
 
 public interface BookDao {
+	
 	Session getSession();
 	public void setSession(Session session);
+	
 	List<Book> findAll();
 	List<Book> findAll(Double price_min, Double price_max, String order_by);
 	Book findById(Long bookId);
@@ -27,4 +29,5 @@ public interface BookDao {
 	Book create(Bookform book, User seller);
 	List<Book> findSellerBook(Long id);
 	void removeBook(Book book);	
+	
 }

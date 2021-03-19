@@ -23,4 +23,5 @@ public interface OrderDao {
 	public List<Order> findAll();
 	public List<Order> findUserOrders(User user);
 	public void delete(Order order);
+	
 }

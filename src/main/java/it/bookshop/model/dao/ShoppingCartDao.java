@@ -24,5 +24,4 @@ public interface ShoppingCartDao {
 	
 	//@Scheduled(fixedDelay = 1000)
 	//public void scheduleCleaningTask();
-	
 }
