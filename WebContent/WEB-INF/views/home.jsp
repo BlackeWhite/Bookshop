@@ -88,7 +88,7 @@
 							<div class="col-lg-6 col-md-6 col-12">
 								<div class="list-image overlay" style=" height:300px">
 									<img src="<c:url value="/resources/img/authors/${tsAuthor.photo}"/>"
-										alt="author_photo" style="height:200px; margin-top: 50px; margin-left:20px;"> 
+										alt="author_photo" style="height:200px; margin-top: 50px; margin-left:20px; object-fit: cover"> 
 										<a href="<c:url value="/show_author/${tsAuthor.id}"/>" class="buy" style="margin-left:2px">
 											<i class="fa fa-eye"></i>
 										</a>

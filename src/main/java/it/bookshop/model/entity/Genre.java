@@ -15,10 +15,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 
 @Entity
-@Table(name="GENRE")
+@Table(name="GENRE", uniqueConstraints= {@UniqueConstraint(columnNames= {"Name"})})
 public class Genre implements Serializable{
 	
 	/**

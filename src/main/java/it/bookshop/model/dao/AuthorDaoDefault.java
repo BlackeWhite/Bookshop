@@ -6,15 +6,12 @@ import java.util.List;
 import javax.persistence.NoResultException;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
 
-
-@Repository("authorDao") //@Repository  is a specialization of @Component
-public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
-
+@Repository("authorDao") // @Repository is a specialization of @Component
+public class AuthorDaoDefault extends DefaultDao implements AuthorDao {
 
 	@Override
 	public Author findById(Long id) {
@@ -22,11 +19,13 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 	}
 
 	@Override
-	public List <Book> findBookForAuthor(Author author){
+	public List<Book> findBookForAuthor(Author author) {
 		// restituisce una lista di tutti i libri di un particolare autore
-		return this.getSession().createQuery("select b from Book b join b.authors a WHERE a.id = :author AND b.removed = 0",Book.class).setParameter("author", author.getId()).getResultList();
+		return this.getSession()
+				.createQuery("select b from Book b join b.authors a WHERE a.id = :author AND b.removed = 0", Book.class)
+				.setParameter("author", author.getId()).getResultList();
 	}
-	
+
 	@Override
 	public Author create(String name, String surname, Date date, String nationality, String biography, String photo) {
 		Author a = new Author();
@@ -35,31 +34,38 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 			 * Se non c'è il nome genera un'eccezione
 			 */
 			if (name.isEmpty() || name == null || name == "" || name == " ") {
-			throw new RuntimeException("INVALID NAME: Empty name"); }
-		} catch (NoResultException e){};
-		a.setName(name.trim());
-		if(surname.isEmpty() || surname == null || surname == "" || surname == " ") {
-			a.setSurname("#SURNAME_PLACEHOLDER");
+				throw new RuntimeException("INVALID NAME: Empty name");
 			}
-		else {
+		} catch (NoResultException e) {
+		}
+		;
+		a.setName(name.trim());
+		if (surname.isEmpty() || surname == null || surname == "" || surname == " ") {
+			a.setSurname("#SURNAME_PLACEHOLDER");
+		} else {
 			a.setSurname(surname.trim());
 		}
 		a.setBirthdate(date);
 		a.setNationality(nationality);
 		a.setBiography(biography);
 		a.setPhoto(photo);
-		if(a.getPhoto().isEmpty()) a.setPhoto("profile-placeholder.png");
+		if (a.getPhoto().isEmpty())
+			a.setPhoto("profile-placeholder.png");
 		try {
 			/*
 			 * Utilizzato nei test
 			 */
-			if (this.getSession().createQuery("FROM Author a WHERE a.name = :name and a.surname = :surname", Author.class).setParameter("name", name).setParameter("surname", surname).getSingleResult() != null) {
-			throw new RuntimeException("Already added author"); }
-		} catch (NoResultException e){};
+			if (this.getSession()
+					.createQuery("FROM Author a WHERE a.name = :name and a.surname = :surname", Author.class)
+					.setParameter("name", name).setParameter("surname", surname).getSingleResult() != null) {
+				throw new RuntimeException("Already added author");
+			}
+		} catch (NoResultException e) {
+		}
 		getSession().save(a);
 		return a;
 	}
-	
+
 	@Override
 	public Author create(String name, String surname) {
 		Author a = new Author();
@@ -68,22 +74,29 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 			 * Se non c'è il nome genera un'eccezione
 			 */
 			if (name.isEmpty() || name == null || name == "" || name == " ") {
-			throw new RuntimeException("INVALID NAME: Empty name"); }
-		} catch (NoResultException e){};
-		a.setName(name.trim());
-		if(surname.isEmpty() || surname == null || surname == "" || surname == " ") {
-			a.setSurname("#SURNAME_PLACEHOLDER");
+				throw new RuntimeException("INVALID NAME: Empty name");
 			}
-		else {
+		} catch (NoResultException e) {
+		}
+		;
+		a.setName(name.trim());
+		if (surname.isEmpty() || surname == null || surname == "" || surname == " ") {
+			a.setSurname("#SURNAME_PLACEHOLDER");
+		} else {
 			a.setSurname(surname.trim());
 		}
 		try {
 			/*
 			 * Utilizzato nei test
 			 */
-			if (this.getSession().createQuery("FROM Author a WHERE a.name = :name and a.surname = :surname", Author.class).setParameter("name", name).setParameter("surname", surname).getSingleResult() != null) {
-			throw new RuntimeException("Already added author"); }
-		} catch (NoResultException e){};
+			if (this.getSession()
+					.createQuery("FROM Author a WHERE a.name = :name and a.surname = :surname", Author.class)
+					.setParameter("name", name).setParameter("surname", surname).getSingleResult() != null) {
+				throw new RuntimeException("Already added author");
+			}
+		} catch (NoResultException e) {
+		}
+		;
 		a.setPhoto("profile-placeholder.png");
 		getSession().save(a);
 		return a;
@@ -101,22 +114,26 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao{
 
 	@Override
 	public void delete(Author author) {
-		getSession().delete(author);		
+		getSession().delete(author);
 	}
 
 	@Override
 	public Author findByNameAndSurname(String Name, String Surname) {
 		try {
-			return this.getSession().createQuery("FROM Author a WHERE a.name = :name and a.surname = :surname", Author.class).setParameter("name", Name).setParameter("surname", Surname).getSingleResult();
-		}
-		catch(NoResultException e) {
+			return this.getSession()
+					.createQuery("FROM Author a WHERE a.name = :name and a.surname = :surname", Author.class)
+					.setParameter("name", Name).setParameter("surname", Surname).getSingleResult();
+		} catch (NoResultException e) {
 			return null;
 		}
 	}
 
-	public List <Book> findBookRemovedForAuthor(Author author){
-		// restituisce una lista di tutti i libri fuori catalogo di un particolare autore
-		return this.getSession().createQuery("select b from Book b join b.authors a WHERE a.id = :author AND b.removed = 1",Book.class).setParameter("author", author.getId()).getResultList();
+	public List<Book> findBookRemovedForAuthor(Author author) {
+		// restituisce una lista di tutti i libri fuori catalogo di un particolare
+		// autore
+		return this.getSession()
+				.createQuery("select b from Book b join b.authors a WHERE a.id = :author AND b.removed = 1", Book.class)
+				.setParameter("author", author.getId()).getResultList();
 	}
-	
+
 }

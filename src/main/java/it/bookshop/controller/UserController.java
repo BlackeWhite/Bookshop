@@ -70,9 +70,10 @@ public class UserController {
 		return "cart";
 	}
 
+	//Gestione della richiesta AJAX per l'aggiunta al carrello (mini carrello a comparsa)
 	@PostMapping(value = "/add_to_cart")
 	@ResponseBody
-	public addCartResponse add_to_cart(@RequestBody CartRequestBody reqBody, Authentication authentication)
+	public addCartResponse addtoCart(@RequestBody CartRequestBody reqBody, Authentication authentication)
 			throws MaxCopiesException {
 
 		String principal_name = authentication.getName();
@@ -95,7 +96,7 @@ public class UserController {
 			elem = shopCartService.create(user.getUserID(), reqBody.getBookID(), copies);
 			operation = "add";
 		}
-		// To update the state
+		// Per aggiornare lo stato dell'utente
 		user = userService.findUserByUsername(principal_name);
 
 		return new addCartResponse(operation, reqBody.getBookID(), elem.getBook().getTitle(), elem.getBook().getCover(),
@@ -104,35 +105,41 @@ public class UserController {
 	}
 
 	// controllo disponibilit√† copie per libri nel carello
+	// questo metodo Ë lanciato prima di raggiungere la pagina della conferma acquisto
+	// e prima dell'acquisto effettivo
 	// NB: non si specifica per quale/i libro/i si ha insufficienza di copie
-	private boolean copies_check(User buyer) {
+	// Il libro specifico Ë indicato tramite JSP
+	private boolean copiesAndRemovedCheck(User buyer) {
 		// check disponibilit√† copie
 		List<ShoppingCart> cart = shopCartService.findUserShoppingCart(buyer);
 		for (ShoppingCart element : cart) {
-			if (element.getCopies() > element.getBook().getCopies()) {
+			if (element.getCopies() > element.getBook().getCopies() || element.getBook().getRemoved() == 1) {
+				//Copie non sufficienti o libro rimosso
 				return false;
 			}
 		}
 		return true;
 	}
 
+	//Gestione dell'incremento,decremento delle copie o completa rimozione di un libro dalla pagina del carrello
 	@PostMapping(value = "/cart")
 	@ResponseBody
-	public httpResponseBody cart_update(@RequestBody CartRequestBody reqBody, Locale locale, Model model,
+	public httpResponseBody cartUpdate(@RequestBody CartRequestBody reqBody, Locale locale, Model model,
 			Authentication authentication) throws MaxCopiesException, MinCopiesException, NoAvailableCopies {
 
 		String principal_name = authentication.getName();
 		User user = userService.findUserByUsername(principal_name);
+		
 		ShoppingCart cartElement = shopCartService.findById(user.getUserID(), reqBody.getBookID());
 		int cartElementCopies = cartElement.getCopies();
-		if (reqBody.getArg2().equals("delete")) {
+		if (reqBody.getArg2().equals("delete")) { //Rimozione totale del libro dal carrello
 			shopCartService.removeBook(cartElement);
-			// Update user state
+			// Aggiorna lo stato dell'utente
 			user = userService.findUserByUsername(principal_name);
 			return new httpResponseBody(user.getFormattedCartSubtotalPrice(), user.getFormattedCheckoutTotalPrice(),
 					String.valueOf(user.getCartTotalItems()), user.getFormattedSavedMoney());
 		} else {
-			if (reqBody.getArg2().equals("minus")) {
+			if (reqBody.getArg2().equals("minus")) { //Diminuzione delle copie
 
 				if (cartElementCopies > 1) {
 					cartElement.setCopies(cartElement.getCopies() - 1);
@@ -140,7 +147,7 @@ public class UserController {
 				} else {
 					throw new MinCopiesException();
 				}
-			} else {
+			} else { //Aggiunta di pi˘ copie
 
 				if (cartElementCopies < bookService.findById(reqBody.getBookID()).getCopies()) {
 					cartElement.setCopies(cartElementCopies + 1);
@@ -149,7 +156,7 @@ public class UserController {
 					throw new MaxCopiesException();
 				}
 			}
-			// update user state
+			// Aggiorna lo stato dell'utente
 			user = userService.findUserByUsername(principal_name);
 			return new httpResponseBody(cartElement.getFormattedElementTotalPrice(),
 					user.getFormattedCartSubtotalPrice(), user.getFormattedCheckoutTotalPrice(),
@@ -157,6 +164,9 @@ public class UserController {
 		}
 	}
 
+	//Pagina del checkout, viene effettuato un controllo sulla disponibilit‡ dei libri
+	//Prima di restituire la vista, altrimenti si reindirizza al carrello
+	//Stesso vale se l'utente non ha nulla nel carrello
 	@GetMapping(value = "/checkout")
 	public String checkout(Locale locale, Model model, Authentication authentication) {
 
@@ -164,7 +174,7 @@ public class UserController {
 		String principal_name = authentication.getName();
 		User buyer = userService.findUserByUsername(principal_name);
 
-		if (buyer.getCartTotalItems() == 0 || !copies_check(buyer)) {
+		if (buyer.getCartTotalItems() == 0 || !copiesAndRemovedCheck(buyer)) {
 			return "redirect:/cart";
 		}
 		
@@ -180,7 +190,7 @@ public class UserController {
 		List<Genre> allGenres = this.bookService.getAllGenres();
 		model.addAttribute("allGenres", allGenres);
 		
-		//Rimozione delle carte scadute
+		//Rimozione delle carte di pagamento scadute
 		Set<PaymentCard> temp = buyer.getPaymentCards();
 		List<PaymentCard> nonExpiredCards = new ArrayList<>();
 		Date today = new Date(System.currentTimeMillis());
@@ -193,7 +203,9 @@ public class UserController {
 
 	}
 
-	// coupon validation
+	//Validazione dei coupon
+	//Controlla se il coupon Ë gi‡ stato utilizzato dall'utente
+	//O se Ë scaduto
 	private String couponCheck(Coupon coupon, User buyer) {
 		if (coupon != null) {
 			// check validit√† coupon
@@ -215,6 +227,7 @@ public class UserController {
 		return formatter.format(value);
 	}
 
+	//Gestione della richiesta AJAX all'applicazione di un coupon
 	@PostMapping(value = "/coupon_validation")
 	@ResponseBody
 	public httpResponseBody couponValidation(@RequestBody checkoutRequestBody checkoutReq, Locale locale, Model model,
@@ -236,15 +249,17 @@ public class UserController {
 		}
 	}
 
+	//Gestione della richiesta AJAX per la conferma dell'acquisto
 	@PostMapping(value = "/checkout")
 	@ResponseBody
-	public httpResponseBody checkout_fill(@RequestBody checkoutRequestBody checkoutReq, Locale locale, Model model,
+	public httpResponseBody checkoutFill(@RequestBody checkoutRequestBody checkoutReq, Locale locale, Model model,
 			Authentication authentication) throws NoAvailableCopies {
 
 		String principal_name = authentication.getName();
 		User buyer = userService.findUserByUsername(principal_name);
 
-		if (!copies_check(buyer)) {
+		//Viene effettuato il terzo e ultimo controllo della disponibilit‡ dei libri
+		if (!copiesAndRemovedCheck(buyer)) {
 			throw new NoAvailableCopies();
 		}
 
@@ -252,6 +267,7 @@ public class UserController {
 		String shipmentAddress = checkoutReq.getArg1();
 		String payment = checkoutReq.getArg2();
 
+		//Validazione del coupon
 		coupon = couponService.findByCode(checkoutReq.getArg3());
 		if (couponCheck(coupon, buyer) == "available") {
 			buyer.addUsedCoupon(coupon);
@@ -272,7 +288,7 @@ public class UserController {
 		return new httpResponseBody(shipmentAddress, payment, date, "");
 	}
 
-	//Cronologia degli acquisti
+	//Pagina della cronologia degli acquisti
 	@GetMapping(value = "/purchase_history")
 	public String purchaseHistory(@RequestParam(required = false) Integer page, Locale locale, Model model,
 			Authentication authentication) {
