@@ -192,6 +192,7 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 	
 	@Override
 	public void removeBook(Book book) {
+		book.setCopies(0);
 		book.setRemoved(1);
 	}
 

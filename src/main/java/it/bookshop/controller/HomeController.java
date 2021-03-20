@@ -162,12 +162,25 @@ public class HomeController {
 
 	// mostra tutti i libri filtrati Genere
 	@GetMapping(value = "/show_genre/{genre}")
-	public String ShowBookforGenre(@PathVariable("genre") String genre, Model model, Authentication authentication) {
+	public String ShowBookforGenre(@PathVariable("genre") String genre, @RequestParam(required = false) Integer page,
+			Model model, Authentication authentication) {
 		Set<Book> bookGenre = this.bookService.getAllBookForGenre(genre); // estrae tutti i libri per il genere scelto
 		List<Genre> allGenres = this.bookService.getAllGenres();
 
+		// Paginazione
+		PagedListHolder<Book> pagedListHolder = new PagedListHolder<>(new ArrayList<Book>(bookGenre));
+		pagedListHolder.setPageSize(8);
+
+		if (page == null || page < 1 || page > pagedListHolder.getPageCount())
+			page = 1;
+
+		pagedListHolder.setPage(page - 1);
+
+		model.addAttribute("books", pagedListHolder.getPageList());
+		model.addAttribute("maxPages", pagedListHolder.getPageCount());
+		model.addAttribute("page", page);
+
 		model.addAttribute("appName", appName);
-		model.addAttribute("books", bookGenre);
 		model.addAttribute("single_genre", genre);
 		model.addAttribute("genres", allGenres);
 		model.addAttribute("allGenres", allGenres); // per la navbar
@@ -186,17 +199,27 @@ public class HomeController {
 
 	}
 
-	// mostra tutti i libri in sconto
+	// Mostra tutti i libri in sconto
 	@RequestMapping(value = "/sales", method = RequestMethod.GET)
-	public String ShowBookonSale(Model model, Authentication authentication) {
+	public String ShowBookonSale(@RequestParam(required = false) Integer page, Model model,
+			Authentication authentication) {
 		List<Book> bookSale = this.bookService.findBookOnSale(); // estrae tutti i libri in sconto
 		List<Genre> allGenres = this.bookService.getAllGenres();
-		String sale = "In offerta";
+
+		// Paginazione
+		PagedListHolder<Book> pagedListHolder = new PagedListHolder<>(bookSale);
+		pagedListHolder.setPageSize(8);
+
+		if (page == null || page < 1 || page > pagedListHolder.getPageCount())
+			page = 1;
+
+		pagedListHolder.setPage(page - 1);
+
+		model.addAttribute("books", pagedListHolder.getPageList());
+		model.addAttribute("maxPages", pagedListHolder.getPageCount());
+		model.addAttribute("page", page);
 
 		model.addAttribute("appName", appName);
-		model.addAttribute("books", bookSale);
-		model.addAttribute("single_genre", sale);
-		model.addAttribute("genres", allGenres);
 		model.addAttribute("allGenres", allGenres); // per la navbar
 
 		// Mini carrello
@@ -209,7 +232,7 @@ public class HomeController {
 			model.addAttribute("cartTotalItems", user.getCartTotalItems());
 		}
 
-		return "grid_book";
+		return "grid_book_discounts";
 
 	}
 
@@ -528,7 +551,7 @@ public class HomeController {
 		try {
 			couponService.create("INVERNO2021", 10, dateC1);
 			couponService.create("EXTRASCONTO15", 15, dateC2);
-		} catch(ConstraintViolationException e) {
+		} catch (ConstraintViolationException e) {
 			e.printStackTrace();
 		}
 

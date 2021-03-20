@@ -15,6 +15,10 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/grid_book.jsp" />
 	</definition>
+	<definition extends="default" name="grid_book_discounts">
+		<put-attribute name="body"
+			value="/WEB-INF/views/grid_book_discounts.jsp" />
+	</definition>
 	<definition extends="default" name="cart">
 		<put-attribute name="body"
 			value="/WEB-INF/views/user/cart.jsp" />
