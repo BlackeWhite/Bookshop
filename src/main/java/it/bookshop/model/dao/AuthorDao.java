@@ -20,7 +20,6 @@ public interface AuthorDao {
 	Author update(Author author);
 	List<Author> findAll();
 	void delete(Author author);
-	//List<Author> findMostSelledAuthor();
 	List<Book> findBookForAuthor(Author author);
 	List<Book> findBookRemovedForAuthor(Author author);
 	

@@ -62,13 +62,13 @@ public class HomeController {
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 		String formattedDate = dateFormat.format(date);
 
-		List<Author> topFiveAuthor = this.authorService.findBestSellingAuthor();
-		List<Genre> allGenres = bookService.getAllGenres();
-		List<Book> topFiveNewBooks = bookService.findFiveMostRecentBook();
-		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook();
-		List<Book> topMostClickBook = this.bookService.findMostClickBook();
+		List<Author> topFiveAuthor = this.authorService.findBestSellingAuthor(); // restituisce la lista degli autori(i primi 5) che hanno venduto più copie di libri
+		List<Genre> allGenres = bookService.getAllGenres(); // restituisce la lista dei generi dei libri 
+		List<Book> topFiveNewBooks = bookService.findFiveMostRecentBook(); // restituisce la lista dei primi 5 libri aggiunti di recente 
+		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook(); // restituisce la lista dei primi 5 libri più venduti
+		List<Book> topMostClickBook = this.bookService.findMostClickBook(); // restituisce una lista di libri ordinati dal piu' cliccato al meno cliccato 
 
-		// Pagination per I piï¿½ visualizzati
+		// Pagination per I piu' visualizzati
 		PagedListHolder<Book> pagedListHolder = new PagedListHolder<>(topMostClickBook);
 		pagedListHolder.setPageSize(books_per_page);
 
@@ -85,12 +85,12 @@ public class HomeController {
 		model.addAttribute("serverTime", formattedDate);
 		model.addAttribute("appName", appName);
 		model.addAttribute("topFiveAuthor", topFiveAuthor);
-		model.addAttribute("allGenres", allGenres); // Da qui sono presi anche i generi della navbar
+		model.addAttribute("allGenres", allGenres); // Da qui sono presi anche i generi per la navbar
 		model.addAttribute("topFiveNewBooks", topFiveNewBooks);
 		model.addAttribute("topFiveBestSellersBooks", topFiveBestSellersBooks);
-		// model.addAttribute("topMostClickBook", topMostClickBook);
+		
 
-		// Mini carrello
+		// Mini carrello mostrato solo all'utente loggato con ruolo USER 
 		if (authentication != null) {
 			String principal_name = authentication.getName();
 			User user = userService.findUserByUsername(principal_name);
@@ -160,12 +160,12 @@ public class HomeController {
 		return "advanced_search";
 	}
 
-	// mostra tutti i libri filtrati Genere
+	// mostra tutti i libri di un singolo genere
 	@GetMapping(value = "/show_genre/{genre}")
 	public String ShowBookforGenre(@PathVariable("genre") String genre, @RequestParam(required = false) Integer page,
 			Model model, Authentication authentication) {
 		Set<Book> bookGenre = this.bookService.getAllBookForGenre(genre); // estrae tutti i libri per il genere scelto
-		List<Genre> allGenres = this.bookService.getAllGenres();
+		List<Genre> allGenres = this.bookService.getAllGenres(); // Da qui sono presi anche i generi per la navbar
 
 		// Paginazione
 		PagedListHolder<Book> pagedListHolder = new PagedListHolder<>(new ArrayList<Book>(bookGenre));
@@ -181,7 +181,7 @@ public class HomeController {
 		model.addAttribute("page", page);
 
 		model.addAttribute("appName", appName);
-		model.addAttribute("single_genre", genre);
+		model.addAttribute("single_genre", genre); // nome del genere selezionato 
 		model.addAttribute("genres", allGenres);
 		model.addAttribute("allGenres", allGenres); // per la navbar
 
@@ -236,7 +236,7 @@ public class HomeController {
 
 	}
 
-	// Pagina del singolo libro
+	// Pagina per il singolo libro
 	@GetMapping(value = "/show_book/{id}")
 	public String ShowDetailsBook(@PathVariable("id") String id, Model model, Authentication authentication) {
 		long l_id = Long.parseLong(id); // cast from string to long
@@ -245,9 +245,10 @@ public class HomeController {
 		Book b = this.bookService.findById(l_id);
 		Set<Author> authorSet = b.getAuthors();
 
-		Set<Book> booksimilargenre = this.bookService.getBooksimilargenre(b);
-		Set<Book> booksimilarauthor = this.bookService.getBooksimilarAuthor(b);
-		// ccontrollo se le due liste sono vuote
+		Set<Book> booksimilargenre = this.bookService.getBooksimilargenre(b); // restituisce la lista di tutti i libri dello stesso genere del ibro mostrato
+		Set<Book> booksimilarauthor = this.bookService.getBooksimilarAuthor(b);  // restituisce la lista di tutti i libri dello stesso autore del ibro mostrato
+		
+		// ccontrollo se le due liste sono vuote (usato nella vista) 
 		Boolean checklistaut = booksimilarauthor.isEmpty();
 		Boolean checklistgenre = booksimilargenre.isEmpty();
 
@@ -259,8 +260,8 @@ public class HomeController {
 		model.addAttribute("book", b);
 		model.addAttribute("checklistaut", checklistaut);
 		model.addAttribute("checklistgenre", checklistgenre);
-		model.addAttribute("booksimilgenre", booksimilargenre); // libri consigliati per genere
-		model.addAttribute("booksimilaut", booksimilarauthor); // libri consigliati per autore
+		model.addAttribute("booksimilgenre", booksimilargenre); // libri consigliati degli stessi generi del libro mostarto
+		model.addAttribute("booksimilaut", booksimilarauthor); // libri consigliati degli stessi autori del libro mostarto
 
 		model.addAttribute("allGenres", allGenres); // per la navbar
 
@@ -286,7 +287,7 @@ public class HomeController {
 
 		List<Genre> allGenres = this.bookService.getAllGenres();
 
-		List<Book> authorBooks = this.bookService.findBooksAuthor(author);
+		List<Book> authorBooks = this.bookService.findBooksAuthor(author);// restituisce la lista di tutti i libri di quell'autore
 		Boolean checkAuthorBooks = authorBooks.isEmpty();
 
 		model.addAttribute("appName", appName);

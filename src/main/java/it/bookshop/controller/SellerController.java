@@ -8,8 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -42,7 +40,6 @@ import it.bookshop.model.ObjectForm.Authorform;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.BookOrder;
 import it.bookshop.model.entity.Genre;
-import it.bookshop.model.entity.PaymentCard;
 import it.bookshop.services.BookService;
 import it.bookshop.services.OrderService;
 import it.bookshop.services.UserService;
@@ -98,7 +95,7 @@ public class SellerController {
 		User seller = userService.findUserByUsername(principal_name);
 
 		// PAGINAZIONE
-		List<Book> sellerBooks = this.bookService.findAllBookSoldOfSeller(seller);
+		List<Book> sellerBooks = this.bookService.findAllBookSoldOfSeller(seller); // restituisce la lista di tutti i libri di quel venditore
 		PagedListHolder<Book> pagedListHolder = new PagedListHolder<>(sellerBooks);
 		pagedListHolder.setPageSize(5);
 
@@ -112,7 +109,8 @@ public class SellerController {
 		model.addAttribute("page", page);
 
 		List<Genre> allGenres = bookService.getAllGenres();
-		model.addAttribute("allGenres", allGenres);
+		model.addAttribute("allGenres", allGenres); // per la navbar 
+		model.addAttribute("appName", appName);
 		return "home_seller";
 	}
 	/*----------------------End Seller Home----------------------*/
@@ -144,8 +142,8 @@ public class SellerController {
 		model.addAttribute("authorsSurname", authors_surname);
 		model.addAttribute("i", i); // utilizzata come contatore nella vista per i generi
 		model.addAttribute("allGenres", allGenres);
+		model.addAttribute("appName", appName);
 
-		generalOperations(model);
 		return "add_book";
 	}
 	
@@ -259,7 +257,7 @@ public class SellerController {
 			return "redirect:/seller/";
 		}
 	}
-
+	// procedura (post) per la modifica dei dati di un libro
 	@RequestMapping(value = "/save_changes/{book_id}", method = RequestMethod.POST, consumes = { "multipart/form-data" })
 	public String saveChangesBook(@ModelAttribute("bookToUpdate") @RequestBody @Valid Bookform bookChanged,
 			BindingResult br, @PathVariable("book_id") Long book_id, Model model, final RedirectAttributes redirectAttributes,
@@ -347,7 +345,7 @@ public class SellerController {
 	
 	
 	/*----------------------Analysis----------------------*/
-	// analisi di un libro
+	// Area analisi vendite dei libri del venditore 
 	@GetMapping(value = "/analysis_book")
 	public String analysisBook(Model model, Authentication authentication) {
 		String principal_name = authentication.getName();
@@ -383,7 +381,7 @@ public class SellerController {
 		List<BookOrder> listsoldbook = this.orderService.findbyId(reqBody.getBookID());
 		Iterator<BookOrder> iterbook = listsoldbook.iterator();
 
-		// calcolo incasso totale
+		// calcolo incasso totale per quel libro
 		double sum = this.orderService.TotalEarnforBook(reqBody.getBookID());
 
 		double sumapprox = Math.round(sum * 100.0) / 100.0;
@@ -538,7 +536,7 @@ public class SellerController {
 		 */
 		List<Genre> allGenres = this.bookService.getAllGenres();
 
-		model.addAttribute("allGenres", allGenres);
+		model.addAttribute("allGenres", allGenres); // per la navabr
 		model.addAttribute("appName", appName);
 
 	}
