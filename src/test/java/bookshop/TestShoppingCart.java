@@ -42,6 +42,7 @@ public class TestShoppingCart {
 	@BeforeAll
 	static void setup() {
 		
+		System.out.println("Entrato nell'BeforeAll");
 		ctx = new AnnotationConfigApplicationContext(DataServiceConfigTest.class);
 		sf = ctx.getBean("sessionFactory", SessionFactory.class);
 		
@@ -67,6 +68,7 @@ public class TestShoppingCart {
 	@AfterAll
 	static void teardown( ) {
 		
+		System.out.println("Entrato nell'AfterAll");
 		ctx = new AnnotationConfigApplicationContext(DataServiceConfigTest.class);
 		sf = ctx.getBean("sessionFactory", SessionFactory.class);
 		Session s = sf.openSession();
@@ -76,7 +78,6 @@ public class TestShoppingCart {
 		UserDetailsDao userDao = ctx.getBean(UserDetailsDao.class);
 		userDao.setSession(s);
 		userDao.delete(testUser);
-		s.getTransaction().commit();
 		
 		// Forza utilizzo sessione corrente per il DAO BookOrder richiamato in fase di eliminazione dei libri
 		BookOrderDao bookOrderDao = ctx.getBean(BookOrderDao.class);
@@ -84,7 +85,7 @@ public class TestShoppingCart {
 		
 		// Eliminazione dei libri di test creati 
 		BookDao bookDao = ctx.getBean(BookDao.class);
-		s.beginTransaction();
+
 		bookDao.setSession(s);
 		bookDao.delete(testBook1);
 		bookDao.delete(testBook2);
@@ -113,6 +114,7 @@ public class TestShoppingCart {
 	@Test
 	void testBeginCommitTransaction() {
 		
+		System.out.println("Entrato nel test1");
 		Session s = sf.openSession();
 		assertTrue(s.isOpen());
 		
@@ -129,6 +131,7 @@ public class TestShoppingCart {
 	@Test
 	void testShoppingCartListSearch () {
 		
+		System.out.println("Entrato nel test2");
 		Session s = sf.openSession();
 		s.beginTransaction();
 		shoppingCartDao.setSession(s);	
@@ -148,13 +151,14 @@ public class TestShoppingCart {
 	@Test
 	void testShoppingCartCreationAndSearch () {
 		
+		System.out.println("Entrato nel test3");
 		Session s = sf.openSession();
 		s.beginTransaction();
 		shoppingCartDao.setSession(s);
 		
 		int testCopies = 1;
 		ShoppingCart testShoppingCart = shoppingCartDao.create(testUser, testBook1, testCopies);
-		
+
 		// Verifica della corretta creazione dell'ID
 		ShoppingCartId testSCId = testShoppingCart.getId();
 		assertEquals(testSCId.getUserId(), testUser.getUserID());
@@ -166,44 +170,51 @@ public class TestShoppingCart {
 		
 		// Verifica sul funzionamento di ricerca per ID
 		assertEquals(shoppingCartDao.findById(testSCId), testShoppingCart);
+		shoppingCartDao.removeBook(testShoppingCart);
+		s.getTransaction().commit();
 		
 	}
 
 	@Test
 	void testShoppingCartDeletion () {
-		Session s = sf.openSession();
-		s.beginTransaction();
-		shoppingCartDao.setSession(s);
 		
-		int testCopies = 1;
-		ShoppingCart testShoppingCart = shoppingCartDao.create(testUser, testBook1, testCopies);
-		shoppingCartDao.removeBook(testShoppingCart);
-		List<ShoppingCart> testList =  shoppingCartDao.findUserShoppingCart(testUser);
-		
-		// Verifica sul funzionamento di eliminazione di un libro nel carrello 
-		assertEquals(testList.size(), 0);
-		ShoppingCartId testSCId = testShoppingCart.getId();
-		assertNull(shoppingCartDao.findById(testSCId));
-		
-	}
-	
-	@Test
-	void testUserShoppingCartEmptyFunctionality () {
+		System.out.println("Entrato nel test4");
 		Session s = sf.openSession();
 		s.beginTransaction();
 		shoppingCartDao.setSession(s);
 		
 		int testCopies = 1;
 		ShoppingCart testShoppingCart1 = shoppingCartDao.create(testUser, testBook1, testCopies);
-		ShoppingCart testShoppingCart2 = shoppingCartDao.create(testUser, testBook2, testCopies);
+		shoppingCartDao.removeBook(testShoppingCart1);
+		s.getTransaction().commit();
+		List<ShoppingCart> testList =  shoppingCartDao.findUserShoppingCart(testUser);
+		
+		// Verifica sul funzionamento di eliminazione di un libro nel carrello 
+		assertEquals(testList.size(), 0);
+		ShoppingCartId testSCId = testShoppingCart1.getId();
+		assertNull(shoppingCartDao.findById(testSCId));
+		
+	}
+	
+	@Test
+	void testUserShoppingCartEmptyFunctionality () {
+		
+		System.out.println("Entrato nel test5");
+		Session s = sf.openSession();
+		s.beginTransaction();
+		shoppingCartDao.setSession(s);
+		
+		int testCopies = 1;
+		ShoppingCart testShoppingCart2 = shoppingCartDao.create(testUser, testBook1, testCopies);
+		ShoppingCart testShoppingCart3 = shoppingCartDao.create(testUser, testBook2, testCopies);
 		
 		List<ShoppingCart> testList =  shoppingCartDao.findUserShoppingCart(testUser);
 		assertEquals(testList.size(), 2);
 		
 		// Verifica sul funzionamento di svuotamento del carrello
 		shoppingCartDao.emptyUserCart(testUser);
-		List<ShoppingCart> newTestList =  shoppingCartDao.findUserShoppingCart(testUser);
 		s.getTransaction().commit();
+		List<ShoppingCart> newTestList =  shoppingCartDao.findUserShoppingCart(testUser);
 		assertEquals(newTestList.size(), 0);
 		
 	}
@@ -212,6 +223,7 @@ public class TestShoppingCart {
 	@Test
 	void testShoppingCartUpdate () {
 		
+		System.out.println("Entrato nel test6");
 		Session s = sf.openSession();
 		s.beginTransaction();
 		shoppingCartDao.setSession(s);
@@ -226,6 +238,9 @@ public class TestShoppingCart {
 		testShoppingCart.setBook(testBook2);
 		shoppingCartDao.update(testShoppingCart);
 		assertEquals(shoppingCartDao.findById(testSCId), testShoppingCart);
+		shoppingCartDao.removeBook(testShoppingCart);
+		s.getTransaction().commit();
+		
 	}
 	
 }
