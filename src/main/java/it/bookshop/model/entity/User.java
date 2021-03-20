@@ -24,10 +24,6 @@ import java.text.NumberFormat;
 @Table(name = "USERS")
 public class User implements Serializable{
 	
-	/**
-	 *
-	 */
-	// perch� viene sempre 1L?
 	private static final long serialVersionUID = 1L;
 	private long userID;
 	private String username;
