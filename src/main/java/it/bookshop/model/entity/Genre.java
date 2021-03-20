@@ -68,7 +68,7 @@ public class Genre implements Serializable{
 	}
 	public void addBooks(Book b) {
 		this.books.add(b);
-		b.getGenres().add(this); // NB nota che non usiamo l'utility method addInstrument
+		b.getGenres().add(this);
 	}
 	
 	public void removeBooks(Book b) {

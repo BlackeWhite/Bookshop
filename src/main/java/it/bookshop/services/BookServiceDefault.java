@@ -163,7 +163,7 @@ public class BookServiceDefault implements BookService {
 	
 	@Override
 	public Set<Book> getBooksimilargenre(Book b){
-		// estraggo tutti i libri dello stesso genere del libro passato(usata per il singolo libro)
+		// estraggo tutti i libri degli stessi generi del libro passato(usata per il singolo libro)
 		Set <Genre> genreSet = b.getGenres(); // tutti i generi di quel libro 
 		Iterator <Genre> iterGenre = genreSet.iterator();
 		Set <Book> listbook = new HashSet<Book>();
@@ -184,7 +184,7 @@ public class BookServiceDefault implements BookService {
 	
 	@Override
 	public Set<Book> getBooksimilarAuthor(Book b){
-		// estraggo tutti i libri dello stesso autore del libro passato(usata per il singolo libro)
+		// estraggo tutti i libri degli stessi autori del libro passato(usata per il singolo libro)
 		Set <Author> AuthorSet = b.getAuthors(); // tutti gli autore di quel libro 
 		Iterator <Author> iterAut = AuthorSet.iterator();
 		Set <Book> listbook = new HashSet<Book>();
