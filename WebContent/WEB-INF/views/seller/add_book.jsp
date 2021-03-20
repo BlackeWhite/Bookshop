@@ -123,10 +123,37 @@
 						  </fieldset>
 						  <table id="maintable">
 						    <tbody id="maintablebody">
-						      <tr>  
-						        <td><form:label path="title"><b>Autore 1</b></form:label></td>
-						        <td><form:input required="required" placeholder="Nome" type="text" path="authorsName" id="authorsName" class = "inputview" pattern = "[a-zA-Z]+[ ][a-zA-Z]+"/></td>
-						        <td><form:input placeholder="Cognome" type="text" path="authorsSurname" id="authorsSurname" class = "inputview" pattern="([^\s][A-z0-9À-ž\s]+)"/></td>
+						      <tr> 
+						      	<c:set var="numAuthor" value="0"/>
+						      	<c:choose>
+							    <c:when test="${empty newBook.authorsName}"> 
+							      	<td><form:label path="title"><b>Autore 1</b></form:label></td>
+							        <td><form:input required="required" placeholder="Nome" type="text" path="authorsName" id="authorsName" class = "inputview" pattern = "[a-zA-Z]+[ ][a-zA-Z]+"/></td>
+							        <td><form:input placeholder="Cognome" type="text" path="authorsSurname" id="authorsSurname" class = "inputview" pattern="([^\s][A-z0-9À-ž\s]+)"/></td>
+							    
+						      	</c:when>
+						      	<c:otherwise>
+							        <c:forEach items = "${newBook.authorsName}" var = "name">
+										<td><form:label path="title">
+												<b>Autore </b>
+											</form:label></td>
+										<td><form:input required="required" placeholder="Nome"
+												type="text" path="authorsName" id="authorsName"
+												class="inputview" value = "${name}"/></td>
+										<td> 
+										<c:if test="${newBook.authorsSurname.get(numAuthor) != '#SURNAME_PLACEHOLDER'}">
+											<form:input placeholder="Cognome" type="text"
+												path="authorsSurname" id="authorsSurname" class="inputview" value = "${newBook.authorsSurname.get(numAuthor)}"/></td>
+										</c:if>
+										<c:if test="${newBook.authorsSurname.get(numAuthor) == '#SURNAME_PLACEHOLDER'}">
+											<form:input placeholder="Cognome" type="text"
+												path="authorsSurname" id="authorsSurname" class="inputview" value ="" /></td>
+										</c:if>
+									</tr>
+									<p hidden>${numAuthor = numAuthor+1}</p>
+									</c:forEach>
+						      </c:otherwise>
+						      </c:choose>
 						      </tr>
 						    </tbody>
 						  </table>
