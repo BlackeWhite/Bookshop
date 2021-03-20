@@ -251,16 +251,14 @@
 						<fieldset>
 							<legend>Genere del libro</legend>
 							<br>
-							<c:forEach items="${genre}" var="g">
-								<p hidden>${i=i+1}</p>
-								<form:checkbox id="${g}" name="${g}" path="genre" value="${g}"
-									label="${g}" />
+							<c:set var="i" value="0"/>
+								<c:forEach items="${allGenres}" var="g"> 
+							     <p hidden>${i=i+1}</p> 
+										<form:checkbox id="${g.name}" name="${g.name}" path="genre" value="${g.name}" label="${g.name}" />
 										 &thinsp; &nbsp;
-									    <form:errors path="genre" cssClass="validation-error" />
-								<c:if test="${i%8 == 0 }">
-									<br>
-								</c:if>
-							</c:forEach>
+									    <form:errors path="genre" cssClass="validation-error"/>
+									<c:if test="${i%8 == 0 }"> <br></c:if>
+								</c:forEach>
 						</fieldset>
 						<br>
 						<fieldset>

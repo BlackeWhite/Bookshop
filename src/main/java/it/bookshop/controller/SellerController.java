@@ -124,26 +124,16 @@ public class SellerController {
 	public String additionBooK(@RequestParam(value = "error", required = false) Locale locale, Model model) {
 
 		String errorMessage = null;
-		int i = 0;
 		Bookform bf = new Bookform();
 
-		List<String> gen = new ArrayList<String>();
 		List<String> authors_name = new ArrayList<String>();
 		List<String> authors_surname = new ArrayList<String>();
-		List<Genre> allGenres = this.bookService.getAllGenres();
-		Iterator<Genre> iteGen = allGenres.iterator();
 
-		while (iteGen.hasNext()) {
-			gen.add(iteGen.next().getName());
-		}
 
 		model.addAttribute("errorMessage", errorMessage);
 		model.addAttribute("newBook", bf);
-		model.addAttribute("genre", gen);
 		model.addAttribute("authorsName", authors_name);
 		model.addAttribute("authorsSurname", authors_surname);
-		model.addAttribute("i", i); // utilizzata come contatore nella vista per i generi
-		model.addAttribute("allGenres", allGenres);
 
 		generalOperations(model);
 		return "add_book";
@@ -160,13 +150,7 @@ public class SellerController {
 
 		if (br.hasErrors()) { // se ci sono errori nella form, ritorna la pagina della form con i campi sbagliati
 			generalOperations(model);
-			List<String> gen = new ArrayList<String>();
-			List<Genre> allGenres = this.bookService.getAllGenres();
-			Iterator<Genre> iteGen = allGenres.iterator();
-			while (iteGen.hasNext()) {
-				gen.add(iteGen.next().getName());
-			}
-			model.addAttribute("genre", gen);
+			book.placeholder();
 			model.addAttribute("newBook", book);
 			return "addition_book";
 		} else { // se non ci sono errori nella form, procede al caricamento dei dati del libro nel db
