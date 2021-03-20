@@ -21,14 +21,14 @@
 				<c:forEach items="${topFiveBestSellersBooks}" var="tBSBooks">
 					<div class="single-list">
 						<div class="row">
-							<div class="col-lg-6 col-md-6 col-12">
+							<div class="col-lg-7 col-md-7 col-12">
 								<div class="list-image overlay">
 									<img src="<c:url value="/resources/img/cover_book/${tBSBooks.cover}"/>"
 										alt="#" style="height: 300px; object-fit: contain"><a href="<c:url value="/show_book/${tBSBooks.id}"/>" class="buy"> 
 										<i class="fa fa-eye"></i></a>
 								</div>
 							</div>
-							<div class="col-lg-6 col-md-6 col-12 no-padding">
+							<div class="col-lg-4 col-md-4 col-12 no-padding">
 								<div class="content">
 									<h4 class="title">
 										<a href="<c:url value="/show_book/${tBSBooks.id}"/>">${tBSBooks.title}</a>
@@ -53,14 +53,14 @@
 				<c:forEach items="${topFiveNewBooks}" var="tFNBooks">
 					<div class="single-list">
 						<div class="row">
-							<div class="col-lg-6 col-md-6 col-12">
+							<div class="col-lg-7 col-md-7 col-12">
 								<div class="list-image overlay">
 									<img src="<c:url value="/resources/img/cover_book/${tFNBooks.cover}"/>"
 										alt="#" style="height: 300px; object-fit: contain"><a href="<c:url value="/show_book/${tFNBooks.id}"/>" class="buy">
 										<i class="fa fa-eye"></i></a>
 								</div>
 							</div>
-							<div class="col-lg-6 col-md-6 col-12 no-padding">
+							<div class="col-lg-4 col-md-4 col-12 no-padding">
 								<div class="content">
 									<h5 class="title">
 										<a href="<c:url value="/show_book/${tFNBooks.id}"/>">${tFNBooks.title}</a>
@@ -83,18 +83,18 @@
 				</div>
 				<!-- Start Single List  -->
 				<c:forEach items="${topFiveAuthor}" var="tsAuthor">
-					<div class="single-list" style="background: linear-gradient(#d9d9d9, white);">
+					<div class="single-list author-list" >
 						<div class="row">
-							<div class="col-lg-6 col-md-6 col-12">
+							<div class="col-lg-7 col-md-7 col-12">
 								<div class="list-image overlay" style=" height:300px">
 									<img src="<c:url value="/resources/img/authors/${tsAuthor.photo}"/>"
-										alt="author_photo" style="height:200px; margin-top: 50px; margin-left:20px; object-fit: cover"> 
+										alt="author_photo" style="height:270px; border-radius: 10%; margin-top: 10px; margin-left:20px; object-fit: cover"> 
 										<a href="<c:url value="/show_author/${tsAuthor.id}"/>" class="buy" style="margin-left:2px">
 											<i class="fa fa-eye"></i>
 										</a>
 								</div>
 							</div>
-							<div class="col-lg-6 col-md-6 col-12 no-padding">
+							<div class="col-lg-4 col-md-4 col-12 no-padding">
 								<div class="content" style="margin-top: 70px; text-align: center;">
 									<h5 class="title">
 									<c:if test = "${tsAuthor.surname != '#SURNAME_PLACEHOLDER'}">
@@ -120,11 +120,11 @@
 </section>
 <!-- End Shop Home List  -->
 <!-- Start Product Area -->
-<div class="product-area section">
+<div class="product-area section" style="padding-top: 0px; margin-top: -40px;">
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
-				<div class="section-title">
+				<div class="section-title" style="margin-bottom: 10px;">
 					<h2 id="moreview">Più visualizzati</h2>
 				</div>
 			</div>

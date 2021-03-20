@@ -8,10 +8,8 @@
 				<div class="row">
 					<div class="col-5">
 						<img 
-							
-							style=" border-radius: 100%; height: auto; width: auto; max-width: 450px; max-height: 450px; margin-left: 200px"
 							src="<c:url value="/resources/img/authors/${author.photo}"/>"
-							alt="#" class="center_image">
+							alt="#" class="center_image author_image">
 					</div>
 					<div class="col">
 						<div style="margin-left: 15%; margin-top: 15%;" class="quickview-content" >
