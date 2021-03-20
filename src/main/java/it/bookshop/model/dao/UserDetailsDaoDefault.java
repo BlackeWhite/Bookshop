@@ -111,6 +111,7 @@ public class UserDetailsDaoDefault extends DefaultDao implements UserDetailsDao 
 				for(Book b : user.getBooksForSale()) {
 					b.setSeller(null);
 					b.setRemoved(1);
+					b.setCopies(0);
 				}
 			}
 		}
