@@ -4,7 +4,7 @@
 
 Progetto di Programmazione Avanzata  
 Si vuole progettare un’applicazione web per l'acquisto di libri rivolto sia ad utenti che vogliono acquistare libri sia a librerie che vogliono mettere in vendità i propri libri.  
-Vi sono 3 tipologie di utenti:
+Vi sono 4 tipologie di utenti:
  * **Utente non registarto**: può visionare tutti i libri ed effettuare l’operazione di registrazione al sito, o login se già iscritto precedentemente.
   * **Utente acquirente (USER)**: accede mediante login, dispone delle stesse operazioni dell’”utente standard”, può aggiungere uno o più libri al carrello, acquistare i libri presenti nel carrello, visualizzare gli acquisti effettuati nella cronologia acquisti, può modificare i suoi dati personali di registrazione, aggiungere carte di pagamento ed effettuare l’operazione di logout per passare allo stato di “utente standard”;  
   * **Utente venditore(SELLER)**: per registrarsi devi inviare una mail all'admin con tutte le informazione sull'azienda. Accede attraverso login e viene reindirizzato alla sua Area personale dove può inserire/modificare/cancellare un libro, modificare le informazioni sugli autori dei suoi libri, e visualizzare informazioni sulle vendite dei suoi libri visualizzando copie vendute e incasso totale per i singoli libri o per un intervallo di tempo ben definito.
