@@ -91,6 +91,8 @@
 									input.setAttribute("name", "authorsName");
 									input.setAttribute("placeholder", "Nome");
 									input.setAttribute("type", "text");
+									input.setAttribute("pattern",
+									"([^\s][A-z0-9À-ž\s]+)");
 									input.setAttribute("required", "required");
 
 									;
@@ -103,6 +105,8 @@
 									input_surname.setAttribute("placeholder",
 											"Cognome");
 									input_surname.setAttribute("type", "text");
+									input_surname.setAttribute("pattern",
+									"([^\s][A-z0-9À-ž\s]+)");
 									;
 									//input_surname.setAttribute("class", "inputview");
 
@@ -149,10 +153,10 @@
 											</form:label></td>
 										<td><form:input required="required" placeholder="Nome"
 												type="text" path="authorsName" id="authorsName"
-												class="inputview" value="${name}" /></td>
+												class="inputview" value="${name}" pattern="([^\s][A-z0-9À-ž\s]+)"/></td>
 										<td><form:input placeholder="Cognome" type="text"
 												path="authorsSurname" id="authorsSurname" class="inputview"
-												value="${authorsSurname.get(numAuthor)}" /></td>
+												value="${authorsSurname.get(numAuthor)}" pattern="([^\s][A-z0-9À-ž\s]+)"/></td>
 									</tr>
 									<p hidden>${numAuthor = numAuthor+1}</p>
 								</c:forEach>
