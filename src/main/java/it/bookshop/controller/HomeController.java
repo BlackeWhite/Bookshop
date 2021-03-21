@@ -464,22 +464,41 @@ public class HomeController {
 		java.sql.Date birth_date10 = new java.sql.Date(date10.getTime());
 
 		// Crea autori
-		authorService.create("Dante", "Alighieri", birth_date1, "Italia", "Dante Alighieri nasce a ...",
+		authorService.create("Dante", "Alighieri", birth_date1, "Italia", "Dante Alighieri  è stato un poeta, scrittore e politico italiano. "
+				+ "È considerato il padre della lingua italiana e la sua fama è dovuta alla paternità della Comedìa, divenuta celebre come Divina "
+				+ "Commedia.",
 				"Alighieri.jpg");
-		authorService.create("J.J.R.", "Tolkien", birth_date2, "Inghilterra", "J.J.R. Tolkien nasce a ...",
+		authorService.create("J.J.R.", "Tolkien", birth_date2, "Inghilterra", "J.J.R. Tolkien è stato uno scrittore, filologo, "
+				+ "glottoteta, accademico e linguista britannico. Importante studioso della lingua anglosassone, è l'autore de "
+				+ "Il Signore degli Anelli e di altre celebri pietre miliari del fantasy.",
 				"Tolkien.jpg");
-		authorService.create("Alessandro", "Manzoni", birth_date3, "Italia", "Alessandro Manzoni nasce a ...",
+		authorService.create("Alessandro", "Manzoni", birth_date3, "Italia", "Alessandro Manzoni è stato uno scrittore, poeta e "
+				+ "drammaturgo italiano. Considerato uno dei maggiori romanzieri italiani di tutti i tempi per il suo celebre romanzo "
+				+ "I promessi sposi, caposaldo della letteratura italiana.",
 				"Manzoni.jpg");
-		authorService.create("H.P.", "Lovecraft", birth_date4, "Rhode Island,U.S.A", "H.P. Lovecraft nasce a ...",
+		authorService.create("H.P.", "Lovecraft", birth_date4, "Rhode Island,U.S.A", "H.P. Lovecraft è stato uno scrittore, poeta, critico "
+				+ "letterario e saggista statunitense, riconosciuto tra i maggiori scrittori di letteratura horror insieme con Edgar Allan "
+				+ "Poe.",
 				"Lovecraft.jpg");
-		authorService.create("Michael", "Crichton", birth_date5, "Chicago,U.S.A", "Michael Crichton nasce a ...",
+		authorService.create("Michael", "Crichton", birth_date5, "Chicago,U.S.A", "Michael Crichton è stato uno scrittore, sceneggiatore, regista,"
+				+ " produttore cinematografico e produttore televisivo statunitense. Tra le sue opere più celebri spicca il romanzo di fantascienza "
+				+ "Jurassic Park.",
 				"Crichton.jpg");
-		authorService.create("Stephen W.", "Hawking", birth_date6, "Inghilterra", "Stephen W. Hawking nasce a ...",
+		authorService.create("Stephen W.", "Hawking", birth_date6, "Inghilterra", "Stephen W. Hawking  è stato un cosmologo, fisico, matematico, "
+				+ "astrofisico, accademico e divulgatore scientifico britannico, fra i più autorevoli e conosciuti fisici teorici al mondo.",
 				"Hawking.jpg");
-		authorService.create("Primo", "Levi", birth_date7, "Italia", "Pirmo Levi nasce a ...", "Levi.jpg");
-		authorService.create("Michael", "Ende", birth_date8, "Germania", "Micheal Ende nasce a ...", "Ende.jpg");
-		authorService.create("Rick", "Riordan", birth_date9, "Texas", "Rick Riordan nasce a ...", "Riordan.jpg");
-		authorService.create("Conan", "Doyle", birth_date10, "Scozia", "Conan Doyle nasce a ...", "Doyle.jpg");
+		authorService.create("Primo", "Levi", birth_date7, "Italia", "Pirmo Levi è stato uno scrittore italiano, autore di racconti, memorie, poesie, "
+				+ "saggi e romanzi. Partigiano antifascista, il 13 dicembre 1943 venne arrestato in Valle d'Aosta e deportato ad Auschwitz in quanto ebreo"
+				, "Levi.jpg");
+		authorService.create("Michael", "Ende", birth_date8, "Germania", "Micheal Ende  è stato uno scrittore tedesco universalmente noto soprattutto "
+				+ "per i romanzi Momo e La storia infinita. La grande tematica sviluppata da Ende è il potere creativo assoluto della fantasia, matrice"
+				+ " di tutte le storie possibili.", "Ende.jpg");
+		authorService.create("Rick", "Riordan", birth_date9, "Texas", "Rick Riordan è uno scrittore statunitense. Insegnante di inglese nelle scuole medie, "
+				+ "riceve nel 2002 il riconoscimento Master Teacher Award. In Italia diventa noto nel 2010 quando Mondadori Editore pubblica "
+				+ "Il ladro di fulmini e gli dei dell'Olimpo.", "Riordan.jpg");
+		authorService.create("Conan", "Doyle", birth_date10, "Scozia", "Conan Doyle nasce a è stato uno scrittore e drammaturgo britannico, considerato, insieme a "
+				+ "Edgar Allan Poe, il fondatore dei due generi letterari del giallo e del fantastico. In particolare è il capostipite del sottogenere "
+				+ "giallo deduttivo.", "Doyle.jpg");
 
 		// Crea date di pubblicazione dei libri da inserire
 		Date date1 = null;
@@ -515,12 +534,15 @@ public class HomeController {
 		// Crea libri
 		bookService.deleteAll();
 		bookService.create("Dante", "Alighieri", "838832989113223", "La Divina Commedia", publish_date1, publish_date1,
-				3, 34, seller1, 300, "Nel mezzo del cammin...", "6.jpg", Arrays.asList("Poema"), 0.15);
+				3, 34, seller1, 300, "La Comedìa, o Commedia, conosciuta soprattutto come Divina Commedia, è un poema allegorico-didascalico"
+						+ " di Dante Alighieri, scritto in terzine incatenate di endecasillabi in lingua volgare fiorentina.", "6.jpg", Arrays.asList("Poema"), 0.15);
 		bookService.create("J.J.R.", "Tolkien", "746382492401", "Il Signore degli Anelli - Le due torri", publish_date2,
-				publish_date2, 4, 40.99, seller2, 450, "Sauron è tornato a Mordor...", "7.jpg",
+				publish_date2, 4, 40.99, seller2, 450, "Le due torri (in originale The Two Towers)  è il secondo volume della trilogia de Il "
+						+ "Signore degli Anelli. Il titolo del romanzo ha suscitato molte discussioni su quali siano effettivamente queste due torri.", "7.jpg",
 				Arrays.asList("Fantasy"), 0);
 		bookService.create("Alessandro", "Manzoni", "8235234631481401", "I promessi sposi", publish_date3,
-				publish_date3, 10, 25.99, seller1, 370, "Renzo e Lucia ...", "8.jpg", Arrays.asList("Romanzo"), 0);
+				publish_date3, 10, 25.99, seller1, 370, "I promessi sposi è un celebre romanzo storico di Alessandro Manzoni, ritenuto il più "
+						+ "famoso e il più letto tra quelli scritti in lingua italiana. Fu pubblicato in una prima versione nel 1827.", "8.jpg", Arrays.asList("Romanzo"), 0);
 		bookService.create("H.P.", "Lovecraft", "83883267788997", "Il caso di Charles Dexter Ward", publish_date4,
 				publish_date4, 3, 39, seller1, 300, "Charles Dexter Ward era il discendente di...", "11.jpg",
 				Arrays.asList("Horror", "Fantasy"), 0);
