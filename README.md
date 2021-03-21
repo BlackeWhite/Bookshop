@@ -1,4 +1,5 @@
-# BookShop
+<img src="./WebContent/resources/img/logo.png" width="20%">
+
 Progetto di Programmazione Avanzata  
 Si vuole progettare un’applicazione web per l'acquisto di libri rivolto sia ad utenti che vogliono acquistare libri sia a librerie che vogliono mettere in vendità i propri libri.  
 Vi sono 3 tipologie di utenti:
