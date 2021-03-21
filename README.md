@@ -22,9 +22,9 @@ Tomcat 9.0 (fondamentale per il corretto funzionamente dell'applicazione)
 
 1. Una volta clonato il progetto, andare su src/main/resources e modificare i file db.config.properties, inserendo i dati del proprio database.
 2. Due modi per avviare l'applicazione:
-2a. Da Eclipse lanciare il progetto come Run as--->Run on Server utilizzando un server Tomcat (dopo averlo configurato) 
+* Da Eclipse lanciare il progetto come Run as--->Run on Server utilizzando un server Tomcat (dopo averlo configurato) 
 (in questo caso non saranno eseguiti i test Junit prima  di eseguire l'applicazione, per eseguirli bisgona eseguirli singolarmente)
-2b. Da Eclipse utilizzando Maven:
+* Da Eclipse utilizzando Maven:
 
    * modificare nel pom.xml i seguenti campi in base ai settaggi del proprio server 
    ```
