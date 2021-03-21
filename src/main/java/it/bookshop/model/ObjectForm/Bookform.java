@@ -16,18 +16,15 @@ import it.bookshop.model.entity.User;
 
 
 public class Bookform {
-
 	/*
-	 * classe utilizzata nella form per aggiungere un libro unisce sia le
+	 * Classe utilizzata nella form per aggiungere un libro, unisce sia le
 	 * informazione sul libro che dei diversi generi ad esso associato
 	 */
-
 	private long id;
 	private String isbn;
 	private String title;
 	private int copies; // Copie Disponibili
 	private List<String> genre;
-	private List<String> authors;
 	private List<String> authorsName;
 	private List<String> authorsSurname;
 	private double price;
@@ -159,8 +156,10 @@ public class Bookform {
 		this.price = price;
 	}
 
-	// metodo usato nella forma di modifica del libro
 	public void populate(Book b) {
+		/*
+		 * Popola l'istanza di Bookform con i dati dell'oggetto book
+		 */
 		this.id = b.getId();
 		this.isbn = b.getIsbn();
 		this.title = b.getTitle();
@@ -180,20 +179,32 @@ public class Bookform {
 		}
 
 		this.genre = genrelist;
-
-		// per la lista degli autori
-		List<String> autlist = new ArrayList<String>();
-		Iterator<Author> iterAuthors = b.getAuthors().iterator();
-		while (iterAuthors.hasNext()) {
-			autlist.add(iterAuthors.next().getFullName());
+		
+		int count = 0;
+		for(Author author:b.getAuthors()) {
+			/*
+			 * Popola la lista dei nomi e dei cognomi degli autori
+			 * e inserisce il placeholder nel caso il cognome sia vuoto
+			 */
+			this.authorsName.set(count, author.getName());
+			String surname = author.getSurname();
+			if(surname.isEmpty() || surname == null || surname == "") {
+				this.authorsSurname.set(count, "#SURNAME_PLACEHOLDER");
+			} else {
+				this.authorsSurname.set(count, surname);
+			} 
+			count++;
+			
 		}
-
-		this.authors = autlist;
 
 	}
 
 	public Book bookformToBook(Bookform book, User seller, Set<Author> authorsList, Set<Genre> genreList,
 			Long book_id, Book bookNotUpdated) {
+		/*
+		 * Popola e restituisce un oggetto di tipo Book con i dati dell'istanza di Bookform
+		 * che contiene i dati della form
+		 */
 		Book b = new Book();
 		b.setId(book_id);
 		b.setIsbn(book.getIsbn());
@@ -227,6 +238,10 @@ public class Bookform {
 	}
 	
 	public void placeholder(){
+		/*
+		 * Metodo per inserire il placeholder, specifico per quando il bindingresult
+		 * da errore (nel controller)
+		 */
 		int count = 0;
 		for(String author: authorsName) {
 			String surname = authorsSurname.get(count);

@@ -179,61 +179,42 @@ public class SellerController {
 	@GetMapping(value = "/edit_book/{book_id}")
 	public String editBookPage(@PathVariable("book_id") Long book_id, Model model, 
 			Locale locale, Authentication authentication) {
+		/*
+		 * Metodo GET per la modifica di un libro
+		 */
 		Book b_temp = this.bookService.findById(book_id);
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
 		
 		try {
-			if (seller.getUserID() == b_temp.getSeller().getUserID()) { // verifico che il ibro che si sta modificando sia di proprietà di quel venditore
-			
-		Bookform bf = new Bookform();
+			/*
+			 * Verifica che il libro che si sta modificando sia di proprietà di quel venditore
+			 */
+			if (seller.getUserID() == b_temp.getSeller().getUserID()) {
 
-		bf.populate(b_temp);
-
-		int i = 0;
-		List<String> gen = new ArrayList<String>();
-
-		List<Genre> allGenres = this.bookService.getAllGenres();
-		Iterator<Genre> iteGen = allGenres.iterator();
-
-		while (iteGen.hasNext()) {
-			gen.add(iteGen.next().getName());
-		}
+				Bookform bf = new Bookform();
 		
-		Book book_prova = bookService.findById(book_id);
-		List<Author> authors = new ArrayList<Author>(book_prova.getAuthors());
-		Iterator<Author> autIter = authors.iterator();
-		List<String> authorsName = new ArrayList<>();
-		List<String> authorsSurname = new ArrayList<>();
-		String name;
-		String surname;
-		int n = authors.size(); 
-		for(int j=0; j<n; j++) {
-			name = authors.get(j).getName();
-			try {
-				surname = authors.get(j).getSurname();
-			} catch (Exception e) {
-				surname = "#SURNAME_PLACEHOLDER";
-			}
-			authorsName.add(name);
-			authorsSurname.add(surname);
-			
-		}
+				bf.populate(b_temp);
 		
-		int numAuthor = 0;
-		model.addAttribute("allGenres", allGenres);
-		model.addAttribute("genre", gen);
-		model.addAttribute("authorsName", authorsName);
-		model.addAttribute("authors", authors);
-		model.addAttribute("authorsSurname", authorsSurname);
-		model.addAttribute("prova", authorsName.get(0));
-		model.addAttribute("numAuthor", numAuthor);
-		model.addAttribute("i", i); // utilizzata come contatore nella vista
-		model.addAttribute("bookToUpdate", bf);
-		generalOperations(model);
-		return "edit_book";
+				List<String> gen = new ArrayList<String>();
+		
+				List<Genre> allGenres = this.bookService.getAllGenres();
+				Iterator<Genre> iteGen = allGenres.iterator();
+		
+				while (iteGen.hasNext()) {
+					gen.add(iteGen.next().getName());
+				}
+		
+				model.addAttribute("allGenres", allGenres);
+				model.addAttribute("genre", gen);
+				model.addAttribute("authorsName", bf.getAuthorsName());
+				model.addAttribute("authorsSurname", bf.getAuthorsSurname());
+				model.addAttribute("bookToUpdate", bf);
+				generalOperations(model);
+				return "edit_book";
 			}
-			else { // se non è così non gli permetto la modifica e lo reindirizzo alla sua home
+			else { 
+				// se non è così non gli permetto la modifica e lo reindirizzo alla sua home
 			return "redirect:/seller/";
 			}
 		} catch(Exception e) {
