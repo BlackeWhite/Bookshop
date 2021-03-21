@@ -1,6 +1,8 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="security"
+	uri="http://www.springframework.org/security/tags"%>
 <div class="modal-body">
 	<div class="container">
 		<div class="row" style="margin-top: 30px;">
@@ -83,12 +85,23 @@
 											<span class="price-dec">${authorBook.truncatedDiscount}%</span>
 										</c:if>
 									</a>
-									<div class="button-head">
-										<div class="product-action"></div>
-										<div class="product-action-2">
-											<a title="Add to cart" href="#">Aggiungi al carrello </a>
+									<security:authorize access="hasRole('USER')">
+										<div class="button-head">
+											<div class="product-action"></div>
+											<div class="product-action-2">
+												<c:if test="${authorBook.copies > 0 }">
+													<input type="hidden" value="1"
+														id="amount_${authorBook.id}">
+													<a data-book="${authorBook.id}"
+														class="btn add_to_cart">Aggiungi al carrello</a>
+												</c:if>
+												<c:if test="${authorBook.copies <= 0 }">
+													<a>Non disponibile</a>
+												</c:if>
+											</div>
+
 										</div>
-									</div>
+									</security:authorize>
 								</div>
 								<div class="product-content">
 									<h4 style="font-size: 15px !important;">
