@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
-<div class="modal-body">
+<div class="modal-body" style="margin-top: 50px;">
 	<div class="row no-gutters">
 		<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
 			<img src="<c:url value="/resources/img/cover_book/${book.cover}"/>"
@@ -27,6 +27,10 @@
 						</c:forEach>
 					</i>
 				</h4>
+				<b style="font-size: 17px;">Generi:</b>
+				<c:forEach items="${book.genres}" var="gen">
+					<span style="font-size: 17px;">• ${gen.name}</span>
+				</c:forEach>
 				<div class="quickview-ratting-review">
 					<div class="quickview-ratting-wrap">
 						<div class="quickview-ratting">
@@ -36,10 +40,7 @@
 							<c:if test="${book.copies <= 0}">
 								<b style="color: #B22222">Non Disponibile</b>
 							</c:if>
-
-
 						</div>
-
 					</div>
 					<div class="quickview-stock"></div>
 				</div>
@@ -75,39 +76,40 @@
 				</security:authorize>
 
 				<security:authorize access="hasRole('USER')">
-					<div class="quantity">
-						<!-- Input Order -->
-						<div class="input-group">
-							<div class="button minus">
-								<c:if test="${book.copies > 0}">
+					<c:if test="${book.copies > 0}">
+						<div class="quantity">
+							<!-- Input Order -->
+							<div class="input-group">
+								<div class="button minus">
+
 									<button type="button" class="btn btn-primary btn-number"
 										disabled="disabled" data-type="minus" data-field="quant[1]">
 										<i class="ti-minus"></i>
 									</button>
-							</div>
-							<input type="text" name="quant[1]" class="input-number"
-								data-min="1" data-max="${book.copies}" value="1"
-								id="amount_${book.id}">
-							<div class="button plus">
-								<button type="button" class="btn btn-primary btn-number"
-									data-type="plus" data-field="quant[1]">
-									<i class="ti-plus"></i>
-								</button>
+								</div>
+								<input type="text" name="quant[1]" class="input-number"
+									data-min="1" data-max="${book.copies}" value="1"
+									id="amount_${book.id}">
+								<div class="button plus">
+									<button type="button" class="btn btn-primary btn-number"
+										data-type="plus" data-field="quant[1]">
+										<i class="ti-plus"></i>
+									</button>
 
+								</div>
 							</div>
+
+							<!--/ End Input Order -->
 						</div>
 
-						<!--/ End Input Order -->
-					</div>
 
 
 
+						<div class="add-to-cart">
 
-					<div class="add-to-cart">
-
-						<a data-book="${book.id}" class="btn add_to_cart pointer">Aggiungi
-							al carrello</a>
-					</div>
+							<a data-book="${book.id}" class="btn add_to_cart pointer">Aggiungi
+								al carrello</a>
+						</div>
 					</c:if>
 				</security:authorize>
 				<security:authorize access="hasAnyRole('SELLER','ADMIN')">
@@ -287,5 +289,4 @@
 		<!-- End Most Popular Area -->
 
 	</div>
-</div>
 </div>
