@@ -225,5 +225,16 @@ public class Bookform {
 		
 		return b;
 	}
+	
+	public void placeholder(){
+		int count = 0;
+		for(String author: authorsName) {
+			String surname = authorsSurname.get(count);
+			if(surname.isEmpty() || surname == null || surname == "") {
+				authorsSurname.set(count, "#SURNAME_PLACEHOLDER");
+			}
+			count++;
+		}
+	}
 
 }

@@ -40,6 +40,7 @@ import it.bookshop.model.ObjectForm.Authorform;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.BookOrder;
 import it.bookshop.model.entity.Genre;
+import it.bookshop.model.entity.PaymentCard;
 import it.bookshop.services.BookService;
 import it.bookshop.services.OrderService;
 import it.bookshop.services.UserService;
@@ -95,7 +96,7 @@ public class SellerController {
 		User seller = userService.findUserByUsername(principal_name);
 
 		// PAGINAZIONE
-		List<Book> sellerBooks = this.bookService.findAllBookSoldOfSeller(seller); // restituisce la lista di tutti i libri di quel venditore
+		List<Book> sellerBooks = this.bookService.findAllBookSoldOfSeller(seller);
 		PagedListHolder<Book> pagedListHolder = new PagedListHolder<>(sellerBooks);
 		pagedListHolder.setPageSize(5);
 
@@ -109,8 +110,7 @@ public class SellerController {
 		model.addAttribute("page", page);
 
 		List<Genre> allGenres = bookService.getAllGenres();
-		model.addAttribute("allGenres", allGenres); // per la navbar 
-		model.addAttribute("appName", appName);
+		model.addAttribute("allGenres", allGenres);
 		return "home_seller";
 	}
 	/*----------------------End Seller Home----------------------*/
@@ -122,28 +122,18 @@ public class SellerController {
 	public String additionBooK(@RequestParam(value = "error", required = false) Locale locale, Model model) {
 
 		String errorMessage = null;
-		int i = 0;
 		Bookform bf = new Bookform();
 
-		List<String> gen = new ArrayList<String>();
 		List<String> authors_name = new ArrayList<String>();
 		List<String> authors_surname = new ArrayList<String>();
-		List<Genre> allGenres = this.bookService.getAllGenres();
-		Iterator<Genre> iteGen = allGenres.iterator();
 
-		while (iteGen.hasNext()) {
-			gen.add(iteGen.next().getName());
-		}
 
 		model.addAttribute("errorMessage", errorMessage);
 		model.addAttribute("newBook", bf);
-		model.addAttribute("genre", gen);
 		model.addAttribute("authorsName", authors_name);
 		model.addAttribute("authorsSurname", authors_surname);
-		model.addAttribute("i", i); // utilizzata come contatore nella vista per i generi
-		model.addAttribute("allGenres", allGenres);
-		model.addAttribute("appName", appName);
 
+		generalOperations(model);
 		return "add_book";
 	}
 	
@@ -158,13 +148,7 @@ public class SellerController {
 
 		if (br.hasErrors()) { // se ci sono errori nella form, ritorna la pagina della form con i campi sbagliati
 			generalOperations(model);
-			List<String> gen = new ArrayList<String>();
-			List<Genre> allGenres = this.bookService.getAllGenres();
-			Iterator<Genre> iteGen = allGenres.iterator();
-			while (iteGen.hasNext()) {
-				gen.add(iteGen.next().getName());
-			}
-			model.addAttribute("genre", gen);
+			book.placeholder();
 			model.addAttribute("newBook", book);
 			return "addition_book";
 		} else { // se non ci sono errori nella form, procede al caricamento dei dati del libro nel db
@@ -257,7 +241,7 @@ public class SellerController {
 			return "redirect:/seller/";
 		}
 	}
-	// procedura (post) per la modifica dei dati di un libro
+
 	@RequestMapping(value = "/save_changes/{book_id}", method = RequestMethod.POST, consumes = { "multipart/form-data" })
 	public String saveChangesBook(@ModelAttribute("bookToUpdate") @RequestBody @Valid Bookform bookChanged,
 			BindingResult br, @PathVariable("book_id") Long book_id, Model model, final RedirectAttributes redirectAttributes,
@@ -345,7 +329,7 @@ public class SellerController {
 	
 	
 	/*----------------------Analysis----------------------*/
-	// Area analisi vendite dei libri del venditore 
+	// analisi di un libro
 	@GetMapping(value = "/analysis_book")
 	public String analysisBook(Model model, Authentication authentication) {
 		String principal_name = authentication.getName();
@@ -381,7 +365,7 @@ public class SellerController {
 		List<BookOrder> listsoldbook = this.orderService.findbyId(reqBody.getBookID());
 		Iterator<BookOrder> iterbook = listsoldbook.iterator();
 
-		// calcolo incasso totale per quel libro
+		// calcolo incasso totale
 		double sum = this.orderService.TotalEarnforBook(reqBody.getBookID());
 
 		double sumapprox = Math.round(sum * 100.0) / 100.0;
@@ -536,7 +520,7 @@ public class SellerController {
 		 */
 		List<Genre> allGenres = this.bookService.getAllGenres();
 
-		model.addAttribute("allGenres", allGenres); // per la navabr
+		model.addAttribute("allGenres", allGenres);
 		model.addAttribute("appName", appName);
 
 	}
