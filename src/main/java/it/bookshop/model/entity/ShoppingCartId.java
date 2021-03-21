@@ -15,6 +15,7 @@ public class ShoppingCartId implements Serializable {
 	private Long userId;
 	private Long bookId;
 	
+	@SuppressWarnings("unused")
 	private ShoppingCartId() {}
 
 	public ShoppingCartId(Long userId, Long bookId) {
