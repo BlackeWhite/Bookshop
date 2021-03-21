@@ -16,6 +16,7 @@ Vi sono 4 tipologie di utenti:
 ```
 Java 8 (Open JDK 1.8.xxx)
 Tomcat 9.0 (fondamentale per il corretto funzionamente dell'applicazione)
+MySQL o MariaDB
 ```
 
 ## Guida all'installazione 
