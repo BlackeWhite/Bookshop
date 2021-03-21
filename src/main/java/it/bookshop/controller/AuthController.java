@@ -73,7 +73,7 @@ public class AuthController {
 	private Map<String, String> countries = new LinkedHashMap<String, String>();
 	private Map<String, String> cardTypes = new LinkedHashMap<String, String>();
 
-	
+	//Pagina del login
 	@GetMapping(value = "/login")
 	public String loginPage(@RequestParam(value = "error", required = false) String error, Model model) {
 		String errorMessage = null;
@@ -90,6 +90,7 @@ public class AuthController {
 		return "login";
 	}
 
+	//Pagina della registrazione
 	@GetMapping(value = "/register")
 	public String registerPage(@RequestParam(value = "error", required = false) String error, Model model) {
 		String errorMessage = null;
@@ -102,6 +103,7 @@ public class AuthController {
 		return "register";
 	}
 
+	//Gestione della richiesta POST della registrazione
 	@PostMapping(value = "/register")
 	public String register(@ModelAttribute("newUser") @Validated User user, BindingResult br, Model model) {
 
@@ -174,6 +176,7 @@ public class AuthController {
 
 	}
 
+	//Gestione della richiesta AJAX per eliminare una carta di pagamento
 	@PostMapping(value = "/delete_card")
 	@ResponseBody
 	public String deleteCard(@RequestBody CardRequest card) {
@@ -181,6 +184,7 @@ public class AuthController {
 		return "";
 	}
 
+	//Gestione della richiesta POST per cambiare la password
 	@PostMapping(value = "change_password")
 	public String changePassword(@RequestParam String old_password, @RequestParam String password,
 			Authentication authentication, final RedirectAttributes redirectAttributes) {
@@ -188,6 +192,9 @@ public class AuthController {
 		String principal_name = authentication.getName();
 		User currentUser = userService.findUserByUsername(principal_name);
 
+		//Essendo solo i due campi da passare si effettua la validazione manualmente senza
+		//Un validatore vero e proprio, che in ogni caso richiederebbe la creazione di una classe
+		//wrapper per i due campi
 		if (passwordEncoder.matches(old_password, currentUser.getPassword())) {
 			// Controlla la validità della password
 			if (!CustomUtils.isValidPassword(password)) {
@@ -233,6 +240,7 @@ public class AuthController {
 		// Per ragioni di sicurezza e semplicità molti campi non sono passati nel form
 		// HTML
 		// Perciò dobbiamo sovrascrivere i campi modificati dell'utente esistente
+		// con quelli passati dalla form
 		User existingUser = userService.findUserByUsername(user.getUsername());
 		existingUser.setPersonalData(user.getPersonalData());
 		existingUser.setEmail(user.getEmail());
