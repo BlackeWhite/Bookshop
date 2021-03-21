@@ -120,7 +120,7 @@
 					</div>
 				</c:when>
 				<c:otherwise>
-					<div class="title">Non hai effettuato acquisti</div>
+					<p style="text-align:center; font-size:40px">Non hai effettuato acquisti</p>
 				</c:otherwise>
 			</c:choose>
 		</div>

@@ -62,10 +62,10 @@ public class HomeController {
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 		String formattedDate = dateFormat.format(date);
 
-		List<Author> topFiveAuthor = this.authorService.findBestSellingAuthor(); // restituisce la lista degli autori(i primi 5) che hanno venduto più copie di libri
+		List<Author> topFiveAuthor = this.authorService.findBestSellingAuthor(); // restituisce la lista degli autori(i primi 5) che hanno venduto piï¿½ copie di libri
 		List<Genre> allGenres = bookService.getAllGenres(); // restituisce la lista dei generi dei libri 
 		List<Book> topFiveNewBooks = bookService.findFiveMostRecentBook(); // restituisce la lista dei primi 5 libri aggiunti di recente 
-		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook(); // restituisce la lista dei primi 5 libri più venduti
+		List<Book> topFiveBestSellersBooks = bookService.findFiveBestSellingBook(); // restituisce la lista dei primi 5 libri piï¿½ venduti
 		List<Book> topMostClickBook = this.bookService.findMostClickBook(); // restituisce una lista di libri ordinati dal piu' cliccato al meno cliccato 
 
 		// Pagination per I piu' visualizzati
@@ -466,7 +466,7 @@ public class HomeController {
 		// Crea autori
 		authorService.create("Dante", "Alighieri", birth_date1, "Italia", "Dante Alighieri nasce a ...",
 				"Alighieri.jpg");
-		authorService.create("J.J.R.", "Tolkien", birth_date2, "Inghilterra", "J.J.R. Tolkie nasce a ...",
+		authorService.create("J.J.R.", "Tolkien", birth_date2, "Inghilterra", "J.J.R. Tolkien nasce a ...",
 				"Tolkien.jpg");
 		authorService.create("Alessandro", "Manzoni", birth_date3, "Italia", "Alessandro Manzoni nasce a ...",
 				"Manzoni.jpg");
@@ -517,7 +517,7 @@ public class HomeController {
 		bookService.create("Dante", "Alighieri", "838832989113223", "La Divina Commedia", publish_date1, publish_date1,
 				3, 34, seller1, 300, "Nel mezzo del cammin...", "6.jpg", Arrays.asList("Poema"), 0.15);
 		bookService.create("J.J.R.", "Tolkien", "746382492401", "Il Signore degli Anelli - Le due torri", publish_date2,
-				publish_date2, 4, 40.99, seller2, 450, "Sauron ï¿½ tornato a Mordor...", "7.jpg",
+				publish_date2, 4, 40.99, seller2, 450, "Sauron Ã¨ tornato a Mordor...", "7.jpg",
 				Arrays.asList("Fantasy"), 0);
 		bookService.create("Alessandro", "Manzoni", "8235234631481401", "I promessi sposi", publish_date3,
 				publish_date3, 10, 25.99, seller1, 370, "Renzo e Lucia ...", "8.jpg", Arrays.asList("Romanzo"), 0);
@@ -531,12 +531,12 @@ public class HomeController {
 				publish_date6, publish_date6, 10, 37.99, seller1, 390, "Aragorn, dopo un discorso da Oscar ...",
 				"10.jpg", Arrays.asList("Fantasy"), 0.10);
 		bookService.create("Michael", "Crichton", "198934345798876", "Jurassic Park", publish_date3, publish_date3, 12,
-				18.30, seller2, 267, "Alan Grant ï¿½ un paleontologo che ...", "12.jpg",
+				18.30, seller2, 267, "Alan Grant Ã¨ un paleontologo che ...", "12.jpg",
 				Arrays.asList("Fantascienza", "Horror"), 0);
 		bookService.create("Stephen W.", "Hawking", "5667899121887",
 				"Dal Big Bang ai buchi neri - Breve storia del tempo", publish_date4, publish_date4, 18, 23, seller2,
 				280, "Il Big Bang ï¿½ stato un evento ...", "13.jpg", Arrays.asList("Divulgativo"), 0.20);
-		bookService.create("Primo", "Levi", "23456789045678", "Se questo ï¿½ un uomo", publish_date1, publish_date1, 15,
+		bookService.create("Primo", "Levi", "23456789045678", "Se questo Ã¨ un uomo", publish_date1, publish_date1, 15,
 				28.99, seller2, 220, "Boh non me ricordo ...", "14.jpg", Arrays.asList("Biografia"), 0);
 		bookService.create("Michael", "Ende", "345678899876756", "La storia infinita", publish_date2, publish_date2, 20,
 				15.00, seller2, 440, "Questa scritta stava sulla porta ...", "15.jpg",
@@ -550,7 +550,7 @@ public class HomeController {
 
 		// Crea coupon
 		try {
-			couponService.create("INVERNO2021", 10, dateC1);
+			couponService.create("ESTATE2021", 10, dateC1);
 			couponService.create("EXTRASCONTO15", 15, dateC2);
 		} catch (ConstraintViolationException e) {
 			e.printStackTrace();
