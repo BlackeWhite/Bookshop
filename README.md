@@ -12,7 +12,7 @@ Vi sono 3 tipologie di utenti:
 
 ```
 Java 8 (Open JDK 1.8.xxx)
-Tomcat 9.0 (requisiti fondamentale per il corretto funzionamente dell'applicazione)
+Tomcat 9.0 (fondamentale per il corretto funzionamente dell'applicazione)
 ```
 
 ## Guida all'installazione 
