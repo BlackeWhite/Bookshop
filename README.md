@@ -43,7 +43,7 @@ Tomcat 9.0 (fondamentale per il corretto funzionamente dell'applicazione)
    * creare un profilo maven in Run as--->Run configurations, definendo il goals: "clean tomcat7:redeploy"
    (in questo caso saranno eseguiti tutti i test Junit prima dell'avvio dell'applicazione )
 3.  Aprire il browser e digitare il seguente url http://localhost:8080/bookshop/ (la porta potrebbe essere diversa a seconda della porta utlizzata da tomcat) per accedere al sito 
-4.  (opzionale) digiatre la seguente url http://localhost:8080/bookshop/populatedb per inserire i diversi dati nel DB, saranno inseriti diversi libri con i relativi autori, gli utenti dell'applicazione (2 venditori, 2 utenti, 1 admin).
+4.  (opzionale) digiatre il seguente url http://localhost:8080/bookshop/populatedb per inserire i diversi dati nel DB, saranno inseriti diversi libri con i relativi autori, gli utenti dell'applicazione (2 venditori, 2 utenti, 1 admin).
 
 ## Credenziali utenti applicazione
 * Admin (ADMIN)
