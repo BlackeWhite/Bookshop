@@ -88,7 +88,7 @@
 													<div class="row">
 														<div class="col-10">
 															<img
-																src="<c:url value="/resources/img/cover_book/${authorsPerSeller.photo}"/>" />
+																src="<c:url value="/resources/img/authors/${authorsPerSeller.photo}"/>" />
 															<h4>
 																<c:if test = "${authorsPerSeller.surname != '#SURNAME_PLACEHOLDER'} ">
 																	<a href="<c:url value="/show_author/${authorsPerSeller.id}"/>">${authorsPerSeller.name} ${authorsPerSeller.surname}</a>
