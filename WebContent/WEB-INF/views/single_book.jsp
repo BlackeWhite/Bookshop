@@ -13,9 +13,10 @@
 		<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
 			<div class="quickview-content">
 				<h3>${message}</h3>
-				<h2>${book.title}</h2>
+				<h2  style="font-size: 40px;">${book.title}</h2>
+				<br>
 				<h4>
-					<i> Di <c:forEach items="${authorsList}" var="authorsList">
+					<i> Autore: <c:forEach items="${authorsList}" var="authorsList">
 							<c:if test="${authorsList.surname != '#SURNAME_PLACEHOLDER'}">
 								<a href=" <c:url value ="/show_author/${authorsList.id}"/>">
 									- ${authorsList.name} ${authorsList.surname}</a>
@@ -27,10 +28,17 @@
 						</c:forEach>
 					</i>
 				</h4>
+				<br>
+				<b style="font-size: 17px;">ISBN:</b>
+				<span style="font-size: 17px;"> ${book.isbn}</span>
+				<br>
+				<br>
 				<b style="font-size: 17px;">Generi:</b>
 				<c:forEach items="${book.genres}" var="gen">
 					<span style="font-size: 17px;">• ${gen.name}</span>
 				</c:forEach>
+				<br>
+				<br>
 				<div class="quickview-ratting-review">
 					<div class="quickview-ratting-wrap">
 						<div class="quickview-ratting">
