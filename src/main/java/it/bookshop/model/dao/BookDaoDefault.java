@@ -1,6 +1,7 @@
 package it.bookshop.model.dao;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -40,6 +41,10 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 		String[] params = order_by.split("_");
 		// setParameter non funziona bene con ORDER BY quindi si crea la stringa
 		// manualmente
+		// if per evitare SQL injection
+		if(!params[0].equals("title") && !params[0].equals("price") 
+				&& !params[0].equals("discount")) return new ArrayList<Book>();
+		if(!params[1].equals("DESC") && !params[1].equals("ASC")) return new ArrayList<Book>();
 		String order_str = "ORDER BY b." + params[0] + " " + params[1];
 
 		return this.getSession()
@@ -61,9 +66,15 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 			String order_by) {
 
 		String[] params = order_by.split("_");
-		// setParameter non funziona bene con il "." vicino quindi si creano la stringa
+		// setParameter non funziona bene con il "." vicino quindi si crea la stringa
 		// manualmente
+		// if per evitare SQL injection
+		if(!params[0].equals("title") && !params[0].equals("price") 
+				&& !params[0].equals("discount")) return new ArrayList<Book>();
+		if(!params[1].equals("DESC") && !params[1].equals("ASC")) return new ArrayList<Book>();
 		String order_str = "ORDER BY b." + params[0] + " " + params[1];
+		// if per evitare SQL injection
+		if(!search_by.equals("title") && !search_by.equals("isbn")) return new ArrayList<Book>();
 		String search_str = "b." + search_by;
 
 		return this.getSession()
@@ -77,8 +88,12 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 	public List<Book> searchBooksByParamsAndAuthor(String term, Double price_min, Double price_max, String order_by) {
 
 		String[] params = order_by.split("_");
-		// setParameter non funziona bene con il "." vicino quindi si creano la stringa
+		// setParameter non funziona bene con il "." vicino quindi si crea la stringa
 		// manualmente
+		// if per evitare SQL injection
+		if(!params[0].equals("title") && !params[0].equals("price") 
+				&& !params[0].equals("discount")) return new ArrayList<Book>();
+		if(!params[1].equals("DESC") && !params[1].equals("ASC")) return new ArrayList<Book>();
 		String order_str = "ORDER BY b." + params[0] + " " + params[1];
 
 		return this.getSession().createQuery(

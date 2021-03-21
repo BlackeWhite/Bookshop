@@ -12,7 +12,7 @@ import it.bookshop.model.entity.BookOrder;
 import it.bookshop.model.entity.Order;
 import it.bookshop.model.entity.User;
 
-@Repository("orderDao") //@Repository  is a specialization of @Component
+@Repository("orderDao")
 public class OrderDaoDefault extends DefaultDao implements OrderDao {
 
 
@@ -85,6 +85,7 @@ public class OrderDaoDefault extends DefaultDao implements OrderDao {
 		return getSession().createQuery("FROM Order o", Order.class).getResultList();
 	}
 
+	//Utilizzato solo nel JUnit test perché non è prevista l'eliminazione degli ordini
 	@Transactional
 	@Override
 	public void delete(Order order) {
@@ -94,6 +95,7 @@ public class OrderDaoDefault extends DefaultDao implements OrderDao {
 		getSession().delete(order);
 	}
 
+	//Cerca e ordina per data decrescente gli ordini di un particolare utente
 	@Override
 	public List<Order> findUserOrders(User user) {
 		return getSession().createQuery("FROM Order o WHERE o.buyer = :user ORDER BY o.date DESC", Order.class)
