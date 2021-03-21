@@ -116,10 +116,11 @@ public class SellerController {
 	
 
 	/*----------------------Add New Book----------------------*/
-	// procedura (get) per l'aggiunta di un libro
 	@GetMapping(value = "/addition_book")
 	public String additionBooK(@RequestParam(value = "error", required = false) Locale locale, Model model) {
-
+		/*
+		 * Metodo GET per l'aggiunta di un libro
+		 */
 		String errorMessage = null;
 		Bookform bf = new Bookform();
 
@@ -136,12 +137,13 @@ public class SellerController {
 		return "add_book";
 	}
 	
-	// procedura (post) per l'aggiunta di un libro
 	@RequestMapping(value = "/add_book", method = RequestMethod.POST, consumes = { "multipart/form-data" })
 	public String addBook(@ModelAttribute("newBook") @RequestBody @Valid Bookform book, BindingResult br, 
 			Model model, HttpSession session, Authentication authentication, 
 			final RedirectAttributes redirectAttributes) {
-
+		/*
+		 * Metodo POST per l'aggiunta di un libro
+		 */
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
 
@@ -185,7 +187,8 @@ public class SellerController {
 		Book b_temp = this.bookService.findById(book_id);
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
-		
+		Long id_seller = seller.getUserID();
+		Long id_sellerB = b_temp.getSeller().getUserID();
 		try {
 			/*
 			 * Verifica che il libro che si sta modificando sia di proprietà di quel venditore
@@ -193,28 +196,19 @@ public class SellerController {
 			if (seller.getUserID() == b_temp.getSeller().getUserID()) {
 
 				Bookform bf = new Bookform();
-		
 				bf.populate(b_temp);
 		
-				List<String> gen = new ArrayList<String>();
-		
-				List<Genre> allGenres = this.bookService.getAllGenres();
-				Iterator<Genre> iteGen = allGenres.iterator();
-		
-				while (iteGen.hasNext()) {
-					gen.add(iteGen.next().getName());
-				}
-		
-				model.addAttribute("allGenres", allGenres);
-				model.addAttribute("genre", gen);
 				model.addAttribute("authorsName", bf.getAuthorsName());
 				model.addAttribute("authorsSurname", bf.getAuthorsSurname());
 				model.addAttribute("bookToUpdate", bf);
+				
 				generalOperations(model);
 				return "edit_book";
 			}
 			else { 
-				// se non è così non gli permetto la modifica e lo reindirizzo alla sua home
+				/*
+				 * Se non è così non gli permette la modifica e lo reindirizzo alla sua home
+				 */
 			return "redirect:/seller/";
 			}
 		} catch(Exception e) {
@@ -222,26 +216,23 @@ public class SellerController {
 		}
 	}
 
-	// procedura (post) per la modifica dei dati di un libro
 	@RequestMapping(value = "/save_changes/{book_id}", method = RequestMethod.POST, consumes = { "multipart/form-data" })
 	public String saveChangesBook(@ModelAttribute("bookToUpdate") @RequestBody @Valid Bookform bookChanged,
 			BindingResult br, @PathVariable("book_id") Long book_id, Model model, final RedirectAttributes redirectAttributes,
 			Authentication authentication, HttpSession session) {
-		
-		if (br.hasErrors()) { // se ci sono errori nella form, ritorna la pagina della form con i campi sbagliati
+		/*
+		 * Procedura POST per la modifica di un libro
+		 */
+		if (br.hasErrors()) { 
+			/*
+			 * Se ci sono errori nella form, ritorna la pagina della form con i campi errati
+			 */
 			generalOperations(model);
-			List<String> gen = new ArrayList<String>();
-			List<Genre> allGenres = this.bookService.getAllGenres();
-			Iterator<Genre> iteGen = allGenres.iterator();
-			while (iteGen.hasNext()) {
-				gen.add(iteGen.next().getName());
-			}
-			model.addAttribute("genre", gen);
 			model.addAttribute("newBook", bookChanged);
 			return "edit_book";
 		} else {
 			try {
-				// memorizza il file appena caricato dalla form (stackoverflow)
+				// Memorizza il file caricato dalla form 
 				String path = session.getServletContext().getRealPath("/");
 				byte barr[] = bookChanged.getCover().getBytes();
 				BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(
@@ -253,10 +244,12 @@ public class SellerController {
 				e.printStackTrace();
 			}
 		
-		//procede all'update del libro con i nuovi dati
+		// Procede con l'update del libro con i dati aggiornati
 		Bookform bf = new Bookform();
+		
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
+		
 		Book bookNotUpdated = bookService.findById(book_id);
 		Set<Author> authorsList = getListAuthors(bookChanged);
 		Set<Genre> genreList = getListGenres(bookChanged);
@@ -279,30 +272,36 @@ public class SellerController {
 	@GetMapping(value = "/remove_book/{book_id}")
 	public String removeBook(@PathVariable("book_id") Long book_id, Model model,Authentication authentication,
 			final RedirectAttributes redirectAttributes) {
-		
+		/*
+		 * Metodo per la rimozione di un libro.
+		 */
 		Book removedBook = this.bookService.findById(book_id);
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
 		try {
-			if (seller.getUserID() == removedBook.getSeller().getUserID()) { // verifico che il ibro che si sta eliminando sia di proprietà di quel venditore
-	
-		try {
-			this.bookService.removeBook(book_id);
-			String message = "\"" + removedBook.getTitle() + "\" rimosso correttamente";
-			redirectAttributes.addFlashAttribute("message", message);
-		} catch (Exception e) {
-			String message = "Qualcosa è andato storto. Il libro \"" + removedBook.getTitle()
-					+ "\" non è stato rimosso correttamente ";
-			redirectAttributes.addFlashAttribute("message", message);
-		}
-
-		redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
-		return "redirect:/seller/";
-		}
-			else { // se non è così non gli permetto la cancellazione e lo reindirizzo alla sua home
+			if (seller.getUserID() == removedBook.getSeller().getUserID()) { 
+				// Verifica che il libro che si sta eliminando sia di proprietà di quel venditore
+				try {
+					this.bookService.removeBook(book_id);
+					String message = "\"" + removedBook.getTitle() + "\" rimosso correttamente";
+					redirectAttributes.addFlashAttribute("message", message);
+				} catch (Exception e) {
+					String message = "Qualcosa è andato storto. Il libro \"" + removedBook.getTitle()
+							+ "\" non è stato rimosso correttamente ";
+					redirectAttributes.addFlashAttribute("message", message);
+				}
+		
+				redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
+				return "redirect:/seller/";
+			}
+			else { 
+				/*
+				 *  Se non così non fosse, non gli permetto la cancellazione e 
+				 *  lo reindirizzo alla sua home
+				 */
 				return "redirect:/seller/";
 				}
-			} catch(Exception e) {
+		} catch(Exception e) {
 					return "redirect:/seller/";
 				}
 	}
@@ -328,6 +327,7 @@ public class SellerController {
 		model.addAttribute("listbook", lbooksold);
 		model.addAttribute("totearn", totearn);
 		model.addAttribute("totcopies", copies);
+		
 		generalOperations(model);
 		return "analysis_book";
 	}
@@ -363,8 +363,8 @@ public class SellerController {
 		String data_da = reqBody.getArg2();
 		String data_a = reqBody.getArg3();
 
-		bresp = this.orderService.findbyDate(data_da, data_a); // calcolo dell'incasso totale in quel intervallo di
-																// tempo e delle copie vendute
+		bresp = this.orderService.findbyDate(data_da, data_a); // Calcolo dell'incasso totale in quel intervallo di
+															   // tempo e delle copie vendute
 		return bresp;
 	}
 	/*----------------------End Analysis----------------------*/
@@ -394,8 +394,7 @@ public class SellerController {
 		model.addAttribute("maxPages", pagedListHolder.getPageCount());
 		model.addAttribute("page", page);
 
-		List<Genre> allGenres = bookService.getAllGenres();
-		model.addAttribute("allGenres", allGenres);
+		generalOperations(model);
 		return "authors_seller";
 	}
 	/*----------------------End Seller Author List----------------------*/
@@ -408,20 +407,19 @@ public class SellerController {
 		/*
 		 * Metodo GET per la modifica di un autore legato al venditore considerato
 		 */
-		
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
+		
 		List<Author> sellerAuthors = findAuthorPerSeller(seller);
 		Author authorToEdit = authorService.findById(authorId);
-		Iterator<Author> iterSellerAuthors = sellerAuthors.iterator();
 		
 		Authorform authorForm = new Authorform();
 		authorForm.populate(authorToEdit);
 		
 		boolean valid = false;
-		while(iterSellerAuthors.hasNext()) {
-			Long curr = iterSellerAuthors.next().getId();
-			if(curr.equals(authorToEdit.getId())) {
+		for (Author author: sellerAuthors) {
+			Long currId = author.getId();
+			if(currId.equals(authorToEdit.getId())) {
 				valid = true;
 			}
 		}
@@ -432,6 +430,7 @@ public class SellerController {
 			 * della form dedicata alla modifica.
 			 */
 			model.addAttribute("author", authorForm);
+			generalOperations(model);
 			return "edit_author";
 			
 		} else {
@@ -456,7 +455,9 @@ public class SellerController {
 		 */
 		if (br.hasErrors()) {
 			model.addAttribute("author", author);
-			return "redirect:/seller/edit_author/{authorId}";
+			generalOperations(model);
+			return "edit_author";
+			//return "redirect:/seller/edit_author/{authorId}";
 		} else {
 			try {
 				// memorizza il file appena caricato dalla form (stackoverflow)
@@ -497,7 +498,7 @@ public class SellerController {
 	/*----------------------Utilities----------------------*/
 	private void generalOperations(Model model) {
 		/*
-		 * Adds attributes used in almost all requests
+		 * Metodo per passare parametri utilizzati di frequente
 		 */
 		List<Genre> allGenres = this.bookService.getAllGenres();
 

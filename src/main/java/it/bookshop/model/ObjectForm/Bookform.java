@@ -181,21 +181,26 @@ public class Bookform {
 		this.genre = genrelist;
 		
 		int count = 0;
+		List<String> tempName = new ArrayList<>();
+		List<String> tempSurname = new ArrayList<>();
 		for(Author author:b.getAuthors()) {
 			/*
 			 * Popola la lista dei nomi e dei cognomi degli autori
 			 * e inserisce il placeholder nel caso il cognome sia vuoto
 			 */
-			this.authorsName.set(count, author.getName());
+			tempName.add(count, author.getName());
+			//this.authorsName.set(count, author.getName());
 			String surname = author.getSurname();
 			if(surname.isEmpty() || surname == null || surname == "") {
-				this.authorsSurname.set(count, "#SURNAME_PLACEHOLDER");
+				tempSurname.add(count, "#SURNAME_PLACEHOLDER");
 			} else {
-				this.authorsSurname.set(count, surname);
+				tempSurname.add(count, surname);
 			} 
 			count++;
 			
 		}
+		this.authorsName = tempName;
+		this.authorsSurname = tempSurname;
 
 	}
 

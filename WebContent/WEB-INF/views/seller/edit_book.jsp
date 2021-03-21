@@ -92,7 +92,8 @@
 									input.setAttribute("placeholder", "Nome");
 									input.setAttribute("type", "text");
 									input.setAttribute("pattern",
-									"([^\s][A-z0-9À-ž\s]+)");
+									"([^\s][A-z0-9À-ž\.\s]+)");
+									input.setAttribute("title", "Non sono ammessi caratteri speciali come virgole e apici. Non sono ammessi spazi come caratteri iniziali.");
 									input.setAttribute("required", "required");
 
 									;
@@ -106,7 +107,9 @@
 											"Cognome");
 									input_surname.setAttribute("type", "text");
 									input_surname.setAttribute("pattern",
-									"([^\s][A-z0-9À-ž\s]+)");
+									"([^\s][A-z0-9À-ž\.\s]+)");
+									input.setAttribute("title", "Non sono ammessi caratteri speciali come virgole e apici. Non sono ammessi spazi come caratteri iniziali.");
+
 									;
 									//input_surname.setAttribute("class", "inputview");
 
@@ -153,10 +156,10 @@
 											</form:label></td>
 										<td><form:input required="required" placeholder="Nome"
 												type="text" path="authorsName" id="authorsName"
-												class="inputview" value="${name}" pattern="([^\s][A-z0-9À-ž\s]+)"/></td>
+												class="inputview" value="${name}" pattern="([^\s][A-z0-9À-ž\.\s]+)" title = "Non sono ammessi caratteri speciali come virgole e apici. Non sono ammessi spazi come caratteri iniziali."/></td>
 										<td><form:input placeholder="Cognome" type="text"
 												path="authorsSurname" id="authorsSurname" class="inputview"
-												value="${authorsSurname.get(numAuthor)}" pattern="([^\s][A-z0-9À-ž\s]+)"/></td>
+												value="${authorsSurname.get(numAuthor)}" pattern="([^\s][A-z0-9À-ž\.\s]+)" title = "Non sono ammessi caratteri speciali come virgole e apici. Non sono ammessi spazi come caratteri iniziali."/></td>
 									</tr>
 									<p hidden>${numAuthor = numAuthor+1}</p>
 								</c:forEach>
@@ -210,28 +213,6 @@
 								id="publish" class="inputview" />
 							<form:errors path="publish" cssClass="validation-error" />
 							<br> <br>
-							<!-- 
-							<style>
-								img {
-								  border: 1px solid #ddd; /* Gray border */
-								  border-radius: 4px;  /* Rounded border */
-								  padding: 5px; /* Some padding */
-								  width: 150px; /* Set a small width */
-								}
-								
-								/* Add a hover effect (blue shadow) */
-								img:hover {
-								  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
-							}
-							</style>
-							<form:label path="cover">
-								<b>Vecchia copertina</b>
-							</form:label>
-							<a>
-							  <img src="<c:url value="/resources/img/cover_book/${bookToUpdate.cover}"/>"  alt="Cover-preview">
-							</a>
-							<br> <br>
-							 -->
 							<form:label path="cover">
 								<b>Cambia la copertina del libro</b>
 							</form:label>

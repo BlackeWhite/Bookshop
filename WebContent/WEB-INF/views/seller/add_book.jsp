@@ -90,7 +90,8 @@
 									input.setAttribute("placeholder", "Nome");
 									input.setAttribute("type", "text");
 									input.setAttribute("pattern",
-											"([^\s][A-z0-9À-ž\s]+)");
+									"([^\s][A-z0-9À-ž\.\s]+)");
+									input.setAttribute("title", "Non sono ammessi caratteri speciali come virgole e apici. Non sono ammessi spazi come caratteri iniziali.");
 									input.setAttribute("required", "required");
 									;
 									//input.setAttribute("class", "inputview");
@@ -103,7 +104,9 @@
 											"Cognome");
 									input_surname.setAttribute("type", "text");
 									input_surname.setAttribute("pattern",
-											"([^\s][A-z0-9À-ž\s]+)");
+									"([^\s][A-z0-9À-ž\.\s]+)");
+									input.setAttribute("title", "Non sono ammessi caratteri speciali come virgole e apici. Non sono ammessi spazi come caratteri iniziali.");
+
 									;
 									//input_surname.setAttribute("class", "inputview");
 
@@ -148,10 +151,10 @@
 												</form:label></td>
 											<td><form:input required="required" placeholder="Nome"
 													type="text" path="authorsName" id="authorsName"
-													class="inputview" pattern="([^\s][A-z0-9À-ž\s]+)" /></td>
+													class="inputview" pattern="([^\s][A-z0-9À-ž\.\s]+)" title = "Non sono ammessi caratteri speciali come virgole e apici. Non sono ammessi spazi come caratteri iniziali." /></td>
 											<td><form:input placeholder="Cognome" type="text"
 													path="authorsSurname" id="authorsSurname" class="inputview"
-													pattern="([^\s][A-z0-9À-ž\s]+)" /></td>
+													pattern="([^\s][A-z0-9À-ž\.\s]+)" title = "Non sono ammessi caratteri speciali come virgole e apici. Non sono ammessi spazi come caratteri iniziali." /></td>
 										</tr>
 										</c:when>
 										<c:otherwise>
@@ -162,11 +165,11 @@
 													</form:label></td>
 												<td><form:input required="required" placeholder="Nome"
 														type="text" path="authorsName" id="authorsName"
-														class="inputview" value="${name}" /></td>
+														class="inputview" value="${name}" pattern="([^\s][A-z0-9À-ž\.\s]+)" title = "Non sono ammessi caratteri speciali come virgole e apici. Non sono ammessi spazi come caratteri iniziali."/></td>
 												<td><form:input placeholder="Cognome" type="text"
 														path="authorsSurname" id="authorsSurname"
 														class="inputview authorSurname"
-														value="${newBook.authorsSurname.get(numAuthor)}" /></td>
+														value="${newBook.authorsSurname.get(numAuthor)}" pattern="([^\s][A-z0-9À-ž\.\s]+)" title = "Non sono ammessi caratteri speciali come virgole e apici. Non sono ammessi spazi come caratteri iniziali."/></td>
 												<p hidden>${numAuthor = numAuthor+1}</p>
 												</tr>
 											</c:forEach>
