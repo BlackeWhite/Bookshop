@@ -253,9 +253,13 @@ public class AdminController {
 		model.addAttribute("cartTotalPrice", currentUser.getFormattedCartSubtotalPrice());
 		model.addAttribute("cartTotalItems", currentUser.getCartTotalItems());
 
-		countries.put("Italia", "Italia");
+		countries.put("Austria", "Austria");
 		countries.put("Germania", "Germania");
+		countries.put("Grecia", "Grecia");
 		countries.put("Francia", "Francia");
+		countries.put("Italia", "Italia");
+		countries.put("Spagna", "Spagna");
+		countries.put("Svezia", "Svezia");
 		countries.put("Svizzera", "Svizzera");
 		model.addAttribute("countries", countries);
 	}

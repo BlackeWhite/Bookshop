@@ -253,9 +253,14 @@ public class AuthController {
 	// Aggiunge attributi usati in quasi tutte le route
 	private void generalOperations(Model model) {
 		List<Genre> allGenres = this.bookService.getAllGenres();
-		countries.put("Italia", "Italia");
+
+		countries.put("Austria", "Austria");
 		countries.put("Germania", "Germania");
+		countries.put("Grecia", "Grecia");
 		countries.put("Francia", "Francia");
+		countries.put("Italia", "Italia");
+		countries.put("Spagna", "Spagna");
+		countries.put("Svezia", "Svezia");
 		countries.put("Svizzera", "Svizzera");
 
 		cardTypes.put("Visa", "Visa");

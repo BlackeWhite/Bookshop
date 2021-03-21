@@ -11,6 +11,7 @@ import org.springframework.validation.Validator;
 import it.bookshop.model.entity.Coupon;
 import it.bookshop.services.CouponService;
 
+//Validatore per l'aggiunta di un coupon
 @Component("couponValidator")
 public class CouponValidator implements Validator {
 
@@ -28,10 +29,17 @@ public class CouponValidator implements Validator {
 		
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "code", "code.required", "Inserisci un codice.");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "expireDate", "expireDate.required", "Inserisci una data di scadenza.");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "discount", "discount.required", "Inserisci la quantità di sconto.");
 		
+		//Verifica l'esistenza di uno stesso codice
+		//I codici sono case insensitive
 		Coupon existing = couponService.findByCode(coupon.getCode().trim().toUpperCase());
 		if(existing != null) {
 			errors.rejectValue("code", "invalidCode", new Object[] { "'code'" }, "Codice già esistente.");
+		}
+		
+		if(coupon.getDiscount() < 5 || coupon.getDiscount() > 50) {
+			errors.rejectValue("discount", "invalidDiscount", new Object[] { "'discount'" }, "Lo sconto deve essere compreso tra 5 e 50 %.");
 		}
 		
 		//La data di scadenza non deve essere precedente alla data odierna

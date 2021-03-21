@@ -53,14 +53,18 @@ public class Book implements Serializable {
 	private Set<Genre> genres = new HashSet<Genre>();
 	private Set<BookOrder> orders = new HashSet<BookOrder>(); // All orders with one ore multiple copies of this book
 
-	// Mappa dell'IVA per paese
+	// Mappa dell'IVA per ogni paese
 	public static final Map<String, Double> vats;
 	static {
 		Map<String, Double> vatsT = new HashMap<>();
-		vatsT.put("Italia", 0.22);
-		vatsT.put("Svizzera", 0.9);
-		vatsT.put("Germania", 0.20);
-		vatsT.put("Francia", 0.15);
+		vatsT.put("Italia", 0.04);
+		vatsT.put("Svizzera", 0.07);
+		vatsT.put("Germania", 0.07);
+		vatsT.put("Francia", 0.05);
+		vatsT.put("Spagna", 0.04);
+		vatsT.put("Austria", 0.10);
+		vatsT.put("Svezia", 0.06);
+		vatsT.put("Grecia", 0.06);
 		vats = Collections.unmodifiableMap(vatsT);
 	}
 
