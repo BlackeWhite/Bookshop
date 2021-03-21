@@ -148,7 +148,7 @@
 												</form:label></td>
 											<td><form:input required="required" placeholder="Nome"
 													type="text" path="authorsName" id="authorsName"
-													class="inputview" pattern="[a-zA-Z]+[ ][a-zA-Z]+" /></td>
+													class="inputview" pattern="([^\s][A-z0-9À-ž\s]+)" /></td>
 											<td><form:input placeholder="Cognome" type="text"
 													path="authorsSurname" id="authorsSurname" class="inputview"
 													pattern="([^\s][A-z0-9À-ž\s]+)" /></td>
