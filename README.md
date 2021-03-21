@@ -1,4 +1,6 @@
+<p align="center">
 <img src="./WebContent/resources/img/logo.png" width="20%">
+</p>
 
 Progetto di Programmazione Avanzata  
 Si vuole progettare un’applicazione web per l'acquisto di libri rivolto sia ad utenti che vogliono acquistare libri sia a librerie che vogliono mettere in vendità i propri libri.  
