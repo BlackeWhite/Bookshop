@@ -1,5 +1,5 @@
 <p align="center">
-<img src="./WebContent/resources/img/logo.png" width="20%">
+<img src="./WebContent/resources/img/logo.png" width="40%">
 </p>
 
 Progetto di Programmazione Avanzata  
