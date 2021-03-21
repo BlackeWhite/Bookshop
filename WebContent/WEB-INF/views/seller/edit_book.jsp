@@ -17,7 +17,8 @@
 						<li class="active"><a href="<c:url value="/seller/"/>">Area
 								Personale - Venditore<i class="ti-arrow-right"></i>
 								<li class="active"><a
-									href="<c:url value="/seller/edit_book/${bookToUpdate.id}"/>">Modifica libro</a></li>
+									href="<c:url value="/seller/edit_book/${bookToUpdate.id}"/>">Modifica
+										libro</a></li>
 						</a></li>
 					</ul>
 				</div>
@@ -33,12 +34,13 @@
 		<div class="row">
 			<div class="col-lg-3 col-md-4 col-12">
 				<div class="shop-sidebar">
-			<div class="single-widget range">
+					<div class="single-widget range">
 						<a href="<c:url value="/seller/"/>"><h3 class="title">Menu</h3></a>
 						<c:url value="/seller/addition_book" var="addition_book" />
 						<li><a href="${addition_book}"> Aggiungi un libro in
 								vendita </a></li>
-						<li><a href="<c:url value="/seller/authors_seller"/>"> Lista di autori</a></li>
+						<li><a href="<c:url value="/seller/authors_seller"/>">
+								Lista di autori</a></li>
 						<li><a href="<c:url value="/seller/analysis_book"/>">Analisi
 								delle vendite</a></li>
 						<li><a href="<c:url value="/account"/>"> Modifica dati
@@ -53,7 +55,8 @@
 					<div class="col-12"></div>
 				</div>
 				<div class="row">
-					<c:url value="/seller/save_changes/${bookToUpdate.id}" var="book_action" />
+					<c:url value="/seller/save_changes/${bookToUpdate.id}"
+						var="book_action" />
 					<form:form id="register-form" action="${book_action}"
 						modelAttribute="bookToUpdate" class="form" method="post"
 						enctype="multipart/form-data">
@@ -111,7 +114,8 @@
 							}
 
 							function change_select() {
-								var numAuthorse = $("#numAuthor").data("numAuthor");
+								var numAuthorse = $("#numAuthor").data(
+										"numAuthor");
 								var select = document.getElementById("numrows");
 								var index = select.selectedIndex
 								var n = parseInt(select.value);
@@ -121,7 +125,7 @@
 								addrows(tablebody, n);
 							}
 						</script>
-						<input id="numAuthor" type="hidden" data-numAuthor="${numAuthor}"/>
+						<input id="numAuthor" type="hidden" data-numAuthor="${numAuthor}" />
 
 
 						<legend>Autore/i del libro</legend>
@@ -137,26 +141,22 @@
 						</fieldset>
 						<table id="maintable">
 							<tbody id="maintablebody">
-								<tr>
-								<c:forEach items = "${authorsName}" var = "name">
-									<td><form:label path="title">
-											<b>Autore </b>
-										</form:label></td>
-									<td><form:input required="required" placeholder="Nome"
-											type="text" path="authorsName" id="authorsName"
-											class="inputview" value = "${name}"/></td>
-									<td> 
-									<c:if test="${authorsSurname.get(numAuthor) != '#SURNAME_PLACEHOLDER'}">
-										<form:input placeholder="Cognome" type="text"
-											path="authorsSurname" id="authorsSurname" class="inputview" value = "${authorsSurname.get(numAuthor)}"/></td>
-									</c:if>
-									<c:if test="${authorsSurname.get(numAuthor) == '#SURNAME_PLACEHOLDER'}">
-										<form:input placeholder="Cognome" type="text"
-											path="authorsSurname" id="authorsSurname" class="inputview" value ="" /></td>
-									</c:if>
-								</tr>
-								<p hidden>${numAuthor = numAuthor+1}</p>
+
+								<c:forEach items="${authorsName}" var="name">
+									<tr>
+										<td><form:label path="title">
+												<b>Autore </b>
+											</form:label></td>
+										<td><form:input required="required" placeholder="Nome"
+												type="text" path="authorsName" id="authorsName"
+												class="inputview" value="${name}" /></td>
+										<td><form:input placeholder="Cognome" type="text"
+												path="authorsSurname" id="authorsSurname" class="inputview"
+												value="${authorsSurname.get(numAuthor)}" /></td>
+									</tr>
+									<p hidden>${numAuthor = numAuthor+1}</p>
 								</c:forEach>
+
 							</tbody>
 						</table>
 						<fieldset>
@@ -233,7 +233,7 @@
 							</form:label>
 							</td>
 							<form:input type="file" name="cover" path="cover"
-								class="inputview"/>
+								class="inputview" />
 							<form:errors path="cover" cssClass="validation-error" />
 							<!-- TO-DO manca upload quando si modifca un libro  -->
 							<br> <br>
@@ -251,14 +251,17 @@
 						<fieldset>
 							<legend>Genere del libro</legend>
 							<br>
-							<c:set var="i" value="0"/>
-								<c:forEach items="${allGenres}" var="g"> 
-							     <p hidden>${i=i+1}</p> 
-										<form:checkbox id="${g.name}" name="${g.name}" path="genre" value="${g.name}" label="${g.name}" />
+							<c:set var="i" value="0" />
+							<c:forEach items="${allGenres}" var="g">
+								<p hidden>${i=i+1}</p>
+								<form:checkbox id="${g.name}" name="${g.name}" path="genre"
+									value="${g.name}" label="${g.name}" />
 										 &thinsp; &nbsp;
-									    <form:errors path="genre" cssClass="validation-error"/>
-									<c:if test="${i%8 == 0 }"> <br></c:if>
-								</c:forEach>
+									    <form:errors path="genre" cssClass="validation-error" />
+								<c:if test="${i%8 == 0 }">
+									<br>
+								</c:if>
+							</c:forEach>
 						</fieldset>
 						<br>
 						<fieldset>
@@ -277,7 +280,9 @@
 						<br>
 						<button type="submit" name="submit" class="btn with-pass-conf">Modifca
 							Libro</button>
-							<button class="btn with-pass-conf"><a href="<c:url value="/seller/"/>" >Annulla</a></button>
+						<button class="btn with-pass-conf">
+							<a href="<c:url value="/seller/"/>">Annulla</a>
+						</button>
 					</form:form>
 
 				</div>

@@ -160,26 +160,6 @@ $(document).ready(function() {
 		}
 	});
 	
-
-	/*
-	//Funzione per rimuovere un libro di un venditore
-	$(".remove-book").click(function() {
-		var bookId = $(this).attr("bookId");
-		if (confirm("Sei sicuro di voler eliminare questo prodotto?")) {
-			$.ajax({
-				type: 'POST',
-				url: delete_book_url,
-				data: Long,
-				contentType: 'text/plain',
-				dataType: "text", //The type of data that you're expecting back from the server
-				success: function(data) {
-					$("#book_" + bookId).remove();
-					popupMessage("Libro: "+bookId+" eliminato");
-				},
-				processData: false
-			});
-		}
-	});*/
 	
 	//Funzione per rimuovere un genere dalla lista dei generi
 	$(".remove-genre").click(function() {
@@ -265,5 +245,16 @@ $(document).ready(function() {
 			$("#" + genres[i]).prop("checked", true);
 		}
 	}
+	
+	//Codice per pulire gli input dei cognomi degli autori durante
+	//l'aggiunta o la modifica di un libro 
+	//E' necessario perché perché nel JSP quando viene trovate un value vuoto
+	//Lo riempe con il modelAttribute assegnato, tuttavia in questo particolare
+	//caso non è il comportamento desiderato
+	$("input[type=text]").each(function() {
+		if($(this).val() == "#SURNAME_PLACEHOLDER"){
+			$(this).val("");
+		}
+	});
 
 });
