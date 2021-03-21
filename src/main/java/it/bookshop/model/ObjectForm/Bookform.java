@@ -6,16 +6,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.Genre;
 import it.bookshop.model.entity.User;
-import it.bookshop.services.AuthorService;
-import it.bookshop.model.dao.GenreDao;
-import it.bookshop.model.dao.AuthorDao;
+
 
 public class Bookform {
 

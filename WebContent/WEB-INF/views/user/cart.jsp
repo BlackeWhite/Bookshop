@@ -36,7 +36,7 @@
 								<th>TITOLO</th>
 								<th class="text-center">PREZZO</th>
 								<th class="text-center">QUANTITÀ</th>
-								<th class="text-center">TOTALE</th>
+								<th class="text-center" style="width: 10%">TOTALE</th>
 								<th class="text-center"><i class="ti-trash remove-icon"></i></th>
 							</tr>
 						</thead>
