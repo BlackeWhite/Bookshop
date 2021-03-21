@@ -96,7 +96,7 @@ public class SellerController {
 		User seller = userService.findUserByUsername(principal_name);
 
 		// PAGINAZIONE
-		List<Book> sellerBooks = this.bookService.findAllBookSoldOfSeller(seller);
+		List<Book> sellerBooks = this.bookService.findAllBookSoldOfSeller(seller); // restituisce la lista di tutti i libri di quel venditore
 		PagedListHolder<Book> pagedListHolder = new PagedListHolder<>(sellerBooks);
 		pagedListHolder.setPageSize(5);
 
@@ -109,8 +109,7 @@ public class SellerController {
 		model.addAttribute("maxPages", pagedListHolder.getPageCount());
 		model.addAttribute("page", page);
 
-		List<Genre> allGenres = bookService.getAllGenres();
-		model.addAttribute("allGenres", allGenres);
+		generalOperations(model);
 		return "home_seller";
 	}
 	/*----------------------End Seller Home----------------------*/
@@ -242,6 +241,7 @@ public class SellerController {
 		}
 	}
 
+	// procedura (post) per la modifica dei dati di un libro
 	@RequestMapping(value = "/save_changes/{book_id}", method = RequestMethod.POST, consumes = { "multipart/form-data" })
 	public String saveChangesBook(@ModelAttribute("bookToUpdate") @RequestBody @Valid Bookform bookChanged,
 			BindingResult br, @PathVariable("book_id") Long book_id, Model model, final RedirectAttributes redirectAttributes,
@@ -329,7 +329,7 @@ public class SellerController {
 	
 	
 	/*----------------------Analysis----------------------*/
-	// analisi di un libro
+	// Area analisi vendite dei libri del venditore 
 	@GetMapping(value = "/analysis_book")
 	public String analysisBook(Model model, Authentication authentication) {
 		String principal_name = authentication.getName();
@@ -365,7 +365,7 @@ public class SellerController {
 		List<BookOrder> listsoldbook = this.orderService.findbyId(reqBody.getBookID());
 		Iterator<BookOrder> iterbook = listsoldbook.iterator();
 
-		// calcolo incasso totale
+		// calcolo incasso totale per quel libro
 		double sum = this.orderService.TotalEarnforBook(reqBody.getBookID());
 
 		double sumapprox = Math.round(sum * 100.0) / 100.0;
