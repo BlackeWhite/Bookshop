@@ -362,11 +362,13 @@ public class SellerController {
 	@ResponseBody
 	public BookInfoResponse range_data(@RequestBody CartRequestBody reqBody, Authentication authentication) {
 
+		String principal_name = authentication.getName();
+		User seller = userService.findUserByUsername(principal_name);
 		BookInfoResponse bresp = new BookInfoResponse();
 		String data_da = reqBody.getArg2();
 		String data_a = reqBody.getArg3();
 
-		bresp = this.orderService.findbyDate(data_da, data_a); // Calcolo dell'incasso totale in quel intervallo di
+		bresp = this.orderService.findbyDate(data_da, data_a,seller); // Calcolo dell'incasso totale in quel intervallo di
 															   // tempo e delle copie vendute
 		return bresp;
 	}
