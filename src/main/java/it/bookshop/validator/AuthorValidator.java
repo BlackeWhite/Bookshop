@@ -22,7 +22,7 @@ public class AuthorValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		//Authorform author = (Authorform) target;
+		Authorform author = (Authorform) target;
 
 		// controloo solo i campi della form required 
 		ValidationUtils.rejectIfEmpty(errors, "name", "name.required",
@@ -30,9 +30,15 @@ public class AuthorValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "birthdate", "birthdate.required",
 				"Inserisci la Data di nascita dell'autore");
 		
+		if(!CustomUtils.isValidExtension(author.getPhotoFile())) {
+			/*
+			 * Controlla la validità dell'estensione
+			 */
+			errors.rejectValue("photoFile", "invalidPhotoFile",
+					new Object[] { "'photoFile'" }, "Estensione del file non valida. Sono ammessi: PNG, JPG, JPEG.");
+		}
 	
-
-
 	}
-
+	
+	
 }
