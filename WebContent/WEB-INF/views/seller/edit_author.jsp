@@ -63,11 +63,11 @@
 						<legend> Modifica Autore  </legend>
 								<br>
 								<form:label path="name"><b>Nome dell'autore</b></form:label>
-								<form:input required="required" placeholder="Nome" type="text" path="name" id="authorsName" class = "inputview"/>
+								<form:input required="required" placeholder="Nome" type="text" path="name" id="authorsName" class = "inputview" pattern="([^\s][A-z0-9À-ž\.\s]+)" title = "Non sono ammessi caratteri speciali come virgole e apici. Non sono ammessi spazi come caratteri iniziali."/>
 								<form:errors path="name" cssClass="validation-error" />
 								<br>
 								<form:label path="surname"><b>Cognome dell'autore</b></form:label>
-						        <form:input placeholder="Cognome" type="text" path="surname" id="surname" class = "inputview"/>
+						        <form:input placeholder="Cognome" type="text" path="surname" id="surname" class = "inputview" pattern="([^\s][A-z0-9À-ž\.\s]+)" title = "Non sono ammessi caratteri speciali come virgole e apici. Non sono ammessi spazi come caratteri iniziali."/>
 						        <form:errors path="surname" cssClass="validation-error" />
 						        <br>
 						        <br>
@@ -87,14 +87,16 @@
 								<br>
 								<br>
 								<form:label path="photoFile"><b>Carica la foto dell'autore</b></form:label></td>
-                                <form:input type="file" name="photoFile" path="photoFile" class = "inputview"/>
+                                <form:input type="file" name="photoFile" path="photoFile" class = "inputview" accept="image/*"/>
 								<form:errors path="photoFile" cssClass="validation-error" />
 								<br>
 							</fieldset>
 						<br>
 						<br>
-				 <button type="submit" name="submit" class="btn with-pass-conf">Modifica autore</button>
-				 <a href="<c:url value="/seller/"/>" >Annulla </a>
+				 <button type="submit" name="submit" class="btn">Modifica autore</button>
+				 <button class="btn">
+						<a href="<c:url value="/seller/"/>">Annulla</a>
+				</button>
 					</form:form>
 				</div>
 			</div>

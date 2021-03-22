@@ -229,7 +229,7 @@
 							</form:label>
 							</td>
 							<form:input required="required" type="file" name="cover"
-								path="cover" class="inputview" />
+								path="cover" class="inputview" accept="image/*"/>
 							<form:errors path="cover" cssClass="validation-error" />
 							<br> <br>
 							<form:label path="title">
@@ -272,9 +272,11 @@
 						</fieldset>
 						<br>
 						<br>
-						<button type="submit" name="submit" class="btn with-pass-conf">Inserisci
+						<button type="submit" name="submit" class="btn">Inserisci
 							Libro</button>
-						<a href="<c:url value="/seller/"/>">Annulla </a>
+						<button class="btn">
+							<a href="<c:url value="/seller/"/>">Annulla</a>
+						</button>
 					</form:form>
 				</div>
 			</div>
