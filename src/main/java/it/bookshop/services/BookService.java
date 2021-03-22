@@ -43,11 +43,11 @@ public interface BookService {
 	Genre findByName(String name);
 	void deleteGenre(Genre genre);
 	List<Book> findAllBookSoldOfSeller(User seller);
-	void removeBook(Book book);
 	void removeAllBook();
-	void removeBook(Long bookId);
+	void removeBook(Long id);
 	List<Book> findBookRemovedForSeller(User seller);
 	Book findByIdRemoved(Long bookId);
+	void saveRestored(Long id);
 
 	
 };

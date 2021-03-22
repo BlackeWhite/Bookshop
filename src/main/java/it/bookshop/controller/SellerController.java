@@ -344,19 +344,19 @@ public class SellerController {
 		/*
 		 * Metodo per il ripristino di un libro.
 		 */
-		Book removedBook = this.bookService.findByIdRemoved(book_id);
+		Book restoredBook = this.bookService.findByIdRemoved(book_id);
 		String principal_name = authentication.getName();
 		User seller = userService.findUserByUsername(principal_name);
 		try {
-			if (seller.getUserID() == removedBook.getSeller().getUserID()) { 
-				// Verifica che il libro che si sta eliminando sia di proprietà di quel venditore
+			if (seller.getUserID() == restoredBook.getSeller().getUserID()) { 
+				// Verifica che il libro che si sta ripristinando sia di proprietà di quel venditore
 				try {
-					this.bookService.removeBook(book_id);
-					String message = "\"" + removedBook.getTitle() + "\" rimosso correttamente";
+					this.bookService.saveRestored(book_id);
+					String message = "\"" + restoredBook.getTitle() + "\" ripristinato correttamente";
 					redirectAttributes.addFlashAttribute("message", message);
 				} catch (Exception e) {
-					String message = "Qualcosa è andato storto. Il libro \"" + removedBook.getTitle()
-							+ "\" non è stato rimosso correttamente ";
+					String message = "Qualcosa è andato storto. Il libro \"" + restoredBook.getTitle()
+							+ "\" non è stato ripristiano correttamente ";
 					redirectAttributes.addFlashAttribute("message", message);
 				}
 		
@@ -365,7 +365,7 @@ public class SellerController {
 			}
 			else { 
 				/*
-				 *  Se non così non fosse, non gli permetto la cancellazione e 
+				 *  Se non così non fosse, non gli permetto il ripristino e 
 				 *  lo reindirizzo alla sua home
 				 */
 				return "redirect:/seller/";

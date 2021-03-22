@@ -31,5 +31,7 @@ public interface BookDao {
 	void removeBook(Book book);
 	List<Book> findBookRemovedForSeller(User seller);
 	Book findByIdRemoved(Long bookId);
+	void saveRemoved(Book book);
+	void saveRestored(Book book);
 	
 }

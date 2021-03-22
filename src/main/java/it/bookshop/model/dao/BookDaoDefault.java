@@ -1,5 +1,6 @@
 package it.bookshop.model.dao;
 
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -223,8 +224,22 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 	}
 	
 	@Override
+	public void saveRemoved(Book book) {
+		book.setCopies(0);
+		book.setRemoved(1);
+		this.update(book);
+	}
+	
+	@Override
+	public void saveRestored(Book book) {
+		book.setRemoved(0);
+		this.update(book);
+	}
+	
+	@Override
 	public Book findByIdRemoved(Long bookId) {
 		return this.getSession().createQuery("FROM Book b WHERE b.id = :id AND b.removed=1", Book.class)
 				.setParameter("id", bookId).getSingleResult();
 	}
+	
 }

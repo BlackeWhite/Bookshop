@@ -64,8 +64,9 @@ public class BookServiceDefault implements BookService {
 	}
 	
 	@Override
-	public void removeBook(Book book) {
-		bookRepository.removeBook(book);
+	public void removeBook(Long id) {
+		Book book = bookRepository.findById(id);
+		bookRepository.saveRemoved(book);
 	}
 
 	@Override
@@ -80,15 +81,10 @@ public class BookServiceDefault implements BookService {
 	public void removeAllBook() {
 		List<Book> books = findAll();
 		for (Book b : books) {
-			removeBook(b);
+			bookRepository.saveRemoved(b);
 		}
 	}
 	
-	@Override
-	public void removeBook(Long bookId) {
-		Book b = bookRepository.findById(bookId);
-		bookRepository.removeBook(b);
-	}
 	
 	@Override
 	public List<Book> findAllBookSoldOfSeller(User seller) {
@@ -333,5 +329,11 @@ public class BookServiceDefault implements BookService {
 	@Override
 	public Book findByIdRemoved(Long bookId) {
 		return bookRepository.findByIdRemoved(bookId);
+	}
+	
+	@Override
+	public void saveRestored(Long id) {
+		Book book = bookRepository.findByIdRemoved(id);
+		bookRepository.saveRestored(book);
 	}
 }
