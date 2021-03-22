@@ -169,6 +169,7 @@
 						<fieldset>
 							<legend> Informazioni Libro </legend>
 							<br>
+							<form:input hidden="hidden" path="id"/>
 							<form:label path="title">
 								<b>Titolo Libro</b>
 							</form:label>
