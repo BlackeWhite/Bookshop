@@ -59,17 +59,25 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao {
 		a.setPhoto(photo);
 		if (a.getPhoto().isEmpty())
 			a.setPhoto("profile-placeholder.png");
+		
+		if (this.getSession()
+				.createQuery("FROM Author a WHERE a.name = :name and a.surname = :surname", Author.class)
+				.setParameter("name", name).setParameter("surname", surname).getSingleResult() != null) {
+			return this.findByNameAndSurname(name, surname);
+		}
+		/*
+		
 		try {
 			/*
 			 * Restituisce un'eccezione se l'autore è stato già creato
-			 */
+			 *//*
 			if (this.getSession()
 					.createQuery("FROM Author a WHERE a.name = :name and a.surname = :surname", Author.class)
 					.setParameter("name", name).setParameter("surname", surname).getSingleResult() != null) {
 				throw new RuntimeException("L'autore è stato già aggiunto.");
 			}
 		} catch (NoResultException e) {
-		}
+		}*/
 		getSession().save(a);
 		return a;
 	}
@@ -99,17 +107,22 @@ public class AuthorDaoDefault extends DefaultDao implements AuthorDao {
 		} else {
 			a.setSurname(surname.trim());
 		}
+		
+		if (findByNameAndSurname(name, surname) != null) {
+			return findByNameAndSurname(name, surname);
+		}
+		/*
 		try {
 			/*
 			 * Restituisce un'eccezione se l'autore è stato già creato
-			 */
+			 *//*
 			if (this.getSession()
 					.createQuery("FROM Author a WHERE a.name = :name and a.surname = :surname", Author.class)
 					.setParameter("name", name).setParameter("surname", surname).getSingleResult() != null) {
 				throw new RuntimeException("L'autore è stato già aggiunto.");
 			}
 		} catch (NoResultException e) {
-		}
+		}*/
 		;
 		a.setPhoto("profile-placeholder.png");
 		getSession().save(a);

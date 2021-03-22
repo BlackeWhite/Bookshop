@@ -20,6 +20,7 @@ import org.hibernate.SessionFactory;
 
 import it.bookshop.model.dao.AuthorDao;
 import it.bookshop.model.dao.BookDao;
+import it.bookshop.model.dao.BookOrderDao;
 import it.bookshop.model.dao.UserDetailsDao;
 import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
@@ -31,6 +32,7 @@ public class TestAuthor {
 	
 	private static AnnotationConfigApplicationContext ctx;
 	private AuthorDao authorDao;
+	private BookOrderDao bookOrderDao;
 	private static SessionFactory sf;
 	private static Book a;
 	private static User u;
@@ -78,7 +80,7 @@ public class TestAuthor {
 		ctx = new AnnotationConfigApplicationContext(DataServiceConfigTest.class);
 		//authorDao = ctx.getBean(AuthorDao.class);
 		sf = ctx.getBean("sessionFactory", SessionFactory.class);
-		
+		BookOrderDao bookOrderDao = ctx.getBean(BookOrderDao.class);
 		BookDao bookDao = ctx.getBean(BookDao.class);
 		UserDetailsDao userDao = ctx.getBean(UserDetailsDao.class);
 		
@@ -87,12 +89,13 @@ public class TestAuthor {
 		s.beginTransaction();
 		
 		bookDao.setSession(s);
-		userDao.setSession(s);
-
+		bookOrderDao.setSession(s);
+		//a.setRemoved(1);
+		//bookDao.update(a);
 		bookDao.delete(a);
 		
 		s.getTransaction().commit();
-		
+		s.close();
 		ctx.close();
 	}
 
@@ -274,6 +277,7 @@ public class TestAuthor {
 		}
 		
 		s.getTransaction().commit();
+		s.close();
 
 	}
 	
@@ -333,6 +337,7 @@ public class TestAuthor {
 		s.beginTransaction();
 		authorDao.delete(newAuthor);
 		s.getTransaction().commit();
+		s.close();
 	}
 	
 	
@@ -393,15 +398,33 @@ public class TestAuthor {
 		authorDao.delete(newAuthor1);
 		authorDao.delete(newAuthor3);
 		s.getTransaction().commit();
+		s.close();
 	}
 	
+	
+	@Test
+	void testCreateAuthorDuplicate() {
+		/*
+		 * Test that it's not possible to create two authors with same name and surname
+		 */
+		Session s = sf.openSession();
+		authorDao.setSession(s);
+		s.beginTransaction();
+		//add new author
+		Author newAuthor1 = authorDao.create("testName7", "testSurname7");
+		Author newAuthor2 = authorDao.create(newAuthor1.getName(), newAuthor1.getSurname());
+		assertEquals(newAuthor1, newAuthor2); // Se l'autore è stato già aggiunto, restituisce quello presente nel DB.
+		s.close();
+	}
 	
 	@Test
 	void testCreateAndSearchbookForAuthor() {
 		/*
 		 * Test per la creazione e la ricerca dei libri legati ad un autore
 		 */
+		BookOrderDao bookOrderDao = ctx.getBean(BookOrderDao.class);
 		Session s = sf.openSession();
+		bookOrderDao.setSession(s);
 		authorDao.setSession(s);
 		s.beginTransaction();
 		
@@ -461,13 +484,14 @@ public class TestAuthor {
 		s.getTransaction().commit();
 	}
 	
-	
 	@Test
 	void testCreateAndFindBookRemovedForAuthor() {
 		/*
 		 * Testa il metodo per recuperare i libri di un autore che sono stati rimossi
 		 */
+		BookOrderDao bookOrderDao = ctx.getBean(BookOrderDao.class);
 		Session s = sf.openSession();
+		bookOrderDao.setSession(s);
 		authorDao.setSession(s);
 		s.beginTransaction();
 		
@@ -533,22 +557,6 @@ public class TestAuthor {
 		s.getTransaction().commit();
 		
 	}
-
-	
-	@Test
-	void testCreateAuthorDuplicate() {
-		/*
-		 * Test that it's not possible to create two authors with same name and surname
-		 */
-		Session s = sf.openSession();
-		authorDao.setSession(s);
-		s.beginTransaction();
-		//add new author
-		Author newAuthor1 = authorDao.create("testName7", "testSurname7");
-		
-		assertThrows(RuntimeException.class, ()->{authorDao.create(newAuthor1.getName(), newAuthor1.getSurname());});
-	}
-	
 }
 	
 	
