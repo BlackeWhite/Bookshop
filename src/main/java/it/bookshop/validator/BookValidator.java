@@ -57,6 +57,13 @@ public class BookValidator implements Validator {
 					errors.rejectValue("isbn", "invalidIsbn",
 							new Object[] { "'isbn'" }, "Il codice ISBN deve essere composto da 13 cifre.");
 				}
+		if(!CustomUtils.isValidExtension(book.getCover())) {
+			/*
+			 * Controlla la validità dell'estensione
+			 */
+			errors.rejectValue("cover", "invalidCover",
+					new Object[] { "'cover'" }, "Estensione del file non valida. Sono ammessi: PNG, JPG, JPEG.");
+		}
 	}
 
 }

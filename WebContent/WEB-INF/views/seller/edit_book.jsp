@@ -219,7 +219,7 @@
 							</td>
 							<form:input type="file" name="cover" path="cover"
 								class="inputview" />
-							<form:errors path="cover" cssClass="validation-error" />
+							<form:errors path="cover" cssClass="validation-error" accept="image/*" />
 							<!-- TO-DO manca upload quando si modifca un libro  -->
 							<br> <br>
 							<form:label path="title">
@@ -263,9 +263,9 @@
 						</fieldset>
 						<br>
 						<br>
-						<button type="submit" name="submit" class="btn with-pass-conf">Modifca
+						<button type="submit" name="submit" class="btn">Modifca
 							Libro</button>
-						<button class="btn with-pass-conf">
+						<button class="btn">
 							<a href="<c:url value="/seller/"/>">Annulla</a>
 						</button>
 					</form:form>
