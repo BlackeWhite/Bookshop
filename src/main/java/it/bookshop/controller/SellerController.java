@@ -3,6 +3,9 @@ package it.bookshop.controller;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -560,17 +563,20 @@ public class SellerController {
 		/* 
 		* Restituisce una lista di autori legati ai libri venduti dal venditore considerato
 		*/
-		List <Book> sellerBooks = bookService.findAllBookSoldOfSeller(seller);
-		Set<Author> authorSet = new HashSet<>();
-		
-		Iterator<Book> iterBook = sellerBooks.iterator();
-		while(iterBook.hasNext()) {
-			Set<Author> currAuthors = iterBook.next().getAuthors();
-			authorSet.addAll(currAuthors);
-		}
-		List<Author> authorList = new ArrayList<>(authorSet);
-		// TODO -> Ordinare lista di autori
+			List <Book> sellerBooks = bookService.findAllBookSoldOfSeller(seller);
+			Set<Author> authorSet = new HashSet<>();
+			
+			Iterator<Book> iterBook = sellerBooks.iterator();
+			while(iterBook.hasNext()) {
+				Set<Author> currAuthors = iterBook.next().getAuthors();
+				authorSet.addAll(currAuthors);
+			}
+			List<Author> authorList = new ArrayList<>(authorSet);
+			// Ordina la lista di autori
+			Comparator<Author> cm1=Comparator.comparing(Author::getName);
+			Collections.sort(authorList,cm1); 
 		return authorList;
 	}
+	
 	/*----------------------End Utilities----------------------*/
 }
