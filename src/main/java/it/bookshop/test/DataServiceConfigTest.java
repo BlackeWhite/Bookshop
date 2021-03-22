@@ -18,7 +18,8 @@ public class DataServiceConfigTest extends DataServiceConfig {
 	@Override
 	protected Properties hibernateProperties() {
 		Properties hibernateProp = super.hibernateProperties();
-		hibernateProp.put("javax.persistence.schema-generation.database.action", "drop-and-create");
+		//hibernateProp.put("javax.persistence.create-database-schemas", true);
+		hibernateProp.put("javax.persistence.schema-generation.database.action", "update");
 		return hibernateProp;
 	}
 }
