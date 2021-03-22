@@ -143,11 +143,7 @@
 								</c:when>
 								<c:otherwise>
 									<div class="title">
-										<h1>Non hai nessun libro in vendita</h1>
-										<c:url value="/seller/addition_book" var="addition_book" />
-										<a href="${addition_book}">
-											<h2>Aggiungi un libro in vendita</h2>
-										</a>
+										<h1>Non hai rimosso nessun libro</h1>
 									</div>
 								</c:otherwise>
 							</c:choose>
