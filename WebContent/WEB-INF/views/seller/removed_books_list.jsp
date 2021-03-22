@@ -17,7 +17,7 @@
 						<li class="active"><a href="<c:url value="/seller/"/>">Area
 								Personale - Venditore<i
 								class="ti-arrow-right"></i></a></li>
-						<li class="active"><a href="<c:url value="/seller/"/>">Ripristina un libro</a></li>
+						<li class="active"><a href="<c:url value="/seller/removed_books_list"/>">Ripristina un libro</a></li>
 					</ul>
 				</div>
 			</div>
@@ -35,6 +35,7 @@
 					<div class="single-widget range">
 						<a href="<c:url value="/seller/"/>"><h3 class="title">Menu</h3></a>
 						<c:url value="/seller/addition_book" var="addition_book" />
+						<li class="active"><a href="<c:url value="/seller/"/>">I miei libri></li>
 						<li><a href="${addition_book}"> Aggiungi un libro in
 								vendita </a></li>
 						<li><a href="<c:url value="/seller/removed_books_list"/>"> Ripristina un libro </a></li>
@@ -64,9 +65,9 @@
 													<div class="col field">
 														<!-- Div utile per avere modifica ed elimina nell'ultima colonna -->
 													</div>
-													<div class="col-3 field">
-														<button bookId="${sellerBooks.id}" class="remove-book" onclick="return confirm('Sicuro di voler ripristinare ${sellerBooks.title} ?')">
-															<a  class="sellerButton"href="<c:url value="/seller/restore_book/${sellerBooks.id}"/>">Ripristina</a>
+													<div class="col-2 field">
+														<button bookId="${sellerBooks.id}" class="generic-button" onclick="return confirm('Sicuro di voler ripristinare ${sellerBooks.title} ?')">
+															<a  class="sellerButton"href="<c:url value="/seller/restore_book/${sellerBooks.id}"/>">RIPRISTINA</a>
 														</button>
 													</div>
 												</div>
