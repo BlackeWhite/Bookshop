@@ -30,7 +30,7 @@ public class AuthorValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "birthdate", "birthdate.required",
 				"Inserisci la Data di nascita dell'autore");
 		
-		if(!CustomUtils.isValidExtension(author.getPhotoFile())) {
+		if((!author.getPhotoFile().isEmpty())&&(!CustomUtils.isValidExtension(author.getPhotoFile()))) {
 			/*
 			 * Controlla la validità dell'estensione
 			 */

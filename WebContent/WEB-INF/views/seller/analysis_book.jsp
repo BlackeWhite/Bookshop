@@ -37,7 +37,7 @@
 			<div class="single-widget range">
 						<a href="<c:url value="/seller/"/>"><h3 class="title">Menu</h3></a>
 						<c:url value="/seller/addition_book" var="addition_book" />
-						<li class="active"><a href="<c:url value="/seller/"/>">I miei libri></li>
+						<li class="active"><a href="<c:url value="/seller/"/>">I miei libri</li>
 						<li><a href="${addition_book}"> Aggiungi un libro in
 								vendita </a></li>
 						<li><a href="<c:url value="/seller/removed_books_list"/>"> Ripristina un libro </a></li>
