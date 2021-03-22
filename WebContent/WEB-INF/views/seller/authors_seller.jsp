@@ -60,7 +60,7 @@
 										<div class="order" id="book_${authorsPerSeller.id}">
 											<div class="info">
 												<div class="row">
-													<div class="col-3 field">
+													<div class="col-4 field">
 													<h4>
 													<c:if test="${authorsPerSeller.surname != '#SURNAME_PLACEHOLDER'}">
 														<a href="<c:url value="/show_author/${authorsPerSeller.id}"/>">${authorsPerSeller.name} ${authorsPerSeller.surname}</a>
@@ -68,17 +68,15 @@
 													<c:if test="${authorsPerSeller.surname == '#SURNAME_PLACEHOLDER'}">
 														<a href="<c:url value="/show_author/${authorsPerSeller.id}"/>">${authorsPerSeller.name}</a>
 													</c:if></h4></div>
-													<div class="col field">
+													<div class="col-5 field">
 														<!-- Div utile per avere modifica ed elimina nell'ultima colonna -->
 													</div>
-													<div class="col-3 field">
+													<div class="field" style="padding-right: 0px;">
 														<button bookId="${authorsPerSeller.id}" class="generic-button">
-															<a href="<c:url value="/show_author/${authorsPerSeller.id}"/>"><i
-																class="fa fa-remove">VISUALIZZA </i></a>
+															<a class="sellerButton" href="<c:url value="/show_author/${authorsPerSeller.id}"/>">VISUALIZZA</a>
 														</button>
 														<button bookId="${authorsPerSeller.id}" class="generic-button">
-															<a href="<c:url value="/seller/edit_author/${authorsPerSeller.id}"/>"><i
-																class="fa fa-remove">MODIFICA</i></a>
+															<a class="sellerButton" href="<c:url value="/seller/edit_author/${authorsPerSeller.id}"/>">MODIFICA</a>
 														</button>
 													</div>
 												</div>

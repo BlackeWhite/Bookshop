@@ -63,12 +63,10 @@
 													</div>
 													<div class="col-3 field">
 														<button bookId="${sellerBooks.id}" class="remove-book" onclick="return confirm('Sicuro di voler rimuovere ${sellerBooks.title} ?')">
-															<a href="<c:url value="/seller/remove_book/${sellerBooks.id}"/>"><i
-																class="fa fa-remove"> RIMUOVI </i></a>
+															<a  class="sellerButton"href="<c:url value="/seller/remove_book/${sellerBooks.id}"/>">RIMUOVI</a>
 														</button>
 														<button bookId="${sellerBooks.id}" class="remove-book">
-															<a href="<c:url value="/seller/edit_book/${sellerBooks.id}"/>"><i
-																class="fa fa-remove">MODIFICA</i></a>
+															<a class="sellerButton" href="<c:url value="/seller/edit_book/${sellerBooks.id}"/>">MODIFICA</a>
 														</button>
 													</div>
 												</div>

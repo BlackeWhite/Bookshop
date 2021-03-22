@@ -6139,6 +6139,11 @@ opacity
 .purchase-history .order .books .single-book .price-data {
 	margin-top: 28px;
 }
+
+
+.sellerButton {
+	padding: 5px;
+}
 /*=============================
 	End Purchase history CSS
 ===============================*/
