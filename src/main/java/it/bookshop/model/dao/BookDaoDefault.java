@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 
 import it.bookshop.model.ObjectForm.Bookform;
-import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.CustomUserDetails;
 import it.bookshop.model.entity.User;
@@ -207,6 +206,7 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 				.getResultList();
 	}
 	
+	//Utilizzato solo nei Junit test
 	@Override
 	public void removeBook(Book book) {
 		book.setCopies(0);
