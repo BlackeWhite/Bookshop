@@ -325,4 +325,13 @@ public class BookServiceDefault implements BookService {
 		genreRepository.delete(genre);
 	}
 	
+	@Override
+	public List<Book> findBookRemovedForSeller(User seller) {
+		return bookRepository.findBookRemovedForSeller(seller);
+	}
+	
+	@Override
+	public Book findByIdRemoved(Long bookId) {
+		return bookRepository.findByIdRemoved(bookId);
+	}
 }

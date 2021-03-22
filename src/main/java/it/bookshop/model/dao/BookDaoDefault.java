@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 
 import it.bookshop.model.ObjectForm.Bookform;
+import it.bookshop.model.entity.Author;
 import it.bookshop.model.entity.Book;
 import it.bookshop.model.entity.CustomUserDetails;
 import it.bookshop.model.entity.User;
@@ -210,5 +211,20 @@ public class BookDaoDefault extends DefaultDao implements BookDao {
 		book.setCopies(0);
 		book.setRemoved(1);
 	}
-
+	
+	@Override
+	public List<Book> findBookRemovedForSeller(User seller) {
+		/*
+		 * Metodo per la ricerca dei libri fuori catalogo di un determinato venditore.
+		 */
+		return this.getSession().createQuery(
+				"SELECT b FROM Book b JOIN b.seller s WHERE s.userID=:id AND b.removed=1 ORDER BY INSERTDATA DESC",
+				Book.class).setParameter("id", seller.getUserID()).getResultList();
+	}
+	
+	@Override
+	public Book findByIdRemoved(Long bookId) {
+		return this.getSession().createQuery("FROM Book b WHERE b.id = :id AND b.removed=1", Book.class)
+				.setParameter("id", bookId).getSingleResult();
+	}
 }

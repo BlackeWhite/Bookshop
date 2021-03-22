@@ -116,4 +116,8 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/seller/add_book.jsp" />
 	</definition>
+	<definition extends="default" name="removed_books_list">
+		<put-attribute name="body"
+			value="/WEB-INF/views/seller/removed_books_list.jsp" />
+	</definition>
 </tiles-definitions>
