@@ -92,7 +92,7 @@
 									input.setAttribute("placeholder", "Nome");
 									input.setAttribute("type", "text");
 									input.setAttribute("pattern",
-									"([^\s][A-z0-9À-ž\.\s]+)");
+									"([^\\s][A-z0-9À-ž\\.\\s]+)");
 									input.setAttribute("title", "Non sono ammessi caratteri speciali come virgole e apici. Non sono ammessi spazi come caratteri iniziali.");
 									input.setAttribute("required", "required");
 
@@ -107,7 +107,7 @@
 											"Cognome");
 									input_surname.setAttribute("type", "text");
 									input_surname.setAttribute("pattern",
-									"([^\s][A-z0-9À-ž\.\s]+)");
+									"([^\\s][A-z0-9À-ž\\.\\s]+)");
 									input.setAttribute("title", "Non sono ammessi caratteri speciali come virgole e apici. Non sono ammessi spazi come caratteri iniziali.");
 
 									;
