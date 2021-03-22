@@ -26,6 +26,6 @@ public interface OrderService {
 	double TotalEarnforBook(long id);
 	double TotalEarn(List<Book> lb);
 	
-	BookInfoResponse findbyDate(String data_da, String data_a);
+	BookInfoResponse findbyDate(String data_da, String data_a, User seller);
 
 }

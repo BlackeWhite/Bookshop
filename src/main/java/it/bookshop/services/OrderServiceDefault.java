@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.bookshop.model.ObjectForm.BookInfoResponse;
+import it.bookshop.model.dao.BookDao;
 import it.bookshop.model.dao.BookOrderDao;
 import it.bookshop.model.dao.OrderDao;
 import it.bookshop.model.entity.Book;
@@ -28,6 +29,7 @@ import it.bookshop.model.entity.User;
 public class OrderServiceDefault implements OrderService {
 
 	private OrderDao orderRepository;
+	private BookDao bookRepository;
 	private BookOrderDao bookOrderRepository;
 	private ShoppingCartService shoppingCartService;
 	private UserService userService;
@@ -118,20 +120,32 @@ public class OrderServiceDefault implements OrderService {
 		return this.bookOrderRepository.sumPrice(id);
 	}
 	
-	public BookInfoResponse findbyDate(String data_da, String data_a) {
+	public BookInfoResponse findbyDate(String data_da, String data_a, User seller) {
 		// calcolo l'incasso totale e le copie vendute per un intervallo di tempo
 		
 		BookInfoResponse bresp = new BookInfoResponse();
 		List<BookOrder> lo = new ArrayList<BookOrder>();
-		lo = this.bookOrderRepository.findbyDate(data_da, data_a);
+		Long id_seller = seller.getUserID();
+		List<Book> listseller = this.bookRepository.findSellerBook(id_seller); // lista dei libri del venditore
+		lo = this.bookOrderRepository.findbyDate(data_da, data_a); //lista libri acquistati in quell'intervallo di tempo
 		Iterator <BookOrder> itlo = lo.iterator();
 		int copies = 0;
 		double earn = 0;
+		boolean find = true;
 		
 		while(itlo.hasNext()) {
 			BookOrder bo = itlo.next();
-			earn += bo.getCopies()*bo.getPricenovat();
-			copies += bo.getCopies();
+			find = true;
+			Iterator<Book> itbookseller = listseller.iterator();
+			while (itbookseller.hasNext() && find) {
+				Book temp_book = itbookseller.next();
+				if (bo.getId().getBookId() == temp_book.getId()) { // verifico che il ibro sia del venditore 
+				earn += bo.getCopies()*bo.getPricenovat();
+				copies += bo.getCopies();
+				find = false; // evito cicli inutili 
+				}
+			}
+			
 		}
 		
 		bresp.setSoldcopies(copies);
@@ -150,6 +164,11 @@ public class OrderServiceDefault implements OrderService {
 	@Autowired
 	public void setBookOrderRepository(BookOrderDao bookOrderRepository) {
 		this.bookOrderRepository = bookOrderRepository;
+	}
+	
+	@Autowired
+	public void setBookRepository(BookDao bookRepository) {
+		this.bookRepository = bookRepository;
 	}
 
 	@Autowired
