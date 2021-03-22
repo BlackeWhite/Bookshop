@@ -230,6 +230,7 @@ public class SellerController {
 			/*
 			 * Se ci sono errori nella form, ritorna la pagina della form con i campi errati
 			 */
+			bookChanged.placeholder();
 			generalOperations(model);
 			model.addAttribute("newBook", bookChanged);
 			model.addAttribute("authorsName", bookChanged.getAuthorsName());

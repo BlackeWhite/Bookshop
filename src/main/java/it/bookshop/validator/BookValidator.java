@@ -57,7 +57,7 @@ public class BookValidator implements Validator {
 					errors.rejectValue("isbn", "invalidIsbn",
 							new Object[] { "'isbn'" }, "Il codice ISBN deve essere composto da 13 cifre.");
 				}
-		if(book.getCover() != null && !CustomUtils.isValidExtension(book.getCover())) {
+		if((book.getCover() != null) && (!CustomUtils.isValidExtension(book.getCover()))) {
 			/*
 			 * Controlla la validità dell'estensione
 			 */
