@@ -232,6 +232,8 @@ public class SellerController {
 			 */
 			generalOperations(model);
 			model.addAttribute("newBook", bookChanged);
+			model.addAttribute("authorsName", bookChanged.getAuthorsName());
+			model.addAttribute("authorsSurname", bookChanged.getAuthorsSurname());
 			return "edit_book";
 		} else {
 			try {
