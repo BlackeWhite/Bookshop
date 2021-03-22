@@ -125,27 +125,17 @@ public class OrderServiceDefault implements OrderService {
 		
 		BookInfoResponse bresp = new BookInfoResponse();
 		List<BookOrder> lo = new ArrayList<BookOrder>();
-		Long id_seller = seller.getUserID();
-		List<Book> listseller = this.bookRepository.findSellerBook(id_seller); // lista dei libri del venditore
 		lo = this.bookOrderRepository.findbyDate(data_da, data_a); //lista libri acquistati in quell'intervallo di tempo
 		Iterator <BookOrder> itlo = lo.iterator();
 		int copies = 0;
 		double earn = 0;
-		boolean find = true;
 		
 		while(itlo.hasNext()) {
 			BookOrder bo = itlo.next();
-			find = true;
-			Iterator<Book> itbookseller = listseller.iterator();
-			while (itbookseller.hasNext() && find) {
-				Book temp_book = itbookseller.next();
-				if (bo.getId().getBookId() == temp_book.getId()) { // verifico che il ibro sia del venditore 
+				if (bo.getBook().getSeller().getUserID() == seller.getUserID()) { // verifico che il ibro sia del venditore 
 				earn += bo.getCopies()*bo.getPricenovat();
 				copies += bo.getCopies();
-				find = false; // evito cicli inutili 
 				}
-			}
-			
 		}
 		
 		bresp.setSoldcopies(copies);
