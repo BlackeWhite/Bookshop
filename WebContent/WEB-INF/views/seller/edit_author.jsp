@@ -62,6 +62,7 @@
 						<fieldset>
 						<legend> Modifica Autore  </legend>
 								<br>
+								<form:input hidden="hidden" path="id"/>
 								<form:label path="name"><b>Nome dell'autore</b></form:label>
 								<form:input required="required" placeholder="Nome" type="text" path="name" id="authorsName" class = "inputview" pattern="([^\s][A-z0-9À-ž\.\s]+)" title = "Non sono ammessi caratteri speciali come virgole e apici. Non sono ammessi spazi come caratteri iniziali."/>
 								<form:errors path="name" cssClass="validation-error" />
