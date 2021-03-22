@@ -310,6 +310,71 @@ public class SellerController {
 	}
 	/*----------------------End Remove Book----------------------*/
 	
+	/*----------------------Restore Book----------------------*/
+	@RequestMapping(value = "/removed_books_list", method = RequestMethod.GET)
+	public String removedBooksList(@RequestParam(required = false) Integer page, Locale locale, 
+			Model model, Authentication authentication) {
+		/* 
+		* Metodo per la lista dei libri rimossi di un determinato venditore
+		*/
+		String principal_name = authentication.getName();
+		User seller = userService.findUserByUsername(principal_name);
+
+		// PAGINAZIONE
+		List<Book> bookRemovedPerSeller = bookService.findBookRemovedForSeller(seller);
+		PagedListHolder<Book> pagedListHolder = new PagedListHolder<>(bookRemovedPerSeller);
+		pagedListHolder.setPageSize(5);
+
+		if (page == null || page < 1 || page > pagedListHolder.getPageCount())
+			page = 1;
+
+		pagedListHolder.setPage(page - 1);
+
+		model.addAttribute("bookRemovedPerSeller", pagedListHolder.getPageList());
+		model.addAttribute("maxPages", pagedListHolder.getPageCount());
+		model.addAttribute("page", page);
+
+		generalOperations(model);
+		return "removed_books_list";
+	}
+	
+	@GetMapping(value = "/restore_book/{book_id}")
+	public String restoreBook(@PathVariable("book_id") Long book_id, Model model,Authentication authentication,
+			final RedirectAttributes redirectAttributes) {
+		/*
+		 * Metodo per il ripristino di un libro.
+		 */
+		Book removedBook = this.bookService.findByIdRemoved(book_id);
+		String principal_name = authentication.getName();
+		User seller = userService.findUserByUsername(principal_name);
+		try {
+			if (seller.getUserID() == removedBook.getSeller().getUserID()) { 
+				// Verifica che il libro che si sta eliminando sia di proprietà di quel venditore
+				try {
+					this.bookService.removeBook(book_id);
+					String message = "\"" + removedBook.getTitle() + "\" rimosso correttamente";
+					redirectAttributes.addFlashAttribute("message", message);
+				} catch (Exception e) {
+					String message = "Qualcosa è andato storto. Il libro \"" + removedBook.getTitle()
+							+ "\" non è stato rimosso correttamente ";
+					redirectAttributes.addFlashAttribute("message", message);
+				}
+		
+				redirectAttributes.addFlashAttribute("msgColor", "#F7941D");
+				return "redirect:/seller/";
+			}
+			else { 
+				/*
+				 *  Se non così non fosse, non gli permetto la cancellazione e 
+				 *  lo reindirizzo alla sua home
+				 */
+				return "redirect:/seller/";
+				}
+		} catch(Exception e) {
+					return "redirect:/seller/";
+				}
+	}
+	/*----------------------End Restore Book----------------------*/
 	
 	/*----------------------Analysis----------------------*/
 	// Area analisi vendite dei libri del venditore 
@@ -565,18 +630,18 @@ public class SellerController {
 		/* 
 		* Restituisce una lista di autori legati ai libri venduti dal venditore considerato
 		*/
-			List <Book> sellerBooks = bookService.findAllBookSoldOfSeller(seller);
-			Set<Author> authorSet = new HashSet<>();
+		List <Book> sellerBooks = bookService.findAllBookSoldOfSeller(seller);
+		Set<Author> authorSet = new HashSet<>();
 			
-			Iterator<Book> iterBook = sellerBooks.iterator();
-			while(iterBook.hasNext()) {
-				Set<Author> currAuthors = iterBook.next().getAuthors();
-				authorSet.addAll(currAuthors);
-			}
-			List<Author> authorList = new ArrayList<>(authorSet);
-			// Ordina la lista di autori
-			Comparator<Author> cm1=Comparator.comparing(Author::getName);
-			Collections.sort(authorList,cm1); 
+		Iterator<Book> iterBook = sellerBooks.iterator();
+		while(iterBook.hasNext()) {
+			Set<Author> currAuthors = iterBook.next().getAuthors();
+			authorSet.addAll(currAuthors);
+		}
+		List<Author> authorList = new ArrayList<>(authorSet);
+		// Ordina la lista di autori
+		Comparator<Author> cm1=Comparator.comparing(Author::getName);
+		Collections.sort(authorList,cm1); 
 		return authorList;
 	}
 	

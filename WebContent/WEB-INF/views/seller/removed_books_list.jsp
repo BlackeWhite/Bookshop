@@ -15,10 +15,7 @@
 						<li><a href="<c:url value="/" />">Home<i
 								class="ti-arrow-right"></i></a></li>
 						<li class="active"><a href="<c:url value="/seller/"/>">Area
-								Personale - Venditore<i
-								class="ti-arrow-right"></i></a></li>
-							<li class="active"><a href="<c:url value="/seller/authors_seller"/>">Lista di autori
-							</a></li>
+								Personale - Venditore</a></li>
 					</ul>
 				</div>
 			</div>
@@ -55,31 +52,28 @@
 						<div class="home-seller">
 							<h4 class="title" style="color: ${msgColor}; text-size: 13px;">${message}</h4>
 							<c:choose>
-								<c:when test="${fn:length(authorsPerSeller) > 0 }">
-									<div class="title">Autori legati ai miei libri</div>
-									<c:forEach items="${authorsPerSeller}" var="authorsPerSeller">
-										<div class="order" id="book_${authorsPerSeller.id}">
+								<c:when test="${fn:length(bookRemovedPerSeller) > 0 }">
+									<div class="title">I miei libri fuori catalogo</div>
+									<c:forEach items="${bookRemovedPerSeller}" var="sellerBooks">
+										<div class="order" id="book_${sellerBooks.id}">
 											<div class="info">
 												<div class="row">
-													<div class="col-4 field">
-													<h4>
-													<c:if test="${authorsPerSeller.surname != '#SURNAME_PLACEHOLDER'}">
-														<a href="<c:url value="/show_author/${authorsPerSeller.id}"/>">${authorsPerSeller.name} ${authorsPerSeller.surname}</a>
-													</c:if>
-													<c:if test="${authorsPerSeller.surname == '#SURNAME_PLACEHOLDER'}">
-														<a href="<c:url value="/show_author/${authorsPerSeller.id}"/>">${authorsPerSeller.name}</a>
-													</c:if></h4></div>
-													<div class="col-5 field">
+													<div class="col-3 field">Prodotto inserito il:</div>
+													<div class="col field">
 														<!-- Div utile per avere modifica ed elimina nell'ultima colonna -->
 													</div>
-													<div class="field" style="padding-right: 0px;">
-														<button bookId="${authorsPerSeller.id}" class="generic-button">
-															<a class="sellerButton" href="<c:url value="/show_author/${authorsPerSeller.id}"/>">VISUALIZZA</a>
+													<div class="col-3 field">
+														<button bookId="${sellerBooks.id}" class="remove-book" onclick="return confirm('Sicuro di voler rimuovere ${sellerBooks.title} ?')">
+															<a  class="sellerButton"href="<c:url value="/seller/remove_book/${sellerBooks.id}"/>">RIMUOVI</a>
 														</button>
-														<button bookId="${authorsPerSeller.id}" class="generic-button">
-															<a class="sellerButton" href="<c:url value="/seller/edit_author/${authorsPerSeller.id}"/>">MODIFICA</a>
+														<button bookId="${sellerBooks.id}" class="remove-book">
+															<a class="sellerButton" href="<c:url value="/seller/edit_book/${sellerBooks.id}"/>">MODIFICA</a>
 														</button>
 													</div>
+												</div>
+												<div class="row">
+													<div class="col-3 value">${sellerBooks.insertdata}</div>
+
 												</div>
 											</div>
 											<div class="books">
@@ -87,24 +81,33 @@
 													<div class="row">
 														<div class="col-10">
 															<img
-																src="<c:url value="/resources/img/authors/${authorsPerSeller.photo}"/>" />
+																src="<c:url value="/resources/img/cover_book/${sellerBooks.cover}"/>" />
 															<h4>
-																<c:if test = "${authorsPerSeller.surname != '#SURNAME_PLACEHOLDER'} ">
-																	<a href="<c:url value="/show_author/${authorsPerSeller.id}"/>">${authorsPerSeller.name} ${authorsPerSeller.surname}</a>
-																</c:if>
-																<c:if test = "${authorsPerSeller.surname == '#SURNAME_PLACEHOLDER'} ">
-																	<a href="<c:url value="/show_author/${authorsPerSeller.id}"/>">${authorsPerSeller.name}</a>
-																</c:if>
+																<a href="<c:url value="/show_book/${sellerBooks.id}"/>">${sellerBooks.title}</a>
 															</h4>
-															
-															</span> <span class="field">Data di
-																nascita: </span> <span>${authorsPerSeller.birthdate} </span> <br>
-															<span class="field">Nazionalità: </span> <span>${authorsPerSeller.nationality}
-															</span><br>
-															<span class="field">Breve biografia: </span> <span>${authorsPerSeller.biography}
+															<span class="field">Autori: </span> <span> <c:forEach
+																	items="${sellerBooks.authors}" var="author">
+																	<c:if
+																		test="${author.surname != '#SURNAME_PLACEHOLDER'}">
+																		<a href="<c:url value="/show_author/${author.id}"/>">
+																			- ${author.name} ${author.surname}</a>
+																	</c:if>
+																	<c:if
+																		test="${author.surname == '#SURNAME_PLACEHOLDER'}">
+																		<a href="<c:url value="/show_author/${author.id}"/>">
+																			- ${author.name}</a>
+																	</c:if>
+																</c:forEach>
+															</span> <br> <span class="field">Data di
+																pubblicazione: </span> <span>${sellerBooks.publish} </span> <br>
+															<span class="field">ISBN: </span> <span>${sellerBooks.isbn}
 															</span>
 														</div>
-
+														<div class="col price-data">
+															<span class="field">Copie disponibili:</span> <span>
+																${sellerBooks.copies}</span> <br> <span class="field">Prezzo (senza IVA):</span>
+															<span>${sellerBooks.formattedPriceNoVat}</span>
+														</div>
 													</div>
 												</div>
 											</div>
@@ -143,7 +146,7 @@
 								</c:when>
 								<c:otherwise>
 									<div class="title">
-										<h1>Nessun autore legato al tuo account</h1>
+										<h1>Non hai nessun libro in vendita</h1>
 										<c:url value="/seller/addition_book" var="addition_book" />
 										<a href="${addition_book}">
 											<h2>Aggiungi un libro in vendita</h2>

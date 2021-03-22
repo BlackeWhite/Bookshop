@@ -46,6 +46,8 @@ public interface BookService {
 	void removeBook(Book book);
 	void removeAllBook();
 	void removeBook(Long bookId);
+	List<Book> findBookRemovedForSeller(User seller);
+	Book findByIdRemoved(Long bookId);
 
 	
 };
