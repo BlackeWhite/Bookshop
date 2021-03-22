@@ -464,7 +464,7 @@ public class SellerController {
 				String path = session.getServletContext().getRealPath("/");
 				byte barr[] = author.getPhotoFile().getBytes();
 				BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(
-						path + "resources/img/cover_book/" + author.getPhotoFile().getOriginalFilename()));
+						path + "resources/img/authors/" + author.getPhotoFile().getOriginalFilename()));
 				bout.write(barr);
 				bout.flush();
 				bout.close();
