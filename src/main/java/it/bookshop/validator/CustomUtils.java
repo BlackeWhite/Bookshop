@@ -1,8 +1,13 @@
 package it.bookshop.validator;
 
 import java.sql.Date;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import com.mysql.cj.util.StringUtils;
 
 
@@ -69,4 +74,16 @@ public class CustomUtils {
 
 	}
 	
+	// Lista dei formati di immagini ammesse
+	private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/jpg");
+	
+	
+	public static boolean isValidExtension(MultipartFile file) {
+		String fileContentType = file.getContentType();
+		if(contentTypes.contains(fileContentType)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
