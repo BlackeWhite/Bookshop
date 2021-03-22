@@ -15,7 +15,9 @@
 						<li><a href="<c:url value="/" />">Home<i
 								class="ti-arrow-right"></i></a></li>
 						<li class="active"><a href="<c:url value="/seller/"/>">Area
-								Personale - Venditore</a></li>
+								Personale - Venditore<i
+								class="ti-arrow-right"></i></a></li>
+						<li class="active"><a href="<c:url value="/seller/"/>">Ripristina un libro</a></li>
 					</ul>
 				</div>
 			</div>
