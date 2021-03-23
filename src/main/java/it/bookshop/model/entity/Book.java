@@ -274,7 +274,7 @@ public class Book implements Serializable {
 					.getPrincipal();
 			return price * (1 + vats.get(details.getState()));
 		} else
-			return price * 1.22; // Utente non autenticato -> IVA italiana
+			return price * 1.04; // Utente non autenticato -> IVA italiana
 	}
 
 	// Principalmente per la pagina modifica libro per i venditori
