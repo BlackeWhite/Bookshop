@@ -6,39 +6,42 @@
 <div class="modal-body" style="margin-top: 50px;">
 	<div class="row no-gutters">
 		<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-			<img src="<c:url value="/resources/img/cover_book/${book.cover}"/>"
+			<img  src="<c:url value="/resources/img/cover_book/${book.cover}"/>"
 				alt="#" class="center_image2">
 
 		</div>
-		<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-			<div class="quickview-content">
+		<div class="col">
+			<div class="quickview-content" style="margin-right: 30%; margin-top: 0%;">
 				<h3>${message}</h3>
 				<h2  style="font-size: 40px;">${book.title}</h2>
-				<br>
-				<h4>
-					<i> Autore: <c:forEach items="${authorsList}" var="authorsList">
-							<c:if test="${authorsList.surname != '#SURNAME_PLACEHOLDER'}">
-								<a href=" <c:url value ="/show_author/${authorsList.id}"/>">
-									- ${authorsList.name} ${authorsList.surname}</a>
-							</c:if>
-							<c:if test="${authorsList.surname == '#SURNAME_PLACEHOLDER'}">
-								<a href=" <c:url value ="/show_author/${authorsList.id}"/>">
-									- ${authorsList.name}</a>
-							</c:if>
-						</c:forEach>
-					</i>
-				</h4>
-				<br>
-				<b style="font-size: 17px;">ISBN:</b>
-				<span style="font-size: 17px;"> ${book.isbn}</span>
-				<br>
-				<br>
-				<b style="font-size: 17px;">Generi:</b>
-				<c:forEach items="${book.genres}" var="gen">
-					<span style="font-size: 17px;">• ${gen.name}</span>
-				</c:forEach>
-				<br>
-				<br>
+				<div class="quickview-ratting-wrap">
+					<div class="quickview-ratting">
+						<i style="font-size: 20px;"><b>Autore:</b>
+							<c:forEach items="${authorsList}" var="authorsList">
+								<c:if test="${authorsList.surname != '#SURNAME_PLACEHOLDER'}">
+									<a href=" <c:url value ="/show_author/${authorsList.id}"/>">
+										<b>${authorsList.name} ${authorsList.surname}</b>
+									</a>
+								</c:if>
+								<c:if test="${authorsList.surname == '#SURNAME_PLACEHOLDER'}">
+									<a href=" <c:url value ="/show_author/${authorsList.id}"/>">
+										<b>${authorsList.name}</b>
+									</a>
+								</c:if>
+							</c:forEach>
+						</i>
+						<br>
+						<i><b>ISBN:<span>${book.isbn}</span></b></i>
+						<br>
+						<i><b>Genere:</b>
+							<c:forEach items="${book.genres}" var="gen">
+								<span>
+									<b>${gen.name}</b>
+								</span>
+							</c:forEach>
+						</i>
+					</div>
+				</div>
 				<div class="quickview-ratting-review">
 					<div class="quickview-ratting-wrap">
 						<div class="quickview-ratting">

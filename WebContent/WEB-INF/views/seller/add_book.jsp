@@ -130,7 +130,7 @@
 							}
 						</script>
 
-						<legend>Autore/i del libro</legend>
+						<h1><legend>Autore/i del libro</legend></h1>
 						<br>
 						<label path="title"><b>Numero di autori</b></label>
 						<fieldset>
@@ -180,7 +180,7 @@
 							</tbody>
 						</table>
 						<fieldset>
-							<legend> Informazioni Libro </legend>
+							<h1><legend> Informazioni Libro </legend></h1>
 							<br>
 							<form:label path="title">
 								<b>Titolo Libro</b>
@@ -246,7 +246,7 @@
 						</fieldset>
 						<br>
 						<fieldset>
-							<legend>Genere del libro</legend>
+							<h1><legend>Genere del libro</legend></h1>
 							<br>
 							<c:set var="i" value="0" />
 							<c:forEach items="${allGenres}" var="g">
@@ -262,7 +262,7 @@
 						</fieldset>
 						<br>
 						<fieldset>
-							<legend>Sconto sul libro</legend>
+							<h1><legend>Sconto sul libro</legend></h1>
 							<br>
 							<form:label path="title">
 								<b>Sconto</b>

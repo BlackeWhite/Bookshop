@@ -146,7 +146,7 @@
 								</c:when>
 								<c:otherwise>
 									<div class="title">
-										<h1>Non hai rimosso nessun libro</h1>
+										<h1 style="text-align: center;">Non hai rimosso nessun libro</h1>
 									</div>
 								</c:otherwise>
 							</c:choose>

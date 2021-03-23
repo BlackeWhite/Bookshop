@@ -147,10 +147,11 @@
 								</c:when>
 								<c:otherwise>
 									<div class="title">
-										<h1>Non hai nessun libro in vendita</h1>
+										<h1 style="text-align:center; font-size:40px">Nessun autore legato al tuo account</h1>
+										<br>
 										<c:url value="/seller/addition_book" var="addition_book" />
 										<a href="${addition_book}">
-											<h2>Aggiungi un libro in vendita</h2>
+											<h2 style="text-align:center; font-size:25px">Aggiungi un libro in vendita</h2>
 										</a>
 									</div>
 								</c:otherwise>

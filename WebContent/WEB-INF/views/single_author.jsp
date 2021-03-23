@@ -14,7 +14,7 @@
 							alt="#" class="center_image author_image">
 					</div>
 					<div class="col">
-						<div style="margin-left: 15%; margin-top: 15%;" class="quickview-content" >
+						<div style="margin-left: 15%; margin-top: 5%;" class="quickview-content" >
 							<c:if test="${author.surname != '#SURNAME_PLACEHOLDER'}">
 								<h2 style="font-size: 40px;"> ${author.name} ${author.surname}</h2>
 							</c:if>
