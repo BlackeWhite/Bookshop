@@ -578,6 +578,6 @@ public class HomeController {
 			e.printStackTrace();
 		}
 
-		return "redirect:/advanced_search";
+		return "redirect:/";
 	}
 }
